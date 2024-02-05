@@ -1,0 +1,15 @@
+.section h1 {
+    margin-bottom: 2rem;
+}
+
+.section__ulContainer {
+    display:flex;
+    flex-direction: column;
+    gap:2rem;
+    
+}
+
+.section-ulContainer__li {
+    border:1px black solid;
+    padding:0.5rem;
+}
