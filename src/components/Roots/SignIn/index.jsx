@@ -60,7 +60,7 @@ const SignIn = () => {
             if (data.password === user.pwd) {
                 store.dispatch({type:"USER", payload:user.name});
                 store.dispatch({type:"IS_CONNECTED"});
-                localStorage.setItem("user", user.name);
+                localStorage.setItem("user", JSON.stringify(user));
                 navigate("/")
             } else {
                 setError("Mot de passe incorrect")

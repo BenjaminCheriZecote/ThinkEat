@@ -37,7 +37,7 @@ const Header = () => {
                     <div><CgProfile onClick={handleClick}/>
                     {isConnected?
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
-                        <a href="/profil">
+                        <a href="/profile">
                             <p>{userName}</p>
                         </a>
                         
