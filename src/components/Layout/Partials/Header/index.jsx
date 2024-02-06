@@ -47,11 +47,11 @@ const Header = () => {
                         </div>
                         :
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
-                            <a href="/signIn">
+                            <a href="/signin">
                                 <button >Se connecter</button>
                             </a>
                             
-                            <a href="/signUp">
+                            <a href="/signup">
                                 <button>Créer un compte</button>
                             </a>
                         </div> 

@@ -12,6 +12,7 @@ import Favorites from './components/Roots/Favorites/index.jsx';
 import Historic from './components/Roots/Historic/index.jsx';
 import SignIn from './components/Roots/SignIn/index.jsx';
 import SignUp from './components/Roots/SignUp/index.jsx';
+import ResetPassword from './components/Roots/ResetPassword/index.jsx';
 
 
 
@@ -25,9 +26,9 @@ const router = createBrowserRouter([
       { path: "/favorites", element: <Favorites /> },
       { path: "/proposal", element: <Proposal /> },
       { path: "/historic", element: <Historic /> },
-      { path: "/signIn", element: <SignIn /> },
-      { path: "/signUp", element: <SignUp />},
-      { path: "/reset-password", element: <h1>React page</h1> },
+      { path: "/signin", element: <SignIn /> },
+      { path: "/signup", element: <SignUp />},
+      { path: "/reset-password", element: <ResetPassword /> },
       { path: "/profile/:id", element: <h1>React page</h1> },
       { path: "/favorites/:id", element: <h1>React page</h1> },
       { path: "/historic/:id", element: <h1>React page</h1> },

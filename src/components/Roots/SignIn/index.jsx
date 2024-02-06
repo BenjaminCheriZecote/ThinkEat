@@ -3,6 +3,7 @@ import store from '../../../store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const user = {name:"Toto", email:"toto@example.com", pwd:"toto"}
 
 
@@ -50,6 +51,10 @@ const SignIn = () => {
         connexion(dataForm);
     }
 
+    const handleClickBtnResetPassword = () => {
+        navigate("/reset-password")
+    }
+
     const connexion = (data) => {
         if (data.email === user.email) {
             if (data.password === user.pwd) {
@@ -85,6 +90,9 @@ const SignIn = () => {
                             ""
                         }
                     </div>
+
+                    <a href="/reset-password"> Mot de passe oublié ? </a>
+                    <a href="/signup">Pas encore de compte ? Créer un compte</a>
 
                     <button className='section-form__btn' type="submit">Connection</button>
 
