@@ -1,0 +1,24 @@
+.section-ulContainerProposal__li {
+    width:5rem;
+    border:1px black solid;
+    display: flex;
+    flex-direction: column;
+    gap:0.3rem;
+    padding:2rem 2rem 0.5rem 2rem;
+}
+
+.section-ulContainerProposal-li__choiceBox {
+    margin-top: 1rem;
+    align-self: flex-end;
+}
+
+.section-ulContainerProposal-li__choiceBox * {
+    cursor: pointer;
+    margin:0.2rem;
+}
+
+
+
+.section-ulContainerProposal-li__p--hungry, .section-ulContainerProposal-li__p--cookingTime {
+    font-size:0.7rem;
+}
