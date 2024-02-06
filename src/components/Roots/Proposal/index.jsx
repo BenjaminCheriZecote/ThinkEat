@@ -26,12 +26,10 @@ const Proposal = () => {
 
     const handleClickMinus = () => {
         if (numberOfProposals !== 0) setNumber((currentProposal) => currentProposal - 1);
-        console.log(numberOfProposals);
     }
 
     const handleClickPlus = () => {
         setNumber((currentProposal) => currentProposal + 1);
-        console.log(numberOfProposals);
     }
     
     const handleChangeHungryFilter = (event) => {
@@ -56,17 +54,19 @@ const Proposal = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(numberOfProposals);
         setPropostions();
     }
 
 
     const setPropostions = () => {
         const findedMealsHungryFilter = favorites.filter((e) => e.hungry === hungryState);
-        console.log("filter hungry :", findedMealsHungryFilter);
         const findedMealsCookingTimeFilter = findedMealsHungryFilter.filter((e) => e.cooking_time === cookingTimeState)
-        console.log("filter cookingTime :", findedMealsCookingTimeFilter);
-        const findedMealsFiltered = findedMealsCookingTimeFilter.slice(0, numberOfProposals);
+        const findedMealsAddStatus = findedMealsCookingTimeFilter.map((e) => {
+            const object = {...e};
+            object.validate = true;
+            return object
+            });
+        const findedMealsFiltered = findedMealsAddStatus.slice(0, numberOfProposals);
 
         // uId
         const objectProposal = {
@@ -75,17 +75,14 @@ const Proposal = () => {
         }
 
         setProposal(objectProposal);
-        console.log("results propositions", objectProposal);
         
     }
 
     const handleClickValidateChoices = (event) => {
         
-        const findHistoricProposition = find.historical_propositions((e) => e.id === proposal.id)
-
         if (proposal.array.length > 0) {
-            console.log(historical_propositions)
-            store.dispatch({type:"SET_HISTORIC", payload:[... historical_propositions, {id:uuidv4(), date:new Date().toLocaleString(), historic:proposal}]});
+            const findProposal = historical_propositions.find((e) => e.historic.id === proposal.id)
+            if (!findProposal) store.dispatch({type:"SET_HISTORIC", payload:[... historical_propositions, {date:new Date().toLocaleString(), historic:proposal}]});
         }
     }
 
