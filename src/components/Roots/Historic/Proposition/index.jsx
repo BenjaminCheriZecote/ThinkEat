@@ -7,7 +7,7 @@ const Proposition = ({proposition}) => {
             <ul className="ulContainer">
                 {proposition.historic.array.map((element, index) => {
                     return(
-                        <li key={index} className="ulContainer__li">
+                        <li key={index} className={element.validate?"ulContainer__li":"ulContainer__li unvalidate"}>
                             <p>{element.name}</p>
                             <p>{element.hungry}</p>
                             <p>{element.cooking_time}</p>
