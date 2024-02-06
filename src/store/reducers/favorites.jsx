@@ -7,12 +7,9 @@ const initialState = {
 						
 const favoritesReducer = createReducer (initialState, (builder) => {						
 	builder					
-	.addCase(createAction("ADD_MEAL"), (state, action) => {					
+	.addCase(createAction("SET_FAVORITES"), (state, action) => {					
 		state.favorites = action.payload				
-	})
-	.addCase(createAction("DELETE_MEAL"), (state, action) => {					
-		state.favorites = action.payload				
-	})				
+	})			
 })						
 						
 export default favoritesReducer;						

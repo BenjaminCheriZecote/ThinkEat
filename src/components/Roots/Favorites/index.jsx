@@ -1,5 +1,6 @@
 import './Favorites.scss';
 import { useRef } from 'react';
+import { useEffect } from 'react';
 import store from '../../../store';
 import Meal from './Meal';
 import { CiSearch } from "react-icons/ci";
@@ -11,12 +12,17 @@ import { FaCheck } from "react-icons/fa6";
 import { useState } from 'react';
 
 
+
 const Favorites = () => {
 
     const {favorites} = useSelector((state) => state.favorites);
-    const [favoritesCopy, setCopy] = useState(favorites)
+    const [favoritesCopy, setCopy] = useState(favorites);
     const [hungryState, setHungry] = useState("Petite faim");
     const containerInputUser = useRef();
+
+    useEffect(() => {
+        setCopy(favorites)
+    }, [favorites])
 
     const handleSubmitSearch = (event) => {
         event.preventDefault();
@@ -33,14 +39,14 @@ const Favorites = () => {
 
     const handleClickAddMeal = () => {
         containerInputUser.current.classList.remove("hidden");
+        setUpdateMode(true)
     }
 
     const handleClickInputUser = () => {
         const inputUserElement = containerInputUser.current.querySelector("input");
         console.log("test", inputUserElement.value)
-        store.dispatch({type:"ADD_MEAL", payload:[...favorites, {name:inputUserElement.value, hungry:hungryState}]});
+        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, {name:inputUserElement.value, hungry:hungryState}]});
         console.log(favorites);
-        console.log("lenght", favorites.length);
     }
 
     const handleClickCloseAddMeal = () => {
@@ -55,7 +61,6 @@ const Favorites = () => {
         }
     }
 
-    
 
     return(
         <>
@@ -72,14 +77,14 @@ const Favorites = () => {
                     <input type="text" />
                     <div>
                         <input id="hungryFilter" type="checkbox" onChange={handleChangeHungryFilter}/>
-                        <label htmlFor="hungryFilter" >{hungryState}</label>
+                        <label htmlFor="hungryFilter">{hungryState}</label>
                     </div>
                     <div><FaCheck onClick={handleClickInputUser}/> <MdCancel onClick={handleClickCloseAddMeal}/></div>
                 </div>
 
                 {favoritesCopy.length > 0?
                     favoritesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal}/>)
+                        return(<Meal key={index} meal={meal} hungryState={hungryState} />)
                     })
                     :
                     ""
