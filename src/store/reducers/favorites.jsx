@@ -30,7 +30,7 @@ const initialState = {
             name:"Toast de foie gras au figue",
             image:"",
             steps:["Toaster le foie gras sur du pain.", "Coucher la confiture sur le foie gras."],
-            hunger:"Petite Faim",
+            hunger:"Petite faim",
             preparating_time:2,
             ingredients:["pain", "foie gras", "confiture de figue"]
         },
