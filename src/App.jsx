@@ -12,6 +12,7 @@ function App() {
   if (localStorage.getItem("user")) {		
     store.dispatch({type:"IS_CONNECTED"})	
   }
+  
   if (localStorage.getItem("user")) {		
     store.dispatch({type:"USER", payload:(JSON.parse(localStorage.getItem("user"))).name})	
   }		

@@ -7,11 +7,14 @@ import { useState } from "react";
 
 import { useRef } from "react";
 
+import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
+
 
 const Meal = ({meal, hungryState}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
     const [updateMode, setUpdateMode] = useState();
+
     const inputElement = useRef();
     
     const handleClickDelete = () => {
@@ -20,7 +23,7 @@ const Meal = ({meal, hungryState}) => {
     }
 
     const handleClickUpdate = (event) => {
-        inputElement.current.removeAttribute("disabled");
+        // inputElement.current.removeAttribute("disabled");
         setUpdateMode(true)
     }
 
@@ -45,8 +48,18 @@ const Meal = ({meal, hungryState}) => {
     }
 
     return(
-        <article  className="section__article"> 
-            <input ref={inputElement} type="text" value={meal.name} disabled onChange={handleChange} onKeyDown={handleKeyPress}/>
+        <article  className="section__article">
+            <div>
+                <input ref={inputElement} type="text" value={meal.name} disabled onChange={handleChange} onKeyDown={handleKeyPress}/>
+                {updateMode?
+                    <RecipeUX recipe={meal} update={updateMode}/>
+                    :
+                    ""
+                    }
+
+            </div>
+            
+            
             <div>
                 {updateMode?
                     <FaCheck onClick={handleClickValidate}/>

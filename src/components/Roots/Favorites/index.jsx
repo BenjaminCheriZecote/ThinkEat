@@ -60,8 +60,7 @@ const Favorites = () => {
             setHungry("Petite faim")
         }
     }
-
-
+    
     return(
         <>
             <section className="section">

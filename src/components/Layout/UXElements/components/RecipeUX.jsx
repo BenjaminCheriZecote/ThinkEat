@@ -7,20 +7,32 @@
 //     preparating_time:10,
 //     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
 // },
+import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa";
 
+const RecipeUX = ({recipe, update}) => {
 
-const RecipeUX = ({recipe}) => {
 
     return(
         <li>
             <img src="" alt="" />
             <h3>{recipe.name}</h3>
-            <div><p>Préparation : {recipe.preparating_time} min.</p> <p>{recipe.hunger}</p></div>
+            <div><p>Preparation :</p><input type="text" value={recipe.preparating_time} /> </div>
+            <div><input type="text" value={recipe.hunger}/></div>
             <ul> Etapes:
+                {update?
+                    <FaPlus />
+                    :
+                    ""
+                    }
+
                 {recipe.steps.length > 1?
                     recipe.steps.map((element, index) => {
                         return(
-                            <li key={index}>{element}</li>
+                            <li key={index}>
+                                <input type="text" value={element} />
+                                {update?<FaMinus />:""}
+                            </li>   
                         )
                     })
                     :
