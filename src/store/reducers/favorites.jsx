@@ -13,7 +13,8 @@ import { createAction } from "@reduxjs/toolkit";
 
 // {name:"Tartiflète", hungry:"Grande faim", cooking_time:"Long"},  
 						
-const initialState = {						
+const initialState = {	
+	validate: true,					
 	favorites:[
 		{
             id:1,

@@ -12,6 +12,8 @@ const Recipe = () => {
     return(
         <section className="section">
             <RecipeUX recipe={recipes[parseInt(params.id) - 1]}/>
+
+            <button></button>
         </section>
     )
 }

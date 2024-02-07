@@ -8,7 +8,7 @@ const initialState = {
             name:"Hamburger",
             image:"",
             steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-            hunger:"big",
+            hunger:"Copieux",
             preparating_time:10,
             ingredients:["pain", "salade", "tomate", "steak", "fromage"]
         },
@@ -18,7 +18,7 @@ const initialState = {
             name:"Toast de foie gras au figue",
             image:"",
             steps:["Toaster le foie gras sur du pain.", "Coucher la confiture sur le foie gras."],
-            hunger:"Petite Faim",
+            hunger:"Petite faim",
             preparating_time:2,
             ingredients:["pain", "foie gras", "confiture de figue"]
         },
@@ -28,7 +28,7 @@ const initialState = {
             name:"Pates bolognaise",
             image:"",
             steps:["Cuire les pâtes et la viande hachée.", "Faire chauffer la sauce tomate", "Assembler pates et sauce, puis ajouter le sel"],
-            hunger:"Grande Faim",
+            hunger:"Copieux",
             preparating_time:7,
             ingredients:["pates", "sauce tomate", "gruyere", "steak haché", "oignon"]
         },
@@ -38,7 +38,7 @@ const initialState = {
             name:"Coquille St Jacques",
             image:"",
             steps:["Enorme flemme."],
-            hunger:"Petite Faim",
+            hunger:"Petite faim",
             preparating_time:30,
             ingredients:["échalotte", "noix de St Jacques", "beurre", "vin blanc", "farine", "bouillon de légume", "chapelure"]
         },
@@ -48,7 +48,7 @@ const initialState = {
             name:"Raclette",
             image:"",
             steps:["Faire chauffer les patate a la vapeur pendant 25 minutes.", "Chauffer le fromage dans un appareil à raclette"],
-            hunger:"Grande Faim",
+            hunger:"Copieux",
             preparating_time:25,
             ingredients:["patates", "fromage", "jambon", "chorizo"]
         }
