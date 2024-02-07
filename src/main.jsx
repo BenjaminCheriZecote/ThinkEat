@@ -15,6 +15,7 @@ import SignUp from './components/Roots/SignUp/index.jsx';
 import ResetPassword from './components/Roots/ResetPassword/index.jsx';
 import Profil from './components/Roots/Profile/index.jsx';
 import Recipes from './components/Roots/Recipes/index.jsx';
+import Recipe from './components/Roots/Recipe/index.jsx';
 
 //
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/reset-password", element: <ResetPassword /> },
       { path: "/profile", element: <Profil /> },
       { path: "/recipes", element: <Recipes /> },
+      { path: "/recipes/:id", element: <Recipe /> },
       { path: "/profile/:id", element: <h1>React page</h1> },
       { path: "/favorites/:id", element: <h1>React page</h1> },
       { path: "/historic/:id", element: <h1>React page</h1> },

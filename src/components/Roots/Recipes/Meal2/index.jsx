@@ -10,6 +10,7 @@ import { useRef } from "react";
 
 const Meal = ({meal, hungryState}) => {
 
+    const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
     const [updateMode, setUpdateMode] = useState();
     const inputElement = useRef();
@@ -44,17 +45,25 @@ const Meal = ({meal, hungryState}) => {
           }
     }
 
+    const handleClickAddFavorites = () => {
+        console.log(meal)
+        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, meal] })
+    }
+
     return(
         <article  className="section__article"> 
             <input ref={inputElement} type="text" value={meal.name} disabled onChange={handleChange} onKeyDown={handleKeyPress}/>
-            <div>
+            <FaPlus onClick={handleClickAddFavorites}/> 
+
+            {/* <div>
                 {updateMode?
                     <FaCheck onClick={handleClickValidate}/>
                     :
                     <FaPlus onClick={handleClickUpdate}/> 
                 }
                 <MdCancel onClick={handleClickDelete}/>
-            </div>
+            </div> admin */}
+            <a href={`/recipes/${meal.id}`}>Voir le détail</a>
         </article>
     )
 }

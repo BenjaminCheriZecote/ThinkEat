@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import store from '../../../store';
-import Meal from "../Favorites/Meal";
+import Meal from "./Meal2";
 import { CiSearch } from "react-icons/ci";
 import { FaSquarePlus } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
@@ -13,10 +13,9 @@ import { FaCheck } from "react-icons/fa6";
 
 const Recipes = () => {
 
-    
-    
 
     const {recipes} = useSelector((state) => state.recipes)
+    const {favorites} = useSelector((state) => state.favorites)
     const [recipesCopy, setCopy] = useState(recipes);
     const [hungryState, setHungry] = useState("Petite faim");
     const containerInputUser = useRef();
@@ -38,9 +37,9 @@ const Recipes = () => {
         if (event.target.value.length === 0) setCopy(recipes)
     }
 
-    const handleClickAddMeal = () => {
-        containerInputUser.current.classList.remove("hidden");
-    }
+    // const handleClickAddMeal = () => { admin
+    //     containerInputUser.current.classList.remove("hidden");
+    // }
 
     const handleClickInputUser = () => {
         const inputUserElement = containerInputUser.current.querySelector("input");
@@ -70,7 +69,7 @@ const Recipes = () => {
                         <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
                         <button><CiSearch /></button>
                     </form>
-                    <FaSquarePlus onClick={handleClickAddMeal}/>
+                    {/* <FaSquarePlus onClick={handleClickAddMeal}/> admin*/}
                 </div>
 
                 <div ref={containerInputUser} className="section__divInput hidden">
@@ -79,7 +78,7 @@ const Recipes = () => {
                         <input id="hungryFilter" type="checkbox" onChange={handleChangeHungryFilter}/>
                         <label htmlFor="hungryFilter">{hungryState}</label>
                     </div>
-                    <div><FaCheck onClick={handleClickInputUser}/> <MdCancel onClick={handleClickCloseAddMeal}/></div>
+                    <div><FaCheck onClick={handleClickInputUser}/> <MdCancel onClick={handleClickCloseAddMeal}/></div> admin
                 </div>
 
                 {recipesCopy.length > 0?
