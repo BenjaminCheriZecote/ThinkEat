@@ -7,9 +7,11 @@ import { CiSearch } from "react-icons/ci";
 
 import { useSelector } from 'react-redux';
 import { FaSquarePlus } from "react-icons/fa6";
+import { FaSquareMinus } from 'react-icons/fa6';
 import { MdCancel } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { useState } from 'react';
+import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 
 
 
@@ -18,6 +20,10 @@ const Favorites = () => {
     const {favorites} = useSelector((state) => state.favorites);
     const [favoritesCopy, setCopy] = useState(favorites);
     const [hungryState, setHungry] = useState("Petite faim");
+    const [createMode, setCreateMode] = useState(false)
+    const [classList, setClassList] = useState(false)
+    const [addMode, setAddMode] = useState(false)
+    const [updateMode, setUpdateMode] = useState(false)
     const containerInputUser = useRef();
 
     useEffect(() => {
@@ -37,9 +43,11 @@ const Favorites = () => {
         if (event.target.value.length === 0) setCopy(favorites)
     }
 
-    const handleClickAddMeal = () => {
-        containerInputUser.current.classList.remove("hidden");
-        setUpdateMode(true)
+    const handleClickAddRecipe = () => {
+        // containerInputUser.current.classList.remove("hidden");
+        setClassList((current) => !current)
+        setAddMode((current) => !current)
+        // setCreate((current) => !current)
     }
 
     const handleClickInputUser = () => {
@@ -69,17 +77,23 @@ const Favorites = () => {
                         <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
                         <button><CiSearch /></button>
                     </form>
-                    <FaSquarePlus onClick={handleClickAddMeal}/>
+                    {!addMode?
+                    <FaSquarePlus onClick={handleClickAddRecipe}/>
+                    :
+                    <FaSquareMinus onClick={handleClickAddRecipe}/>
+                    }
                 </div>
 
-                <div ref={containerInputUser} className="section__divInput hidden">
+                {/* <div ref={containerInputUser} className="section__divInput hidden">
                     <input type="text" />
                     <div>
                         <input id="hungryFilter" type="checkbox" onChange={handleChangeHungryFilter}/>
                         <label htmlFor="hungryFilter">{hungryState}</label>
                     </div>
                     <div><FaCheck onClick={handleClickInputUser}/> <MdCancel onClick={handleClickCloseAddMeal}/></div>
-                </div>
+                </div> */}
+
+                <RecipeUX create={createMode} classList={classList}/>
 
                 {favoritesCopy.length > 0?
                     favoritesCopy.map((meal, index) => {

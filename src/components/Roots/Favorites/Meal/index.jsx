@@ -68,6 +68,7 @@ const Meal = ({meal, hungryState}) => {
                 }
                 <MdCancel onClick={handleClickDelete}/>
             </div>
+            <a href={`/recipes/${meal.id}`}>Voir le détail</a>
         </article>
     )
 }
