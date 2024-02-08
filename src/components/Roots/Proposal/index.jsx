@@ -32,9 +32,22 @@ const Proposal = () => {
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-    const [findedMeals, setFindedMeals] = useState();
+    const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
+    const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
+    const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
+    const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
+    const [filteredProposal, setFilteredProposal] = useState([]);
+    const [newFilteredProposal, setNewFilteredProposal] = useState([]);
+    
     const [proposal, setProposal] = useState([]);
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
+
+    useEffect(() => {
+        setNewFilteredProposal({
+            id: uuidv4(),
+            array: filteredProposal
+        })
+    }, [filteredProposal])
 
 
     const handleClickMinus = () => {
@@ -117,15 +130,40 @@ const Proposal = () => {
         return object
     });
             
-        const resultFiltered = resultAddStatus.slice(0, numberOfProposition);
+        const finalResult = resultAddStatus.slice(0, numberOfProposition);
         
         // uId
         const objectProposal = {
             id: uuidv4(),
-            array: resultFiltered
+            array: finalResult
         }
 
         setProposal(objectProposal);
+        filterProposition(finalResult)
+    }
+
+    const filterProposition = (finalResult) => {
+        let proposalReadyToFilter = finalResult;
+        console.log(proposalReadyToFilter)
+        
+        if (hungerBigFilter) {
+            proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Copieux");
+        }
+    
+        if (hungerFewFilter) {
+            proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Petite faim");
+        }
+    
+        if (preparating_timeLongFilter) {
+            proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Long");
+        }
+    
+        if (preparating_timeShortFilter) {
+            proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Court");
+        }
+        
+        const filterArray = proposalReadyToFilter;
+        setFilteredProposal(filterArray)
     }
 
     const handleClickValidateChoices = (event) => {
@@ -154,13 +192,23 @@ const Proposal = () => {
             <section className="section">
                     {proposal.array?
                     <>
-                        <ul className="section__ulContainerProposal">
-                            {proposal.array.map((element, index) => {
-                                return(
-                                    <Proposition proposition={element} key={index}/>
-                                )
-                            })}
-                        </ul>
+                        {newFilteredProposal?
+                             <ul className="section__ulContainerProposal">
+                             {newFilteredProposal.array.map((element, index) => {
+                                 return(
+                                     <Proposition proposition={element} key={index}/>
+                                 )
+                             })}
+                         </ul>
+                            :
+                            <ul className="section__ulContainerProposal">
+                                {proposal.array.map((element, index) => {
+                                    return(
+                                        <Proposition proposition={element} key={index}/>
+                                    )
+                                })}
+                            </ul>
+                            }
 
                         <button onClick={handleClickValidateChoices}>Valider mes choix</button>
                     </>
