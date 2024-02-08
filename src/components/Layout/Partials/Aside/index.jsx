@@ -14,6 +14,11 @@ const Aside = () => {
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
 
+    const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
+    const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
+    const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
+    const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
+
     const handleChangeHungerBigCriteria = () => {
         store.dispatch({type:"SET_HUNGER_BIG_CRITERIA"});
     }
@@ -29,6 +34,26 @@ const Aside = () => {
     const handleChangePreparatingTimeShortCriteria = () => {
         store.dispatch({type:"SET_PREPARATING_TIME_SHORT_CRITERIA"})
     }
+
+
+    const handleChangeHungerBigFilter = () => {
+        store.dispatch({type:"SET_HUNGER_BIG_FILTER"});
+    }
+
+    const handleChangeHungerFewFilter = () => {
+        store.dispatch({type:"SET_HUNGER_FEW_FILTER"});
+    }
+
+    const handleChangePreparatingTimeLongFilter = () => {
+        store.dispatch({type:"SET_PREPARATING_TIME_LONG_FILTER"})
+        console.log("test")
+    }
+
+    const handleChangePreparatingTimeShortFilter = () => {
+        store.dispatch({type:"SET_PREPARATING_TIME_SHORT_FILTER"})
+    }
+
+
 
     return(
         <aside className="aside">
@@ -61,22 +86,22 @@ const Aside = () => {
                     
                     <ul> Filters
                         <li >
-                            {/* <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerBigCriteria} checked={hungerBigCriteria?true:false}/> */}
+                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hungerBigFilter?true:false}/>
                             <label htmlFor="hungryFilter" >{filters[0].name}</label>
                         </li>
 
                         <li>
-                            {/* <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/> */}
+                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
                             <label htmlFor="hungryFilter" >{filters[1].name}</label>
                         </li>
 
                         <li>
-                            {/* <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeLongCriteria} checked={preparating_timeLongCriteria?true:false}/> */}
+                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeLongFilter} checked={preparating_timeLongFilter?true:false}/>
                             <label htmlFor="cookingTimeFilter" >{filters[2].name}</label>
                         </li>
 
                         <li>
-                            {/* <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeShortCriteria} checked={preparating_timeShortCriteria?true:false}/> */}
+                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeShortFilter} checked={preparating_timeShortFilter?true:false}/>
                             <label htmlFor="cookingTimeFilter" >{filters[3].name}</label>
                         </li>
                     </ul>

@@ -5,10 +5,10 @@ import { createAction } from "@reduxjs/toolkit";
 						
 const initialState = {						
 	filters:[
-        {hungerBig:false, name:"Copieux"},
-        {hungerFew:false, name:"Petite faim"},
-        {preparating_timeLong:false, name:"Preparation longue"},
-        {preparating_timeShort:false, name:"Preparation courte"},
+        {hungerBigFilter:false, name:"Copieux"},
+        {hungerFewFilter:false, name:"Petite faim"},
+        {preparating_timeLongFilter:false, name:"Preparation longue"},
+        {preparating_timeShortFilter:false, name:"Preparation courte"},
         {time:false, name:"Temps"},
         {diet_preferences:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}], name:"Régime alimentaire"},
         {type_ingredients:null},
@@ -22,16 +22,16 @@ const filtersReducer = createReducer (initialState, (builder) => {
 	// 	state.searchResult = action.payload	
 	// })
     .addCase(createAction("SET_HUNGER_BIG_FILTER"), (state) => {					
-		state.filters[0].hungerBig = !state.filters[0].hungerBig;				
+		state.filters[0].hungerBigFilter = !state.filters[0].hungerBigFilter;				
 	})
     .addCase(createAction("SET_HUNGER_FEW_FILTER"), (state) => {					
-		state.filters[1].hungerFew = !state.filters[1].hungerFew;				
+		state.filters[1].hungerFewFilter = !state.filters[1].hungerFewFilter;				
 	})
     .addCase(createAction("SET_PREPARATING_TIME_LONG_FILTER"), (state) => {					
-		state.criterias[2].preparating_timeLong = !state.criterias[2].preparating_timeLong	
+		state.filters[2].preparating_timeLongFilter = !state.filters[2].preparating_timeLongFilter	
 	})
     .addCase(createAction("SET_PREPARATING_TIME_SHORT_FILTER"), (state) => {					
-		state.criterias[3].preparating_timeShort = !state.criterias[3].preparating_timeShort	
+		state.filters[3].preparating_timeShortFilter = !state.filters[3].preparating_timeShortFilter	
 	})
 })						
 						
