@@ -21,7 +21,7 @@ class CoreApi {
       return await httpResponse.json();
     }
 
-    return await fetchData(data).catch(this._errorHandler)
+    return await fetchData().catch(this._errorHandler)
   }
   static async getAll() {
     async function fetchData() {
@@ -50,7 +50,7 @@ class CoreApi {
       
       return await httpResponse.json();
     }
-    return await fetchData(id, data).catch(this._errorHandler)
+    return await fetchData().catch(this._errorHandler)
   }
   static async delete(id) {
     async function fetchData() {
@@ -65,7 +65,7 @@ class CoreApi {
     
       return true;
     }
-    return await fetchData(id).catch(this._errorHandler)
+    return await fetchData().catch(this._errorHandler)
   }
 }
 
@@ -99,7 +99,7 @@ export class UserApi extends CoreApi {
       return true;
     }
 
-    return await fetchData(data).catch(this._errorHandler)
+    return await fetchData().catch(this._errorHandler)
   }
   static async signin(data) {
     async function fetchData() {
@@ -120,7 +120,23 @@ export class UserApi extends CoreApi {
       return response.user;
     }
 
-    return await fetchData(data).catch(this._errorHandler)
+    return await fetchData().catch(this._errorHandler)
+  }
+  static async RequestResetPasword(data) {
+    async function fetchData() {
+      const httpResponse = await fetch(`${apiBaseUrl}/reset-password/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      
+      if (!httpResponse.ok) {
+        throw new Error("Invalid responce");
+      }
+      
+      return true;
+    }
+    return await fetchData().catch(this._errorHandler)
   }
   static signout() {
     sessionStorage.removeItem("token");

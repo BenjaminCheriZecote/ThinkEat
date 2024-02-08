@@ -1,37 +1,48 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Form, redirect} from 'react-router-dom';
+
+import { UserApi } from '../../../store/api';
 
 
-const ResetPassword = () => {
+export default function ResetPassword() {
 
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-    const handleSubmit = () => {
 
-    }
+  return(
+    <>
+      <section className='section'>
+        <Form className='section__form' method="post">
+          <h2 className='section-form__h2'>Connection</h2>
+          <div className='section-form__divEmail'>
+            <label htmlFor="email">Email :</label>
+            <input type="email" name="email" id="email"/>
+            {error?
+              <p>{error}</p>
+              :
+              ""
+            }
+          </div>
 
-    return(
-        <>
-            <section className='section'>
-                <form onSubmit={handleSubmit} className='section__form' action="" method="">
-                    <h2 className='section-form__h2'>Connection</h2>
-                    <div className='section-form__divEmail'>
-                        <label htmlFor="email">Email :</label>
-                        <input type="email" name="email" id="email"/>
-                        {error?
-                            <p>{error}</p>
-                            :
-                            ""
-                        }
-                    </div>
+          <button className='section-form__btn' type="submit">Envoyer</button>
 
-                    <button className='section-form__btn' type="submit">Envoyer</button>
-
-                </form>
-            </section>
-        </>
-    )
+        </Form>
+      </section>
+    </>
+  )
 }
 
-export default ResetPassword;
+export async function ResetPasswordAction({ request }) {
+  switch (request.method) {
+    case "POST": {
+      let formData = await request.formData();
+      const email = formData.get("email");
+      await UserApi.RequestResetPasword({email});
+
+      return redirect("/signin");
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
+}

@@ -12,7 +12,7 @@ import Favorites from './components/Roots/Favorites/index.jsx';
 import Historic from './components/Roots/Historic/index.jsx';
 import SignIn, { signInAction } from './components/Roots/SignIn/index.jsx';
 import SignUp, { signUpAction } from './components/Roots/SignUp/index.jsx';
-import ResetPassword from './components/Roots/ResetPassword/index.jsx';
+import ResetPassword, { ResetPasswordAction } from './components/Roots/ResetPassword/index.jsx';
 import Profil from './components/Roots/Profile/index.jsx';
 import Recipes from './components/Roots/Recipes/index.jsx';
 import Recipe from './components/Roots/Recipe/index.jsx';
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: "/historic", element: <Historic /> },
       { path: "/signin", element: <SignIn />, action: signInAction },
       { path: "/signup", element: <SignUp />, action: signUpAction},
-      { path: "/reset-password", element: <ResetPassword /> },
+      { path: "/reset-password", element: <ResetPassword />, action: ResetPasswordAction },
       { path: "/profile", element: <Profil /> },
       { path: "/recipes", element: <Recipes /> },
       { path: "/recipes/:id", element: <Recipe /> },
