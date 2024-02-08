@@ -96,7 +96,7 @@ export class UserApi extends CoreApi {
         throw new Error("Invalid responce");
       }
   
-      return await httpResponse.json();
+      return true;
     }
 
     return await fetchData(data).catch(this._errorHandler)
@@ -112,10 +112,18 @@ export class UserApi extends CoreApi {
       if (! httpResponse.ok) {
         throw new Error("Invalid responce");
       }
-  
-      return await httpResponse.json();
+      
+      const response = await httpResponse.json();
+      sessionStorage.setItem("token", JSON.stringify(response.token));
+      sessionStorage.setItem("userDataConnection", JSON.stringify(data));
+
+      return response.user;
     }
 
     return await fetchData(data).catch(this._errorHandler)
+  }
+  static signout() {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userDataConnection");
   }
 }

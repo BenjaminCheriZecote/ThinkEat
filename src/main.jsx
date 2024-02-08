@@ -10,8 +10,8 @@ import Home from './components/Layout/Home/index.jsx';
 import Proposal from './components/Roots/Proposal/index.jsx';
 import Favorites from './components/Roots/Favorites/index.jsx';
 import Historic from './components/Roots/Historic/index.jsx';
-import SignIn from './components/Roots/SignIn/index.jsx';
-import SignUp from './components/Roots/SignUp/index.jsx';
+import SignIn, { signInAction } from './components/Roots/SignIn/index.jsx';
+import SignUp, { signUpAction } from './components/Roots/SignUp/index.jsx';
 import ResetPassword from './components/Roots/ResetPassword/index.jsx';
 import Profil from './components/Roots/Profile/index.jsx';
 import Recipes from './components/Roots/Recipes/index.jsx';
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
       { path: "/favorites", element: <Favorites /> },
       { path: "/proposal", element: <Proposal /> },
       { path: "/historic", element: <Historic /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signup", element: <SignUp />},
+      { path: "/signin", element: <SignIn />, action: signInAction },
+      { path: "/signup", element: <SignUp />, action: signUpAction},
       { path: "/reset-password", element: <ResetPassword /> },
       { path: "/profile", element: <Profil /> },
       { path: "/recipes", element: <Recipes /> },

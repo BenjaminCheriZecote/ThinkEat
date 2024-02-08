@@ -1,24 +1,22 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit";
+import { UserApi } from "../api";
 
-const initialState = {		
-	userName:null,
-    isConnected:false,
-	welcome:null,	
-}		
 		
-const sessionReducer = createReducer (initialState, (builder) => {		
+const sessionReducer = createReducer ({isConnected: false}, async (builder) => {		
 	builder	
-	.addCase(createAction("USER"), (state, action) => {	
-		state.userName = action.payload;
+  .addCase(createAction("SIGNIN"), async (state, action) => {	
+    const user = await UserApi.signin(action.payload)
+
+    if (!user) {
+      throw new Error("Erreur de connexion.");
+    }
+    state = {...user, isConnected: true};
 	})
-    .addCase(createAction("IS_CONNECTED"), (state) => {	
-		state.isConnected = true;
-	})
-    .addCase(createAction("IS_DISCONNECTED"), (state) => {	
-		state.isConnected = false;
-	})
-	
+  .addCase(createAction("SIGNOUT"), (state) => {
+    UserApi.signout();
+		state = {isConnected: false};
+	});
 })		
-		
-export default sessionReducer;		
+
+export default sessionReducer;
