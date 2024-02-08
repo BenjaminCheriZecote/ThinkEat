@@ -2,7 +2,6 @@ import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit";
 
 
-						
 const initialState = {						
 	filters:[
         {hungerBigFilter:false, name:"Copieux"},
