@@ -1,7 +1,7 @@
 import './styles/App.scss';
 import './styles/reset.scss'
 import Header from './components/Layout/Partials/Header';
-import Nav from './components/Layout/Partials/Nav';
+import Aside from './components/Layout/Partials/Aside';
 import Footer from './components/Layout/Partials/Footer';
 import { Outlet } from 'react-router-dom';
 import store from './store';
@@ -22,7 +22,7 @@ function App() {
       <Header />
 
       <div className="app__wrapper"> 
-          <Nav />
+          <Aside />
           <section className="app-wrapper__content">
             <Outlet />
             <Footer />

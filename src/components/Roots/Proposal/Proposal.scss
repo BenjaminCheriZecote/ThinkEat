@@ -1,16 +1,17 @@
-.form {
+.section__start {
    display:flex;
    flex-direction: column;
    gap:1rem;
    max-width:20rem;
    margin:auto;
+   
 }
 
-.form button {
+.section__start button {
     width: fit-content;
 }
 
-form div input {
+#starter {
     width:3rem;
     text-align: center;
 }

@@ -46,22 +46,6 @@ const Proposal = () => {
     const handleClickPlus = () => {
         store.dispatch({type:"ADD_NUMBER_OF_PROPOSITION"});
     }
-   
-    const handleChangeHungerBigFilter = (event) => {
-        store.dispatch({type:"SET_HUNGER_BIG"});
-    }
-
-    const handleChangeHungerFewFilter = (event) => {
-        store.dispatch({type:"SET_HUNGER_FEW"});
-    }
-
-    const handleChangePreparatingTimeLongFilter = (event) => {
-        store.dispatch({type:"SET_PREPARATING_TIME_LONG"})
-    }
-
-    const handleChangePreparatingTimeShortFilter = (event) => {
-        store.dispatch({type:"SET_PREPARATING_TIME_SHORT"})
-    }
 
     const handleChange = () => {
         //
@@ -156,35 +140,16 @@ const Proposal = () => {
     return(
         <>
             <section className="section">
-                <form className="form" action="" onSubmit={handleSubmit}>
+                
+                    <div className="section__start">
                         <div >
                             <FaCircleMinus onClick={handleClickMinus} id="minus"/>
-                            <input type="number" value={numberOfProposition} onChange={handleChange}/>
+                            <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
                             <FaCirclePlus onClick={handleClickPlus} id="plus"/>
                         </div>
-
-                        <div>
-                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hungerBig?true:false}/>
-                            <label htmlFor="hungryFilter" >Copieux</label>
-                        </div>
-
-                        <div>
-                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFew?true:false}/>
-                            <label htmlFor="hungryFilter" >Petite faim</label>
-                        </div>
-
-                        <div>
-                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeLongFilter} checked={preparating_timeLong?true:false}/>
-                            <label htmlFor="cookingTimeFilter" >Preparation longue</label>
-                        </div>
-
-                        <div>
-                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeShortFilter} checked={preparating_timeShort?true:false}/>
-                            <label htmlFor="cookingTimeFilter" >Preparation courte</label>
-                        </div>
-                            
-                        <button type="submit">C'est parti !</button>
-                </form>
+  
+                        <button onClick={handleSubmit} type="submit">C'est parti !</button>
+                    </div>
             </section>
 
             <section className="section">

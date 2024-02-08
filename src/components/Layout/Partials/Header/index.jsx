@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { CiSearch } from "react-icons/ci";
 
+import { NavLink } from "react-router-dom";
+
 const Header = () => {
 
     const boxProfile = useRef();
@@ -33,6 +35,13 @@ const Header = () => {
             <header className="header">
                 <h1>KoiKonMange</h1>
                 <div className="header__rightSide">
+                <nav className="header-rightSide__nav">
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Acceuil</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
+                </nav>
                     <div><CiSearch /></div>
                     <div><CgProfile onClick={handleClick}/>
                     {isConnected?
@@ -47,6 +56,7 @@ const Header = () => {
                         </div>
                         :
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
+                            
                             <a href="/signin">
                                 <button >Se connecter</button>
                             </a>
