@@ -1,21 +1,11 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Form, Link, useActionData, useNavigate } from 'react-router-dom';
+import { Form, Link, redirect} from 'react-router-dom';
 
-import { UserApi } from '../../../store/api';
 import store from '../../../store';
+import { UserApi } from '../../../store/api';
 
 export default function SignIn() {
   const [error, setError] = useState("");
-  const user = useActionData();
-  // const navigate = useNavigate();
-  const user2 = useSelector((state) => state.session);
-
-  if (user) {
-    console.log(user);
-    console.log(user2);
-    // navigate("/");
-  }
 
   return(
     <>
@@ -49,17 +39,18 @@ export default function SignIn() {
 }
 
 
-export async function signInAction({ request, params }) {
+export async function signInAction({ request }) {
   switch (request.method) {
     case "POST": {
       let formData = await request.formData()
-      const payload = {
+      const idConnection = {
         email: formData.get("email"),
         password: formData.get("password")
       };
-      store.dispatch({type:"SIGNIN", payload})
+      const user = await UserApi.signin(idConnection)
 
-      return null;
+      store.dispatch({type:"SIGNIN", payload:user});
+      return redirect("/");
     }
     default: {
       throw new Response("", { status: 405 });

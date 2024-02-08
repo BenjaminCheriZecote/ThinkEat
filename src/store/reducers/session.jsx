@@ -3,19 +3,14 @@ import { createAction } from "@reduxjs/toolkit";
 import { UserApi } from "../api";
 
 		
-const sessionReducer = createReducer ({isConnected: false}, async (builder) => {		
+const sessionReducer = createReducer ({isConnected: false}, (builder) => {		
 	builder	
-  .addCase(createAction("SIGNIN"), async (state, action) => {	
-    const user = await UserApi.signin(action.payload)
-
-    if (!user) {
-      throw new Error("Erreur de connexion.");
-    }
-    state = {...user, isConnected: true};
+  .addCase(createAction("SIGNIN"), (state, action) => {	
+    return state = {...action.payload, isConnected: true};
 	})
   .addCase(createAction("SIGNOUT"), (state) => {
     UserApi.signout();
-		state = {isConnected: false};
+		return state = {isConnected: false};
 	});
 })		
 

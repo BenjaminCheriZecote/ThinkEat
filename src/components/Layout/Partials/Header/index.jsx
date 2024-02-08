@@ -24,7 +24,7 @@ const Header = () => {
 
     const handleClickDeconnexion = () => {
         localStorage.removeItem("user");
-        store.dispatch({type:"IS_DISCONNECTED"})
+        store.dispatch({type:"SIGNOUT"})
         location.reload();
         navigate("/");
     };
