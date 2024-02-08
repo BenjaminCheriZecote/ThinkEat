@@ -27,12 +27,11 @@ import './Proposal.scss';
 const Proposal = () => {
 
     const {favorites} = useSelector((state) => state.favorites);
-    const {searchResult} = useSelector((state) => state.criterias);
     const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
-    const {hungerBig} = useSelector((state) => state.criterias.criterias[1]);
-    const {hungerFew} = useSelector((state) => state.criterias.criterias[2]);
-    const {preparating_timeLong} = useSelector((state) => state.criterias.criterias[3]);
-    const {preparating_timeShort} = useSelector((state) => state.criterias.criterias[4]);
+    const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
+    const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
+    const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
+    const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
     const [findedMeals, setFindedMeals] = useState();
     const [proposal, setProposal] = useState([]);
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
@@ -72,28 +71,28 @@ const Proposal = () => {
 
         const result = []
 
-    if (hungerBig) {
+    if (hungerBigCriteria) {
         const array = convertedFavoritesArray.filter((meal) => meal.hunger === "Copieux");
         array.forEach(element => {
             result.push(element)
         });
     }
 
-    if (hungerFew) {
+    if (hungerFewCriteria) {
         const array = convertedFavoritesArray.filter((meal) => meal.hunger === "Petite faim");
         array.forEach(element => {
             result.push(element)
         });
     }
 
-    if (preparating_timeLong) {
+    if (preparating_timeLongCriteria) {
         const array = convertedFavoritesArray.filter((e) => e.preparating_time === "Long");
         array.forEach(element => {
             result.push(element)
         });
     }
 
-    if (preparating_timeShort) {
+    if (preparating_timeShortCriteria) {
         const array = convertedFavoritesArray.filter((e) => e.preparating_time === "Court");
         array.forEach(element => {
             result.push(element)
