@@ -27,18 +27,17 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
         const dataForm = {};
         for (const [name, value] of formData.entries()) {
             if (name.startsWith('step')) {
-                if (!dataForm.step) {
-                    dataForm.step = [value];
+                if (!dataForm.steps) {
+                    dataForm.steps = [value];
                 } else {
-                    dataForm.step.push(value);
+                    dataForm.steps.push(value);
                 }
             } else {
                 dataForm[name] = value;
             }
         }
-        const favorite = {...dataForm, id:6}
-        // console.log(dataForm)
-        // console.log(favorite)
+        const length = favorites.length;
+        const favorite = {...dataForm, id:length +1}
         store.dispatch({type:"SET_FAVORITES", payload:[...favorites, favorite]})
     }
 
@@ -53,7 +52,7 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
 
     return(
         <div className="backdrop">
-            <form ref={formCreation} className="section__recipe modal" onSubmit={handleSubmitCreation}>
+            <form className="section__recipe modal" onSubmit={handleSubmitCreation}>
                         <img src="" alt="" />
                         <div className="section-recipe__field"> <label>Name :</label><input name="name" type="text" /></div>
                         <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="number"/> </div>

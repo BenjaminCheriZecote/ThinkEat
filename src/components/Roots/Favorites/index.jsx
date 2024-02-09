@@ -36,20 +36,12 @@ const Favorites = () => {
     const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     
     const [favoritesCopy, setCopy] = useState(favorites);
-    const [hungryState, setHungry] = useState("Petite faim");
-    const [steps, setStep] = useState([''])
     const [openModeCreator, setModeCreator] = useState(false)
-    const containerInputUser = useRef();
-    const formCreation = useRef();
+    
 
     useEffect(() => {
         setCopy(favorites)
     }, [favorites])
-
-    const options = [
-        {value:hungerBigName, label:hungerBigName},
-        {value:hungerFewName, label:hungerFewName},
-    ]
 
     const handleSubmitSearch = (event) => {
         event.preventDefault();
