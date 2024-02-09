@@ -25,6 +25,19 @@ class CoreApi {
       .then(fetchData)
       .catch(this._errorHandler)
   }
+  static async get(id) {
+    async function fetchData() {
+      const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
+  
+      if (!httpResponse.ok) {
+        throw new Error("Invalid responce");
+      }
+  
+      return await httpResponse.json();
+    }
+
+    return await fetchData().catch(this._errorHandler)
+  }
   static async getAll() {
     async function fetchData() {
       const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`);
