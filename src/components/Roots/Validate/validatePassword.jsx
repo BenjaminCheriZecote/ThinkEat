@@ -3,32 +3,23 @@
 import { Form } from "react-router-dom";
 import { UserApi } from "../../../store/api";
 
-export default function SignUp() {
+export default function ValidatePassword() {
 
   return(
     <>
       <section className='section'>
         <Form className='section__form' method='POST'>
-          <h2 className='section-form__h2'>Compte</h2>
-          <div className='section-form__divLastName'>
-            <label htmlFor="name">Nom :</label>
-            <input type="text" id="name" name="name"/>
-          </div>
-          <div className='section-form__divEmail'>
-            <label htmlFor="email">Email :</label>
-            <input type="email" id="email" name="email"/>
-          </div>
-
+          
           <div className='section-form__divPassword'>
-            <label htmlFor="password">Mot de passe :</label>
+            <label htmlFor="password">Nouveau mot de passe :</label>
             <input type="text" id="password" name="password"/>
           </div>
           <div className='section-form__divPassword'>
-            <label htmlFor="passwordConfirm">Mot de passe :</label>
+            <label htmlFor="passwordConfirm">Confirmé le mot de passe :</label>
             <input type="text" id="passwordConfirm" name="passwordConfirm"/>
           </div>
 
-          <button className='section_form--btn' type="submit">Créer un compte</button>
+          <button className='section_form--btn' type="submit">Valider votre nouveau mot de passe</button>
 
         </Form>
       </section>
@@ -36,17 +27,15 @@ export default function SignUp() {
   )
 }
 
-export async function signUpAction({ request, params }) {
+export async function validatePasswordAction({ request, params }) {
   switch (request.method) {
     case "POST": {
       let formData = await request.formData()
       const data = {
-        name: formData.get("name"),
-        email: formData.get("email"),
         password: formData.get("password"),
         passwordConfirm: formData.get("passwordConfirm")
       };
-      await UserApi.create(data);
+      await UserApi.validatePassword(params.uuid ,data);
       return true;
     }
     default: {

@@ -32,7 +32,7 @@ export default function ResetPassword() {
   )
 }
 
-export async function ResetPasswordAction({ request }) {
+export async function resetPasswordAction({ request }) {
   switch (request.method) {
     case "POST": {
       let formData = await request.formData();

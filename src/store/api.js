@@ -122,6 +122,11 @@ export class UserApi extends CoreApi {
 
     return await fetchData().catch(this._errorHandler)
   }
+  static signout() {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userDataConnection");
+  }
+
   static async RequestResetPasword(data) {
     async function fetchData() {
       const httpResponse = await fetch(`${apiBaseUrl}/reset-password/`, {
@@ -138,8 +143,36 @@ export class UserApi extends CoreApi {
     }
     return await fetchData().catch(this._errorHandler)
   }
-  static signout() {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("userDataConnection");
+  static async validateAccount(uuid) {
+    async function fetchData() {
+      const httpResponse = await fetch(`${apiBaseUrl}/user/account/${uuid}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" }
+      });
+      
+      if (!httpResponse.ok) {
+        throw new Error("Invalid responce");
+      }
+      
+      return true;
+    }
+    return await fetchData().catch(this._errorHandler)
   }
+  static async validatePassword(uuid, data) {
+    async function fetchData() {
+      const httpResponse = await fetch(`${apiBaseUrl}/user/password/${uuid}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      
+      if (!httpResponse.ok) {
+        throw new Error("Invalid responce");
+      }
+      
+      return true;
+    }
+    return await fetchData().catch(this._errorHandler)
+  }
+ 
 }

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Form, Link, redirect} from 'react-router-dom';
+import { Form, Link, redirect, useActionData} from 'react-router-dom';
 
 import store from '../../../store';
 import { UserApi } from '../../../store/api';
 
 export default function SignIn() {
-  const [error, setError] = useState("");
+
+  const error = useActionData();
 
   return(
     <>
@@ -20,11 +20,7 @@ export default function SignIn() {
           <div className='section-form__divPassword'>
             <label htmlFor="password">Mot de passe :</label>
             <input type="password" name="password" id="password"/>
-            {error?
-              <p>{error}</p>
-              :
-              ""
-            }
+            {!!error && <p>{error}</p>}
           </div>
 
           <Link to="/reset-password"> Mot de passe oublié ? </Link>
@@ -48,7 +44,9 @@ export async function signInAction({ request }) {
         password: formData.get("password")
       };
       const user = await UserApi.signin(idConnection)
-
+      if (!user) {
+        return "Erreur de connexion"
+      }
       store.dispatch({type:"SIGNIN", payload:user});
       return redirect("/");
     }
