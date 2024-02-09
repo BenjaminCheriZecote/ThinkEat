@@ -12,7 +12,8 @@ import { MdCancel } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
-import Select from "react-select"
+import Select from "react-select";
+import ModalCreatingRecipe from './ModalCreateingRecipe';
 
 
 
@@ -63,54 +64,10 @@ const Favorites = () => {
         if (event.target.value.length === 0) setCopy(favorites)
     }
 
-    const handleClickAddRecipe = (event) => {
-        formCreation.current.classList.toggle("hidden")
+    const handleClickAddRecipe = () => {
         setModeCreator((current) => !current) 
     }
 
-    const handleClickAddStepp = () => {
-        setStep([...steps, '']);
-    }
-
-    const handleSubmitCreation = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const dataForm = {};
-        for (const [name, value] of formData.entries()) {
-            if (name.startsWith('step')) {
-                if (!dataForm.step) {
-                    dataForm.step = [value];
-                } else {
-                    dataForm.step.push(value);
-                }
-            } else {
-                dataForm[name] = value;
-            }
-        }
-        const favorite = {...dataForm, id:6}
-        // console.log(dataForm)
-        // console.log(favorite)
-        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, favorite]})
-    }
-
-    const handleClickInputUser = () => {
-        const inputUserElement = containerInputUser.current.querySelector("input");
-        console.log("test", inputUserElement.value)
-        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, {name:inputUserElement.value, hungry:hungryState}]});
-        console.log(favorites);
-    }
-
-    const handleClickCloseAddMeal = () => {
-        containerInputUser.current.classList.add("hidden");
-    }
-
-    const handleChangeHungryFilter = (event) => {
-        if (event.target.checked) {
-            setHungry("Grande faim")
-        } else {
-            setHungry("Petite faim")
-        }
-    }
     
     return(
         <>
@@ -127,30 +84,14 @@ const Favorites = () => {
                     }
                 </div>
 
-                <form ref={formCreation} className="section__recipe hidden" onSubmit={handleSubmitCreation}>
-                    <img src="" alt="" />
-                    <div className="section-recipe__field"> <label>Name :</label><input name="name" type="text" /></div>
-                    <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="text"/> </div>
-                    <div className="section-recipe__field">
-                        <label>Faim</label> 
-                        <Select options={options} name="hunger"/>
-                    </div>
-                    <ul className="section-recipe__field"> Etapes: <FaPlus onClick={handleClickAddStepp}/>
-                    {steps.map((element, index) => {
-                        return(
-                            <li key={index}>
-                                <input name={`step${index}`} type="text"/>
-                            </li>
-                        )
-                    })}      
-                    </ul>
-
-                    <button>Créer</button>
-                </form>
+                {openModeCreator?
+                    <ModalCreatingRecipe setModeCreator={setModeCreator}/>
+                    :
+                    ""}
 
                 {favoritesCopy.length > 0?
                     favoritesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} hungryState={hungryState} />)
+                        return(<Meal key={index} meal={meal}/>)
                     })
                     :
                     ""

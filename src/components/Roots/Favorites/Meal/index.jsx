@@ -4,16 +4,19 @@ import store from "../../../../store";
 import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa6";
 import { useState } from "react";
+import { FaPen } from "react-icons/fa";
+import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
 
 import { useRef } from "react";
 
-import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
+
 
 
 const Meal = ({meal, hungryState}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
     const [updateMode, setUpdateMode] = useState();
+    const formUpdate = useRef()
 
     const inputElement = useRef();
     
@@ -36,7 +39,7 @@ const Meal = ({meal, hungryState}) => {
     }
 
     const handleClickValidate = () => {
-        inputElement.current.setAttribute("disabled", "");
+        // inputElement.current.setAttribute("disabled", "");
         setUpdateMode(false)
     }
 
@@ -52,7 +55,8 @@ const Meal = ({meal, hungryState}) => {
             <div>
                 <input ref={inputElement} type="text" value={meal.name} disabled onChange={handleChange} onKeyDown={handleKeyPress}/>
                 {updateMode?
-                    <RecipeUX recipe={meal} update={updateMode}/>
+                
+                    <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
                     :
                     ""
                     }
@@ -64,7 +68,7 @@ const Meal = ({meal, hungryState}) => {
                 {updateMode?
                     <FaCheck onClick={handleClickValidate}/>
                     :
-                    <FaPlus onClick={handleClickUpdate}/> 
+                    <FaPen onClick={handleClickUpdate}/> 
                 }
                 <MdCancel onClick={handleClickDelete}/>
             </div>
