@@ -7,10 +7,10 @@ class CoreApi {
     return null;
   }
   static async create(data) {
-    async function fetchData() {
+    async function fetchData(token) {
       const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(data)
       });
   
@@ -21,7 +21,9 @@ class CoreApi {
       return await httpResponse.json();
     }
 
-    return await fetchData().catch(this._errorHandler)
+    return await this.getValidToken()
+      .then(fetchData)
+      .catch(this._errorHandler)
   }
   static async getAll() {
     async function fetchData() {
@@ -37,10 +39,10 @@ class CoreApi {
     return await fetchData().catch(this._errorHandler)
   }
   static async update(id, data) {
-    async function fetchData() {
+    async function fetchData(token) {
       const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(data)
       });
     
@@ -50,12 +52,15 @@ class CoreApi {
       
       return await httpResponse.json();
     }
-    return await fetchData().catch(this._errorHandler)
+    return await this.getValidToken()
+      .then(fetchData)
+      .catch(this._errorHandler);
   }
   static async delete(id) {
-    async function fetchData() {
+    async function fetchData(token) {
       const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` }
       });
     
       if (!httpResponse.ok) {
@@ -65,7 +70,28 @@ class CoreApi {
     
       return true;
     }
-    return await fetchData().catch(this._errorHandler)
+    return await this.getValidToken()
+      .then(fetchData)
+      .catch(this._errorHandler);
+  }
+  static async getValidToken() {
+    async function fetchData() {
+      const httpResponse = await fetch(`${apiBaseUrl}/signin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: sessionStorage.setItem("getItem")
+      });
+      
+      if (! httpResponse.ok) {
+        throw new Error("Invalid responce");
+      }
+  
+      const response = await httpResponse.json();
+      sessionStorage.setItem("token", JSON.stringify(response.token));
+      return response.token;
+    }
+    
+    return new Promise(fetchData)
   }
 }
 
