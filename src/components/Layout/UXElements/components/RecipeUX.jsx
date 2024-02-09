@@ -10,16 +10,13 @@
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa";
 
-const RecipeUX = ({recipe, update, create, classList}) => {
-
-
-
+const RecipeUX = ({recipe, update, create}) => {
     return(
-        <li className={classList?"section__recipe":"section__recipe hidden"}>
+        <li className="section__recipe">
             <img src="" alt="" />
-            <h3>{create?"":update?recipe.name:""}</h3>
-            <div><p>Preparation :</p><input type="text" value={create?recipe.preparating_time:""} disabled={update?false:true}/> </div>
-            <div><input type="text" value={create?recipe.hunger:""} disabled={update?false:true}/></div>
+            <h3>{recipe.name}</h3>
+            <div><p>Preparation :</p><input type="text" value={recipe.preparating_time} disabled={update?false:true}/> </div>
+            <div><input type="text" value={recipe.hunger} disabled={update?false:true}/></div>
             <ul> Etapes:
                 {update?
                     <FaPlus />
@@ -27,8 +24,7 @@ const RecipeUX = ({recipe, update, create, classList}) => {
                     ""
                     }
 
-                {create?
-                    recipe.steps.length > 1?
+                {recipe.steps.length > 1?
                         recipe.steps.map((element, index) => {
                             return(
                                 <li key={index}>
@@ -39,8 +35,7 @@ const RecipeUX = ({recipe, update, create, classList}) => {
                         })
                         :
                         <li>{recipe.steps[0]}</li>
-                    :
-                    ""}
+                    }
             </ul>
         </li>
     )

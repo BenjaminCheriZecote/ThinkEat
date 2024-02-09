@@ -1,24 +1,26 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useRef } from "react";
+
 import { useEffect } from "react";
 import store from '../../../store';
 import Meal from "./Meal2";
 import { CiSearch } from "react-icons/ci";
 import { FaSquarePlus } from "react-icons/fa6";
-import { MdCancel } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
+import { FaSquareMinus } from "react-icons/fa6";
+
+
+import ModalCreatingRecipe from "./ModalCreateingRecipe";
+
 
 
 
 const Recipes = () => {
 
-
     const {recipes} = useSelector((state) => state.recipes)
-    const {favorites} = useSelector((state) => state.favorites)
     const [recipesCopy, setCopy] = useState(recipes);
-    const [hungryState, setHungry] = useState("Petite faim");
-    const containerInputUser = useRef();
+    const [openModeCreator, setModeCreator] = useState(false);
+    const [updateMode, setUpdateMode] = useState(false);
+    const [isAdmin, setAdmin] = useState(true);
 
     useEffect(() => {
         setCopy(recipes)
@@ -37,27 +39,8 @@ const Recipes = () => {
         if (event.target.value.length === 0) setCopy(recipes)
     }
 
-    // const handleClickAddMeal = () => { admin
-    //     containerInputUser.current.classList.remove("hidden");
-    // }
-
-    const handleClickInputUser = () => {
-        const inputUserElement = containerInputUser.current.querySelector("input");
-        console.log("test", inputUserElement.value)
-        store.dispatch({type:"SET_FAVORITES", payload:[...recipes, {name:inputUserElement.value, hungry:hungryState}]});
-        
-    }
-
-    const handleClickCloseAddMeal = () => {
-        containerInputUser.current.classList.add("hidden");
-    }
-
-    const handleChangeHungryFilter = (event) => {
-        if (event.target.checked) {
-            setHungry("Grande faim")
-        } else {
-            setHungry("Petite faim")
-        }
+    const handleClickAddRecipe = () => {
+        setModeCreator((current) => !current) 
     }
 
 
@@ -65,30 +48,33 @@ const Recipes = () => {
         <section className="section">
             <h2>Recipes</h2>
             <div className="section__divForm">
-                    <form onSubmit={handleSubmitSearch} className="" action="">
-                        <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
-                        <button><CiSearch /></button>
-                    </form>
-                    {/* <FaSquarePlus onClick={handleClickAddMeal}/> admin*/}
-                </div>
+                <form onSubmit={handleSubmitSearch} className="" action="">
+                    <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
+                    <button><CiSearch /></button>
+                </form>
 
-                <div ref={containerInputUser} className="section__divInput hidden">
-                    <input type="text" />
-                    <div>
-                        <input id="hungryFilter" type="checkbox" onChange={handleChangeHungryFilter}/>
-                        <label htmlFor="hungryFilter">{hungryState}</label>
-                    </div>
-                    <div><FaCheck onClick={handleClickInputUser}/> <MdCancel onClick={handleClickCloseAddMeal}/></div> admin
-                </div>
+                {isAdmin?
+                    !openModeCreator?
+                        <FaSquarePlus onClick={handleClickAddRecipe}/>
+                        :
+                        <FaSquareMinus onClick={handleClickAddRecipe}/>
+                    :
+                    ""}
+            </div>
+
+            {openModeCreator?
+                <ModalCreatingRecipe setModeCreator={setModeCreator}/>
+                :
+                ""}
+            
 
                 {recipesCopy.length > 0?
                     recipesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} hungryState={hungryState} />)
+                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin} setUpdateMode={setUpdateMode} updateMode={updateMode}/>)
                     })
                     :
                     ""
                 }
-
             </section>
     )
 }

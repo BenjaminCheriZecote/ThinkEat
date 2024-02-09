@@ -58,7 +58,7 @@ const initialState = {
 const recipesReducer = createReducer (initialState, (builder) => {						
 	builder					
 	.addCase(createAction("SET_RECIPES"), (state, action) => {					
-		state.favorites = action.payload				
+		state.recipes = action.payload				
 	})			
 })						
 						

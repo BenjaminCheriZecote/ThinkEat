@@ -36,7 +36,7 @@ const Favorites = () => {
     const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     
     const [favoritesCopy, setCopy] = useState(favorites);
-    const [openModeCreator, setModeCreator] = useState(false)
+    const [openModeCreator, setModeCreator] = useState(false);
     
 
     useEffect(() => {
