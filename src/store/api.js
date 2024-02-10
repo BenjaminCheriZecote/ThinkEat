@@ -156,9 +156,11 @@ export class UserApi extends CoreApi {
 }
 
 class TokenApi {
-  static addNewTokken(tokens) {
+  loginId;
+  static addNewTokken() {
     localStorage.setItem('tokens', JSON.stringify(tokens));
-    this.useRefreshToken(tokens);
+    this.loginId = Math.random();
+    this.useRefreshToken();
   }
   static async getValidToken() {
     const tokens = localStorage.getItem('tokens');
@@ -168,45 +170,51 @@ class TokenApi {
     const { accessToken }= JSON.parse(tokens);
     return accessToken;
   }
-  static async useRefreshToken(tokens) {
-    const {
-      accessToken,
-      accessTokenExpiresAt,
-      refreshToken,
-      refreshTokenExpiresAt
-    } = JSON.parse(tokens);
+  static async useRefreshToken() {
+    const loginId = this.loginId;
 
+    while (loginId === this.loginId) {
+      const tokens = localStorage.getItem('tokens');
+      const {
+        accessToken,
+        accessTokenExpiresAt,
+        refreshToken,
+        refreshTokenExpiresAt
+      } = JSON.parse(tokens);
 
-    setInterval(async () => {
-      
-    }, process.env.JWT_EXPIRE_IN)
+      const refreshTokenisExpired = new Date((refreshTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
+      if (refreshTokenisExpired) {
+        return this.deleteToken();
+      }
 
+      const accessTokenExpiresIn = new Date((accessTokenExpiresAt - 10)* 1000).getTime() - new Date().getTime();
+      await new Promise(r => setTimeout(r, accessTokenExpiresIn));
 
-
+      await this.postRefreshToken(accessToken,refreshToken);
+    }
   }
-  static async postRefreshToken(tokens) {
-    const { accessToken, refreshToken, ...otherDate }= JSON.parse(tokens);
+  static async postRefreshToken(accessToken,refreshToken) {
+    const httpResponse = await fetch(`${apiBaseUrl}/user/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+      body: JSON.stringify(refreshToken)
+    });
 
+    this.errorHandler(httpResponse);
 
-
-
-
-
-
-
-
-    
-      const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
-        body: JSON.stringify(refreshToken)
-      });
-
-      this.errorHandler(httpResponse);
-
-      return await httpResponse.json();
+    const newTokens = await httpResponse.json();
+    localStorage.setItem('tokens', JSON.stringify(newTokens));
   }
   static deleteToken() {
+    this.loginId = null;
     localStorage.removeItem("token");
+  }
+  static async errorHandler(res) {
+    if (httpResponse.ok) return;
+    if (!res.bodyUsed) {
+      throw new AppError(res.statusText, {httpStatus: res.status});
+    }
+    const {error} = await res.json()
+    throw new AppError(error, {httpStatus: res.status});
   }
 }
