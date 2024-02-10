@@ -5,7 +5,7 @@ class CoreApi {
   static routeName;
 
   static async create(data) {
-    const token = await this.getValidToken();
+    const token = await TokenApi.getValidToken();
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`, {
       method: "POST",
@@ -16,7 +16,6 @@ class CoreApi {
     this.errorHandler(httpResponse);
 
     return await httpResponse.json();
-
   }
   static async get(id) {
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
@@ -33,7 +32,7 @@ class CoreApi {
     return await httpResponse.json();
   }
   static async update(id, data) {
-    const token = await this.getValidToken();
+    const token = await TokenApi.getValidToken();
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "PATCH",
@@ -46,7 +45,7 @@ class CoreApi {
     return await httpResponse.json();
   }
   static async delete(id) {
-    const token = await this.getValidToken();
+    const token = await TokenApi.getValidToken();
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "DELETE",
@@ -58,25 +57,23 @@ class CoreApi {
     return true;
   }
   static async getValidToken() {
-    const httpResponse = await fetch(`${apiBaseUrl}/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: sessionStorage.setItem("getItem")
-    });
-    
-    this.errorHandler(httpResponse);
+    const tokens = localStorage.getItem('tokens');
+    const { accessToken, accessTokenExpiresAt, ...otherTokens}= JSON.parse(tokens);
 
-    const response = await httpResponse.json();
-    sessionStorage.setItem("token", JSON.stringify(response.token));
-    return response.token;
+    if ((new Date().getTime() / 1000) > accessTokenExpiresAt) {
+      this.signout();
+      throw new AppError("token expired", {httpStatus: 401});
+    }
+
+    return accessToken;
   }
   static async errorHandler(res) {
     if (httpResponse.ok) return;
     if (!res.bodyUsed) {
-      throw new AppError(res.statusText, {httpStatu: res.status});
+      throw new AppError(res.statusText, {httpStatus: res.status});
     }
     const {error} = await res.json()
-    throw new AppError(error, {httpStatu: res.status});
+    throw new AppError(error, {httpStatus: res.status});
   }
 }
 
@@ -115,15 +112,13 @@ export class UserApi extends CoreApi {
 
     this.errorHandler(httpResponse);
     
-    const response = await httpResponse.json();
-    sessionStorage.setItem("token", JSON.stringify(response.token));
-    sessionStorage.setItem("userDataConnection", JSON.stringify(data));
+    const {user, ...tokens} = await httpResponse.json();
+    TokenApi.addNewTokken(tokens);
 
     return response.user;
   }
   static signout() {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("userDataConnection");
+    TokenApi.deleteToken();
   }
 
   static async RequestResetPasword(data) {
@@ -158,5 +153,60 @@ export class UserApi extends CoreApi {
     
     return true;
   }
- 
+}
+
+class TokenApi {
+  static addNewTokken(tokens) {
+    localStorage.setItem('tokens', JSON.stringify(tokens));
+    this.useRefreshToken(tokens);
+  }
+  static async getValidToken() {
+    const tokens = localStorage.getItem('tokens');
+    if (!tokens) {
+      throw new AppError("Vous êtes déconnecté.", {httpStatus: 401})
+    }
+    const { accessToken }= JSON.parse(tokens);
+    return accessToken;
+  }
+  static async useRefreshToken(tokens) {
+    const {
+      accessToken,
+      accessTokenExpiresAt,
+      refreshToken,
+      refreshTokenExpiresAt
+    } = JSON.parse(tokens);
+
+
+    setInterval(async () => {
+      
+    }, process.env.JWT_EXPIRE_IN)
+
+
+
+  }
+  static async postRefreshToken(tokens) {
+    const { accessToken, refreshToken, ...otherDate }= JSON.parse(tokens);
+
+
+
+
+
+
+
+
+
+    
+      const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+        body: JSON.stringify(refreshToken)
+      });
+
+      this.errorHandler(httpResponse);
+
+      return await httpResponse.json();
+  }
+  static deleteToken() {
+    localStorage.removeItem("token");
+  }
 }
