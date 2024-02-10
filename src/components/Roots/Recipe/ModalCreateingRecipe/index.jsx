@@ -58,7 +58,7 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
                         <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="number"/> </div>
                         <div className="section-recipe__field">
                             <label>Faim</label> 
-                            <Select options={options} name="hunger"/>
+                            <Select className="section-recipe-field__select" options={options} name="hunger"/>
                         </div>
                         <ul className="section-recipe__field"> Etapes: <FaPlus onClick={handleClickAddStepp}/>
                         {steps.map((element, index) => {

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
-import ModalUpdatingRecipe from "./ModalUpdatingRecipe";
+import ModalUpdatingRecipe from "../Recipes/ModalUpdatingRecipe";
 import { NavLink } from "react-router-dom";
 
 
@@ -16,9 +16,8 @@ const Recipe = () => {
     const {recipes} = useSelector((state) => state.recipes);
     const [updateMode, setUpdateMode] = useState();
     const [classList, setClassList] = useState(true);
-    const [isAdmin, setAdmin] = useState(true)
+    const [isAdmin, setAdmin] = useState(true);
     
-
     const handleClickUpdate = () => {
         setUpdateMode(true);
     }
@@ -32,15 +31,12 @@ const Recipe = () => {
     return(
         <section className="section">
             <RecipeUX recipe={recipes[parseInt(params.id) - 1]} update={updateMode} classList={classList}/>
-
             {updateMode?
                 
                 <ModalUpdatingRecipe meal={recipes[parseInt(params.id) - 1]} setUpdateMode={setUpdateMode}/>
                 :
                 ""
                 }
-
-
             {isAdmin?
                 <>
                     <FaPen onClick={handleClickUpdate}/>

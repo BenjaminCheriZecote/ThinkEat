@@ -2,14 +2,15 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 import { useEffect } from "react";
-import store from '../../../store';
 import Meal from "./Meal2";
 import { CiSearch } from "react-icons/ci";
 import { FaSquarePlus } from "react-icons/fa6";
 import { FaSquareMinus } from "react-icons/fa6";
 
 
+
 import ModalCreatingRecipe from "./ModalCreateingRecipe";
+import './Recipe.scss';
 
 
 
@@ -19,7 +20,6 @@ const Recipes = () => {
     const {recipes} = useSelector((state) => state.recipes)
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
-    const [updateMode, setUpdateMode] = useState(false);
     const [isAdmin, setAdmin] = useState(true);
 
     useEffect(() => {
@@ -65,16 +65,19 @@ const Recipes = () => {
             {openModeCreator?
                 <ModalCreatingRecipe setModeCreator={setModeCreator}/>
                 :
-                ""}
+                ""
+            }
             
 
+            <ul className="section__ulContainerRecipes">
                 {recipesCopy.length > 0?
                     recipesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin} setUpdateMode={setUpdateMode} updateMode={updateMode}/>)
+                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                     })
                     :
                     ""
                 }
+            </ul>
             </section>
     )
 }

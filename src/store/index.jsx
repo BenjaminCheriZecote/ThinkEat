@@ -4,7 +4,8 @@ import sessionReducer from "./reducers/session";
 import recipesReducer from "./reducers/recipes";			
 import { configureStore } from "@reduxjs/toolkit";
 import criteriasReducer from "./reducers/criterias";
-import filtersReducer from "./reducers/filters";				
+import filtersReducer from "./reducers/filters";
+import ingredientsReducer from "./reducers/ingredients";				
 				
 const store = configureStore({				
 	reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
 		session:sessionReducer,
 		recipes:recipesReducer, 
 		criterias:criteriasReducer,
-		filters:filtersReducer
+		filters:filtersReducer,
+		ingredients:ingredientsReducer
 	}			
 })				
 				

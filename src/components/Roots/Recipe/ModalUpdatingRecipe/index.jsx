@@ -14,6 +14,7 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
     const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     const [mealValue, setMealValue] = useState(meal);
     const [steps, setStep] = useState(mealValue.steps);
+    const [ingredients, setIngredient] = useState(mealValue.ingredients);
     const selectElement = useRef() 
 
     const options = [
@@ -32,9 +33,16 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
                 } else {
                     dataForm.steps.push(value);
                 }
+            } else if (name.startsWith('ingredient')) {
+                if (!dataForm.ingredients) {
+                    dataForm.ingredients = [value];
+                } else {
+                    dataForm.ingredients.push(value);
+                }
             } else {
                 dataForm[name] = value;
             }
+            
         }
         const recipe = {...dataForm, id:mealValue.id};
         const updatedRecipes = [...recipes];
@@ -55,14 +63,23 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
 
 
         const { name, value } = event.target;
-        if (!event.target.name.includes("step")) {
+        if (!event.target.name.includes("step") && !event.target.name.includes("ingredient")) {
             setMealValue(currentMeal => ({...currentMeal, [name]: value }));
-        } else {
+        } 
+        if (event.target.name.includes("step")) {
             const index = parseInt(name.slice(-1));
             setStep(prevSteps => {
                     const updatedSteps = [...prevSteps];
                     updatedSteps[index] = value;
                     return updatedSteps;
+                })
+        }
+        if (event.target.name.includes("ingredient")) {
+            const index = parseInt(name.slice(-1));
+            setIngredient(prevIngredients => {
+                    const updatedIngredients = [...prevIngredients];
+                    updatedIngredients[index] = value;
+                    return updatedIngredients;
                 })
         }
     }
@@ -81,13 +98,22 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
                         <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="number" value={mealValue.preparating_time} onChange={handleChangeValue}/> </div>
                         <div className="section-recipe__field">
                             <label>Faim</label> 
-                            <Select ref={selectElement} options={options} name="hunger" defaultValue={{ label:mealValue.hunger, value: mealValue.hunger}} onChange={handleChangeValueSelect}/>
+                            <Select className="section-recipe-field__select" ref={selectElement} options={options} name="hunger" defaultValue={{ label:mealValue.hunger, value: mealValue.hunger}} onChange={handleChangeValueSelect}/>
                         </div>
                         <ul className="section-recipe__field"> Etapes: <FaPlus onClick={handleClickAddStepp}/>
                         {steps.map((element, index) => {
                             return(
                                 <li key={index}>
                                     <input name={`steps${index}`} type="text" value={steps[index]} onChange={handleChangeValue}/>
+                                </li>
+                            )
+                        })}      
+                        </ul>
+                        <ul className="section-recipe__field"> Ingredients: <FaPlus onClick={handleClickAddStepp}/>
+                        {ingredients.map((element, index) => {
+                            return(
+                                <li key={index}>
+                                    <input name={`ingredients${index}`} type="text" value={ingredients[index]} onChange={handleChangeValue}/>
                                 </li>
                             )
                         })}      

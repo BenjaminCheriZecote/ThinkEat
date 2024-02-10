@@ -25,16 +25,41 @@ const RecipeUX = ({recipe, update, create}) => {
                     }
 
                 {recipe.steps.length > 1?
-                        recipe.steps.map((element, index) => {
+                    <ul>
+                        {recipe.steps.map((element, index) => {
                             return(
                                 <li key={index}>
                                     <input type="text" value={element} disabled={update?false:true}/>
                                     {update?<FaMinus />:""}
                                 </li>   
                             )
-                        })
+                        })}
+                    </ul>
                         :
                         <li>{recipe.steps[0]}</li>
+                    }
+            </ul>
+            <ul> Ingredients:
+                {update?
+                    <FaPlus />
+                    :
+                    ""
+                    }
+
+                {recipe.ingredients.length > 1?
+                    <ul className="section-recipe__field--ingredientsContainer">
+                        {recipe.ingredients.map((element, index) => {
+                            return(
+                                <li key={index}>
+                                    <input type="text" value={element.name} disabled={update?false:true}/>
+                                    <img src={element.image} alt="" />
+                                    {update?<FaMinus />:""}
+                                </li>   
+                            )
+                        })}
+                    </ul>
+                        :
+                        <li>{recipe.ingredients[0]}</li>
                     }
             </ul>
         </li>

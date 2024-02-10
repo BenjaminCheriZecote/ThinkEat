@@ -11,3 +11,29 @@ height: 100%;
 .app-wrapper__content {
     width:100%;
 }
+
+.section__li {
+    border-radius: 0.3rem;
+    display: flex;
+    gap:1rem;
+    margin: 0.3rem 0rem;
+}
+
+.section-li__container--boxLegend  {
+    display: flex;
+   
+}
+
+.section-li__container--boxImg img {
+    width:100%;
+}
+
+.section__li p {
+    font-size:1rem;
+    width:15rem;
+}
+
+.section__li a {
+    font-size: 0.7rem;
+    align-self: end;
+}
