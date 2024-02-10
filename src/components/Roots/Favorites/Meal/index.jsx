@@ -6,19 +6,17 @@ import { FaCheck } from "react-icons/fa6";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
 import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
+import { NavLink } from "react-router-dom";
 
 import { useRef } from "react";
 
 
 
 
-const Meal = ({meal, hungryState}) => {
+const Meal = ({meal}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
     const [updateMode, setUpdateMode] = useState();
-    const formUpdate = useRef()
-
-    const inputElement = useRef();
     
     const handleClickDelete = () => {
         const newFavorites = favorites.filter((element) => element !== meal);
@@ -26,54 +24,27 @@ const Meal = ({meal, hungryState}) => {
     }
 
     const handleClickUpdate = (event) => {
-        // inputElement.current.removeAttribute("disabled");
         setUpdateMode(true)
     }
 
-    const handleChange = (event) => {
-        const updatedValue = event.target.value;
-        const foundIndexMeal = favorites.findIndex((elem) => elem.name === meal.name);
-        const updatedFavorites = [...favorites];
-        updatedFavorites[foundIndexMeal] = {name:updatedValue, hungry: hungryState};
-        store.dispatch({type:"SET_FAVORITES", payload:updatedFavorites})
-    }
-
-    const handleClickValidate = () => {
-        // inputElement.current.setAttribute("disabled", "");
-        setUpdateMode(false)
-    }
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            inputElement.current.setAttribute("disabled", "");
-            setUpdateMode(false)
-          }
-    }
-
     return(
-        <article  className="section__article">
-            <div>
-                <input ref={inputElement} type="text" value={meal.name} disabled onChange={handleChange} onKeyDown={handleKeyPress}/>
-                {updateMode?
-                
-                    <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
-                    :
-                    ""
-                    }
+        <li  className="section__li">
+                <div className="section-li__container--boxLegend">
+                    <p>{meal.name}</p>
+                    <NavLink to={`/recipes/${meal.id}`}>Voir la recette</NavLink>
+                </div>
 
-            </div>
-            
-            
-            <div>
-                {updateMode?
-                    <FaCheck onClick={handleClickValidate}/>
-                    :
-                    <FaPen onClick={handleClickUpdate}/> 
-                }
-                <MdCancel onClick={handleClickDelete}/>
-            </div>
-            <a href={`/recipes/${meal.id}`}>Voir le détail</a>
-        </article>
+                <div className="section-li__container--options">
+                    {updateMode?
+                    
+                        <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
+                        :
+                        ""
+                        }
+                    <FaPen onClick={handleClickUpdate}/>
+                    <MdCancel onClick={handleClickDelete}/>
+                </div>
+        </li>
     )
 }
 

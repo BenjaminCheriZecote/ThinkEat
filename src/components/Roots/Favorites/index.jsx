@@ -64,6 +64,7 @@ const Favorites = () => {
     return(
         <>
             <section className="section">
+                <h2>Favoris</h2>
                 <div className="section__divForm">
                     <form onSubmit={handleSubmitSearch} className="" action="">
                         <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>

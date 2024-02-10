@@ -10,11 +10,12 @@ import { MdCancel } from "react-icons/md";
 
 const ModalCreatingRecipe = ({setModeCreator}) => {
 
-    const formCreation = useRef();
     const {favorites} = useSelector((state) => state.favorites);
     const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
     const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     const [steps, setStep] = useState(['']);
+    const [ingredients, setIngredient] = useState(['']);
+    const inputImageElement = useRef()
 
     const options = [
         {value:hungerBigName, label:hungerBigName},
@@ -41,38 +42,98 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
         store.dispatch({type:"SET_FAVORITES", payload:[...favorites, favorite]})
     }
 
-    const handleClickAddStepp = () => {
+    const handleClickAddStep = () => {
         setStep([...steps, '']);
+    }
+
+    const handleClickDeleteStep = (event) => {
+        const textContentStep = event.target.closest("li").outerText;
+        const index = parseInt(textContentStep.slice(-1)) - 1;
+        const arrayStep = [...steps];
+        arrayStep.splice(index, 1);
+        setStep(arrayStep);
+    }
+
+    const handleClickAddIngredient = () => {
+        setIngredient([...ingredients, '']);
+    }
+
+    const handleClickDeleteIngredients = (event) => {
+        
+        const liParentElement = event.target.closest("li");
+        const inputIngredientElement = liParentElement.querySelector("input")
+        const index = parseInt(inputIngredientElement.name.slice(-1));
+        const arrayIngredients = [...ingredients]
+        arrayIngredients.splice(index, 1)
+        setIngredient(arrayIngredients)
     }
 
     const cancelCreationRecipe = () => {
         setModeCreator((current) => !current) 
     }
-    
 
+    const handleClickAddImage = () => (
+        inputImageElement.current.click()
+    )
+
+    
     return(
         <div className="backdrop">
             <form className="section__recipe modal" onSubmit={handleSubmitCreation}>
-                        <img src="" alt="" />
-                        <div className="section-recipe__field"> <label>Name :</label><input name="name" type="text" /></div>
-                        <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="number"/> </div>
-                        <div className="section-recipe__field">
-                            <label>Faim</label> 
-                            <Select options={options} name="hunger"/>
+                <input className="section-recipe__name" name="name" type="text" placeholder="Name"/>
+                    <div className="section-recipe__top">
+                        <div>
+                            <div className="section-recipe__field"> <label>Preparation :</label> <input name="preparating_time" type="number"/> </div>
+                            <div className="section-recipe__field">
+                                <label>Faim</label> 
+                                <Select className="section-recipe-field__select" options={options} name="hunger"/>
+                            </div>
                         </div>
-                        <ul className="section-recipe__field"> Etapes: <FaPlus onClick={handleClickAddStepp}/>
+                        
+                            <figure  method="" action="" className="section-recipe__figure" onClick={handleClickAddImage}>
+                                <figcaption></figcaption>
+                                    <input ref={(inputImageElement)} className="file" type="file" accept=".txt, .csv" hidden />
+                            </figure>
+                    </div>
+
+                    <div className="section-recipe__field"> Etapes: <FaPlus onClick={handleClickAddStep}/></div>
+                    <ul>
                         {steps.map((element, index) => {
                             return(
                                 <li key={index}>
-                                    <input name={`step${index}`} type="text"/>
+                                    <div>
+                                        <p>Etape : {index+1}</p>
+                                        <div><MdCancel  size={12} onClick={handleClickDeleteStep}/></div>
+                                    </div>
+                                    <div>
+                                        <textarea name={`step${index}`} />
+                                    </div>
                                 </li>
                             )
-                        })}      
-                        </ul>
+                        })}     
+                    </ul>
 
-                        <button><FaCheck/></button>
-                        <MdCancel onClick={cancelCreationRecipe}/>
-                    </form>
+                    <div className="section-recipe__field"> <p>Ingredients :</p> <FaPlus onClick={handleClickAddIngredient}/></div>
+
+                <ul className="section-recipe__field--ingredientsContainer">
+                    {ingredients.map((element, index) => {
+                        return(
+                            <li key={index}>
+                                <div><MdCancel  size={12} onClick={handleClickDeleteIngredients}/></div>
+                                <input name={`ingredients${index}`} type="text" />
+                                
+                            </li>
+                        )
+                    })}      
+                </ul>
+
+                <div className="section-recipe__bottom">
+                    <button><FaCheck/></button>
+                    <MdCancel onClick={cancelCreationRecipe}/>
+                </div>
+
+
+                </form>
         </div>
     )
 }
