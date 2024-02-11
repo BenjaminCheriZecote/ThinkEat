@@ -19,11 +19,11 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+        <Aside />
 
       <div className="app__wrapper"> 
-          <Aside />
           <section className="app-wrapper__content">
+            <Header />
             <Outlet />
             <Footer />
           </section>

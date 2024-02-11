@@ -2,14 +2,19 @@ html, body, #root, .app {
 height: 100%;
 }
 
-.app__wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    height: 95%;
-}
+.app {
+    display:flex;
+    &__wrapper {
+        width:100%;
+        display: flex;
+        flex-wrap: nowrap;
+        height: 100%;
+    }
 
-.app-wrapper__content {
-    width:100%;
+    &-wrapper__content {
+        width:100%;
+        height: 100%;
+    }
 }
 
 .section__li {

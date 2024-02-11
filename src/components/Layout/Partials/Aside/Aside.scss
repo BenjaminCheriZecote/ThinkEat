@@ -1,11 +1,12 @@
 .aside {
-    border:1px black solid;
+    
     display:flex;
     flex-direction: column;
     width:25%;
     // height:100vh;
     justify-content: space-between;
     padding:1rem;
+    background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside1), var(--colorbgAside2));
     
     &__nav {
         display: flex;

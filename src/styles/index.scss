@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200;300;400&display=swap');
+// font-family: 'Playpen Sans', cursive;
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,9 +15,38 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --colorbg1: #fefefe;
+  --colorbg2: #e8eceb;
+  --colorbgAside1: rgba(255, 245, 180, 0.769);
+  // --colorbgAside2: rgb(222, 194, 132);
+  --colorbgAside2: rgb(196, 175, 121);
   
   --color1: black;
   --padHeader: 1rem; 
   /* btn nouvelle proposition */
+}
+
+body {
+  z-index:0;
+  // background: no-repeat url('/wallpaper5.jpeg');
+  background-color: rgb(238, 238, 238);
+  background-size:cover;
+  background-position: left;
+  display: flex
+}
+
+body > #root {
+  margin:auto;
+  height: 90%;
+  width:70%;
+  z-index: 1;
+  background: white;
+  overflow: hidden;
+  border-radius:2rem;
+  background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2));
+  box-shadow: 5px 5px 30px -15px rgba(0,0,0,0.8);
+
+
 }
 
