@@ -5,6 +5,9 @@ import Aside from './components/Layout/Partials/Aside';
 import Footer from './components/Layout/Partials/Footer';
 import { Outlet } from 'react-router-dom';
 import store from './store';
+import { useSelector } from 'react-redux';
+import './styles/test.css'
+
 
 
 
@@ -15,7 +18,9 @@ function App() {
   
   if (localStorage.getItem("user")) {		
     store.dispatch({type:"USER", payload:(JSON.parse(localStorage.getItem("user"))).name})	
-  }		
+  }
+  const user = useSelector((state) => state.session)
+  console.log(user)
 
   return (
     <div className="app">
