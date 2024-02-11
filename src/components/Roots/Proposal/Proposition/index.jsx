@@ -29,6 +29,7 @@ const Proposition = ({proposition}) => {
                 {/* <FaPerson /> */}
                 <FaCheck onClick={handleClickValidateProposition} />
                 <MdCancel onClick={handleClickDeleteProposition} />
+                
             </div>
         </li>
 

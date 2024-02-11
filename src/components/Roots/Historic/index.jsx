@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import Proposition from "./Proposition";
 import { useEffect } from "react";
 import './Historic.scss'
+import { IoCartOutline } from "react-icons/io5";
 
 const Historic = () => {
     
@@ -19,6 +20,7 @@ const Historic = () => {
                         <li key={index} className="section-ulContainer__li">
                             <p>{proposition.date}</p>
                             <Proposition proposition={proposition}/>
+                            <IoCartOutline className="section-ulContainer-li--cartShopping" size={23}/>
                         </li>
                     )
                 })}
