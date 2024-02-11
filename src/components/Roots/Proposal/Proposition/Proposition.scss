@@ -1,28 +1,46 @@
-.section-ulContainerProposal__li {
-    width:5rem;
+.liProposotion {
+    width:9rem;
     border:1px black solid;
     display: flex;
     flex-direction: column;
-    gap:0.3rem;
-    padding:2rem 2rem 0.5rem 2rem;
+    justify-content: space-between;
+    
+    border-radius: 0.3rem;
+    // padding:2rem 2rem 0.5rem 2rem;
 }
 
-.section-ulContainerProposal-li__choiceBox {
+.liProposotion__choiceBox {
     margin-top: 1rem;
     align-self: flex-end;
+    padding:0rem 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
-.section-ulContainerProposal-li__choiceBox * {
+.liProposotion__choiceBox * {
     cursor: pointer;
-    margin:0.2rem;
+    margin:0rem 0.3rem;
+}
+
+.liProposotion__imgContainer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.liProposotion__imgContainer img {
+    width: 100%;
 }
 
 
-
-.section-ulContainerProposal-li__p--hungry, .section-ulContainerProposal-li__p--cookingTime {
-    font-size:0.7rem;
+.liProposotion__p--name  {
+    text-align: center;
+    font-size:0.9rem;
 }
 
 .unvalidate {
-    background-color: grey;
+    background-color: rgb(186, 186, 186);
+    filter: grayscale(100%);
+}
+
+.validate {
+    filter: grayscale(0%);
 }

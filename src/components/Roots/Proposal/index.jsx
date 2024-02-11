@@ -27,15 +27,18 @@ import './Proposal.scss';
 const Proposal = () => {
 
     const {favorites} = useSelector((state) => state.favorites);
+    const {recipes} = useSelector((state) => state.recipes);
     const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
     const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
+    const {favoriteCriteria} = useSelector((state) => state.criterias.criterias[5]);
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
     const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
     const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
+    const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
     const [filteredProposal, setFilteredProposal] = useState([]);
     const [newFilteredProposal, setNewFilteredProposal] = useState([]);
     
@@ -67,8 +70,6 @@ const Proposal = () => {
         event.preventDefault();
         setPropostions();
     }
-
-
 
     const setPropostions = () => {
 
@@ -112,6 +113,15 @@ const Proposal = () => {
         });
     }
 
+    if (!favoriteCriteria) {
+        const array = recipes;
+        array.forEach(element => {
+            result.push(element)
+        });
+    }
+
+
+
     // Autres conditions de filtrage ici si nécessaire
 
     const result2 = [];
@@ -123,28 +133,30 @@ const Proposal = () => {
             result2.push(result[i])
         } 
     }
+     
+    if (result.length > 0) {
 
-    const resultAddStatus = result2.map((e) => {
-        const object = {...e};
-        object.validate = true;
-        return object
-    });
+        const resultAddStatus = result2.map((e) => {
+            const object = {...e};
+            object.validate = true;
+            return object
+        });
+                
+            const finalResult = resultAddStatus.slice(0, numberOfProposition);
             
-        const finalResult = resultAddStatus.slice(0, numberOfProposition);
-        
-        // uId
-        const objectProposal = {
-            id: uuidv4(),
-            array: finalResult
-        }
-
-        setProposal(objectProposal);
-        filterProposition(finalResult)
+            const objectProposal = {
+                id: uuidv4(),
+                array: finalResult
+            }
+    
+    
+            setProposal(objectProposal);
+            filterProposition(finalResult)
+    }
     }
 
     const filterProposition = (finalResult) => {
         let proposalReadyToFilter = finalResult;
-        console.log(proposalReadyToFilter)
         
         if (hungerBigFilter) {
             proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Copieux");
@@ -161,7 +173,17 @@ const Proposal = () => {
         if (preparating_timeShortFilter) {
             proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Court");
         }
-        
+
+        if (favoriteFilter) {
+            for (let i = 0; i < proposalReadyToFilter.length; i++) {
+                console.log(proposalReadyToFilter[i])
+                const foundFavorites = favorites.find((e) => proposalReadyToFilter[i].id === e.id)
+                console.log(foundFavorites) 
+                if (!foundFavorites) {
+                   proposalReadyToFilter.splice(proposalReadyToFilter[i], 1) 
+                }  
+            }
+        }  
         const filterArray = proposalReadyToFilter;
         setFilteredProposal(filterArray)
     }
@@ -210,10 +232,13 @@ const Proposal = () => {
                             </ul>
                             }
 
-                        <button onClick={handleClickValidateChoices}>Valider mes choix</button>
+                            <div className="section__btnValidate">
+                                <button onClick={handleClickValidateChoices}>Valider mes choix</button>
+                            </div>
                     </>
                         :
-                        <p>Aucun résultats</p>
+                        
+                        <p className="section__pNoResults">Aucun résultats</p>
                     }
             </section>
         </>
