@@ -14,7 +14,7 @@ const Aside = () => {
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-    const {favoriteCriteria} = useSelector((state) => state.criterias.criterias[5]);
+    const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
 
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
     const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
@@ -55,12 +55,16 @@ const Aside = () => {
         store.dispatch({type:"SET_PREPARATING_TIME_SHORT_FILTER"})
     }
 
-    const handleChangeFavoriteCriteria = () => {
-        store.dispatch({type:"SET_FAVORITE_CRITERIA"})
+    const handleChangeNonFavoritesRecipesCriteria = () => {
+        store.dispatch({type:"SET_NON_FAVORITES_RECIPES_CRITERIA"})
     }
 
     const handleChangeFavoriteFilter = () => {
-        store.dispatch({type:"SET_FAVORITE_FILTER"})
+        store.dispatch({type:"SET_FAVORITES_FILTER"})
+    }
+
+    const handleClickFilter = () => {
+        store.dispatch({type:"TURN_FILTER"})
     }
 
 
@@ -91,7 +95,7 @@ const Aside = () => {
                             </li>
 
                             <li>
-                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangeFavoriteCriteria} checked={favoriteCriteria?true:false}/>
+                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangeNonFavoritesRecipesCriteria} checked={nonFavoritesRecipesCriteria?true:false}/>
                                 <label htmlFor="cookingTimeCriteria" >{criterias[5].name}</label>
                             </li>
 
@@ -123,6 +127,10 @@ const Aside = () => {
                         <li>
                             <input id="favoriteCriteria" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
                             <label htmlFor="favoriteCriteria" >{filters[4].name}</label>
+                        </li>
+
+                        <li>
+                            <button onClick={handleClickFilter}>Filtrer</button>
                         </li>
                     </ul>
                 </div>

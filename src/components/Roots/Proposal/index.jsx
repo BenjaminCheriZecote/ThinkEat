@@ -33,7 +33,7 @@ const Proposal = () => {
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-    const {favoriteCriteria} = useSelector((state) => state.criterias.criterias[5]);
+    const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
     const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
@@ -41,6 +41,8 @@ const Proposal = () => {
     const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
     const [filteredProposal, setFilteredProposal] = useState([]);
     const [newFilteredProposal, setNewFilteredProposal] = useState([]);
+
+    const {filter} = useSelector((state) => state.filters.filters[9])
     
     const [proposal, setProposal] = useState([]);
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
@@ -52,6 +54,10 @@ const Proposal = () => {
         })
     }, [filteredProposal])
 
+    useEffect(() => {
+        if (proposal.array)
+        filterProposition(proposal.array)
+    }, [filter])
 
     const handleClickMinus = () => {
         if (numberOfProposition !== 0) store.dispatch({type:"SUBTRACT_NUMBER_OF_PROPOSITION"});
@@ -113,12 +119,26 @@ const Proposal = () => {
         });
     }
 
-    if (!favoriteCriteria) {
-        const array = recipes;
-        array.forEach(element => {
+    if (nonFavoritesRecipesCriteria) {
+        const recipesToAddFavorites = recipes.filter(recipe => {
+            return !favorites.some(favorite => favorite.id === recipe.id);
+        });
+        
+        const convertedRecipesArray = recipesToAddFavorites.map((e) => {
+            const object = {...e}
+            if (object.preparating_time < 10) {
+                object.preparating_time = "Court";
+            } else {
+                object.preparating_time = "Long";
+            }
+            return object
+        });
+
+        convertedRecipesArray.forEach(element => {
             result.push(element)
         });
-    }
+        
+        }  
 
 
 
@@ -151,7 +171,7 @@ const Proposal = () => {
     
     
             setProposal(objectProposal);
-            filterProposition(finalResult)
+            setFilteredProposal(finalResult)
     }
     }
 
@@ -175,20 +195,16 @@ const Proposal = () => {
         }
 
         if (favoriteFilter) {
-            for (let i = 0; i < proposalReadyToFilter.length; i++) {
-                console.log(proposalReadyToFilter[i])
-                const foundFavorites = favorites.find((e) => proposalReadyToFilter[i].id === e.id)
-                console.log(foundFavorites) 
-                if (!foundFavorites) {
-                   proposalReadyToFilter.splice(proposalReadyToFilter[i], 1) 
-                }  
-            }
+            proposalReadyToFilter = proposalReadyToFilter.filter((recipe) => {
+                return favorites.some(favorite => favorite.id === recipe.id);
+            })
         }  
+
         const filterArray = proposalReadyToFilter;
         setFilteredProposal(filterArray)
     }
 
-    const handleClickValidateChoices = (event) => {
+    const handleClickValidateChoices = () => {
         
         if (proposal.array.length > 0) {
             const findProposal = historical_propositions.find((e) => e.historic.id === proposal.id)

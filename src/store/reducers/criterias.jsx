@@ -8,7 +8,7 @@ const initialState = {
         {hungerFewCriteria:false, name:"Petite faim"},
         {preparating_timeLongCriteria:false, name:"Preparation longue"},
         {preparating_timeShortCriteria:false, name:"Preparation courte"},
-        {favoriteCriteria:false, name:"Favoris"},
+        {nonFavoritesRecipesCriteria:false, name:"Recettes non favoris"},
         {timeCriteria:false},
         {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
         {type_ingredientsCriteria:null},
@@ -37,8 +37,8 @@ const criteriasReducer = createReducer (initialState, (builder) => {
     .addCase(createAction("SET_PREPARATING_TIME_SHORT_CRITERIA"), (state) => {					
 		state.criterias[4].preparating_timeShortCriteria = !state.criterias[4].preparating_timeShortCriteria	
 	})
-  .addCase(createAction("SET_FAVORITE_CRITERIA"), (state) => {					
-		state.criterias[5].favoriteCriteria = !state.criterias[5].favoriteCriteria
+  .addCase(createAction("SET_NON_FAVORITES_RECIPES_CRITERIA"), (state) => {					
+		state.criterias[5].nonFavoritesRecipesCriteria = !state.criterias[5].nonFavoritesRecipesCriteria
 	})
 })						
 						
