@@ -6,7 +6,7 @@ import { createAction } from "@reduxjs/toolkit";
 //     name:"Hamburger",
 //     image:"",
 //     steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-//     hunger:"big",
+//     hunger:"Copieux",
 //     preparating_time:10,
 //     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
 // },

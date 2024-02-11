@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 // import IndicatorsUX from '../../UXElements/components/IndicatorsUX'
 
 import './Aside.scss'
+import { NavLink } from 'react-router-dom';
 
 const Aside = () => {
 
@@ -13,11 +14,13 @@ const Aside = () => {
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
+    const {favoriteCriteria} = useSelector((state) => state.criterias.criterias[5]);
 
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
     const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
     const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
+    const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
 
     const handleChangeHungerBigCriteria = () => {
         store.dispatch({type:"SET_HUNGER_BIG_CRITERIA"});
@@ -46,11 +49,18 @@ const Aside = () => {
 
     const handleChangePreparatingTimeLongFilter = () => {
         store.dispatch({type:"SET_PREPARATING_TIME_LONG_FILTER"})
-        console.log("test")
     }
 
     const handleChangePreparatingTimeShortFilter = () => {
         store.dispatch({type:"SET_PREPARATING_TIME_SHORT_FILTER"})
+    }
+
+    const handleChangeFavoriteCriteria = () => {
+        store.dispatch({type:"SET_FAVORITE_CRITERIA"})
+    }
+
+    const handleChangeFavoriteFilter = () => {
+        store.dispatch({type:"SET_FAVORITE_FILTER"})
     }
 
 
@@ -80,11 +90,16 @@ const Aside = () => {
                                 <label htmlFor="cookingTimeCriteria" >{criterias[4].name}</label>
                             </li>
 
+                            <li>
+                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangeFavoriteCriteria} checked={favoriteCriteria?true:false}/>
+                                <label htmlFor="cookingTimeCriteria" >{criterias[5].name}</label>
+                            </li>
+
                 </ul>
 
                 <div>
                     
-                    <ul> Filters
+                    <ul> Filtres
                         <li >
                             <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hungerBigFilter?true:false}/>
                             <label htmlFor="hungryFilter" >{filters[0].name}</label>
@@ -104,12 +119,16 @@ const Aside = () => {
                             <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeShortFilter} checked={preparating_timeShortFilter?true:false}/>
                             <label htmlFor="cookingTimeFilter" >{filters[3].name}</label>
                         </li>
-                    </ul>
 
+                        <li>
+                            <input id="favoriteCriteria" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
+                            <label htmlFor="favoriteCriteria" >{filters[4].name}</label>
+                        </li>
+                    </ul>
                 </div>
                     
             
-            <a className="aside__a" href="">Nouvelle proposition</a>
+            <NavLink className="aside__a" to={"/proposal"}>Nouvelle proposition</NavLink>
         </aside>
     )
 };

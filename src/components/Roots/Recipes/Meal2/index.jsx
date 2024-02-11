@@ -7,8 +7,7 @@ import { FaPen } from "react-icons/fa6";
 import { IoStarSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
-
-import { useRef } from "react";
+import { IoStarOutline } from "react-icons/io5";
 
 
 const Meal = ({meal, isAdmin}) => {
@@ -22,7 +21,7 @@ const Meal = ({meal, isAdmin}) => {
         store.dispatch({type:"SET_RECIPES", payload:newRecipes })
     }
 
-    const handleClickUpdate = (event) => {
+    const handleClickUpdate = () => {
         setUpdateMode(true)
     }
 
@@ -31,35 +30,36 @@ const Meal = ({meal, isAdmin}) => {
         store.dispatch({type:"SET_FAVORITES", payload:[...favorites, meal] })
     }
 
+    const handleClickDeleteFavorites = () => {
+        const updatedRecipes = favorites;
+        const filteredFavorites = updatedRecipes.filter((element) => element.id !== meal.id);
+        console.log("update", filteredFavorites)
+        store.dispatch({type:"SET_FAVORITES", payload:filteredFavorites })
+    }
+
     return(
         <li  className="section__li">
-                {/* <div className="section-li__container--boxImg">
-                    <img src={meal.image} alt="" />
-                </div> */}
                 <div className="section-li__container--boxLegend">
                     <p>{meal.name}</p>
                     <NavLink to={`/recipes/${meal.id}`}>Voir la recette</NavLink>
                 </div>
                 <div className="section-li__container--options">
                     {!isAdmin?
-                        <IoStarSharp onClick={handleClickAddFavorites}/>
+                        favorites.find((element) => element.id === meal.id)?
+                            <IoStarSharp onClick={handleClickDeleteFavorites}/>
+                            :
+                            <IoStarOutline onClick={handleClickAddFavorites}/>
                         :
-                        ""
+                        <>
+                            <FaPen onClick={handleClickUpdate}/>
+                            <MdCancel onClick={handleClickDelete}/>
+                        </>
                     }
-
                     {updateMode?
                     <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
                     :
                     ""
                 }
-                    
-                    {isAdmin?
-                    <>
-                        <FaPen onClick={handleClickUpdate}/>
-                        <MdCancel onClick={handleClickDelete}/>
-                    </>
-                        :
-                        ""}
                 </div>
                 
         </li>

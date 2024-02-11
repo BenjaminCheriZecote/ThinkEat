@@ -20,7 +20,7 @@ const Recipes = () => {
     const {recipes} = useSelector((state) => state.recipes)
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
-    const [isAdmin, setAdmin] = useState(true);
+    const [isAdmin, setAdmin] = useState(false);
 
     useEffect(() => {
         setCopy(recipes)

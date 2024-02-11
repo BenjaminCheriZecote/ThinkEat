@@ -8,6 +8,7 @@ const initialState = {
         {hungerFewFilter:false, name:"Petite faim"},
         {preparating_timeLongFilter:false, name:"Preparation longue"},
         {preparating_timeShortFilter:false, name:"Preparation courte"},
+        {favoriteFilter:false, name:"Favoris"},
         {time:false, name:"Temps"},
         {diet_preferences:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}], name:"Régime alimentaire"},
         {type_ingredients:null},
@@ -17,9 +18,6 @@ const initialState = {
 						
 const filtersReducer = createReducer (initialState, (builder) => {						
 	builder
-    // .addCase(createAction("SET_FINDED_MEALS"), (state, action) => {					
-	// 	state.searchResult = action.payload	
-	// })
     .addCase(createAction("SET_HUNGER_BIG_FILTER"), (state) => {					
 		state.filters[0].hungerBigFilter = !state.filters[0].hungerBigFilter;				
 	})
@@ -31,6 +29,9 @@ const filtersReducer = createReducer (initialState, (builder) => {
 	})
     .addCase(createAction("SET_PREPARATING_TIME_SHORT_FILTER"), (state) => {					
 		state.filters[3].preparating_timeShortFilter = !state.filters[3].preparating_timeShortFilter	
+	})
+  .addCase(createAction("SET_FAVORITE_FILTER"), (state) => {					
+		state.filters[4].favoriteFilter = !state.filters[4].favoriteFilter
 	})
 })						
 						
