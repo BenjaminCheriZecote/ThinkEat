@@ -114,11 +114,22 @@ export class UserApi extends CoreApi {
     
     const {user, ...tokens} = await httpResponse.json();
     TokenApi.addNewTokken(tokens);
+    localStorage.setItem('user', JSON.stringify(user));
 
-    return response.user;
+    return user;
   }
   static signout() {
+    localStorage.removeItem('user');
     TokenApi.deleteToken();
+  }
+
+  static getUser() {
+    const userString = localStorage.getItem('String');
+    if (!user) {
+      return null;
+    }
+
+    return JSON.parse(userString);
   }
 
   static async RequestResetPasword(data) {
@@ -156,42 +167,36 @@ export class UserApi extends CoreApi {
 }
 
 class TokenApi {
-  loginId;
-  static addNewTokken() {
+  static addNewTokken(tokens) {
     localStorage.setItem('tokens', JSON.stringify(tokens));
-    this.loginId = Math.random();
-    this.useRefreshToken();
   }
   static async getValidToken() {
     const tokens = localStorage.getItem('tokens');
     if (!tokens) {
-      throw new AppError("Vous êtes déconnecté.", {httpStatus: 401})
+      throw new AppError("Veuillez vous connecter.", {httpStatus: 401});
     }
-    const { accessToken }= JSON.parse(tokens);
-    return accessToken;
-  }
-  static async useRefreshToken() {
-    const loginId = this.loginId;
 
-    while (loginId === this.loginId) {
-      const tokens = localStorage.getItem('tokens');
-      const {
-        accessToken,
-        accessTokenExpiresAt,
-        refreshToken,
-        refreshTokenExpiresAt
-      } = JSON.parse(tokens);
+    const {
+      accessToken,
+      accessTokenExpiresAt,
+      refreshToken,
+      refreshTokenExpiresAt
+    } = JSON.parse(tokens);
 
-      const refreshTokenisExpired = new Date((refreshTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
-      if (refreshTokenisExpired) {
-        return this.deleteToken();
-      }
-
-      const accessTokenExpiresIn = new Date((accessTokenExpiresAt - 10)* 1000).getTime() - new Date().getTime();
-      await new Promise(r => setTimeout(r, accessTokenExpiresIn));
-
-      await this.postRefreshToken(accessToken,refreshToken);
+    const accessTokenisExpired = new Date((accessTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
+    if (!accessTokenisExpired) {
+      return accessToken;
     }
+
+    const refreshTokenisExpired = new Date((refreshTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
+    if (refreshTokenisExpired) {
+      this.deleteToken();
+      throw new AppError("Veuillez vous reconnecter.", {httpStatus: 401});
+    }
+    
+    await this.postRefreshToken(accessToken,refreshToken)
+
+    this.getValidToken();
   }
   static async postRefreshToken(accessToken,refreshToken) {
     const httpResponse = await fetch(`${apiBaseUrl}/user/token`, {
@@ -203,10 +208,9 @@ class TokenApi {
     this.errorHandler(httpResponse);
 
     const newTokens = await httpResponse.json();
-    localStorage.setItem('tokens', JSON.stringify(newTokens));
+    this.addNewTokken(newTokens);
   }
   static deleteToken() {
-    this.loginId = null;
     localStorage.removeItem("token");
   }
   static async errorHandler(res) {
