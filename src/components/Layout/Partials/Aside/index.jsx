@@ -1,14 +1,21 @@
 import store from '../../../../store'
 import { useSelector } from 'react-redux';
-// import IndicatorsUX from '../../UXElements/components/IndicatorsUX'
+import Options from './OptionListFamily/Option';
+import OptionChosen from './OptionListChosenFamily/OptionChosen';
+import { MdKeyboardArrowDown } from "react-icons/md";
+
 
 import './Aside.scss'
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 const Aside = () => {
 
     const {filters} = useSelector((state) => state.filters)
     const {criterias} = useSelector((state) => state.criterias)
+    const {families} = useSelector((state) => state.families);
+    const [familiesCopy, setFamiliesCopy] = useState(families);
+    const [familiesChoices, setFamiliesChoices] = useState([])
 
     const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
@@ -67,6 +74,19 @@ const Aside = () => {
         store.dispatch({type:"TURN_FILTER"})
     }
 
+    const handleClickSelectFamily = (event) => {
+        const optionsContainer = event.target.closest("li").querySelector(".content");
+        optionsContainer.classList.toggle("hidden");
+        const arrowElement = event.target.querySelector(".arrowSoValue")
+        arrowElement.classList.toggle("rotate")
+    }
+
+    const handleChangeSearchFamily = (event) => {
+        console.log(familiesCopy)
+        const filteredResearch = families.filter((element) => element.name.toLowerCase().includes(event.target.value.toLocaleLowerCase()) );
+        setFamiliesCopy(filteredResearch)
+    }
+
 
 
     return(
@@ -98,6 +118,51 @@ const Aside = () => {
                                 <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangeNonFavoritesRecipesCriteria} checked={nonFavoritesRecipesCriteria?true:false}/>
                                 <label htmlFor="cookingTimeCriteria" >{criterias[5].name}</label>
                             </li>
+
+                            <li className='select-box'>
+                                <div className="select-option">
+                                    <button  id='soValue' onClick={handleClickSelectFamily}>Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue'/> </button> 
+                                </div>
+
+                                <div className="content hidden">
+
+                                    <div className="search">
+                                        <input type="search" id="optionSearch" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
+                                    </div>
+                                    <ul className="options" >
+                                        {familiesCopy.length > 0?
+                                            familiesCopy.map((family, index) => {
+                                                return(
+                                                    <Options key={index} family={family} setFamiliesChoices={setFamiliesChoices} >{family.name}</Options>
+                                                )
+                                            })
+                                            :
+                                            families.map((family, index) => {
+                                                return(
+                                                    <Options key={index} family={family} setFamiliesChoices={setFamiliesChoices} >{family.name}</Options>
+                                                )
+                                            })}
+
+                                    </ul>
+                                </div>
+                                
+                            </li>
+
+                            <li>
+                                <ul>
+                                    {familiesChoices ?
+                                        familiesChoices.map((family, index) => {
+                                            return(
+                                                <OptionChosen key={index} family={family} setFamiliesChoices={setFamiliesChoices}/>
+                                            )
+                                        })
+                                    :
+                                    ""}
+
+                                </ul>
+                            </li>
+
+                            
 
                 </ul>
 
