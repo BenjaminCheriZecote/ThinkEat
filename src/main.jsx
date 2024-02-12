@@ -18,6 +18,7 @@ import Recipes from './components/Roots/Recipes/index.jsx';
 import Recipe from './components/Roots/Recipe/index.jsx';
 import ValidateAccount, { validateAccountLoader } from './components/Roots/Validate/validateAccount.jsx';
 import ValidatePassword, { validatePasswordAction } from './components/Roots/Validate/validatePassword.jsx';
+import { homeLoader } from './components/Layout/Home/index.jsx';
 
 //
 

@@ -6,6 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import criteriasReducer from "./reducers/criterias";
 import filtersReducer from "./reducers/filters";
 import ingredientsReducer from "./reducers/ingredients";				
+import familiesReducer from "./reducers/families";
 				
 const store = configureStore({				
 	reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
 		recipes:recipesReducer, 
 		criterias:criteriasReducer,
 		filters:filtersReducer,
-		ingredients:ingredientsReducer
+		ingredients:ingredientsReducer,
+		families:familiesReducer
 	}			
 })				
 				
