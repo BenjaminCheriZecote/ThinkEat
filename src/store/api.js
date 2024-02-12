@@ -68,7 +68,7 @@ class CoreApi {
     return accessToken;
   }
   static async errorHandler(res) {
-    if (httpResponse.ok) return;
+    if (res.ok) return;
     if (!res.bodyUsed) {
       throw new AppError(res.statusText, {httpStatus: res.status});
     }
@@ -125,7 +125,7 @@ export class UserApi extends CoreApi {
 
   static getUser() {
     const userString = localStorage.getItem('String');
-    if (!user) {
+    if (!userString) {
       return null;
     }
 
