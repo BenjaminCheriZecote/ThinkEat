@@ -28,6 +28,8 @@ const Aside = () => {
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
     const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
     const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
+    const {familyIngredient} = useSelector((state) => state.filters.filters[5]);
+
 
     const handleChangeHungerBigCriteria = () => {
         store.dispatch({type:"SET_HUNGER_BIG_CRITERIA"});
@@ -70,23 +72,27 @@ const Aside = () => {
         store.dispatch({type:"SET_FAVORITES_FILTER"})
     }
 
-    const handleClickFilter = () => {
-        store.dispatch({type:"TURN_FILTER"})
-    }
-
+    
     const handleClickSelectFamily = (event) => {
         const optionsContainer = event.target.closest("li").querySelector(".content");
         optionsContainer.classList.toggle("hidden");
         const arrowElement = event.target.querySelector(".arrowSoValue")
         arrowElement.classList.toggle("rotate")
     }
-
+    
     const handleChangeSearchFamily = (event) => {
-        console.log(familiesCopy)
         const filteredResearch = families.filter((element) => element.name.toLowerCase().includes(event.target.value.toLocaleLowerCase()) );
         setFamiliesCopy(filteredResearch)
     }
-
+    
+    const handleChangeFamilyFilter = () => {
+        console.log("test")
+        store.dispatch({type:"SET_FAMILY_FILTER"})
+    }
+    
+    const handleClickFilter = () => {
+        store.dispatch({type:"TURN_FILTER"})
+    }
 
 
     return(
@@ -190,9 +196,15 @@ const Aside = () => {
                         </li>
 
                         <li>
-                            <input id="favoriteCriteria" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
-                            <label htmlFor="favoriteCriteria" >{filters[4].name}</label>
+                            <input id="familyIngredient" type="checkbox" onChange={handleChangeFamilyFilter} checked={familyIngredient?true:false}/>
+                            <label htmlFor="familyIngredient" >{filters[5].name}</label>
                         </li>
+                        
+                        <li>
+                            <input id="favoriteFilter" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
+                            <label htmlFor="favoriteFilter" >{filters[4].name}</label>
+                        </li>
+
 
                         <li>
                             <button onClick={handleClickFilter}>Filtrer</button>
