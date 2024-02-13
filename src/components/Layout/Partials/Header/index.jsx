@@ -15,9 +15,6 @@ const Header = () => {
     const {isConnected} = useSelector((state) => state.session);
     const {name} = useSelector((state) => state.session);
     const {isAdmin} =useSelector((state) => state.session);
-
-    console.log(name)
-    console.log(isAdmin)
     
 
     const navigate=  useNavigate()
@@ -42,6 +39,7 @@ const Header = () => {
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Acceuil</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
                     {isConnected?
                     <>
                         <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
@@ -49,7 +47,6 @@ const Header = () => {
                     </>
                         :
                         ""}
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
                     
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
                 </nav>

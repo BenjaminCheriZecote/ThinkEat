@@ -12,6 +12,7 @@ import store from "../../../store";
 
 
 import './Proposal.scss';
+import { NavLink } from "react-router-dom";
 
 // {
     //     id:1,
@@ -26,6 +27,7 @@ import './Proposal.scss';
 
 const Proposal = () => {
 
+    const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
     const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
@@ -206,6 +208,7 @@ const Proposal = () => {
 
     const handleClickValidateChoices = () => {
         
+
         if (proposal.array.length > 0) {
             const findProposal = historical_propositions.find((e) => e.historic.id === proposal.id)
             if (!findProposal) store.dispatch({type:"SET_HISTORIC", payload:[... historical_propositions, {date:new Date().toLocaleString(), historic:proposal}]});
@@ -248,13 +251,19 @@ const Proposal = () => {
                             </ul>
                             }
 
-                            <div className="section__btnValidate">
-                                <button onClick={handleClickValidateChoices}>Valider mes choix</button>
-                            </div>
+                            {isConnected?
+                                <div className="section__btnValidate">
+                                    <button onClick={handleClickValidateChoices}>Valider mes choix</button>
+                                </div>
+                                :
+                                <div className="section__btnValidate">
+                                    <NavLink to={"/signin"}>Connecte toi pour valider tes choix</NavLink>
+                                </div>
+                                }
                     </>
                         :
                         
-                        <p className="section__pNoResults">Aucun résultats</p>
+                        <p className="section__pNoResults">Aucun résultats. Précise tes critères</p>
                     }
             </section>
         </>
