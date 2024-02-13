@@ -18,8 +18,11 @@
     padding: 1rem 1rem;
     position: absolute;
     top:calc(var(--padHeader) + 2rem);
-    right:0;
-    
+    right:0;  
+}
+
+.header-rightSide__boxProfile > div {
+    display:flex;
 }
 
 .header-rightSide__boxProfile button {

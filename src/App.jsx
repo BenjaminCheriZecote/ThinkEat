@@ -5,7 +5,7 @@ import Aside from './components/Layout/Partials/Aside';
 import Footer from './components/Layout/Partials/Footer';
 import { Outlet } from 'react-router-dom';
 import store from './store';
-import './styles/test.css'
+
 
 
 function App() {

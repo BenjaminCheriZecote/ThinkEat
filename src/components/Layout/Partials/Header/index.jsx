@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { CgProfile } from "react-icons/cg";
 import { CiSearch } from "react-icons/ci";
+import { IoIosSettings } from "react-icons/io";
 
 import { NavLink } from "react-router-dom";
 
@@ -57,7 +58,11 @@ const Header = () => {
                     <div><CgProfile onClick={handleClick}/>
                     {isConnected?
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
-                        <NavLink to="/profile">{name}</NavLink>
+                            <div>
+                                <p>{name}</p> 
+                                <NavLink to="/profil"><IoIosSettings/></NavLink>
+                            </div>
+                        
                         
                         
                         
