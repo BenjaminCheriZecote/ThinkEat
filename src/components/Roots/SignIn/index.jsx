@@ -12,12 +12,12 @@ export default function SignIn() {
       <section className='section'>
         <Form className='section__form' method="post">
           <h2 className='section-form__h2'>Connection</h2>
-          <div className='section-form__divEmail'>
+          <div className='section-form__div'>
             <label htmlFor="email">Email :</label>
             <input type="email" name="email" id="email"/>
           </div>
 
-          <div className='section-form__divPassword'>
+          <div className='section-form__div'>
             <label htmlFor="password">Mot de passe :</label>
             <input type="password" name="password" id="password"/>
             {!!error && <p>{error}</p>}
