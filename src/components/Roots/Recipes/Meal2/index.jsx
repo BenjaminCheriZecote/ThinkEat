@@ -12,6 +12,7 @@ import { IoStarOutline } from "react-icons/io5";
 
 const Meal = ({meal, isAdmin}) => {
 
+    const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
     const [updateMode, setUpdateMode] = useState(false);
@@ -40,15 +41,17 @@ const Meal = ({meal, isAdmin}) => {
     return(
         <li  className="section__li">
                 <div className="section-li__container--boxLegend">
-                    <p>{meal.name}</p>
-                    <NavLink to={`/recipes/${meal.id}`}>Voir la recette</NavLink>
+                    <NavLink to={`/recipes/${meal.id}`}>{meal.name}</NavLink>
                 </div>
                 <div className="section-li__container--options">
                     {!isAdmin?
+                        isConnected?
                         favorites.find((element) => element.id === meal.id)?
                             <IoStarSharp onClick={handleClickDeleteFavorites}/>
                             :
                             <IoStarOutline onClick={handleClickAddFavorites}/>
+                            :
+                            ""
                         :
                         <>
                             <FaPen onClick={handleClickUpdate}/>

@@ -27,7 +27,11 @@ height: 100%;
 
 .section-li__container--boxLegend  {
     display: flex;
-   
+}
+
+// lien NavLink des recettes
+.section-li__container--boxLegend > * {
+    width:13rem;
 }
 
 .section-li__container--boxImg img {
