@@ -20,7 +20,7 @@ const Recipes = () => {
     const {recipes} = useSelector((state) => state.recipes)
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
-    const [isAdmin, setAdmin] = useState(false);
+    const {isAdmin} =useSelector((state) => state.session);
 
     useEffect(() => {
         setCopy(recipes)
@@ -72,7 +72,7 @@ const Recipes = () => {
             <ul className="section__ulContainerRecipes">
                 {recipesCopy.length > 0?
                     recipesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
+                        return(<Meal key={index} meal={meal} isAdmin={isAdmin}/>)
                     })
                     :
                     ""

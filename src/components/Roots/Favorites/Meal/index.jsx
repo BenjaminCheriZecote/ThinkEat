@@ -30,8 +30,8 @@ const Meal = ({meal}) => {
     return(
         <li  className="section__li">
                 <div className="section-li__container--boxLegend">
-                    <p>{meal.name}</p>
-                    <NavLink to={`/recipes/${meal.id}`}>Voir la recette</NavLink>
+                    <NavLink to={`/recipes/${meal.id}`}>{meal.name}</NavLink>
+                    
                 </div>
 
                 <div className="section-li__container--options">

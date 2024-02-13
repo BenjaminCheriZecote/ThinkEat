@@ -10,9 +10,10 @@ import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
 import { IoStarOutline } from "react-icons/io5";
 
 
-const Meal = ({meal, isAdmin}) => {
+const Meal = ({meal}) => {
 
     const {isConnected} = useSelector((state) => state.session);
+    const {isAdmin} =useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
     const [updateMode, setUpdateMode] = useState(false);
@@ -44,7 +45,12 @@ const Meal = ({meal, isAdmin}) => {
                     <NavLink to={`/recipes/${meal.id}`}>{meal.name}</NavLink>
                 </div>
                 <div className="section-li__container--options">
-                    {!isAdmin?
+                    {isAdmin?
+                        <>
+                            <FaPen onClick={handleClickUpdate}/>
+                            <MdCancel onClick={handleClickDelete}/>
+                        </>
+                        :
                         isConnected?
                         favorites.find((element) => element.id === meal.id)?
                             <IoStarSharp onClick={handleClickDeleteFavorites}/>
@@ -52,11 +58,6 @@ const Meal = ({meal, isAdmin}) => {
                             <IoStarOutline onClick={handleClickAddFavorites}/>
                             :
                             ""
-                        :
-                        <>
-                            <FaPen onClick={handleClickUpdate}/>
-                            <MdCancel onClick={handleClickDelete}/>
-                        </>
                     }
                     {updateMode?
                     <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
