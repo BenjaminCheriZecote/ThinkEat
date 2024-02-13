@@ -13,7 +13,12 @@ const Header = () => {
 
     const boxProfile = useRef();
     const {isConnected} = useSelector((state) => state.session);
-    const {userName} = useSelector((state) => state.session);
+    const {name} = useSelector((state) => state.session);
+    const {isAdmin} =useSelector((state) => state.session);
+
+    console.log(name)
+    console.log(isAdmin)
+    
 
     const navigate=  useNavigate()
 
@@ -37,18 +42,23 @@ const Header = () => {
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Acceuil</NavLink>
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
+                    {isConnected?
+                    <>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
+                    </>
+                        :
+                        ""}
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
+                    
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
                 </nav>
                     <div><CiSearch /></div>
                     <div><CgProfile onClick={handleClick}/>
                     {isConnected?
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
-                        <a href="/profile">
-                            <p>{userName}</p>
-                        </a>
+                        <NavLink to="/profile">{name}</NavLink>
+                        
                         
                         
                         <button onClick={handleClickDeconnexion}>Se déconnecter</button>
@@ -57,13 +67,13 @@ const Header = () => {
                         :
                         <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
                             
-                            <a href="/signin">
+                            <NavLink to="/signin">
                                 <button >Se connecter</button>
-                            </a>
+                            </NavLink>
                             
-                            <a href="/signup">
+                            <NavLink to="/signup">
                                 <button>Créer un compte</button>
-                            </a>
+                            </NavLink>
                         </div> 
                         }
                     </div>
