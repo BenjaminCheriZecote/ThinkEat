@@ -214,7 +214,7 @@ class TokenApi {
     localStorage.removeItem("token");
   }
   static async errorHandler(res) {
-    if (httpResponse.ok) return;
+    if (res.ok) return;
     if (!res.bodyUsed) {
       throw new AppError(res.statusText, {httpStatus: res.status});
     }
