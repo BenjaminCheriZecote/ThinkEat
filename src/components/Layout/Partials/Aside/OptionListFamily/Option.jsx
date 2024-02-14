@@ -19,8 +19,8 @@ const Options = ({family, ingredient}) => {
             }
         }
         if (ingredient) {
-            // console.log(ingredient)
-            // console.log(ingredientsChoices)
+            console.log(ingredient)
+            console.log(ingredientsChoices)
             if (ingredientsChoices.length <= 0) {
                 store.dispatch({type:"ADD_ONE_INGREDIENT_CHOICES", payload:ingredient.name})
             } else {

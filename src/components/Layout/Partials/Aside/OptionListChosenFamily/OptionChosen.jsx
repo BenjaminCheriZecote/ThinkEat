@@ -4,14 +4,10 @@ import { useSelector } from "react-redux";
 
 
 const OptionChosen = ({choosen,stateName}) => {
-    
-  console.log(choosen)
   
   const stateBranch = useSelector((state) => state[stateName])
   const choices = stateBranch[`${stateName}Choices`]
   const handleClickOption = () => {
-    console.log("test")
-   
     const newArray = choices.filter((element) => element !== choosen);
     store.dispatch({type:`SET_${stateName.toUpperCase()}_CHOICES`, payload:newArray})
   }

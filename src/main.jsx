@@ -18,14 +18,12 @@ import Recipes from './components/Roots/Recipes/index.jsx';
 import Recipe from './components/Roots/Recipe/index.jsx';
 import ValidateAccount, { validateAccountLoader } from './components/Roots/Validate/validateAccount.jsx';
 import ValidatePassword, { validatePasswordAction } from './components/Roots/Validate/validatePassword.jsx';
-import { homeLoader } from './components/Layout/Home/index.jsx';
+
 import Profil from './components/Roots/Profile/index.jsx';
 import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
 import Account from './components/Roots/Profile/Account/index.jsx.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
 import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
-
-//
 
 const router = createBrowserRouter([									
 	{								
@@ -33,7 +31,7 @@ const router = createBrowserRouter([
 		element: <App />, loader:asideLoader,							
 		// errorElement: <NotFound />,											
 		children: [							
-      { index: true, element: <Home />, loader:homeLoader},
+      { index: true, element: <Home />},
       { path: "/favorites", element: <Favorites /> },
       { path: "/proposal", element: <Proposal /> },
       { path: "/historic", element: <Historic /> },

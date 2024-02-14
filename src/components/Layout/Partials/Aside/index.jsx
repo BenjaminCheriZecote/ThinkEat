@@ -25,6 +25,7 @@ const Aside = () => {
     const {ingredientsChoices} = useSelector((state) => state.ingredients);
     
     const allFamilies = {families,familiesChoices,familiesCopy}
+    const allIngredients = {ingredients, ingredientsChoices, ingredientsCopy}
     
     // const {ingredientsbis} = useSelector((state) => state.ingredients)
     const [isRotatedFamilyIngredientSelect, setIsRotatedFamilyIngredient] = useState(false)
@@ -113,12 +114,9 @@ const Aside = () => {
         store.dispatch({type:"SET_FAMILY_FILTER"})
     }
 
-    
     const handleClickFilter = () => {
         store.dispatch({type:"TURN_FILTER"})
     }
-
-    console.log(ingredientsChoices)
     return(
         <aside className="aside">
             
@@ -166,7 +164,7 @@ const Aside = () => {
                                       {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
                                         <Options key={index} family={family} >{family.name}</Options>
                                       ))}
-                                    {familiesCopy.length > 0 ? (
+                                    {/* {familiesCopy.length > 0 ? (
                                             familiesCopy.map((family, index) => (
                                                 <Options key={index} family={family} >{family.name}</Options>
                                             ))
@@ -177,7 +175,7 @@ const Aside = () => {
                                                     <Options key={index} family={family} >{family.name}</Options>
                                                 ))}
                                             </>
-                                        )}
+                                        )} */}
                                     </ul>
                                 </div>
                                 
@@ -198,7 +196,11 @@ const Aside = () => {
                                         console.log(ingredient)
                                         return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
                                       })}
-                                    {ingredientsCopy.length > 0 ? (
+                                      {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
+                                       <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                      ))}
+
+                                    {/* {ingredientsCopy.length > 0 ? (
                                             ingredientsCopy.map((ingredient, index) => (
                                                 <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
                                             ))
@@ -208,7 +210,7 @@ const Aside = () => {
                                                     <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
                                                 ))}
                                             </>
-                                        )}
+                                        )} */}
                                     </ul>
                                 </div>
                                 
