@@ -1,0 +1,103 @@
+.aside {
+    
+    display:flex;
+    flex-direction: column;
+    width:25%;
+    justify-content: space-between;
+    padding:1rem;
+    background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside1), var(--colorbgAside2));
+}
+
+.aside__nav {
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+}
+
+.asideA {
+    padding:1rem;
+    background-color:var(--color1);
+    color:white;
+} 
+
+.aside-nav__navLink {
+    text-decoration: none;
+    color:initial;
+}
+
+.menu-link {
+    text-decoration: none;
+    color: rgba(202, 94, 61, 0.75);
+}
+
+.selectBox {
+    position: relative;
+}
+
+#soValue {
+    cursor: pointer;
+    margin: 0.5rem 0rem;
+    
+}
+
+.rotate {
+    transform: rotate(180deg)
+}
+
+
+.selectOptions {
+    position: relative;
+    cursor: pointer;
+}
+
+.selectOptions:after {
+    content:"";
+    position: absolute;
+    right:15px;
+    top:50%;
+}
+
+.options {
+    
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 15rem;
+    border-radius: 0.3rem;
+}
+
+.content {
+    margin-top: 0.3rem;
+    background-color: white;
+    position: absolute;
+    z-index:9;
+}
+
+.search {
+    margin-bottom: 0.2rem;
+    position: sticky;
+    top:0;
+    overflow: hidden;
+}
+
+.liOptions {
+    padding:0.3rem;
+    cursor: pointer;
+}
+
+.liOptions, #soValue, .search {
+    padding:0.3rem;
+}
+
+.optionChosen {
+    display: flex;
+    gap:0.3rem;
+    align-items: center;
+    margin:0.2rem 0rem;
+}
+
+.optionChosen > p {
+    font-size:0.8rem;
+}
+
+
+

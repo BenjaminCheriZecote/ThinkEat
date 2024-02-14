@@ -5,13 +5,16 @@ import OptionChosen from './OptionListChosenFamily/OptionChosen';
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 
-import './Aside.scss'
+// import './Aside.scss'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { FamilyApi, IngredientApi } from '../../../../store/api';
+import style from './Aside.module.css'
 
 
 const Aside = () => {
+
+    const [activeSelector, setActiveSelector] = useState(null)
 
     
     const {filters} = useSelector((state) => state.filters)
@@ -86,15 +89,28 @@ const Aside = () => {
         store.dispatch({type:"SET_FAVORITES_FILTER"})
     }
 
-    const handleClickSelectFamily = (event) => {
-        const optionsContainer = event.target.closest("li").querySelector(".content");
-        optionsContainer.classList.toggle("hidden");
+    const handleClickSelectFamily = () => {
+        if (activeSelector !== "families") {
+            setActiveSelector("families");
+        } else {
+            setActiveSelector(null)
+        }
         setIsRotatedFamilyIngredient(!isRotatedFamilyIngredientSelect);
+        if (isRotatedIngredientSelect) {
+            setIsRotatedIngredient(!isRotatedIngredientSelect);
+        }
     }
 
-    const handleClickSelectIngredient = (event) => {
-        const optionsContainer = event.target.closest("li").querySelector(".content");
-        optionsContainer.classList.toggle("hidden");
+    const handleClickSelectIngredient = () => {
+        // const optionsContainer = event.target.closest("li").querySelector(".content");
+        // optionsContainer.classList.toggle("hidden");
+        if (activeSelector !== "ingredients") {
+            setActiveSelector("ingredients");
+            
+        } else {
+            setActiveSelector(null)
+            setIsRotatedIngredient(false)
+        }
         setIsRotatedIngredient(!isRotatedIngredientSelect);
     }
 
@@ -118,9 +134,9 @@ const Aside = () => {
         store.dispatch({type:"TURN_FILTER"})
     }
     return(
-        <aside className="aside">
+        <aside className={style.aside}>
             
-                <ul className="aside__top"> Critères
+                <ul className={style.aside__top}> Critères
                     
                             <li>
                                 <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerBigCriteria} checked={hungerBigCriteria?true:false}/>
@@ -147,51 +163,53 @@ const Aside = () => {
                                 <label htmlFor="cookingTimeCriteria" >{criterias[5].name}</label>
                             </li>
 
-                            <li className='select-box'>
-                                <div className="select-option" onClick={handleClickSelectFamily}>
-                                    <button  >Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
+                            <li className={style.selectBox}>
+                                <div className={style.selectOption} onClick={handleClickSelectFamily}>
+                                    <button  >Catégorie d'ingrédients <MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
                                 </div>
 
-                                <div className="content hidden">
+                                {activeSelector === "families" && 
+                                    <div className={`${style.content}`}>
 
-                                    <div className="search">
-                                        <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
-                                    </div>
-                                    <ul className="options" >
-                                      {familiesChoices.map((family, index) => (
-                                        <OptionChosen key={index} choosen={family} stateName="families" />
-                                      ))}
-                                      {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
-                                        <Options key={index} family={family} >{family.name}</Options>
-                                      ))}
-                                    {/* {familiesCopy.length > 0 ? (
-                                            familiesCopy.map((family, index) => (
-                                                <Options key={index} family={family} >{family.name}</Options>
-                                            ))
-                                        ) : (
-                                            <>
-                                                
-                                                {families.map((family, index) => (
+                                        <div className={style.search}>
+                                            <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
+                                        </div>
+                                        <ul className={style.options} >
+                                        {familiesChoices.map((family, index) => (
+                                            <OptionChosen key={index} choosen={family} stateName="families" />
+                                        ))}
+                                        {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
+                                            <Options key={index} family={family} >{family.name}</Options>
+                                        ))}
+                                        {/* {familiesCopy.length > 0 ? (
+                                                familiesCopy.map((family, index) => (
                                                     <Options key={index} family={family} >{family.name}</Options>
-                                                ))}
-                                            </>
-                                        )} */}
-                                    </ul>
-                                </div>
+                                                ))
+                                            ) : (
+                                                <>
+                                                    
+                                                    {families.map((family, index) => (
+                                                        <Options key={index} family={family} >{family.name}</Options>
+                                                    ))}
+                                                </>
+                                            )} */}
+                                        </ul>
+                                    </div>}
                                 
                             </li>
 
-                            <li className='select-box'>
-                                <div className="select-option" onClick={handleClickSelectIngredient}>
-                                    <button >Ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
+                            <li className={style.selectBox}>
+                                <div className={style.selectOption} onClick={handleClickSelectIngredient}>
+                                    <button >Ingrédients <MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
                                 </div>
 
-                                <div className="content hidden">
+                                {activeSelector === "ingredients" &&
+                                <div className={`${style.content} ${style.hidden}`}>
 
-                                    <div className="search">
+                                    <div className={style.search}>
                                         <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
                                     </div>
-                                    <ul className="options" >
+                                    <ul className={style.options} >
                                       {ingredientsChoices.map((ingredient, index) => {
                                         console.log(ingredient)
                                         return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
@@ -212,7 +230,7 @@ const Aside = () => {
                                             </>
                                         )} */}
                                     </ul>
-                                </div>
+                                </div>}
                                 
                             </li>         
 
@@ -259,7 +277,7 @@ const Aside = () => {
                 </div>
                     
             
-            <NavLink className="aside__a" to={"/proposal"}>Nouvelle proposition</NavLink>
+            <NavLink className={style.asideA} to={"/proposal"}>Nouvelle proposition</NavLink>
         </aside>
     )
 };
