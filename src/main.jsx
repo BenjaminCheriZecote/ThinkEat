@@ -23,13 +23,14 @@ import Profil from './components/Roots/Profile/index.jsx';
 import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
 import Account from './components/Roots/Profile/Account/index.jsx.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
+import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
 
 //
 
 const router = createBrowserRouter([									
 	{								
 		path: "/",							
-		element: <App />,							
+		element: <App />, loader:asideLoader,							
 		// errorElement: <NotFound />,											
 		children: [							
       { index: true, element: <Home />, loader:homeLoader},

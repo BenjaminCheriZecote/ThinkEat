@@ -8,29 +8,41 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import './Aside.scss'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import { FamilyApi, IngredientApi } from '../../../../store/api';
+
 
 const Aside = () => {
 
+    
     const {filters} = useSelector((state) => state.filters)
     const {criterias} = useSelector((state) => state.criterias)
     const {families} = useSelector((state) => state.families);
     const [familiesCopy, setFamiliesCopy] = useState(families);
-    const [familiesChoices, setFamiliesChoices] = useState([])
-
+    const {familiesChoices} = useSelector((state) => state.families);
+    
+    const {ingredients} = useSelector((state) => state.ingredients);
+    const [ingredientsCopy, setIngredientsCopy] = useState(ingredients);
+    const {ingredientsChoices} = useSelector((state) => state.ingredients);
+    
+    
+    // const {ingredientsbis} = useSelector((state) => state.ingredients)
+    const [isRotatedFamilyIngredientSelect, setIsRotatedFamilyIngredient] = useState(false)
+    const [isRotatedIngredientSelect, setIsRotatedIngredient] = useState(false)
+    
     const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
     const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
     const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
     const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
     const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
-
+    
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
     const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
     const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
     const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
     const {familyIngredient} = useSelector((state) => state.filters.filters[5]);
-
-
+    
+    
     const handleChangeHungerBigCriteria = () => {
         store.dispatch({type:"SET_HUNGER_BIG_CRITERIA"});
     }
@@ -72,23 +84,34 @@ const Aside = () => {
         store.dispatch({type:"SET_FAVORITES_FILTER"})
     }
 
-    
     const handleClickSelectFamily = (event) => {
         const optionsContainer = event.target.closest("li").querySelector(".content");
         optionsContainer.classList.toggle("hidden");
-        const arrowElement = event.target.querySelector(".arrowSoValue")
-        arrowElement.classList.toggle("rotate")
+        setIsRotatedFamilyIngredient(!isRotatedFamilyIngredientSelect);
     }
+
+    const handleClickSelectIngredient = (event) => {
+        const optionsContainer = event.target.closest("li").querySelector(".content");
+        optionsContainer.classList.toggle("hidden");
+        setIsRotatedIngredient(!isRotatedIngredientSelect);
+    }
+
     
     const handleChangeSearchFamily = (event) => {
-        const filteredResearch = families.filter((element) => element.name.toLowerCase().includes(event.target.value.toLocaleLowerCase()) );
+        const filteredResearch = families.filter((element) => element.name.toLowerCase().startsWith(event.target.value.toLocaleLowerCase()));
         setFamiliesCopy(filteredResearch)
+    }
+
+    const handleChangeSearchIngredient = (event) => {
+        const filteredResearch = ingredients.filter((element) => element.name.toLowerCase().startsWith(event.target.value.toLocaleLowerCase()));
+        setIngredientsCopy(filteredResearch)
     }
     
     const handleChangeFamilyFilter = () => {
         console.log("test")
         store.dispatch({type:"SET_FAMILY_FILTER"})
     }
+
     
     const handleClickFilter = () => {
         store.dispatch({type:"TURN_FILTER"})
@@ -126,49 +149,64 @@ const Aside = () => {
                             </li>
 
                             <li className='select-box'>
-                                <div className="select-option">
-                                    <button  id='soValue' onClick={handleClickSelectFamily}>Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue'/> </button> 
+                                <div className="select-option" onClick={handleClickSelectFamily}>
+                                    <button  id='soValue'>Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
                                 </div>
 
                                 <div className="content hidden">
 
                                     <div className="search">
-                                        <input type="search" id="optionSearch" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
+                                        <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
                                     </div>
                                     <ul className="options" >
-                                        {familiesCopy.length > 0?
-                                            familiesCopy.map((family, index) => {
-                                                return(
-                                                    <Options key={index} family={family} setFamiliesChoices={setFamiliesChoices} >{family.name}</Options>
-                                                )
-                                            })
-                                            :
-                                            families.map((family, index) => {
-                                                return(
-                                                    <Options key={index} family={family} setFamiliesChoices={setFamiliesChoices} >{family.name}</Options>
-                                                )
-                                            })}
-
+                                    {familiesCopy.length > 0 ? (
+                                            familiesCopy.map((family, index) => (
+                                                <Options key={index} family={family} >{family.name}</Options>
+                                            ))
+                                        ) : (
+                                            <>
+                                                {familiesChoices.map((family, index) => (
+                                                    <OptionChosen key={index} family={family} />
+                                                ))}
+                                                {families.map((family, index) => (
+                                                    <Options key={index} family={family} >{family.name}</Options>
+                                                ))}
+                                            </>
+                                        )}
                                     </ul>
                                 </div>
                                 
                             </li>
 
-                            <li>
-                                <ul>
-                                    {familiesChoices ?
-                                        familiesChoices.map((family, index) => {
-                                            return(
-                                                <OptionChosen key={index} family={family} setFamiliesChoices={setFamiliesChoices}/>
-                                            )
-                                        })
-                                    :
-                                    ""}
+                            <li className='select-box'>
+                                <div className="select-option" onClick={handleClickSelectIngredient}>
+                                    <button  id='soValueI'>Ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
+                                </div>
 
-                                </ul>
-                            </li>
+                                <div className="content hidden">
 
-                            
+                                    <div className="search">
+                                        <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
+                                    </div>
+                                    <ul className="options" >
+                                    {ingredientsCopy.length > 0 ? (
+                                            ingredientsCopy.map((ingredient, index) => (
+                                                <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                            ))
+                                        ) : (
+                                            <>
+                                                {ingredientsChoices.map((ingredient, index) => (
+                                                    <OptionChosen key={index} ingredient={ingredient} />
+                                                ))}
+                                                {ingredients.map((ingredient, index) => (
+                                                    <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                ))}
+                                            </>
+                                        )}
+                                    </ul>
+                                </div>
+                                
+                            </li>         
 
                 </ul>
 
@@ -219,3 +257,34 @@ const Aside = () => {
 };
 
 export default Aside;
+
+export async function asideLoader() {
+    async function fetchDataFamilyApi() {
+        try {
+            const families = await FamilyApi.getAll();
+            console.log(families)
+            store.dispatch({type:"SET_FAMILIES", payload: families})
+            return families
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    fetchDataFamilyApi()
+
+    // async function fetchDataIngredientApi() {
+    //     try {
+    //         const ingredients = await IngredientApi.getAll();
+    //         console.log(ingredients)
+    //         store.dispatch({type:"SET_INGREDIENTS_BIS", payload: ingredients})
+    //         return ingredients
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // fetchDataIngredientApi()
+
+    // route back à corrigé
+
+    // autre fetch ici
+    return null;
+  }

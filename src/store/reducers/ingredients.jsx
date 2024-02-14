@@ -152,15 +152,25 @@ export const initialStateIngredients = {
             name:"Ail",
             image:"/ail.png"
         },
-
-    ]					
+    ],
+    ingredientsChoices:[],
+    ingredientsbis:[]					
 }						
 						
 const ingredientsReducer = createReducer (initialStateIngredients, (builder) => {						
 	builder					
 	.addCase(createAction("SET_INGREDIENTS"), (state, action) => {					
 		state.ingredients = action.payload				
-	})			
+	})
+    .addCase(createAction("ADD_ONE_INGREDIENT_CHOICES"), (state, action) => {					
+		state.ingredientsChoices = [...state.ingredientsChoices, action.payload]				
+	})
+	.addCase(createAction("SET_INGREDIENTS_CHOICES"), (state, action) => {					
+		state.ingredientsChoices = action.payload				
+	})	
+    .addCase(createAction("SET_INGREDIENTS_BIS"), (state, action) => {					
+		state.ingredients = action.payload				
+	})		
 })						
 						
 export default ingredientsReducer;	
