@@ -24,6 +24,7 @@ const Aside = () => {
     const [ingredientsCopy, setIngredientsCopy] = useState(ingredients);
     const {ingredientsChoices} = useSelector((state) => state.ingredients);
     
+    const allFamilies = {families,familiesChoices,familiesCopy}
     
     // const {ingredientsbis} = useSelector((state) => state.ingredients)
     const [isRotatedFamilyIngredientSelect, setIsRotatedFamilyIngredient] = useState(false)
@@ -117,7 +118,7 @@ const Aside = () => {
         store.dispatch({type:"TURN_FILTER"})
     }
 
-
+    console.log(ingredientsChoices)
     return(
         <aside className="aside">
             
@@ -150,7 +151,7 @@ const Aside = () => {
 
                             <li className='select-box'>
                                 <div className="select-option" onClick={handleClickSelectFamily}>
-                                    <button  id='soValue'>Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
+                                    <button  >Catégorie d'ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
                                 </div>
 
                                 <div className="content hidden">
@@ -159,15 +160,19 @@ const Aside = () => {
                                         <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
                                     </div>
                                     <ul className="options" >
+                                      {familiesChoices.map((family, index) => (
+                                        <OptionChosen key={index} choosen={family} stateName="families" />
+                                      ))}
+                                      {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
+                                        <Options key={index} family={family} >{family.name}</Options>
+                                      ))}
                                     {familiesCopy.length > 0 ? (
                                             familiesCopy.map((family, index) => (
                                                 <Options key={index} family={family} >{family.name}</Options>
                                             ))
                                         ) : (
                                             <>
-                                                {familiesChoices.map((family, index) => (
-                                                    <OptionChosen key={index} family={family} />
-                                                ))}
+                                                
                                                 {families.map((family, index) => (
                                                     <Options key={index} family={family} >{family.name}</Options>
                                                 ))}
@@ -180,7 +185,7 @@ const Aside = () => {
 
                             <li className='select-box'>
                                 <div className="select-option" onClick={handleClickSelectIngredient}>
-                                    <button  id='soValueI'>Ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
+                                    <button >Ingrédients <MdKeyboardArrowDown className='arrowSoValue' style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
                                 </div>
 
                                 <div className="content hidden">
@@ -189,15 +194,16 @@ const Aside = () => {
                                         <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
                                     </div>
                                     <ul className="options" >
+                                      {ingredientsChoices.map((ingredient, index) => {
+                                        console.log(ingredient)
+                                        return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
+                                      })}
                                     {ingredientsCopy.length > 0 ? (
                                             ingredientsCopy.map((ingredient, index) => (
                                                 <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
                                             ))
                                         ) : (
                                             <>
-                                                {ingredientsChoices.map((ingredient, index) => (
-                                                    <OptionChosen key={index} ingredient={ingredient} />
-                                                ))}
                                                 {ingredients.map((ingredient, index) => (
                                                     <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
                                                 ))}
@@ -262,7 +268,6 @@ export async function asideLoader() {
     async function fetchDataFamilyApi() {
         try {
             const families = await FamilyApi.getAll();
-            console.log(families)
             store.dispatch({type:"SET_FAMILIES", payload: families})
             return families
         } catch (error) {
