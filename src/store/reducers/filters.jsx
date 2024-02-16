@@ -9,7 +9,8 @@ const initialState = {
         {preparating_timeLongFilter:false, name:"Preparation longue"},
         {preparating_timeShortFilter:false, name:"Preparation courte"},
         {favoriteFilter:true, name:"Favoris"},
-        {familyIngredient:false, name:"Catégorie d'ingrédients"},
+        {familyIngredientFilter:false, name:"Catégorie d'ingrédients"},
+        {ingredientFilter:false, name:"Ingrédients"},
         {time:false, name:"Temps"},
         {diet_preferences:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}], name:"Régime alimentaire"},
         {type_ingredients:null},
@@ -36,7 +37,10 @@ const filtersReducer = createReducer (initialState, (builder) => {
 		state.filters[4].favoriteFilter = !state.filters[4].favoriteFilter
 	})
   .addCase(createAction("SET_FAMILY_FILTER"), (state) => {					
-		state.filters[5].familyIngredient = !state.filters[5].familyIngredient
+		state.filters[5].familyIngredientFilter = !state.filters[5].familyIngredientFilter
+	})
+  .addCase(createAction("SET_INGREDIENT_FILTER"), (state) => {					
+		state.filters[6].ingredientFilter = !state.filters[6].ingredientFilter
 	})
   .addCase(createAction("TURN_FILTER"), (state) => {					
 		state.filters[9].filter = !state.filters[9].filter

@@ -6,17 +6,23 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 // import './Aside.scss'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { FamilyApi, IngredientApi } from '../../../../store/api';
 import style from './Aside.module.css'
+import { Form } from 'react-router-dom';
+import { LiaEqualsSolid } from "react-icons/lia";
+import { LiaGreaterThanEqualSolid } from "react-icons/lia";
+import { LiaLessThanEqualSolid } from "react-icons/lia";
+
 
 
 const Aside = () => {
 
     const [activeSelector, setActiveSelector] = useState(null)
+    const location = useLocation();
+    const currentPath = location.pathname;
 
-    
     const {filters} = useSelector((state) => state.filters)
     const {criterias} = useSelector((state) => state.criterias)
     const {families} = useSelector((state) => state.families);
@@ -45,7 +51,11 @@ const Aside = () => {
     const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
     const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
     const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
-    const {familyIngredient} = useSelector((state) => state.filters.filters[5]);
+    const {familyIngredientFilter} = useSelector((state) => state.filters.filters[5]);
+    const {ingredientFilter} = useSelector((state) => state.filters.filters[6]);
+
+    
+    
     
     
     const handleChangeHungerBigCriteria = () => {
@@ -125,159 +135,320 @@ const Aside = () => {
         setIngredientsCopy(filteredResearch)
     }
     
-    const handleChangeFamilyFilter = () => {
-        console.log("test")
+    const handleChangeFamilyIngredientFilter = () => {
         store.dispatch({type:"SET_FAMILY_FILTER"})
     }
 
-    const handleClickFilter = () => {
+    const handleChangeIngredientFilter = () => {
+       store.dispatch({type:"SET_INGREDIENT_FILTER"})
+    }
+
+    const handleSubmitFilter = (event) => {
+        // event.preventDefault();
         store.dispatch({type:"TURN_FILTER"})
     }
     return(
         <aside className={style.aside}>
             
-                <ul className={style.aside__top}> Critères
+                <Form className={style.aside__formCriteria} method="get"> 
+                        <h3>Critères</h3>
+                        <fieldset>
+                            <legend>Faim</legend>
+                            <div>
+                                <li>
+                                    <label htmlFor="hungryCriteria" >{criterias[1].name}</label>
+                                    {/* <div className={style.checkboxWrapper19} >
+                                    <input id="cbtest19" type="checkbox"/>
+                                    <label className={style.checkBox} htmlFor="cbtest19">
+                                    </label></div> */}
+                                    <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerBigCriteria} checked={hungerBigCriteria?true:false}/>
+                                </li>
+
+                                <li>
+                                    <label htmlFor="hungryCriteria" >Normal</label>
+                                    <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/>
+                                </li>
+
+                                <li>
+                                    <label htmlFor="hungryCriteria" >{criterias[2].name}</label>
+                                    <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/>
+                                </li>
+
+                            </div>
+
+                        </fieldset>
                     
-                            <li>
-                                <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerBigCriteria} checked={hungerBigCriteria?true:false}/>
-                                <label htmlFor="hungryCriteria" >{criterias[1].name}</label>
-                            </li>
+                        <fieldset>
+                            <legend>Temps</legend>
+                            <div>
+                                <li>
+                                    <label htmlFor="cookingTimeCriteria" >{criterias[3].name}</label>
+                                    <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeLongCriteria} checked={preparating_timeLongCriteria?true:false}/>
+                                </li>
 
-                            <li>
-                                <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/>
-                                <label htmlFor="hungryCriteria" >{criterias[2].name}</label>
-                            </li>
+                                <li>
+                                    <label htmlFor="cookingTimeCriteria" >{criterias[4].name}</label>
+                                    <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeShortCriteria} checked={preparating_timeShortCriteria?true:false}/>
+                                </li>
+                            </div>
 
-                            <li>
-                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeLongCriteria} checked={preparating_timeLongCriteria?true:false}/>
-                                <label htmlFor="cookingTimeCriteria" >{criterias[3].name}</label>
-                            </li>
+                        </fieldset>
 
-                            <li>
-                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeShortCriteria} checked={preparating_timeShortCriteria?true:false}/>
-                                <label htmlFor="cookingTimeCriteria" >{criterias[4].name}</label>
-                            </li>
+                        <div className={style.asideFormCriteria__foodContainer}>
+                            <fieldset>
+                                <legend>Ingredients</legend>
+
+                                <li className={style.selectBox}>
+                                    <div className={style.selectOption} onClick={handleClickSelectFamily}>
+                                        <button >Catégories</button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
+                                    </div>
+
+                                    {activeSelector === "families" && 
+                                        <div className={style.content}>
+
+                                            <div className={style.search}>
+                                                <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
+                                            </div>
+                                            <ul className={style.options} >
+                                            {familiesChoices.map((family, index) => (
+                                                <OptionChosen key={index} choosen={family} stateName="families" />
+                                            ))}
+                                            {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
+                                                <Options key={index} family={family} >{family.name}</Options>
+                                            ))}
+                                            {/* {familiesCopy.length > 0 ? (
+                                                    familiesCopy.map((family, index) => (
+                                                        <Options key={index} family={family} >{family.name}</Options>
+                                                    ))
+                                                ) : (
+                                                    <>
+                                                        
+                                                        {families.map((family, index) => (
+                                                            <Options key={index} family={family} >{family.name}</Options>
+                                                        ))}
+                                                    </>
+                                                )} */}
+                                            </ul>
+                                        </div>}
+                                    
+                                </li>
+
+                                <li className={style.selectBox}>
+                                    <div className={style.selectOption} onClick={handleClickSelectIngredient}>
+                                        <button >Ingrédients </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
+                                    </div>
+
+                                    {activeSelector === "ingredients" &&
+                                    <div className={style.content}>
+
+                                        <div className={style.search}>
+                                            <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
+                                        </div>
+                                        <ul className={style.options} >
+                                        {ingredientsChoices.map((ingredient, index) => {
+                                            console.log(ingredient)
+                                            return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
+                                        })}
+                                        {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
+                                        <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                        ))}
+
+                                        {/* {ingredientsCopy.length > 0 ? (
+                                                ingredientsCopy.map((ingredient, index) => (
+                                                    <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                ))
+                                            ) : (
+                                                <>
+                                                    {ingredients.map((ingredient, index) => (
+                                                        <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                    ))}
+                                                </>
+                                            )} */}
+                                        </ul>
+                                    </div>}
+                                    
+                                </li> 
+                            </fieldset> 
+
+                            <fieldset>
+                                <legend>Régimes alimentaires</legend>
+                            </fieldset> 
+
+                        </div>
 
                             <li>
                                 <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangeNonFavoritesRecipesCriteria} checked={nonFavoritesRecipesCriteria?true:false}/>
                                 <label htmlFor="cookingTimeCriteria" >{criterias[5].name}</label>
                             </li>
 
-                            <li className={style.selectBox}>
-                                <div className={style.selectOption} onClick={handleClickSelectFamily}>
-                                    <button  >Catégorie d'ingrédients <MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
-                                </div>
-
-                                {activeSelector === "families" && 
-                                    <div className={`${style.content}`}>
-
-                                        <div className={style.search}>
-                                            <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
-                                        </div>
-                                        <ul className={style.options} >
-                                        {familiesChoices.map((family, index) => (
-                                            <OptionChosen key={index} choosen={family} stateName="families" />
-                                        ))}
-                                        {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
-                                            <Options key={index} family={family} >{family.name}</Options>
-                                        ))}
-                                        {/* {familiesCopy.length > 0 ? (
-                                                familiesCopy.map((family, index) => (
-                                                    <Options key={index} family={family} >{family.name}</Options>
-                                                ))
-                                            ) : (
-                                                <>
-                                                    
-                                                    {families.map((family, index) => (
-                                                        <Options key={index} family={family} >{family.name}</Options>
-                                                    ))}
-                                                </>
-                                            )} */}
-                                        </ul>
-                                    </div>}
-                                
-                            </li>
-
-                            <li className={style.selectBox}>
-                                <div className={style.selectOption} onClick={handleClickSelectIngredient}>
-                                    <button >Ingrédients <MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> </button> 
-                                </div>
-
-                                {activeSelector === "ingredients" &&
-                                <div className={`${style.content} ${style.hidden}`}>
-
-                                    <div className={style.search}>
-                                        <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
-                                    </div>
-                                    <ul className={style.options} >
-                                      {ingredientsChoices.map((ingredient, index) => {
-                                        console.log(ingredient)
-                                        return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
-                                      })}
-                                      {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
-                                       <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
-                                      ))}
-
-                                    {/* {ingredientsCopy.length > 0 ? (
-                                            ingredientsCopy.map((ingredient, index) => (
-                                                <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
-                                            ))
-                                        ) : (
-                                            <>
-                                                {ingredients.map((ingredient, index) => (
-                                                    <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
-                                                ))}
-                                            </>
-                                        )} */}
-                                    </ul>
-                                </div>}
-                                
-                            </li>         
-
-                </ul>
+                            <footer>
+                                <small>0 résultats possibles</small>
+                            </footer>        
+                </Form>
 
                 <div>
                     
-                    <ul> Filtres
-                        <li >
-                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hungerBigFilter?true:false}/>
-                            <label htmlFor="hungryFilter" >{filters[0].name}</label>
-                        </li>
+                    <Form className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":"/favorites"} onSubmit={handleSubmitFilter}>
+                        <h3>Filtres</h3>
+                        <fieldset>
+                            <legend>Faim</legend>
+                                <div>
+                                    <li>
+                                        <input id="hungerBigFilter" name="hunger" value="Copieux" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hungerBigFilter?true:false}/>
+                                        <label htmlFor="hungryBigFilter" >{filters[0].name}</label>
+                                    </li>
 
-                        <li>
-                            <input id="hungryFilter" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
-                            <label htmlFor="hungryFilter" >{filters[1].name}</label>
-                        </li>
+                                    <li>
+                                        <input id="hungerFewFilter" name="hunger" value="Normal" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
+                                        <label htmlFor="hungerFewFilter" >{filters[1].name}</label>
+                                    </li>
 
-                        <li>
-                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeLongFilter} checked={preparating_timeLongFilter?true:false}/>
-                            <label htmlFor="cookingTimeFilter" >{filters[2].name}</label>
-                        </li>
+                                    <li>
+                                        <input id="hungerNormalFilter" name="hunger" value="Léger" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
+                                        <label htmlFor="hungerNormalFilter" >Normal</label>
+                                    </li>
 
-                        <li>
-                            <input id="cookingTimeFilter" type="checkbox" onChange={handleChangePreparatingTimeShortFilter} checked={preparating_timeShortFilter?true:false}/>
-                            <label htmlFor="cookingTimeFilter" >{filters[3].name}</label>
-                        </li>
+                                </div>
+                        </fieldset>
 
-                        <li>
-                            <input id="familyIngredient" type="checkbox" onChange={handleChangeFamilyFilter} checked={familyIngredient?true:false}/>
-                            <label htmlFor="familyIngredient" >{filters[5].name}</label>
-                        </li>
+                        <fieldset>
+                            <legend>Temps</legend>
+                            <div>
+                                <li className={style.asideformFilter__inputTimeContainer}>
+                                    <label htmlFor="preparatingTimeFilter" >Préparation</label>
+                                    <div>
+                                        <span></span>
+                                        <input type="number" name="preparatingTimeFilter" id="preparatingTimeFilter" className={style.asideFormFilter__inputTime}/>
+                                    </div>
+                                </li>
+
+                                <li className={style.asideformFilter__inputTimeContainer}>
+                                    <label htmlFor="cookingTimeFilter" >Cuisson</label>
+                                    <div>
+                                        <span></span>
+                                        <input type="number" name="cookingTimeFilter" id="cookingTimeFilter" className={style.asideFormFilter__inputTime}/>
+                                    </div>
+                                </li>
+                                {/* <li className={style.asideformFilter__inputTimeContainer}>
+                                    <label htmlFor="timeFilter" >Total</label>
+                                    <div>
+                                        <span></span>
+                                        <input type="number" name="timeFilter" id="timeFilter" className={style.asideFormFilter__inputTime}/>
+                                    </div>
+                                </li> */}
+                            </div>
+                        </fieldset>
+
                         
+                            <fieldset>
+                                    <legend>Ingredients</legend>
+
+                                    <div className={style.asideFormFilter__foodContainer}>
+                                        <li className={style.selectBox}>
+                                            <div className={style.selectOption} onClick={handleClickSelectFamily}>
+                                                <button >Catégories</button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
+                                            </div>
+
+                                            {activeSelector === "families" && 
+                                                <div className={style.content}>
+
+                                                    <div className={style.search}>
+                                                        <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
+                                                    </div>
+                                                    <ul className={style.options} >
+                                                    {familiesChoices.map((family, index) => (
+                                                        <OptionChosen key={index} choosen={family} stateName="families" />
+                                                    ))}
+                                                    {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
+                                                        <Options key={index} family={family} >{family.name}</Options>
+                                                    ))}
+                                                    {/* {familiesCopy.length > 0 ? (
+                                                            familiesCopy.map((family, index) => (
+                                                                <Options key={index} family={family} >{family.name}</Options>
+                                                            ))
+                                                        ) : (
+                                                            <>
+                                                                
+                                                                {families.map((family, index) => (
+                                                                    <Options key={index} family={family} >{family.name}</Options>
+                                                                ))}
+                                                            </>
+                                                        )} */}
+                                                    </ul>
+                                                </div>}
+                                            
+                                        </li>
+
+                                        <li className={style.selectBox}>
+                                            <div className={style.selectOption} onClick={handleClickSelectIngredient}>
+                                                <button >Ingrédients  </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
+                                            </div>
+
+                                            {activeSelector === "ingredients" &&
+                                            <div className={style.content}>
+
+                                                <div className={style.search}>
+                                                    <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
+                                                </div>
+                                                <ul className={style.options} >
+                                                {ingredientsChoices.map((ingredient, index) => {
+                                                    console.log(ingredient)
+                                                    return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
+                                                })}
+                                                {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
+                                                <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                ))}
+
+                                                {/* {ingredientsCopy.length > 0 ? (
+                                                        ingredientsCopy.map((ingredient, index) => (
+                                                            <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                        ))
+                                                    ) : (
+                                                        <>
+                                                            {ingredients.map((ingredient, index) => (
+                                                                <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
+                                                            ))}
+                                                        </>
+                                                    )} */}
+                                                </ul>
+                                            </div>}
+                                            
+                                        </li> 
+
+                                    </div>
+
+                            </fieldset> 
+                        
+
                         <li>
-                            <input id="favoriteFilter" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
+                            <input id="favoriteFilter" name="favoriteFilter" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
                             <label htmlFor="favoriteFilter" >{filters[4].name}</label>
                         </li>
 
-
                         <li>
-                            <button onClick={handleClickFilter}>Filtrer</button>
+                            <button>Filtrer</button>
                         </li>
-                    </ul>
+                    </Form>
                 </div>
                     
             
-            <NavLink className={style.asideA} to={"/proposal"}>Nouvelle proposition</NavLink>
+            <NavLink className={style.asideA} to={"/proposal"}>
+                <p>Nouvelle proposition </p>
+                <label className={style.container}>
+                    <input checked="checked" type="checkbox"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="50px" width="50px" className={style.like}>
+                        <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20"></path>
+                    </svg>
+                    <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" className={style.celebrate}>
+                        <polygon points="0,0 10,10"></polygon>
+                        <polygon points="0,25 10,25"></polygon>
+                        <polygon points="0,50 10,40"></polygon>
+                        <polygon points="50,0 40,10"></polygon>
+                        <polygon points="50,25 40,25"></polygon>
+                        <polygon points="50,50 40,40"></polygon>
+                    </svg>
+                </label> 
+            </NavLink>
         </aside>
     )
 };

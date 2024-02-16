@@ -1,33 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .aside {
-    
+    font-family: 'Playpen Sans', cursive;
     display:flex;
     flex-direction: column;
     width:25%;
     justify-content: space-between;
     padding:1rem;
     background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside1), var(--colorbgAside2));
+    color: #ada28f;
 }
 
-.aside__nav {
-    display: flex;
+.aside__formCriteria, .aside__formFilter {
+    display:flex;
     flex-direction: column;
     gap:1rem;
-}
-
-.asideA {
     padding:1rem;
-    background-color:var(--color1);
-    color:white;
-} 
-
-.aside-nav__navLink {
-    text-decoration: none;
-    color:initial;
 }
+
+.aside__formCriteria h3, .aside__formFilter h3  {
+    font-family: "Poppins", sans-serif;
+    color:black;
+}
+
+aside label {
+    font-size:0.7rem;
+    
+}
+
+aside fieldset legend {
+    font-size:0.9rem;
+    margin-bottom: 0.2rem;
+    text-decoration: underline;
+}
+
+aside fieldset div {
+    display: flex;
+    width:100%;
+    justify-content: space-evenly;
+}
+
+aside fieldset div li {
+    display: flex;
+    align-items: center;
+}
+
+aside footer small {
+    font-size:0.6rem;
+}
+
+.asideFormCriteria__foodContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.asideFormCriteria__foodContainer > * {
+    width:50%;
+}
+
+.asideFormFilter__foodContainer {
+    display:flex;
+    gap:0.3rem;
+  
+}
+
+.asideFormFilter__inputTime {
+    background-color:inherit;
+    width:1rem;
+    border:none;
+    border-bottom: 1px black solid;
+}
+
+.asideformFilter__inputTimeContainer {
+    display:flex;
+    flex-direction: column;
+
+}
+
+
 
 .menu-link {
     text-decoration: none;
     color: rgba(202, 94, 61, 0.75);
+}
+
+form li {
+    list-style-type: none;
 }
 
 .selectBox {
@@ -43,11 +102,36 @@
 .rotate {
     transform: rotate(180deg)
 }
+.selectBox {
+    
+    margin: 0.5rem 0rem;
+    background-color: white;
+    width:90%;
+}
 
-
-.selectOptions {
+.selectOption {
     position: relative;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(238, 236, 236);
+    width:100%;
+    padding:0.3rem;
+}
+
+.selectOption, .content {
+    width:100%;
+}
+
+.selectOption, .selectOption button, .options, .content, .selectBox {
+    border-radius: 0.3rem;
+}
+
+
+.selectOption button {
+    border:none;
+    background-color: inherit;
+    
 }
 
 .selectOptions:after {
@@ -62,14 +146,17 @@
     overflow: hidden;
     overflow-y: scroll;
     max-height: 15rem;
-    border-radius: 0.3rem;
 }
 
 .content {
     margin-top: 0.3rem;
-    background-color: white;
+    display:flex;
+    flex-direction: column;
+    background-color: rgb(242, 242, 242);
     position: absolute;
+    left:0;
     z-index:9;
+    padding:0.4rem;
 }
 
 .search {
@@ -77,6 +164,12 @@
     position: sticky;
     top:0;
     overflow: hidden;
+    border:none;
+}
+
+.search input {
+    width:100%;
+    border:none;
 }
 
 .liOptions {
@@ -95,9 +188,270 @@
     margin:0.2rem 0rem;
 }
 
-.optionChosen > p {
+.content, .optionChosen > p, .search {
     font-size:0.8rem;
 }
+
+
+.optionChosen {
+    padding:1rem;
+}
+
+.asideA {
+    padding:1rem 1rem;
+    background-color:var(--color1);
+    color:white;
+    display:flex;
+    align-items: center;
+    position: relative;
+} 
+
+/* CHECKBOX */
+
+/* .checkboxWrapper19 {
+    box-sizing: border-box;
+    --background-color: #fff;
+    --checkbox-height: 25px;
+    
+  }
+  
+  @-moz-keyframes dothabottomcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) / 2);
+    }
+  }
+  
+  @-webkit-keyframes dothabottomcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) / 2);
+    }
+  }
+  
+  @keyframes dothabottomcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) / 2);
+    }
+  }
+  
+  @keyframes dothatopcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    50% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) * 1.2);
+    }
+  }
+  
+  @-webkit-keyframes dothatopcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    50% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) * 1.2);
+    }
+  }
+  
+  @-moz-keyframes dothatopcheck-19 {
+    0% {
+      height: 0;
+    }
+  
+    50% {
+      height: 0;
+    }
+  
+    100% {
+      height: calc(var(--checkbox-height) * 1.2);
+    }
+  }
+  
+  .checkboxWrapper19 input[type=checkbox] {
+    display: none;
+  }
+  
+  .checkboxWrapper19 .checkBox {
+    height: var(--checkbox-height);
+    width: var(--checkbox-height);
+    background-color: transparent;
+    border: calc(var(--checkbox-height) * .1) solid #000;
+    border-radius: 5px;
+    position: relative;
+    display: inline-block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-transition: border-color ease 0.2s;
+    -o-transition: border-color ease 0.2s;
+    -webkit-transition: border-color ease 0.2s;
+    transition: border-color ease 0.2s;
+    cursor: pointer;
+  }
+  
+  .checkboxWrapper19 .checkBox::before,
+    .checkboxWrapper19 .checkBox::after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    height: 0;
+    width: calc(var(--checkbox-height) * .2);
+    background-color: #34b93d;
+    display: inline-block;
+    -moz-transform-origin: left top;
+    -ms-transform-origin: left top;
+    -o-transform-origin: left top;
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    border-radius: 5px;
+    content: " ";
+    -webkit-transition: opacity ease 0.5;
+    -moz-transition: opacity ease 0.5;
+    transition: opacity ease 0.5;
+  }
+  
+  .checkboxWrapper19 .checkBox::before {
+    top: calc(var(--checkbox-height) * .72);
+    left: calc(var(--checkbox-height) * .41);
+    box-shadow: 0 0 0 calc(var(--checkbox-height) * .05) var(--background-color);
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  
+  .checkboxWrapper19 .checkBox::after {
+    top: calc(var(--checkbox-height) * .37);
+    left: calc(var(--checkbox-height) * .05);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+  
+  .checkboxWrapper19 input[type=checkbox]:checked + .checkBox,
+    .checkboxWrapper19 .checkBox.checked {
+    border-color: #34b93d;
+  }
+  
+  .checkboxWrapper19 input[type=checkbox]:checked + .checkBox::after,
+    .checkboxWrapper19 .checkBox.checked::after {
+    height: calc(var(--checkbox-height) / 2);
+    -moz-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+    -o-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+    -webkit-animation: dothabottomcheck-19 0.2s ease 0s forwards;
+    animation: dothabottomcheck-19 0.2s ease 0s forwards;
+  }
+  
+  .checkboxWrapper19 input[type=checkbox]:checked + .checkBox::before,
+    .checkboxWrapper19 .checkBox.checked::before {
+    height: calc(var(--checkbox-height) * 1.2);
+    -moz-animation: dothatopcheck-19 0.4s ease 0s forwards;
+    -o-animation: dothatopcheck-19 0.4s ease 0s forwards;
+    -webkit-animation: dothatopcheck-19 0.4s ease 0s forwards;
+    animation: dothatopcheck-19 0.4s ease 0s forwards;
+  } */
+
+
+
+
+/* CHECKBOX BTN GENERATE PROPOSITION ASIDE  */
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    width:2rem;
+    position: absolute;
+    right:0.8rem;
+  }
+  
+  .container input:checked ~ .like {
+    animation: kfs-fill-like .5s forwards;
+  }
+  
+  .container .like {
+    fill: none;
+    stroke: white;
+  }
+  
+  .container input:checked ~ .celebrate {
+    display: block;
+  }
+  
+  .container .celebrate {
+    position: absolute;
+    animation: kfs-celebrate 1s;
+    animation-fill-mode: forwards;
+    display: none;
+    stroke: white;
+  }
+  
+  @keyframes kfs-celebrate {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  
+    50% {
+      opacity: 1;
+    }
+  
+    100% {
+      transform: scale(1.5) rotate(180deg);
+      opacity: 0;
+      display: none;
+    }
+  }
+  
+  @keyframes kfs-fill-like {
+  
+    50% {
+      fill: white;
+      stroke: white;
+      transform: scale(1.2);
+    }
+  
+    100% {
+      fill: white;
+      stroke: white;
+    }
+  }
+
 
 
 

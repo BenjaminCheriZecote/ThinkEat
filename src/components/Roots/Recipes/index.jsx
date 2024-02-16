@@ -83,3 +83,72 @@ const Recipes = () => {
 }
 
 export default Recipes;
+
+export function recipesLoader(){
+
+    // on veut les valeurs de la query dans un tableau
+    // on veut mapper un nouveau tableau selon le typage du back, in incluant les valeurs de la query
+
+    const searchParams = new URLSearchParams(window.location.search);
+    
+
+    
+    const inputsName = ['hungerBigFilter',
+    'hungerFewFilter',
+    'hungerNormalFilter',
+    'preparatingTimeFilter',
+    'cookingTimeFilter',
+    'timeFilter',
+    'familyIngredientFilter',
+    'ingredientFilter',
+    'favoriteFilter'
+    ]
+
+    const valuesQueryFilter = inputsName.map((input) => {
+        const value = searchParams.get(input);
+        return [input, value]
+    })
+
+    const mappingQuery = [
+
+    ]
+
+    // const test = searchParams.get('hungerFewFilter');
+    // https://localhost:3000/api/recipe?recipe=[[‘cookingTime’,‘=’,’0’]]
+    // https://localhost:3000/api/recipe?recipe=[[‘hunger’,‘=’,’Léger’]]
+
+    const test = valuesQueryFilter.forEach((element) => {
+        if (element[0] === 'hungerBigFilter' && element [1] === 'on') {
+            mappingQuery.push(['hunger', '=', 'Copieux'])
+        }
+        if (element[0] === 'hungerNormalFilter' && element [1] === 'on') {
+            mappingQuery.push(['hunger', '=', 'Normal'])
+        }
+        if (element[0] === 'hungerNormalFilter' && element [1] === 'on') {
+            mappingQuery.push(['hunger', '=', 'Léger'])
+        }
+        // if (element[0] === 'preparatingTimeFilter' && element [1] !== null) {
+        //     mappingQuery.push(['preparation_time', '=', element[1]])
+        // }
+
+        if (element[0] === 'familyIngredientFilter' && element [1] !== null) {
+            mappingQuery.push(['name', '=', element[1]])
+        }
+        if (element[0] === 'ingredientFilter' && element [1] !== null) {
+            mappingQuery.push(['name', '=', element[1]])
+        }
+
+    })
+    
+
+    console.log("valuesQuery", valuesQueryFilter)
+    // console.log("valuesQuery element", valuesQuery[6])
+    // console.log("mappingQuery", mappingQuery)
+
+    
+
+
+
+
+    return null
+}

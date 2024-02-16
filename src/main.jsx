@@ -14,7 +14,7 @@ import Historic from './components/Roots/Historic/index.jsx';
 import SignIn, { signInAction } from './components/Roots/SignIn/index.jsx';
 import SignUp, { signUpAction } from './components/Roots/SignUp/index.jsx';
 import ResetPassword, { resetPasswordAction } from './components/Roots/ResetPassword/index.jsx';
-import Recipes from './components/Roots/Recipes/index.jsx';
+import Recipes, { recipesLoader } from './components/Roots/Recipes/index.jsx';
 import Recipe from './components/Roots/Recipe/index.jsx';
 import ValidateAccount, { validateAccountLoader } from './components/Roots/Validate/validateAccount.jsx';
 import ValidatePassword, { validatePasswordAction } from './components/Roots/Validate/validatePassword.jsx';
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       { path: "/signin", element: <SignIn />, action: signInAction },
       { path: "/signup", element: <SignUp />, action: signUpAction},
       { path: "/reset-password", element: <ResetPassword />, action: resetPasswordAction },
-      { path: "/recipes", element: <Recipes /> },
+      { path: "/recipes", element: <Recipes />, loader:recipesLoader },
       { path: "/recipes/:id", element: <Recipe /> },
       { path: "/validate/account/:uuid", element: <ValidateAccount />, loader: validateAccountLoader },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction }
