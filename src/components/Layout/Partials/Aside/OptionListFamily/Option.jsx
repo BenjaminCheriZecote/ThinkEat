@@ -8,25 +8,27 @@ const Options = ({family, ingredient}) => {
 
     const handleClickOption = (event) => {
         if (family) {
-            console.log("test option search", family)
             if (familiesChoices.length <= 0) {
-                store.dispatch({type:"ADD_ONE_FAMILY_CHOICES", payload:family.name})
+                const array = [family.id, family.name]
+                store.dispatch({type:"ADD_ONE_FAMILY_CHOICES", payload:array})
             } else {
-                const foundFamilyIngredient = familiesChoices.find((element) => element === family.name);
+                const foundFamilyIngredient = familiesChoices.find((element) => element[1] === family.name);
                 if (!foundFamilyIngredient) {
-                    store.dispatch({type:"ADD_ONE_FAMILY_CHOICES", payload:family.name})
+                    const array = [family.id, family.name];
+                    console.log(array)
+                    store.dispatch({type:"ADD_ONE_FAMILY_CHOICES", payload:array})
                 }
             }
         }
         if (ingredient) {
-            console.log(ingredient)
-            console.log(ingredientsChoices)
             if (ingredientsChoices.length <= 0) {
-                store.dispatch({type:"ADD_ONE_INGREDIENT_CHOICES", payload:ingredient.name})
+                const array = [ingredient.id, ingredient.name]
+                store.dispatch({type:"ADD_ONE_INGREDIENT_CHOICES", payload:array})
             } else {
-                const foundIngredient = ingredientsChoices.find((element) => element === ingredient.name);
+                const foundIngredient = ingredientsChoices.find((element) => element[1] === ingredient.name);
                 if (!foundIngredient) {
-                    store.dispatch({type:"ADD_ONE_INGREDIENT_CHOICES", payload:ingredient.name})
+                    const array = [ingredient.id, ingredient.name]
+                    store.dispatch({type:"ADD_ONE_INGREDIENT_CHOICES", payload:array})
                 }
             }
         }

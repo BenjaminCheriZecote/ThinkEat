@@ -14,14 +14,20 @@ import { Form } from 'react-router-dom';
 import { LiaEqualsSolid } from "react-icons/lia";
 import { LiaGreaterThanEqualSolid } from "react-icons/lia";
 import { LiaLessThanEqualSolid } from "react-icons/lia";
+import { useEffect } from 'react';
 
 
 
 const Aside = () => {
 
-    const [activeSelector, setActiveSelector] = useState(null)
+    const [activeSelectorCriteria, setActiveSelectorCriteria] = useState(null)
+    const [activeSelectorFilter, setActiveSelectorFilter] = useState(null)
     const location = useLocation();
     const currentPath = location.pathname;
+
+    useEffect(() => {
+        console.log(currentPath)
+    })
 
     const {filters} = useSelector((state) => state.filters)
     const {criterias} = useSelector((state) => state.criterias)
@@ -47,12 +53,13 @@ const Aside = () => {
     const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
     
     const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
-    const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
-    const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
-    const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
-    const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
-    const {familyIngredientFilter} = useSelector((state) => state.filters.filters[5]);
-    const {ingredientFilter} = useSelector((state) => state.filters.filters[6]);
+    const {hungerNormalFilter} = useSelector((state) => state.filters.filters[1]);
+    const {hungerFewFilter} = useSelector((state) => state.filters.filters[2]);
+    const {preparatingTimeFilter} = useSelector((state) => state.filters.filters[3]);
+    const {cookingTimeFilter} = useSelector((state) => state.filters.filters[4]);
+    const {favoriteFilter} = useSelector((state) => state.filters.filters[5]);
+    const {familyIngredientFilter} = useSelector((state) => state.filters.filters[6]);
+    const {ingredientFilter} = useSelector((state) => state.filters.filters[7]);
 
     
     
@@ -79,16 +86,21 @@ const Aside = () => {
         store.dispatch({type:"SET_HUNGER_BIG_FILTER"});
     }
 
+    const handleChangeHungerNormalFilter = () => {
+        console.log("normal")
+        store.dispatch({type:"SET_HUNGER_NORMAL_FILTER"});
+    }
+
     const handleChangeHungerFewFilter = () => {
         store.dispatch({type:"SET_HUNGER_FEW_FILTER"});
     }
 
-    const handleChangePreparatingTimeLongFilter = () => {
-        store.dispatch({type:"SET_PREPARATING_TIME_LONG_FILTER"})
+    const handleChangePreparatingTimeFilter = (event) => {
+        store.dispatch({type:"SET_PREPARATING_TIME_FILTER", payload:event.target.value})
     }
 
-    const handleChangePreparatingTimeShortFilter = () => {
-        store.dispatch({type:"SET_PREPARATING_TIME_SHORT_FILTER"})
+    const handleChangeCookingTimeFilter = (event) => {
+        store.dispatch({type:"SET_COOKING_TIME_FILTER", payload:event.target.value})
     }
 
     const handleChangeNonFavoritesRecipesCriteria = () => {
@@ -99,29 +111,55 @@ const Aside = () => {
         store.dispatch({type:"SET_FAVORITES_FILTER"})
     }
 
-    const handleClickSelectFamily = () => {
-        if (activeSelector !== "families") {
-            setActiveSelector("families");
-        } else {
-            setActiveSelector(null)
+    const handleClickSelectFamily = (event) => {
+        const parentElement = event.target.closest("form");
+        
+        if (parentElement.className.includes("Criteria")) {
+            if (activeSelectorCriteria !== "families") {
+                setActiveSelectorCriteria("families");
+            } else {
+                setActiveSelectorCriteria(null)
+            }
+            setIsRotatedFamilyIngredient(!isRotatedFamilyIngredientSelect);
+            if (isRotatedIngredientSelect) {
+                setIsRotatedIngredient(!isRotatedIngredientSelect);
+            }  
+        } else if (parentElement.className.includes("Filter")) {
+            if (activeSelectorFilter !== "families") {
+                setActiveSelectorFilter("families");
+            } else {
+                setActiveSelectorFilter(null)
+            }
+            setIsRotatedFamilyIngredient(!isRotatedFamilyIngredientSelect);
+            if (isRotatedIngredientSelect) {
+                setIsRotatedIngredient(!isRotatedIngredientSelect);
+            }
         }
-        setIsRotatedFamilyIngredient(!isRotatedFamilyIngredientSelect);
-        if (isRotatedIngredientSelect) {
-            setIsRotatedIngredient(!isRotatedIngredientSelect);
-        }
+        
     }
 
-    const handleClickSelectIngredient = () => {
-        // const optionsContainer = event.target.closest("li").querySelector(".content");
-        // optionsContainer.classList.toggle("hidden");
-        if (activeSelector !== "ingredients") {
-            setActiveSelector("ingredients");
-            
-        } else {
-            setActiveSelector(null)
-            setIsRotatedIngredient(false)
+    const handleClickSelectIngredient = (event) => {
+        const parentElement = event.target.closest("form");
+
+        if (parentElement.className.includes("Criteria")) {
+            if (activeSelectorCriteria !== "ingredients") {
+                setActiveSelectorCriteria("ingredients");
+                
+            } else {
+                setActiveSelectorCriteria(null)
+                setIsRotatedIngredient(false)
+            }
+            setIsRotatedIngredient(!isRotatedIngredientSelect);
+        } else if (parentElement.className.includes("Filter")) {
+            if (activeSelectorFilter !== "ingredients") {
+                setActiveSelectorFilter("ingredients");
+                
+            } else {
+                setActiveSelectorFilter(null)
+                setIsRotatedIngredient(false)
+            }
+            setIsRotatedIngredient(!isRotatedIngredientSelect);
         }
-        setIsRotatedIngredient(!isRotatedIngredientSelect);
     }
 
     
@@ -149,8 +187,8 @@ const Aside = () => {
     }
     return(
         <aside className={style.aside}>
-            
-                <Form className={style.aside__formCriteria} method="get"> 
+                {/* mettre le mot "Criteria" dans la classe du Form */}
+                <Form className={style.aside__formCriteria} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""}> 
                         <h3>Critères</h3>
                         <fieldset>
                             <legend>Faim</legend>
@@ -203,7 +241,7 @@ const Aside = () => {
                                         <button >Catégories</button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
                                     </div>
 
-                                    {activeSelector === "families" && 
+                                    {activeSelectorCriteria === "families" && 
                                         <div className={style.content}>
 
                                             <div className={style.search}>
@@ -238,7 +276,7 @@ const Aside = () => {
                                         <button >Ingrédients </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
                                     </div>
 
-                                    {activeSelector === "ingredients" &&
+                                    {activeSelectorCriteria === "ingredients" &&
                                     <div className={style.content}>
 
                                         <div className={style.search}>
@@ -246,7 +284,6 @@ const Aside = () => {
                                         </div>
                                         <ul className={style.options} >
                                         {ingredientsChoices.map((ingredient, index) => {
-                                            console.log(ingredient)
                                             return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
                                         })}
                                         {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
@@ -287,8 +324,8 @@ const Aside = () => {
                 </Form>
 
                 <div>
-                    
-                    <Form className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":"/favorites"} onSubmit={handleSubmitFilter}>
+                    {/* mettre le mot "Filter" dans la classe du Form */}
+                    <Form className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""} onSubmit={handleSubmitFilter}>
                         <h3>Filtres</h3>
                         <fieldset>
                             <legend>Faim</legend>
@@ -299,14 +336,14 @@ const Aside = () => {
                                     </li>
 
                                     <li>
-                                        <input id="hungerFewFilter" name="hunger" value="Normal" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
-                                        <label htmlFor="hungerFewFilter" >{filters[1].name}</label>
+                                        <input id="hungerNormalFilter" name="hunger" value="Normal" type="checkbox" onChange={handleChangeHungerNormalFilter} checked={hungerNormalFilter?true:false}/>
+                                        <label htmlFor="hungerNormalFilter" >{filters[1].name}</label>
+                                    </li>
+                                    <li>
+                                        <input id="hungerFewFilter" name="hunger" value="Léger" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
+                                        <label htmlFor="hungerFewFilter" >{filters[2].name}</label>
                                     </li>
 
-                                    <li>
-                                        <input id="hungerNormalFilter" name="hunger" value="Léger" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hungerFewFilter?true:false}/>
-                                        <label htmlFor="hungerNormalFilter" >Normal</label>
-                                    </li>
 
                                 </div>
                         </fieldset>
@@ -318,7 +355,7 @@ const Aside = () => {
                                     <label htmlFor="preparatingTimeFilter" >Préparation</label>
                                     <div>
                                         <span></span>
-                                        <input type="number" name="preparatingTimeFilter" id="preparatingTimeFilter" className={style.asideFormFilter__inputTime}/>
+                                        <input type="number" name="preparatingTime" defaultValue={preparatingTimeFilter} id="preparatingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangePreparatingTimeFilter}/>
                                     </div>
                                 </li>
 
@@ -326,7 +363,7 @@ const Aside = () => {
                                     <label htmlFor="cookingTimeFilter" >Cuisson</label>
                                     <div>
                                         <span></span>
-                                        <input type="number" name="cookingTimeFilter" id="cookingTimeFilter" className={style.asideFormFilter__inputTime}/>
+                                        <input type="number" name="cookingTime" defaultValue={cookingTimeFilter} id="cookingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangeCookingTimeFilter}/>
                                     </div>
                                 </li>
                                 {/* <li className={style.asideformFilter__inputTimeContainer}>
@@ -349,7 +386,7 @@ const Aside = () => {
                                                 <button >Catégories</button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
                                             </div>
 
-                                            {activeSelector === "families" && 
+                                            {activeSelectorFilter === "families" && 
                                                 <div className={style.content}>
 
                                                     <div className={style.search}>
@@ -362,18 +399,8 @@ const Aside = () => {
                                                     {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
                                                         <Options key={index} family={family} >{family.name}</Options>
                                                     ))}
-                                                    {/* {familiesCopy.length > 0 ? (
-                                                            familiesCopy.map((family, index) => (
-                                                                <Options key={index} family={family} >{family.name}</Options>
-                                                            ))
-                                                        ) : (
-                                                            <>
-                                                                
-                                                                {families.map((family, index) => (
-                                                                    <Options key={index} family={family} >{family.name}</Options>
-                                                                ))}
-                                                            </>
-                                                        )} */}
+
+
                                                     </ul>
                                                 </div>}
                                             
@@ -384,7 +411,7 @@ const Aside = () => {
                                                 <button >Ingrédients  </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
                                             </div>
 
-                                            {activeSelector === "ingredients" &&
+                                            {activeSelectorFilter === "ingredients" &&
                                             <div className={style.content}>
 
                                                 <div className={style.search}>
@@ -392,7 +419,6 @@ const Aside = () => {
                                                 </div>
                                                 <ul className={style.options} >
                                                 {ingredientsChoices.map((ingredient, index) => {
-                                                    console.log(ingredient)
                                                     return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
                                                 })}
                                                 {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
@@ -422,7 +448,7 @@ const Aside = () => {
 
                         <li>
                             <input id="favoriteFilter" name="favoriteFilter" type="checkbox" onChange={handleChangeFavoriteFilter} checked={favoriteFilter?true:false}/>
-                            <label htmlFor="favoriteFilter" >{filters[4].name}</label>
+                            <label htmlFor="favoriteFilter" >{filters[5].name}</label>
                         </li>
 
                         <li>
