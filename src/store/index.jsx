@@ -4,7 +4,7 @@ import sessionReducer from "./reducers/session";
 import recipesReducer from "./reducers/recipes";			
 import { configureStore } from "@reduxjs/toolkit";
 import criteriasReducer from "./reducers/criterias";
-import filtersReducer from "./reducers/filters";
+import filtersReducer from "./reducers/filters/filters";
 import ingredientsReducer from "./reducers/ingredients";				
 import familiesReducer from "./reducers/families";
 				

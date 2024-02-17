@@ -1,7 +1,17 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit"					
 						
-const initialState = {						
+const initialState = {
+
+  //   numberOfProposition:0,
+  //   hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
+  //   preparatingTime: {min:"00:00",max:"23:59"},
+  //       // {nonFavoritesRecipesCriteria:false, name:"Recettes non favoris"},
+  //       // {timeCriteria:false},
+  //       // {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
+  //       // {type_ingredientsCriteria:null},
+  //       // {personCriteria:null},
+  // },					
 	criterias:[
         {numberOfProposition:0},
         {hungerBigCriteria:false, name:"Copieux"},
@@ -13,8 +23,7 @@ const initialState = {
         {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
         {type_ingredientsCriteria:null},
         {personCriteria:null},
-    ],
-    searchResult:[]					
+    ],				
 }						
 						
 const criteriasReducer = createReducer (initialState, (builder) => {						

@@ -19,6 +19,10 @@
     padding:1rem;
 }
 
+.aside__formFilter {
+  height:100%;
+}
+
 .aside__formCriteria h3, .aside__formFilter h3  {
     font-family: "Poppins", sans-serif;
     color:black;
@@ -61,13 +65,14 @@ aside footer small {
 
 .asideFormFilter__foodContainer {
     display:flex;
+    flex-direction: column;
     gap:0.3rem;
   
 }
 
 .asideFormFilter__inputTime {
     background-color:inherit;
-    width:1rem;
+    width:80%;
     border:none;
     border-bottom: 1px black solid;
 }
@@ -77,7 +82,6 @@ aside footer small {
     flex-direction: column;
 
 }
-
 
 
 .menu-link {
@@ -103,7 +107,6 @@ form li {
     transform: rotate(180deg)
 }
 .selectBox {
-    
     margin: 0.5rem 0rem;
     background-color: white;
     width:90%;
@@ -121,7 +124,7 @@ form li {
 
 .selectOption, .content {
     width:100%;
-}
+} 
 
 .selectOption, .selectOption button, .options, .content, .selectBox {
     border-radius: 0.3rem;
@@ -142,7 +145,6 @@ form li {
 }
 
 .options {
-    
     overflow: hidden;
     overflow-y: scroll;
     max-height: 15rem;
@@ -163,12 +165,13 @@ form li {
     margin-bottom: 0.2rem;
     position: sticky;
     top:0;
+    left:0;
     overflow: hidden;
     border:none;
 }
 
 .search input {
-    width:100%;
+    object-fit: cover;
     border:none;
 }
 
@@ -204,7 +207,7 @@ form li {
     display:flex;
     align-items: center;
     position: relative;
-} 
+}
 
 /* CHECKBOX */
 
@@ -374,6 +377,9 @@ form li {
     -webkit-animation: dothatopcheck-19 0.4s ease 0s forwards;
     animation: dothatopcheck-19 0.4s ease 0s forwards;
   } */
+
+/* INPUT RANGE */
+
 
 
 
