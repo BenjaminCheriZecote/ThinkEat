@@ -1,5 +1,5 @@
 import './Header.scss';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import store from '../../../../store';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,12 +16,23 @@ const Header = () => {
     const {isConnected} = useSelector((state) => state.session);
     const {name} = useSelector((state) => state.session);
     const {isAdmin} =useSelector((state) => state.session);
+    const [isBox, setBox] = useState(false)
 
     const navigate=  useNavigate()
 
-    const handleClick = () => {
-        console.log("test", boxProfile.current)
-        boxProfile.current.classList.toggle("hidden");
+    const handleClick = (event) => {
+        const widthBox = boxProfile.current.offsetWidth;
+        setBox(!isBox)
+        
+        if (isBox) {
+            boxProfile.current.style.transform = `translateX(${widthBox+10}px)`;
+            event.target.style.color = 'inherit'
+
+        } else {
+            boxProfile.current.style.transform = `translateX(-${widthBox+17}px)`;
+            event.target.style.color = 'var(--colorbgOrangeAside3)'
+        }
+        
     }
 
     const handleClickDeconnexion = () => {
@@ -55,9 +66,9 @@ const Header = () => {
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
                 </nav>
                     <div><CiSearch /></div>
-                    <div><CgProfile onClick={handleClick}/>
+                    <div><CgProfile onClick={handleClick}  className="iconProfile"/>
                     {isConnected?
-                        <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
+                        <div ref={boxProfile} className='header-rightSide__boxProfile '>
                             <div>
                                 <p>{name}</p> 
                                 <NavLink to="/profil"><IoIosSettings/></NavLink>
@@ -70,7 +81,7 @@ const Header = () => {
                         
                         </div>
                         :
-                        <div ref={boxProfile} className='hidden header-rightSide__boxProfile'>
+                        <div ref={boxProfile} className='header-rightSide__boxProfile'>
                             
                             <NavLink to="/signin">
                                 <button >Se connecter</button>

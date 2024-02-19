@@ -14,6 +14,8 @@ import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 import Select from "react-select";
 import ModalCreatingRecipe from './ModalCreateingRecipe';
+import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
+import { Form } from 'react-router-dom';
 
 
 
@@ -32,8 +34,6 @@ import ModalCreatingRecipe from './ModalCreateingRecipe';
 const Favorites = () => {
 
     const {favorites} = useSelector((state) => state.favorites);
-    const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
-    const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     
     const [favoritesCopy, setCopy] = useState(favorites);
     const [openModeCreator, setModeCreator] = useState(false);
@@ -64,13 +64,20 @@ const Favorites = () => {
     return(
         <>
             <section className="section">
-                <h2>Favoris</h2>
                 <div className="section__divForm">
-                    <form onSubmit={handleSubmitSearch} className="" action="">
-                        <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
-                        <button><CiSearch /></button>
-                    </form>
-                    {!openModeCreator?
+                <h2>Favoris</h2>
+                    <div>
+                        <Form onSubmit={handleSubmitSearch} className="" action="">
+                            <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
+                            <button><CiSearch /></button>
+                        </Form>
+                        <OrderByComponent />
+
+                    </div>
+                </div>
+
+                <div className="addRecipe">
+                {!openModeCreator?
                     <FaSquarePlus onClick={handleClickAddRecipe}/>
                     :
                     <FaSquareMinus onClick={handleClickAddRecipe}/>

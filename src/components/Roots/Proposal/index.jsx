@@ -30,21 +30,21 @@ const Proposal = () => {
     const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
-    const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
-    const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
-    const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
-    const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
-    const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-    const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
-    const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
-    const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
-    const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
-    const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
-    const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
+    // const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
+    // const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
+    // const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
+    // const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
+    // const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
+    // const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
+    // const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
+    // const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
+    // const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
+    // const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
+    // const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
     const [filteredProposal, setFilteredProposal] = useState([]);
     const [newFilteredProposal, setNewFilteredProposal] = useState([]);
 
-    const {filter} = useSelector((state) => state.filters.filters[9])
+    // const {filter} = useSelector((state) => state.filters.filters[9])
     
     const [proposal, setProposal] = useState([]);
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
@@ -56,19 +56,19 @@ const Proposal = () => {
         })
     }, [filteredProposal])
 
-    useEffect(() => {
-        if (proposal.array)
-        filterProposition(proposal.array)
-    }, [filter])
+    // useEffect(() => {
+    //     if (proposal.array)
+    //     filterProposition(proposal.array)
+    // }, [filter])
 
-    const handleClickMinus = () => {
-        if (numberOfProposition !== 0) store.dispatch({type:"SUBTRACT_NUMBER_OF_PROPOSITION"});
+    // const handleClickMinus = () => {
+    //     if (numberOfProposition !== 0) store.dispatch({type:"SUBTRACT_NUMBER_OF_PROPOSITION"});
         
-    }
+    // }
 
-    const handleClickPlus = () => {
-        store.dispatch({type:"ADD_NUMBER_OF_PROPOSITION"});
-    }
+    // const handleClickPlus = () => {
+    //     store.dispatch({type:"ADD_NUMBER_OF_PROPOSITION"});
+    // }
 
     const handleChange = () => {
         //
@@ -164,7 +164,7 @@ const Proposal = () => {
             return object
         });
                 
-            const finalResult = resultAddStatus.slice(0, numberOfProposition);
+            // const finalResult = resultAddStatus.slice(0, numberOfProposition);
             
             const objectProposal = {
                 id: uuidv4(),
@@ -177,34 +177,34 @@ const Proposal = () => {
     }
     }
 
-    const filterProposition = (finalResult) => {
-        let proposalReadyToFilter = finalResult;
+    // const filterProposition = (finalResult) => {
+    //     let proposalReadyToFilter = finalResult;
         
-        if (hungerBigFilter) {
-            proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Copieux");
-        }
+    //     if (hungerBigFilter) {
+    //         proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Copieux");
+    //     }
     
-        if (hungerFewFilter) {
-            proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Petite faim");
-        }
+    //     if (hungerFewFilter) {
+    //         proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Petite faim");
+    //     }
     
-        if (preparating_timeLongFilter) {
-            proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Long");
-        }
+    //     if (preparating_timeLongFilter) {
+    //         proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Long");
+    //     }
     
-        if (preparating_timeShortFilter) {
-            proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Court");
-        }
+    //     if (preparating_timeShortFilter) {
+    //         proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Court");
+    //     }
 
-        if (favoriteFilter) {
-            proposalReadyToFilter = proposalReadyToFilter.filter((recipe) => {
-                return favorites.some(favorite => favorite.id === recipe.id);
-            })
-        }  
+    //     if (favoriteFilter) {
+    //         proposalReadyToFilter = proposalReadyToFilter.filter((recipe) => {
+    //             return favorites.some(favorite => favorite.id === recipe.id);
+    //         })
+    //     }  
 
-        const filterArray = proposalReadyToFilter;
-        setFilteredProposal(filterArray)
-    }
+    //     const filterArray = proposalReadyToFilter;
+    //     setFilteredProposal(filterArray)
+    // }
 
     const handleClickValidateChoices = () => {
         
@@ -221,9 +221,9 @@ const Proposal = () => {
                 
                     <div className="section__start">
                         <div >
-                            <FaCircleMinus onClick={handleClickMinus} id="minus"/>
+                            {/* <FaCircleMinus onClick={handleClickMinus} id="minus"/>
                             <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
-                            <FaCirclePlus onClick={handleClickPlus} id="plus"/>
+                            <FaCirclePlus onClick={handleClickPlus} id="plus"/> */}
                         </div>
   
                         <button onClick={handleSubmit} type="submit">C'est parti !</button>

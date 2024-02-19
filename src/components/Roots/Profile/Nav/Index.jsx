@@ -7,11 +7,12 @@ import '../Profile.scss';
 const Nav = () => {
 
     return(
-        <nav className="nav">
+        <nav className="sectionProfile sectionProfile--Nav">
+            <h2>Menu</h2>
             <ul className="nav__ulContainer"> 
                 <NavLink to={"/profil"}>Profil</NavLink> 
                 <NavLink to={"/profil/diet-preferences"}>Préférences utilisateurs</NavLink>
-                <NavLink to={"/profil/account"}>Account</NavLink>
+                <NavLink to={"/profil/account"}>Compte</NavLink>
             </ul>
         </nav>
     )

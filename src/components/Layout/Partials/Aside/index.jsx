@@ -26,7 +26,6 @@ const Aside = () => {
     const navigate = useNavigate()
 
     const {filter} = useSelector((state) => state.filters)
-    const {criterias} = useSelector((state) => state.criterias)
     const {families} = useSelector((state) => state.families);
     const [familiesCopy, setFamiliesCopy] = useState(families);
     const {familiesChoices} = useSelector((state) => state.families);
@@ -47,39 +46,15 @@ const Aside = () => {
     const {cookingTime} = useSelector((state) => state.filters.filters);
     const {favoritesRecipes} = useSelector((state) => state.filters.filters);
 
-    const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
-    const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
-
-    const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
-    const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-
     useEffect(() => {
         console.log(currentPath)
         if (currentPath !== "/proposal") {
             setBtnFooter("Nouvelle proposition")
-            
         } else {
             setBtnFooter("Générer la proposition")
         }
     }, [])
     
-    
-    
-    const handleChangeHungerBigCriteria = () => {
-        store.dispatch({type:"SET_HUNGER_BIG_CRITERIA"});
-    }
-
-    const handleChangeHungerFewCriteria = () => {
-        store.dispatch({type:"SET_HUNGER_FEW_CRITERIA"});
-    }
-
-    const handleChangePreparatingTimeLongCriteria = () => {
-        store.dispatch({type:"SET_PREPARATING_TIME_LONG_CRITERIA"})
-    }
-
-    const handleChangePreparatingTimeShortCriteria = () => {
-        store.dispatch({type:"SET_PREPARATING_TIME_SHORT_CRITERIA"})
-    }
 
 
     const handleChangeHungerBigFilter = () => {

@@ -9,23 +9,21 @@ export default function SignUp() {
     <>
       <section className='section'>
         <Form className='section__form' method='POST'>
-          <h2 className='section-form__h2'>Compte</h2>
+          <h2 className='section-form__h2'>Créer un compte</h2>
           <div className='section-form__div'>
-            <label htmlFor="name">Nom :</label>
-            <input type="text" id="name" name="name"/>
+            <input type="text" id="name" name="name" placeholder='Nom'/>
           </div>
           <div className='section-form__div'>
-            <label htmlFor="email">Email :</label>
-            <input type="email" id="email" name="email"/>
+            <input type="email" id="email" name="email" placeholder='email'/>
           </div>
 
           <div className='section-form__div'>
             <label htmlFor="password">Mot de passe :</label>
-            <input type="text" id="password" name="password"/>
+            <input type="text" id="password" name="password" placeholder='******'/>
           </div>
           <div className='section-form__div'>
-            <label htmlFor="passwordConfirm">Mot de passe :</label>
-            <input type="text" id="passwordConfirm" name="passwordConfirm"/>
+            <label htmlFor="passwordConfirm">Confirmer le mot de passe :</label>
+            <input type="text" id="passwordConfirm" name="passwordConfirm" placeholder='******'/>
           </div>
 
           <button className='section-form__btn' type="submit">Créer un compte</button>

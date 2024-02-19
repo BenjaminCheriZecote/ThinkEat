@@ -1,8 +1,11 @@
 import { useState } from "react"
 import ModalResetPassword from "./ModalResetPassword";
 
+import { CiTrash } from "react-icons/ci";
+
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+
 
 const Account = () => {
 
@@ -21,29 +24,52 @@ const Account = () => {
     // }
 
     return(
-        <section className="sectionProfile">
-            <h2>Account</h2>
-            {isConnected?
-                <form action="" className="section__mainProfile ">
-                    <label htmlFor="name">
-                        Name
-                        <input type="text" id="name" value={profil.name}/>
-                    </label>
+        <section className="sectionProfile sectionProfile--Main">
+            <h2>Compte</h2>
+            {isConnected &&
+                <Form action="" className="section__mainProfile ">
+                    <fieldset>
+                        <div>
+                            <label htmlFor="name">
+                                Nom :
+                            </label>
+                            <input type="text" id="name" value={profil.name} disabled/>
 
-                    <label htmlFor="email">
-                        Email
-                        <input type="email" id="email" value={profil.email}/>
-                    </label>
-                    <label htmlFor="password">
-                        Mot de passe
-                        <input type="password" id="password" defaultValue="password"/>
-                        <button onClick={handleClickResetPassword}>Changer le mot de passe</button>
-                    </label>
+                        </div>
+                        <button >Changer</button>
 
-                </form>
-                :
-                ""
-            }
+                    </fieldset>
+
+                    <fieldset>
+                        <div>
+                            <label htmlFor="email">
+                                Email :
+                            </label>
+                            <input type="email" id="email" value={profil.email} disabled/>
+                        </div>
+                        <button >Changer</button>
+                    </fieldset>
+
+                    <fieldset>
+                        <div>
+                            <label htmlFor="password">
+                                Mot de passe :
+                            </label>
+                            <input type="password" id="password" value="*******" disabled/>
+                        </div>
+                        <button onClick={handleClickResetPassword}>Changer</button>
+                    </fieldset>
+
+                    <footer >
+
+                        <div className="footerDelete">
+                            <p>Supprimer mon compte</p> <button className="btnDelete" onClick={handleClickResetPassword}><CiTrash /></button>
+                        </div>
+                        
+      
+                    </footer>
+
+                </Form>}
 
             {openCloseModal?
                 <ModalResetPassword setOpenCloseModal={setOpenCloseModal}/>

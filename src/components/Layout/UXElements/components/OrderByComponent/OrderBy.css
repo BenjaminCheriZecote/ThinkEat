@@ -1,0 +1,51 @@
+
+
+.fieldsetOrderBy {
+    position: relative;
+    transition: 700ms ease-in-out;
+}
+
+.fieldsetOrderBy__ulContainer {
+    position: absolute;
+    left: 4rem;
+    top:0.5rem;
+    padding:1rem;
+    transition: 700ms ease-in-out;
+    border:1px rgb(6, 0, 0) solid;
+    display:flex;
+    flex-direction: column;
+    background-color: var(--colorbg2);
+    border-radius: 0.3rem;
+}
+
+.fieldsetOrderBy__ulContainer li {
+    display:flex;
+    justify-content: space-between;
+    gap:2rem;
+    align-items: center;
+    padding:0.3rem;
+    border-radius: 0.3rem;
+    
+}
+
+.fieldsetOrderBy__ulContainer li div {
+    display:flex;
+    gap:1rem;
+    width:10rem;
+    font-size:0.8rem;
+}
+
+.sizeIconsOrderBy {
+    font-size: 0.7rem;
+}
+
+.selectedOrderBy {
+    border: 1px var(--colorbgOrangeAside3) solid;
+    border-left:5px var(--colorbgOrangeAside3) solid;
+}
+
+.fieldsetOrderBy__ulContainer button {
+    width:fit-content;
+    align-self: end;
+    margin-top: 0.2rem;
+}

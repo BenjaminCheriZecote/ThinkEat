@@ -1,136 +1,177 @@
 html, body, #root, .app {
-height: 100%;
-}
-
-.app {
-    display:flex;
-    &__wrapper {
-        width:100%;
-        display: flex;
-        flex-wrap: nowrap;
-        height: 100%;
+    height: 100%;
     }
-
-    &-wrapper__content {
-        width:100%;
-        height: 100%;
-        overflow-y: scroll;
-    }
-}
-
-.section__li {
-    border-radius: 0.3rem;
-    display: flex;
-    gap:1rem;
-    margin: 0.3rem 0rem;
-}
-
-.section-li__container--boxLegend  {
-    display: flex;
-}
-
-// lien NavLink des recettes
-.section-li__container--boxLegend > * {
-    width:13rem;
-}
-
-.section-li__container--boxImg img {
-    width:100%;
-}
-
-.section__li p {
-    font-size:1rem;
-    width:15rem;
-}
-
-.section__li a {
-    font-size: 0.7rem;
-    align-self: end;
-}
-
-// signin / signup
-
-// .section {
-//     height:100vh;
-// }
-
-.section__form {
-    display: flex;
-    flex-flow: column;
-    /* align-items: center; */
-    gap:2rem;
-    width:30%;
-    max-width: 20rem;
-    border:1px rgb(255, 255, 255) solid;
-    padding:3rem;
-    margin: 7rem auto 2rem auto;
-    background: var(--colorbgAside2);
-    color: white;
-    border-radius: 0.8rem;
-}
-
-.section-form__btn {
-    width:fit-content;
-    padding:0.3rem 1rem;
-    /* align-self: center; */
-    margin:auto;
-    background-color: inherit;
-    color: white;
-    font-size: 1.3rem;
-    font-weight: 600;
-    border-radius:0.3rem;
-    border:1px white solid;
-    padding:0.5rem 1rem;
-}
-
-.section-form__btn:hover {
-    color: #ffffff;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(27, 253, 253, 0.2);
-}
-
-.section-form__div {
-    display:flex;
-    flex-direction: column;
-    gap:0.3rem;
-
-}
-
-.section-form__h2 {
-    margin: auto;
-    font-size: 3rem;
-    font-weight: 500;
-}
-
-// modal
-
-.hidden {
-    display: none;
-}
-
-.backdrop {
-    background-color: rgba(0, 0, 0, 0.753);
-    position: fixed;
-    top: 0;
-    left:0;
-    width:100%;
-    height: 100vh;
     
-}
+    .app {
+        font-family: "Poppins", sans-serif;
+        display:flex;
+        &__wrapper {
+            width:100%;
+            display: flex;
+            flex-wrap: nowrap;
+            height: 100%;
+        }
+    
+        &-wrapper__content {
+            width:100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+    }
+    
+    
+    
+    .section__li {
+        border-radius: 0.3rem;
+        display: flex;
+        gap:1rem;
+        margin: 0.3rem 0rem;
+    }
+    
+    .section-li__container--boxLegend  {
+        display: flex;
+        
+    }
+    
+    .section-li__container--boxImg img {
+        width:100%;
+        
+    }
+    
+    .section__li p {
+        font-size:1rem;
+        width:15rem;
+        
+    }
+    
+    .section__li a {
+        font-size: 0.7rem;
+        align-self: end;
+        
+    }
+    
+    .section__form {
+        display: flex;
+        flex-flow: column;
+        /* align-items: center; */
+        gap:2rem;
+        width:30%;
+        max-width: 20rem;
+        border:1px rgb(255, 255, 255) solid;
+        padding:3rem 3.7rem;
+        margin: 7rem auto 2rem auto;
+        background: white;
+        border-radius: 0.8rem;
+    }
+    
+    .section-form__btn {
+        width:fit-content;
+        padding:0.3rem 1rem;
+        margin:auto;
+        background-color: inherit;
+        background-color: var(--colorbgOrangeAside3);
+        color:white;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius:0.3rem;
+        border:1px white solid;
+        padding:0.5rem 1rem;
+    }
+    
+    .section-form__btn:hover {
+        color: #ffffff;
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(216, 155, 12, 0.2);
+    }
+    
+    .section-form__div {
+        display:flex;
+        flex-direction: column;
+        gap:0.3rem;
+    
+    }
+    
+    .section-form__div input {
+        padding:1rem;
+        border-radius: 0.3rem;
+        border:none;
+        background-color: var(--colorbg2);
+    }
+    
+    .section-form__h2 {
+        margin: auto;
+        font-size: 1.7rem;
+        font-weight: 500;
+        color:var(--colorbgOrangeAside3)
+    }
+    
+    .section__divForm > div {
+        display: flex;
+        gap:2rem;
+    }
 
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width:60%;
-    height:70%;
-    margin:auto;
-    z-index:10;
-    overflow: hidden;
-    background-color: white;
-    border-radius: 0.3rem;
-    box-shadow: 6px 5px 8px 2px black;
-    padding:4rem;
-}
+    // favorites page recipes pages
+    .addRecipe {
+        display:flex;
+        justify-content: end;
+    }
+    
+    // orderBy
+    
+    .fieldsetOrderBy {
+        position: relative;
+        transition: 700ms ease-in-out;
+    }
+    
+    .fieldsetOrderBy__ulContainer {
+        position: absolute;
+        left: 4rem;
+        top:0.5rem;
+        padding:1rem;
+        transition: 700ms ease-in-out;
+        border:1px rgb(6, 0, 0) solid;
+        display:flex;
+        flex-direction: column;
+        // background-color: var(--colorbg2);
+        border-radius: 0.3rem;
+    }
+    
+    .fieldsetOrderBy__ulContainer li {
+        display:flex;
+        justify-content: space-between;
+        gap:2rem;
+        align-items: center;
+        padding:0.3rem;
+        border-radius: 0.3rem;
+        
+    }
+    
+    .fieldsetOrderBy__ulContainer li div {
+        display:flex;
+        gap:1rem;
+        width:10rem;
+        font-size:0.8rem;
+    }
+    
+    .sizeIconsOrderBy {
+        font-size: 0.7rem;
+    }
+    
+    .selectedOrderBy {
+        border: 1px var(--colorbgOrangeAside3) solid;
+        border-left:5px var(--colorbgOrangeAside3) solid;
+    }
+    
+    .fieldsetOrderBy__ulContainer button {
+        width:fit-content;
+        align-self: end;
+        margin-top: 0.2rem;
+    }
 
-
+    body a {
+        text-decoration: none;
+        color:inherit;
+    }
+    
+    
+    
+    
