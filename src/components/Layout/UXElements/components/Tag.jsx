@@ -4,7 +4,7 @@ export default function Tag({itemName, item, removeHandler}) {
   return (
     <div>
       <span>{item.name}</span>
-      <button onClick={removeHandler} data-item-id={`${itemName}-${item.id}`}><MdCancel size={10} /></button>
+      <button type="button" onClick={removeHandler} data-item-id={`${itemName}-${item.id}`}><MdCancel size={10} /></button>
     </div>
   );
 }

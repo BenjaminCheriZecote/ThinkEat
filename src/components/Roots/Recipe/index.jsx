@@ -1,16 +1,18 @@
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useLoaderData} from "react-router-dom";
 
 import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
+import { RecipeApi } from "../../../store/api";
 
 export default function RecipePage() {
-
-  const { id } = useParams();
-  const {recipes} = useSelector((state) => state.recipes);
-  const recipe = recipes.find(recipe => recipe.id === parseInt(id));
+  const recipe = useLoaderData();
+  
   return(
     <main className="section">
-      <RecipeUX recipe={recipe}/>
+      <RecipeUX recipe={recipe} formMethod={"update"}/>
     </main>
   )
+}
+
+export async function recipeLoader({params}) {
+  return await RecipeApi.get(params.id);
 }
