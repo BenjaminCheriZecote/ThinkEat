@@ -303,112 +303,12 @@ const Aside = () => {
 
             </Form>
         </div>
-            {/* mettre le mot "Criteria" dans la classe du Form */}
-            <Form className={style.aside__formCriteria} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""}> 
-                    <h3>Critères</h3>
-                    <fieldset>
-                        <legend>Faim</legend>
-                        <div>
-                            <li>
-                                <label htmlFor="hungryCriteria" >{criterias[1].name}</label>
-                                {/* <div className={style.checkboxWrapper19} >
-                                <input id="cbtest19" type="checkbox"/>
-                                <label className={style.checkBox} htmlFor="cbtest19">
-                                </label></div> */}
-                                <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerBigCriteria} checked={hungerBigCriteria?true:false}/>
-                            </li>
 
-                            <li>
-                                <label htmlFor="hungryCriteria" >Normal</label>
-                                <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/>
-                            </li>
-
-                            <li>
-                                <label htmlFor="hungryCriteria" >{criterias[2].name}</label>
-                                <input id="hungryCriteria" type="checkbox" onChange={handleChangeHungerFewCriteria} checked={hungerFewCriteria?true:false}/>
-                            </li>
-
-                        </div>
-
-                    </fieldset>
-                
-                    <fieldset>
-                        <legend>Temps</legend>
-                        <div>
-                            <li>
-                                <label htmlFor="cookingTimeCriteria" >{criterias[3].name}</label>
-                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeLongCriteria} checked={preparating_timeLongCriteria?true:false}/>
-                            </li>
-
-                            <li>
-                                <label htmlFor="cookingTimeCriteria" >{criterias[4].name}</label>
-                                <input id="cookingTimeCriteria" type="checkbox" onChange={handleChangePreparatingTimeShortCriteria} checked={preparating_timeShortCriteria?true:false}/>
-                            </li>
-                        </div>
-
-                    </fieldset>
-
-                    <div className={style.asideFormCriteria__foodContainer}>
-                        <fieldset>
-                            <legend>Ingredients</legend>
-
-                            <li className={style.selectBox}>
-                                <div className={style.selectOption} onClick={handleClickSelectFamily}>
-                                    <button type="button">Catégories</button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedFamilyIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
-                                </div>
-
-                                {activeSelectorCriteria === "families" && 
-                                    <div className={style.content}>
-
-                                        <div className={style.search}>
-                                            <input type="search" id="optionSearchFamilyIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchFamily}/>
-                                        </div>
-                                        <ul className={style.options} >
-                                        {familiesChoices.map((family, index) => (
-                                            <OptionChosen key={index} choosen={family} stateName="families" />
-                                        ))}
-                                        {allFamilies[familiesCopy.length > 0 ? "familiesCopy" : "families"].map((family, index) => (
-                                            <Options key={index} family={family} >{family.name}</Options>
-                                        ))}
-                                        
-                                        </ul>
-                                    </div>}
-                                
-                            </li>
-
-                            <li className={style.selectBox}>
-                                <div className={style.selectOption} onClick={handleClickSelectIngredient}>
-                                    <button >Ingrédients </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotatedIngredientSelect ? "rotate(180deg)" : "rotate(0)"}}/> 
-                                </div>
-
-                                {activeSelectorCriteria === "ingredients" &&
-                                    <div className={style.content}>
-
-                                        <div className={style.search}>
-                                            <input type="search" id="optionSearchIngredient" placeholder="Rechercher" name="" onChange={handleChangeSearchIngredient}/>
-                                        </div>
-                                        <ul className={style.options} >
-                                        {ingredientsChoices.map((ingredient, index) => {
-                                            return (<OptionChosen key={index} choosen={ingredient} stateName="ingredients" />)
-                                        })}
-                                        {allIngredients[ingredientsCopy.length > 0 ? "ingredientsCopy" : "ingredients"].map((ingredient, index) => (
-                                        <Options key={index} ingredient={ingredient} >{ingredient.name}</Options>
-                                        ))}
-                                        </ul>
-                                    </div>}
-                                
-                            </li> 
-                        </fieldset> 
-
-                        <fieldset>
-                            <legend>Régimes alimentaires</legend>
-                        </fieldset> 
-
-                    </div>
-            </Form>
+        
+            
                 
         
-        <NavLink className={style.asideA} to={"/proposal"} >
+        <NavLink className={style.asideA} to={currentPath === "/proposal"?"./":"/proposal"} >
             <p>{btnFooter}</p>
             <label className={style.container}>
                 <input checked="checked" type="checkbox"/>
