@@ -12,8 +12,8 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
 
     
     const {recipes} = useSelector((state) => state.recipes);
-    const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
-    const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
+    // const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
+    // const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     const [steps, setStep] = useState(['']);
 
     const options = [

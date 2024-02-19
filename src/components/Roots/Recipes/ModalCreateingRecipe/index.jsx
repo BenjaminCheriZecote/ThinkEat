@@ -7,20 +7,17 @@ import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 
 
-
 const ModalCreatingRecipe = ({setModeCreator}) => {
-
     
     const {recipes} = useSelector((state) => state.recipes);
-    const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
-    const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
+    const {hunger} = useSelector((state) => state.filters.filters);
     const [steps, setStep] = useState(['']);
     const [ingredients, setIngredient] = useState(['']);
-    const inputImageElement = useRef()
+    const inputImageElement = useRef();
 
     const options = [
-        {value:hungerBigName, label:hungerBigName},
-        {value:hungerFewName, label:hungerFewName},
+        {value:hunger[0], label:hunger[0]},
+        {value:hunger[2], label:hunger[2]},
     ]
     
     const handleSubmitCreation = (event) => {

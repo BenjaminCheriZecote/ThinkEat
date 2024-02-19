@@ -72,7 +72,6 @@ const Favorites = () => {
                             <button><CiSearch /></button>
                         </Form>
                         <OrderByComponent />
-
                     </div>
                 </div>
 
@@ -84,17 +83,14 @@ const Favorites = () => {
                     }
                 </div>
 
-                {openModeCreator?
+                {openModeCreator&&
                     <ModalCreatingRecipe setModeCreator={setModeCreator}/>
-                    :
-                    ""}
+                    }
 
-                {favoritesCopy.length > 0?
+                {favoritesCopy.length > 0 &&
                     favoritesCopy.map((meal, index) => {
                         return(<Meal key={index} meal={meal}/>)
-                    })
-                    :
-                    ""
+                    }) 
                 }
 
             </section>

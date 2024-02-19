@@ -5,21 +5,23 @@ import Select from 'react-select';
 import { FaPlus } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
+import types from "../../../../store/reducers/types";
 
 
 
 const ModalCreatingRecipe = ({setModeCreator}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
-    const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
-    const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
+    // const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
+    // const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
+    const {hunger} = useSelector((state) => state.filters.filters);
     const [steps, setStep] = useState(['']);
     const [ingredients, setIngredient] = useState(['']);
     const inputImageElement = useRef()
 
     const options = [
-        {value:hungerBigName, label:hungerBigName},
-        {value:hungerFewName, label:hungerFewName},
+        {value:hunger[0].name, label:hunger[0].name},
+        {value:hunger[2].name, label:hunger[2].name},
     ]
     
     const handleSubmitCreation = (event) => {
@@ -39,7 +41,7 @@ const ModalCreatingRecipe = ({setModeCreator}) => {
         }
         const length = favorites.length;
         const favorite = {...dataForm, id:length +1}
-        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, favorite]})
+        store.dispatch({type:types.SET_FAVORITES, payload:[...favorites, favorite]})
     }
 
     const handleClickAddStep = () => {

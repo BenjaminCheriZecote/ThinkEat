@@ -1,5 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
+import types from "./types";
 
 // {
 //     id:1,
@@ -453,7 +454,7 @@ const initialState = {
 						
 const favoritesReducer = createReducer (initialState, (builder) => {						
 	builder					
-	.addCase(createAction("SET_FAVORITES"), (state, action) => {					
+	.addCase(createAction(types.SET_FAVORITES), (state, action) => {					
 		state.favorites = action.payload				
 	})			
 })						

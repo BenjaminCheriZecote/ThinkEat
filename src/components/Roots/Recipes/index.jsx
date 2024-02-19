@@ -11,15 +11,12 @@ import { FaArrowsRotate } from "react-icons/fa6";
 import { MdSort } from "react-icons/md";
 import { mappingUrlFunction } from "../../httpQueries";
 
-
-
 import ModalCreatingRecipe from "./ModalCreateingRecipe";
 // import '../../../styles/App.scss'
 import './Recipe.scss';
-import { Form } from "react-router-dom";
-
-
-
+import { Form, useLoaderData } from "react-router-dom";
+import { RecipeApi } from "../../../store/api";
+import store from "../../../store";
 
 const Recipes = () => {
 
@@ -27,6 +24,7 @@ const Recipes = () => {
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
     const [isAdmin, setAdmin] = useState(false);
+    const queryRecipes = useLoaderData();
 
     //
     const [orderBy, setOrderBy] = useState([])
@@ -117,7 +115,6 @@ const Recipes = () => {
             }
         }
     }
-
     //
     const setAscFunction = (event) => {
         const liParentElement = event.target.closest("li");
@@ -176,7 +173,6 @@ const Recipes = () => {
 
                     <Form>
                         <fieldset className="fieldsetOrderBy">
-
                             <ul>
                                 {orderBy.map((option, index) => {
                                     return(
@@ -246,13 +242,18 @@ const Recipes = () => {
                     :
                     ""}</div>
             <ul className="section__ulContainerRecipes">
-                {recipesCopy.length > 0?
+                {queryRecipes?
+                    queryRecipes.map((meal, index) => {
+                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
+                    })
+                    :
+                    recipesCopy.length > 0?
                     recipesCopy.map((meal, index) => {
                         return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                     })
                     :
                     ""
-                }
+                    }
             </ul>
             </section>
     )
@@ -260,15 +261,26 @@ const Recipes = () => {
 
 export default Recipes;
 
-export function recipesLoader(){
+export async function recipesLoader(){
+
+        async function fetchDataRecipesApi() {
+            try {
+                const recipes = await RecipeApi.getAll();
+                store.dispatch({type:"SET_RECIPES", payload: recipes})
+                return recipes
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchDataRecipesApi()
+
 
     const urlClient = window.location.href;
     const endpointApi = 'https://localhost:3000/api/recipe?';
+    const routeName = "recipe";
     
 
-    mappingUrlFunction(urlClient, endpointApi);
-
-
+    mappingUrlFunction(urlClient, routeName);
 
     return null
 }

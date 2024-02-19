@@ -310,7 +310,7 @@ export async function asideLoader() {
     async function fetchDataFamilyApi() {
         try {
             const families = await FamilyApi.getAll();
-            store.dispatch({type:"SET_FAMILIES", payload: families})
+            store.dispatch({type:types.SET_FAMILIES, payload: families})
             return families
         } catch (error) {
             console.log(error)
@@ -318,17 +318,17 @@ export async function asideLoader() {
     }
     fetchDataFamilyApi()
 
-    // async function fetchDataIngredientApi() {
-    //     try {
-    //         const ingredients = await IngredientApi.getAll();
-    //         console.log(ingredients)
-    //         store.dispatch({type:"SET_INGREDIENTS_BIS", payload: ingredients})
-    //         return ingredients
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-    // fetchDataIngredientApi()
+    async function fetchDataIngredientApi() {
+        try {
+            const ingredients = await IngredientApi.getAll();
+            console.log(ingredients)
+            store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
+            return ingredients
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    fetchDataIngredientApi()
 
     // route back à corrigé
 

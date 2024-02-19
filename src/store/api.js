@@ -31,6 +31,18 @@ class CoreApi {
 
     return await httpResponse.json();
   }
+  static async getAllBody(data) {
+
+    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+  
+    this.errorHandler(httpResponse);
+    
+    return await httpResponse.json();
+  }
   static async update(id, data) {
     const token = await TokenApi.getValidToken();
 

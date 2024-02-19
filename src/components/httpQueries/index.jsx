@@ -1,7 +1,10 @@
+import { apiBaseUrl } from "../../config";
+import store from "../../store";
+import { FamilyApi, IngredientApi, RecipeApi } from "../../store/api";
+import types from "../../store/reducers/types";
 
-
-export async function mappingUrlFunction(urlClient, endpointApi){
-        
+export async function mappingUrlFunction(urlClient, routeName){
+    
     // les trois tables du back end (recipe, ingredient, family) possiblement concernée par la query + l'orderBy pour le trie
     // représentés ici par 4 array vides, qui vont être potentiellement alimenté selon l'url généré par les Form concernés
     const recipeQuery = []; 
@@ -60,37 +63,45 @@ export async function mappingUrlFunction(urlClient, endpointApi){
                 }
             }
 
-            const formatQuery = (query) => {
-                return query.map(item => {
-                  return '[' + item.map(value => `'${value}'`).join(',') + ']';
-                }).join(',');
-              };
+        })
+        const formatQuery = (query) => {
+            return query.map(item => {
+              return '[' + item.map(value => `'${value}'`).join(',') + ']';
+            }).join(',');
+          };
 
-              let urlSended = endpointApi;
+        let urlSended = apiBaseUrl;
 
               
-                    if (recipeQuery.length > 0) {
-                        const formattedRecipeQuery = formatQuery(recipeQuery);
-                        urlSended = urlSended + `recipe=${formattedRecipeQuery}&`;
-                    }
-                    if (ingredientQuery.length > 0) {
-                        const formattedIngredientQuery = formatQuery(ingredientQuery);
-                        urlSended = urlSended + `ingredient=${formattedIngredientQuery}&`
-                    }
-                    if (familyQuery.length > 0) {
-                        const formattedFamilyQuery = formatQuery(familyQuery);
-                        urlSended = urlSended + `family=${formattedFamilyQuery}&`
-                    }
-                    if (orderByQuery.length > 0) {
-                        const formattedOrderByQuery = formatQuery(orderByQuery);
-                        urlSended = urlSended + `orderBy=${formattedOrderByQuery}&`
-                    }
+        if (recipeQuery.length > 0) {
+            const formattedRecipeQuery = formatQuery(recipeQuery);
+            urlSended = urlSended + `recipe=${formattedRecipeQuery}&`;
+        }
+        if (ingredientQuery.length > 0) {
+            const formattedIngredientQuery = formatQuery(ingredientQuery);
+            urlSended = urlSended + `ingredient=${formattedIngredientQuery}&`
+        }
+        if (familyQuery.length > 0) {
+            const formattedFamilyQuery = formatQuery(familyQuery);
+            urlSended = urlSended + `family=${formattedFamilyQuery}&`
+        }
+        if (orderByQuery.length > 0) {
+            const formattedOrderByQuery = formatQuery(orderByQuery);
+            urlSended = urlSended + `orderBy=${formattedOrderByQuery}&`
+        }
 
-            console.log("console URL", urlSended)
-            // console.log("recipe query :", recipeQuery)
-            // console.log("family query :", familyQuery)
+        console.log("console URL", urlSended)
 
-            window.history.replaceState({}, '', urlSended.href);
-        })
+        window.history.replaceState({}, '', urlSended.href);
+        // eslint-disable-next-line no-inner-declarations
+        async function fetchDataRecipesBodyApi() {
+            try {
+                const recipes = await RecipeApi.getAllBody(urlSended);
+                return recipes
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        return fetchDataRecipesBodyApi()
     }
 }
