@@ -125,7 +125,6 @@ export class UserApi extends CoreApi {
 
   static getUser() {
     const userString = localStorage.getItem('user');
-    console.log(userString)
     if (!userString) {
       return null;
     }

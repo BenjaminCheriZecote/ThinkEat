@@ -1,69 +1,122 @@
-// {
-//     id:1,
-//     name:"Hamburger",
-//     image:"",
-//     steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-//     hunger:"big",
-//     preparating_time:10,
-//     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
-// },
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Form } from "react-router-dom";
+
 import { FaPlus } from "react-icons/fa6";
-import { FaMinus } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
 
-const RecipeUX = ({recipe, update, create}) => {
-    return(
-        <li className="section__recipe">
-            <img src="" alt="" />
-            <h3>{recipe.name}</h3>
-            <div><p>Preparation :</p><input type="text" value={recipe.preparating_time} disabled={update?false:true}/> </div>
-            <div><input type="text" value={recipe.hunger} disabled={update?false:true}/></div>
-            <ul> Etapes:
-                {update?
-                    <FaPlus />
-                    :
-                    ""
-                    }
 
-                {recipe.steps.length > 1?
-                    <ul>
-                        {recipe.steps.map((element, index) => {
-                            return(
-                                <li key={index}>
-                                    <input type="text" value={element} disabled={update?false:true}/>
-                                    {update?<FaMinus />:""}
-                                </li>   
-                            )
-                        })}
-                    </ul>
-                        :
-                        <li>{recipe.steps[0]}</li>
-                    }
-            </ul>
-            <ul> Ingredients:
-                {update?
-                    <FaPlus />
-                    :
-                    ""
-                    }
+const RecipeUX = ({recipe}) => {
+  const criterias = useSelector((state) => state.criterias);
+  const [steps, setStep] = useState(recipe.steps);
+  const [ingredients, setIngredient] = useState(recipe.ingredients);
+  const selectElement = useRef()
 
-                {recipe.ingredients.length > 1?
-                    <ul className="section-recipe__field--ingredientsContainer">
-                        {recipe.ingredients.map((element, index) => {
-                            return(
-                                <li key={index}>
-                                    <input type="text" value={element.name} disabled={update?false:true}/>
-                                    <img src={element.image} alt="" />
-                                    {update?<FaMinus />:""}
-                                </li>   
-                            )
-                        })}
-                    </ul>
-                        :
-                        <li>{recipe.ingredients[0]}</li>
-                    }
-            </ul>
-        </li>
-    )
+  const handleClickAddStepp = () => {
+    setStep([...steps, '']);
+  }
+
+  const handleClickDeleteStepp = (event) => {
+    const textContentStep = event.target.closest("li").outerText;
+    const index = parseInt(textContentStep.slice(-1)) - 1;
+    const arrayStep = [...steps];
+    arrayStep.splice(index, 1);
+    setStep(arrayStep);
+  }
+
+  const handleClickAddIngredient = () => {
+    setIngredient([...ingredients, '']);
+  }
+
+  const handleClickDeleteIngredients = (event) => {
+    const liParentElement = event.target.closest("li");
+    const inputIngredientElement = liParentElement.querySelector("input")
+    const index = parseInt(inputIngredientElement.name.slice(-1));
+    const arrayIngredients = [...ingredients]
+    arrayIngredients.splice(index, 1)
+    setIngredient(arrayIngredients)
+  }
+  
+  return(
+    <Form className="section__recipe">
+      <input className="section-recipe__name" name="name" type="text" defaultValue={recipe.name}/>
+      <fieldset className="section-recipe__top">
+        <div>
+          <div className="section-recipe__field">
+            <label>Preparation :</label>
+            <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} />
+          </div>
+          <div className="section-recipe__field">
+            <label>Cuisson :</label>
+            <input name="cookingTime" type="time" defaultValue={recipe.preparatingTime} />
+          </div>
+          <div className="section-recipe__field">
+            <label>Nombre de convive :</label>
+            <input name="person" type="number" min="1" defaultValue={recipe.preparatingTime} />
+          </div>
+          <div className="section-recipe__field">
+            <label>Faim :</label> 
+            <select className="section-recipe-field__select" ref={selectElement} name="hunger">
+              {!!criterias.hunger && criterias.hunger.map(({name},index) => (
+                <option key={index} value={name}>{name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <figure>
+          <img src="/tartiflete.jpg" alt="" />
+          <figcaption>{recipe.name}</figcaption>
+        </figure>
+      </fieldset>
+
+      <fieldset>
+        <div className="section-recipe__field">
+          <legend>Ingredients :</legend>
+          <button type="button" onClick={handleClickAddIngredient}><FaPlus/></button>
+        </div>
+        <ul className="section-recipe__field--ingredientsContainer">
+        {ingredients.map((element, index) => (
+          <li key={index}>
+            <button type="button"><MdCancel onClick={handleClickDeleteIngredients} size={12}/></button>
+            <input name={`ingredients${index}`} type="text" defaultValue={ingredients[index].name} />
+            <img src={ingredients[index].image} alt="" />
+          </li>
+        ))}
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <div className="section-recipe__field">
+          <legend>Etapes :</legend>
+          <button type="button" onClick={handleClickAddStepp}><FaPlus /></button>
+        </div>
+        <ul>
+          {steps.map((element, index) => (
+            <li key={index}>
+              <div>
+                <p>Etape {index+1}</p>
+                <button type="button"><MdCancel onClick={handleClickDeleteStepp} size={12}/></button>
+              </div>
+              <div>
+                <textarea name={`steps${index}`} defaultValue={steps[index]} />
+              </div>
+            </li>
+          ))}      
+        </ul>
+      </fieldset>
+      
+      <div className="section-recipe__bottom">
+        <button type="submit"><FaCheck/></button>
+        <button type="button"><MdCancel/></button>
+      </div>
+    </Form>
+  )
 }
 
 export default RecipeUX;
+
+
+
+
+

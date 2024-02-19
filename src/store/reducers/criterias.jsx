@@ -2,28 +2,14 @@ import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit"					
 						
 const initialState = {
-
-  //   numberOfProposition:0,
-  //   hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
-  //   preparatingTime: {min:"00:00",max:"23:59"},
-  //       // {nonFavoritesRecipesCriteria:false, name:"Recettes non favoris"},
-  //       // {timeCriteria:false},
-  //       // {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
-  //       // {type_ingredientsCriteria:null},
-  //       // {personCriteria:null},
-  // },					
-	criterias:[
-        {numberOfProposition:0},
-        {hungerBigCriteria:false, name:"Copieux"},
-        {hungerFewCriteria:false, name:"Petite faim"},
-        {preparating_timeLongCriteria:false, name:"Long"},
-        {preparating_timeShortCriteria:false, name:"Court"},
-        {nonFavoritesRecipesCriteria:false, name:"Recettes non favoris"},
-        {timeCriteria:false},
-        {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
-        {type_ingredientsCriteria:null},
-        {personCriteria:null},
-    ],				
+  numberOfProposition:0,
+  hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
+  preparatingTime: {min:"00:00",max:"23:59"},
+      // {nonFavoritesRecipesCriteria:false, name:"Recettes non favoris"},
+      // {timeCriteria:false},
+      // {diet_preferencesCriteria:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}]},
+      // {type_ingredientsCriteria:null},
+      // {personCriteria:null},				
 }						
 						
 const criteriasReducer = createReducer (initialState, (builder) => {						
