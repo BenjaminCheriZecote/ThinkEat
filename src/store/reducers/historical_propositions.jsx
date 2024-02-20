@@ -5,11 +5,11 @@ const initialState = {
 	historical_propositions:[]					
 }						
 						
-const historcalPropositionsReducer = createReducer (initialState, (builder) => {						
+const historicalPropositionsReducer = createReducer (initialState, (builder) => {						
 	builder					
 	.addCase(createAction("SET_HISTORIC"), (state, action) => {					
 		state.historical_propositions = action.payload				
 	})			
 })						
 						
-export default historcalPropositionsReducer;
+export default historicalPropositionsReducer;

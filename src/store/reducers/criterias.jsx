@@ -14,12 +14,6 @@ const initialState = {
 						
 const criteriasReducer = createReducer (initialState, (builder) => {						
 	builder
-    .addCase(createAction("ADD_NUMBER_OF_PROPOSITION"), (state) => {					
-		state.criterias[0].numberOfProposition = state.criterias[0].numberOfProposition + 1	
-	})
-    .addCase(createAction("SUBTRACT_NUMBER_OF_PROPOSITION"), (state) => {					
-		state.criterias[0].numberOfProposition = state.criterias[0].numberOfProposition - 1	
-	})
     .addCase(createAction("SET_HUNGER_BIG_CRITERIA"), (state) => {					
 		state.criterias[1].hungerBigCriteria = !state.criterias[1].hungerBigCriteria;				
 	})

@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { MdCancel } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { FaPerson } from "react-icons/fa6";
+import { CiCircleMinus } from "react-icons/ci";
+import { CiCirclePlus } from "react-icons/ci";
 import Proposition from "./Proposition";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,62 +15,51 @@ import store from "../../../store";
 
 import './Proposal.scss';
 import { NavLink } from "react-router-dom";
+import types from "../../../store/reducers/types";
+import { Form } from "react-router-dom";
+import { mappingUrlFunction } from "../../httpQueries";
+import { RecipeApi } from "../../../store/api";
 
-// {
-    //     id:1,
-    //     name:"Hamburger",
-    //     image:"",
-    //     steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-    //     hunger:"Copieux",
-    //     preparating_time:10,
-    //     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
-    // },
-
+    // id:1,
+//     name:“Hamburger”,
+//     image:“/hamburger.png”,
+//     steps:[“Cuire les steak à la poèle.“, “Chauffer le pain au four, avec steak et fromage”, “Rajouter tomate et salade”],
+//     hunger:“Copieux”, // ou Normal ou Léger
+//     time:13, // temps total
+//     preparatingTime:10, // temps de preparation
+//     cookingTime: 3 // temps de cuisson
+//     person: 1,
+//     ingredients:[
+//         {
+//             d:30, name:“Pain hamburger”, quantity: “80”, unit:“gramme”, family: [{id:1, name:“Féculent”}, {id:15, name:“Recette”}]
+//         },
+//         {
+//             id:20, name:“Steack”, quantity: “100", unit:“gramme”, family: [{id:2, name:“Viande”}]
+//         },
+//         {...}]
+// }
 
 const Proposal = () => {
 
     const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
-    // const {numberOfProposition} = useSelector((state) => state.criterias.criterias[0]);
-    // const {hungerBigCriteria} = useSelector((state) => state.criterias.criterias[1]);
-    // const {hungerFewCriteria} = useSelector((state) => state.criterias.criterias[2]);
-    // const {preparating_timeLongCriteria} = useSelector((state) => state.criterias.criterias[3]);
-    // const {preparating_timeShortCriteria} = useSelector((state) => state.criterias.criterias[4]);
-    // const {nonFavoritesRecipesCriteria} = useSelector((state) => state.criterias.criterias[5]);
-    // const {hungerBigFilter} = useSelector((state) => state.filters.filters[0]);
-    // const {hungerFewFilter} = useSelector((state) => state.filters.filters[1]);
-    // const {preparating_timeLongFilter} = useSelector((state) => state.filters.filters[2]);
-    // const {preparating_timeShortFilter} = useSelector((state) => state.filters.filters[3]);
-    // const {favoriteFilter} = useSelector((state) => state.filters.filters[4]);
-    const [filteredProposal, setFilteredProposal] = useState([]);
-    const [newFilteredProposal, setNewFilteredProposal] = useState([]);
-
-    // const {filter} = useSelector((state) => state.filters.filters[9])
+    const {numberOfProposition} = useSelector((state) => state.filters.filters);
     
-    const [proposal, setProposal] = useState([]);
+    const {proposal} = useSelector((state) => state.proposal)
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
 
     useEffect(() => {
-        setNewFilteredProposal({
-            id: uuidv4(),
-            array: filteredProposal
-        })
-    }, [filteredProposal])
+        console.log(proposal)
+    })
 
-    // useEffect(() => {
-    //     if (proposal.array)
-    //     filterProposition(proposal.array)
-    // }, [filter])
+    const handleClickMinus = () => {
+        if (numberOfProposition !== 0) store.dispatch({type:types.SUBTRACT_NUMBER_OF_PROPOSITION});
+    }
 
-    // const handleClickMinus = () => {
-    //     if (numberOfProposition !== 0) store.dispatch({type:"SUBTRACT_NUMBER_OF_PROPOSITION"});
-        
-    // }
-
-    // const handleClickPlus = () => {
-    //     store.dispatch({type:"ADD_NUMBER_OF_PROPOSITION"});
-    // }
+    const handleClickPlus = () => {
+        store.dispatch({type:types.ADD_NUMBER_OF_PROPOSITION});
+    }
 
     const handleChange = () => {
         //
@@ -76,135 +67,24 @@ const Proposal = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setPropostions();
+        store.dispatch({type:types.TURN_FILTER})
+        setProposition2();
     }
 
-    const setPropostions = () => {
-
-        const convertedFavoritesArray = favorites.map((e) => {
-            const object = {...e}
-            if (object.preparating_time < 10) {
-                object.preparating_time = "Court";
-            } else {
-                object.preparating_time = "Long";
-            }
-            return object
+    const setProposition2 = async () => {
+        const recipes = await RecipeApi.getAll();
+        const proposalsWithValidate = recipes.map(recipe => {
+            return { ...recipe, validate: true }; // Crée un nouvel objet avec la propriété validate ajoutée
         });
 
-        const result = []
-
-    if (hungerBigCriteria) {
-        const array = convertedFavoritesArray.filter((meal) => meal.hunger === "Copieux");
-        array.forEach(element => {
-            result.push(element)
-        });
-    }
-
-    if (hungerFewCriteria) {
-        const array = convertedFavoritesArray.filter((meal) => meal.hunger === "Petite faim");
-        array.forEach(element => {
-            result.push(element)
-        });
-    }
-
-    if (preparating_timeLongCriteria) {
-        const array = convertedFavoritesArray.filter((e) => e.preparating_time === "Long");
-        array.forEach(element => {
-            result.push(element)
-        });
-    }
-
-    if (preparating_timeShortCriteria) {
-        const array = convertedFavoritesArray.filter((e) => e.preparating_time === "Court");
-        array.forEach(element => {
-            result.push(element)
-        });
-    }
-
-    if (nonFavoritesRecipesCriteria) {
-        const recipesToAddFavorites = recipes.filter(recipe => {
-            return !favorites.some(favorite => favorite.id === recipe.id);
-        });
+        const limitedProposal = proposalsWithValidate.slice(0, numberOfProposition)
         
-        const convertedRecipesArray = recipesToAddFavorites.map((e) => {
-            const object = {...e}
-            if (object.preparating_time < 10) {
-                object.preparating_time = "Court";
-            } else {
-                object.preparating_time = "Long";
-            }
-            return object
-        });
-
-        convertedRecipesArray.forEach(element => {
-            result.push(element)
-        });
-        
-        }  
-
-
-
-    // Autres conditions de filtrage ici si nécessaire
-
-    const result2 = [];
-    result2.push(result[0])
-
-    for (let i = 0; i < result.length; i++) {
-        let existedMeal = result2.find((e) => result[i].id === e.id)
-        if (!existedMeal) {
-            result2.push(result[i])
-        } 
+        const objectProposal = {
+            id: uuidv4(),
+            array: limitedProposal
+        }
+        store.dispatch({ type: types.SET_PROPOSAL, payload: objectProposal });
     }
-     
-    if (result.length > 0) {
-
-        const resultAddStatus = result2.map((e) => {
-            const object = {...e};
-            object.validate = true;
-            return object
-        });
-                
-            // const finalResult = resultAddStatus.slice(0, numberOfProposition);
-            
-            const objectProposal = {
-                id: uuidv4(),
-                array: finalResult
-            }
-    
-    
-            setProposal(objectProposal);
-            setFilteredProposal(finalResult)
-    }
-    }
-
-    // const filterProposition = (finalResult) => {
-    //     let proposalReadyToFilter = finalResult;
-        
-    //     if (hungerBigFilter) {
-    //         proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Copieux");
-    //     }
-    
-    //     if (hungerFewFilter) {
-    //         proposalReadyToFilter = proposalReadyToFilter.filter((meal) => meal.hunger === "Petite faim");
-    //     }
-    
-    //     if (preparating_timeLongFilter) {
-    //         proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Long");
-    //     }
-    
-    //     if (preparating_timeShortFilter) {
-    //         proposalReadyToFilter = proposalReadyToFilter.filter((e) => e.preparating_time === "Court");
-    //     }
-
-    //     if (favoriteFilter) {
-    //         proposalReadyToFilter = proposalReadyToFilter.filter((recipe) => {
-    //             return favorites.some(favorite => favorite.id === recipe.id);
-    //         })
-    //     }  
-
-    //     const filterArray = proposalReadyToFilter;
-    //     setFilteredProposal(filterArray)
-    // }
 
     const handleClickValidateChoices = () => {
         
@@ -214,56 +94,46 @@ const Proposal = () => {
             if (!findProposal) store.dispatch({type:"SET_HISTORIC", payload:[... historical_propositions, {date:new Date().toLocaleString(), historic:proposal}]});
         }
     }
+  
 
     return(
         <>
             <section className="section">
                 
-                    <div className="section__start">
-                        <div >
-                            {/* <FaCircleMinus onClick={handleClickMinus} id="minus"/>
+                    <Form className="section__start">
+                        <div>
+                            <CiCircleMinus onClick={handleClickMinus} id="minus"/>
                             <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
-                            <FaCirclePlus onClick={handleClickPlus} id="plus"/> */}
+                            <CiCirclePlus onClick={handleClickPlus} id="plus"/>
                         </div>
   
-                        <button onClick={handleSubmit} type="submit">C'est parti !</button>
-                    </div>
+                        <button onClick={handleSubmit}>C'est parti !</button>
+                    </Form>
             </section>
 
             <section className="section">
                     {proposal.array?
                     <>
-                        {newFilteredProposal?
-                             <ul className="section__ulContainerProposal">
-                             {newFilteredProposal.array.map((element, index) => {
-                                 return(
-                                     <Proposition proposition={element} key={index}/>
-                                 )
-                             })}
-                         </ul>
+                        <ul className="section__ulContainerProposal">
+                            {proposal.array.map((element, index) => {
+                                return(
+                                    <Proposition proposition={element} key={index}/>
+                                )
+                            })}
+                        </ul>
+                        {isConnected?
+                            <div className="section__btnValidate">
+                                <button onClick={handleClickValidateChoices}>Valider mes choix</button>
+                            </div>
                             :
-                            <ul className="section__ulContainerProposal">
-                                {proposal.array.map((element, index) => {
-                                    return(
-                                        <Proposition proposition={element} key={index}/>
-                                    )
-                                })}
-                            </ul>
+                            <div className="section__btnValidate">
+                                <NavLink to={"/signin"}>Connecte toi pour valider tes choix</NavLink>
+                            </div>
                             }
-
-                            {isConnected?
-                                <div className="section__btnValidate">
-                                    <button onClick={handleClickValidateChoices}>Valider mes choix</button>
-                                </div>
-                                :
-                                <div className="section__btnValidate">
-                                    <NavLink to={"/signin"}>Connecte toi pour valider tes choix</NavLink>
-                                </div>
-                                }
+                    
                     </>
                         :
-                        
-                        <p className="section__pNoResults">Aucun résultats. Précise tes critères</p>
+                        <p className="section__pNoResults">Aucuns résultats. Précise tes critères</p>
                     }
             </section>
         </>
@@ -271,3 +141,16 @@ const Proposal = () => {
 }
 
 export default Proposal;
+
+export async function proposaLoader(){
+
+const urlClient = window.location.href;
+const endpointApi = 'https://localhost:3000/api/recipe?';
+const routeName = "recipe";
+
+
+mappingUrlFunction(urlClient, endpointApi, routeName);
+
+return null
+}
+

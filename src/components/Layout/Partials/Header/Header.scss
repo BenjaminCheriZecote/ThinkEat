@@ -30,6 +30,11 @@
     color: var(--colorbgOrangeAside3)
 }
 
+.header-rightSide-boxProfile__settings {
+    display:flex;
+    gap:0.5rem;
+}
+
 .iconProfile {
     cursor: pointer;
 }
@@ -41,7 +46,9 @@
     width:7rem;
     background-color: white;
     border:1px var(--colorbgOrangeAside3) solid;
-    color: var(--colorbgOrangeAside3)
+    color: var(--colorbgOrangeAside3);
+    cursor: pointer;
+    z-index:8;
 }
 
 .header-rightSide__nav * {

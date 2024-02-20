@@ -2,8 +2,9 @@ import { apiBaseUrl } from "../../config";
 import store from "../../store";
 import { FamilyApi, IngredientApi, RecipeApi } from "../../store/api";
 import types from "../../store/reducers/types";
+import urlQueryJsonParser from "url-query-json-parser";
 
-export async function mappingUrlFunction(urlClient, routeName){
+export async function mappingUrlFunction(urlClient){
     
     // les trois tables du back end (recipe, ingredient, family) possiblement concernée par la query + l'orderBy pour le trie
     // représentés ici par 4 array vides, qui vont être potentiellement alimenté selon l'url généré par les Form concernés
@@ -11,7 +12,6 @@ export async function mappingUrlFunction(urlClient, routeName){
     const ingredientQuery = [];
     const familyQuery = [];
     const orderByQuery = [];
-
    
     if (urlClient.includes('?')) {
         const queryString = urlClient.split('?')[1];
@@ -64,44 +64,43 @@ export async function mappingUrlFunction(urlClient, routeName){
             }
 
         })
+
         const formatQuery = (query) => {
             return query.map(item => {
-              return '[' + item.map(value => `'${value}'`).join(',') + ']';
+
+              return item.map(value => value);
             }).join(',');
           };
 
-        let urlSended = apiBaseUrl;
+        let urlSended = '';
+
+        console.log(recipeQuery)
+        console.log(ingredientQuery)
+        console.log(familyQuery)
+
+        const objectQuery = {
+        }
+
 
               
         if (recipeQuery.length > 0) {
-            const formattedRecipeQuery = formatQuery(recipeQuery);
-            urlSended = urlSended + `recipe=${formattedRecipeQuery}&`;
+            objectQuery.recipe = recipeQuery
         }
         if (ingredientQuery.length > 0) {
-            const formattedIngredientQuery = formatQuery(ingredientQuery);
-            urlSended = urlSended + `ingredient=${formattedIngredientQuery}&`
+            objectQuery.ingredient = ingredientQuery
         }
         if (familyQuery.length > 0) {
-            const formattedFamilyQuery = formatQuery(familyQuery);
-            urlSended = urlSended + `family=${formattedFamilyQuery}&`
+            objectQuery.family = familyQuery
         }
         if (orderByQuery.length > 0) {
-            const formattedOrderByQuery = formatQuery(orderByQuery);
-            urlSended = urlSended + `orderBy=${formattedOrderByQuery}&`
+            objectQuery.orderBy = orderByQuery
         }
 
-        console.log("console URL", urlSended)
+        console.log("console URL", objectQuery)
 
-        window.history.replaceState({}, '', urlSended.href);
         // eslint-disable-next-line no-inner-declarations
-        async function fetchDataRecipesBodyApi() {
-            try {
-                const recipes = await RecipeApi.getAllBody(urlSended);
-                return recipes
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        return fetchDataRecipesBodyApi()
+        const urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
+        console.log(urlQuery);
+        return urlQuery
     }
 }

@@ -13,6 +13,7 @@ import style from './Aside.module.css'
 import { Form } from 'react-router-dom';
 import { useEffect } from 'react';
 import types from '../../../../store/reducers/types';
+import { useRef } from 'react';
 
 
 
@@ -25,7 +26,6 @@ const Aside = () => {
     const currentPath = location.pathname;
     const navigate = useNavigate()
 
-    const {filter} = useSelector((state) => state.filters)
     const {families} = useSelector((state) => state.families);
     const [familiesCopy, setFamiliesCopy] = useState(families);
     const {familiesChoices} = useSelector((state) => state.families);
@@ -45,15 +45,20 @@ const Aside = () => {
     const {preparatingTime} = useSelector((state) => state.filters.filters);
     const {cookingTime} = useSelector((state) => state.filters.filters);
     const {favoritesRecipes} = useSelector((state) => state.filters.filters);
+    const {filter} = useSelector((state) => state.filters.filters);
+    const btnFormElement = useRef()
 
     useEffect(() => {
-        console.log(currentPath)
         if (currentPath !== "/proposal") {
             setBtnFooter("Nouvelle proposition")
         } else {
             setBtnFooter("Générer la proposition")
         }
-    }, [])
+    })
+
+    // useEffect(() => {
+    //     btnFormElement.current.click()
+    // }, [filter])
     
 
 
@@ -153,7 +158,7 @@ const Aside = () => {
     <aside className={style.aside}>
         <div>
             {/* mettre le mot "Filter" dans la classe du Form */}
-            <Form className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""} onSubmit={handleSubmitFilter}>
+            <Form  className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""} onSubmit={handleSubmitFilter}>
                 <h3>Filtres</h3>
                 <fieldset>
                     <legend>Faim</legend>
@@ -273,7 +278,7 @@ const Aside = () => {
 
                 <footer>
                     <small>0 résultats possibles</small>
-                    <button>Filtrer</button>
+                    <button ref={btnFormElement}>Filtrer</button>
                 </footer>        
 
             </Form>
@@ -316,19 +321,18 @@ export async function asideLoader() {
             console.log(error)
         }
     }
-    fetchDataFamilyApi()
+    await fetchDataFamilyApi()
 
     async function fetchDataIngredientApi() {
         try {
             const ingredients = await IngredientApi.getAll();
-            console.log(ingredients)
             store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
             return ingredients
         } catch (error) {
             console.log(error)
         }
     }
-    fetchDataIngredientApi()
+    await fetchDataIngredientApi()
 
     // route back à corrigé
 

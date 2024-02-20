@@ -276,11 +276,19 @@ export async function recipesLoader(){
 
 
     const urlClient = window.location.href;
-    const endpointApi = 'https://localhost:3000/api/recipe?';
-    const routeName = "recipe";
     
+    mappingUrlFunction(urlClient);
+    // async function fetchDataRecipesApi() {
+    //     try {
+    //         const recipes = await RecipeApi.getAll();
+    //         store.dispatch({type:"SET_RECIPES", payload: recipes})
+    //         return recipes
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // fetchDataRecipesApi()
 
-    mappingUrlFunction(urlClient, routeName);
 
     return null
 }

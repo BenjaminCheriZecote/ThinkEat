@@ -49,7 +49,7 @@ const Header = () => {
                 <h1>KoiKonMange</h1>
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Acceuil</NavLink>
+                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
                     
                     {!isAdmin?
@@ -69,15 +69,10 @@ const Header = () => {
                     <div><CgProfile onClick={handleClick}  className="iconProfile"/>
                     {isConnected?
                         <div ref={boxProfile} className='header-rightSide__boxProfile '>
-                            <div>
-                                <p>{name}</p> 
-                                <NavLink to="/profil"><IoIosSettings/></NavLink>
-                            </div>
-                        
-                        
-                        
-                        
-                        <button onClick={handleClickDeconnexion}>Se déconnecter</button>
+                            
+                            <p>{name}</p> 
+                            <NavLink className="header-rightSide-boxProfile__settings" to="/profil">Profil <IoIosSettings/></NavLink>
+                            <button onClick={handleClickDeconnexion}>Se déconnecter</button>
                         
                         </div>
                         :

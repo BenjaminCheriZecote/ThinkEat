@@ -12,6 +12,7 @@
   "dependencies": {
     "react-dom": "^18.2.0",
     "react-select": "^5.8.0",
+    "url-query-json-parser": "^1.0.6",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
