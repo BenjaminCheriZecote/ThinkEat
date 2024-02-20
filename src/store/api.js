@@ -24,15 +24,12 @@ class CoreApi {
 
     return await httpResponse.json();
   }
-  // static async getAll(query = null) {
-  //   console.log(`${apiBaseUrl}/${this.routeName}${query?`?${query}`:`""`}`);
-  //   const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}${query?`?${query}`:`""`}`);
-  //   this.errorHandler(httpResponse);
-
-  //   return await httpResponse.json();
-  // }
-  static async getAll() {
-    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}`);
+  static async getAll(query = null) {
+    let url = `${apiBaseUrl}/${this.routeName}`;
+    if (query) {
+      url += `?${query}`;
+    }
+    const httpResponse = await fetch(url);
     this.errorHandler(httpResponse);
 
     return await httpResponse.json();

@@ -48,6 +48,14 @@ const Aside = () => {
     const {filter} = useSelector((state) => state.filters.filters);
     const btnFormElement = useRef()
 
+    // console.log(families);
+    // console.log(familiesChoices);
+    // console.log(ingredients);
+    // console.log(ingredientsChoices);
+
+
+
+
     useEffect(() => {
         if (currentPath !== "/proposal") {
             setBtnFooter("Nouvelle proposition")

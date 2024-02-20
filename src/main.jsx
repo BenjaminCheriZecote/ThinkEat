@@ -28,7 +28,7 @@ import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
 const router = createBrowserRouter([									
 	{								
 		path: "/",							
-		element: <App />, loader:asideLoader,							
+		element: <App />, loader: asideLoader,							
 		// errorElement: <NotFound />,											
 		children: [							
       { index: true, element: <Home />},
