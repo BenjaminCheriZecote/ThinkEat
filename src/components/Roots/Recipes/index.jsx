@@ -17,9 +17,13 @@ import './Recipe.scss';
 import { Form, useLoaderData } from "react-router-dom";
 import { RecipeApi } from "../../../store/api";
 import store from "../../../store";
+import types from "../../../store/reducers/types";
 
 const Recipes = () => {
 
+    const loader = useLoaderData()
+    // console.log(loader)
+    // const recipesCopy = useLoaderData()
     const {recipes} = useSelector((state) => state.recipes)
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
@@ -247,7 +251,7 @@ const Recipes = () => {
                         return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                     })
                     :
-                    recipesCopy.length > 0?
+                    recipesCopy.length?
                     recipesCopy.map((meal, index) => {
                         return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                     })
@@ -266,19 +270,17 @@ export async function recipesLoader(){
     async function fetchDataRecipesApi(query) {
         try {
             const recipes = await RecipeApi.getAll(query);
-            store.dispatch({type:"SET_RECIPES", payload: recipes})
+            store.dispatch({type:types.SET_RECIPES, payload: recipes})
             return recipes
         } catch (error) {
             console.log(error)
+            return error
         }
     }
-    
-    
+
     const urlClient = window.location.href;
     
     const query = mappingUrlFunction(urlClient);
     console.log(query);
-    await fetchDataRecipesApi(query);
-
-    return null
+    return await fetchDataRecipesApi(query);
 }

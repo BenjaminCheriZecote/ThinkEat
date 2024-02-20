@@ -490,14 +490,18 @@ const initialState = {
     //         }]
     //     }
     // ]
-    recipes:[]					
+    recipes:await RecipeApi.getAll()					
 }						
 						
 const recipesReducer = createReducer (initialState, (builder) => {						
 	builder					
 	.addCase(createAction(types.SET_RECIPES), (state, action) => {					
 		state.recipes = action.payload				
-	})		
+	})
+    .addCase(createAction("GET_RECIPES"), (state, action) => {					
+		state.recipes = action.payload				
+	})
+
 })						
 						
 export default recipesReducer;	

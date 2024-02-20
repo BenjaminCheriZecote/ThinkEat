@@ -15,7 +15,6 @@ const Options = ({family, ingredient}) => {
                 const foundFamilyIngredient = familiesChoices.find((element) => element[1] === family.name);
                 if (!foundFamilyIngredient) {
                     const array = [family.id, family.name];
-                    console.log(array)
                     store.dispatch({type:"ADD_ONE_FAMILY_CHOICES", payload:array})
                 }
             }

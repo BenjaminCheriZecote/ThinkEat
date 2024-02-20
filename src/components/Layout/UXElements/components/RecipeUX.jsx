@@ -7,6 +7,8 @@ import { FaPlus } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import DropDownList from "./DropDownList";
+import { IngredientApi, RecipeApi } from "../../../../store/api";
+import store from "../../../../store";
 
 export default function RecipeUX({recipe, formMethod, cancelHandler}) {
   const user = useSelector((state) => state.session);
@@ -21,6 +23,12 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
 
   function  changeRecipe() {
     setInChange(!inChange);
+  }
+
+  const handleSubmit = (event) => {
+    const formData = new FormData(event.target);
+    const dataForm = Object.fromEntries(formData);
+    console.log("log data form :", dataForm)
   }
 
   if (!inChange) {
@@ -129,8 +137,10 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
     setSteps(newSteps);
   }
 
+
   return(
-    <Form className="section__recipe" method={formMethod}>
+    <Form className="section__recipe" method={formMethod} onSubmit={handleSubmit}>
+      <input type="hidden" name="id" value={recipe.id} />
       <input className="section-recipe__name" name="name" type="text" defaultValue={recipe.name}/>
       <fieldset className="section-recipe__top">
         <div>
@@ -184,6 +194,10 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
           <button type="button" onClick={addStepp}><FaPlus /></button>
         </div>
         <ul>
+        {steps&&
+          
+            <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"') }/>
+        }
           {steps.map((step, index) => (
             <li key={index}>
               <p>Etape {index+1}</p>
@@ -202,6 +216,68 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
       </div>
     </Form>
   )
+}
+
+export async function recipeAction({ request }) {
+
+  switch (request.method) {
+    case "PATCH": {
+      let formData = await request.formData();
+      const {recipes} = store.getState();
+
+      const id = parseInt(formData.get("id"));
+      const steps = formData.get("steps");
+      const mappingSteps = steps.split('"');
+      const allIngredients = formData.get("ingredients");
+      const mappingIngredientsId = allIngredients.split('-');
+      
+
+      const foundRecipe = recipes.recipes.find((recipe) => recipe.id === id);
+      const foundIngredientsOfRecipe = foundRecipe.ingredients;
+      console.log("log found :", foundIngredientsOfRecipe)
+
+      const removeIngredientsRecipe = foundIngredientsOfRecipe.filter((ingredient) => !mappingIngredientsId.some((id) => {
+        return ingredient.id === parseInt(id);
+      }));
+      console.log("log remove ", removeIngredientsRecipe)
+      if (removeIngredientsRecipe.lenght) {
+        await Promise.all(removeIngredientsRecipe.map(async (element) => {
+            const ingredientRecipe = await IngredientApi.removeIngredientToRecipe( id, element.id )
+            console.log(ingredientRecipe)
+        }));
+      }
+
+      const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient)));
+      console.log("log add :", addIngredientsRecipe)
+      if (addIngredientsRecipe.length) {
+        await Promise.all(addIngredientsRecipe.map(async (element) => {
+          const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, element )
+          console.log(ingredientRecipe)
+        }));
+      }
+
+      // const time = 
+
+      const data = {
+        name:formData.get("name"),
+        hunger:formData.get("hunger"),
+        preparationTime:formData.get("preparationTime"),
+        time:formData.get("cookingTime"),
+        person:formData.get("person"),
+        steps:mappingSteps,
+      }
+      console.log("data time : ", data.time, data.preparationTime)
+      console.log("data time type: ", typeof data.time, typeof data.preparationTime)
+      console.log("log object data :", data)
+      const updatedRecipe = await RecipeApi.update(id, data)
+      console.log("retour fetch ", updatedRecipe)
+      
+      return updatedRecipe
+    }
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
 }
 
 

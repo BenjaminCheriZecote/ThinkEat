@@ -24,6 +24,7 @@ import DietPreferences from './components/Roots/Profile/DietPreferences/index.js
 import Account from './components/Roots/Profile/Account/index.jsx.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
 import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
+import { recipeAction } from './components/Layout/UXElements/components/RecipeUX.jsx';
 
 const router = createBrowserRouter([									
 	{								
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
       { path: "/signup", element: <SignUp />, action: signUpAction},
       { path: "/reset-password", element: <ResetPassword />, action: resetPasswordAction },
       { path: "/recipes", element: <Recipes />, loader:recipesLoader },
-      { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader },
+      { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader, action:recipeAction },
       { path: "/validate/account/:uuid", element: <ValidateAccount />, loader: validateAccountLoader },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction }
 		],

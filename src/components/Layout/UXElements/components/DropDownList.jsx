@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import Tag from "./Tag";
 
 export default function DropDownList({itemName, items, choosenItems, isOpen, openHandler, closeHandler, toggleItemHandler}) {
+  // itemsName = Ingredients
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchValue, setsearchValue] = useState();
 
@@ -21,6 +22,9 @@ export default function DropDownList({itemName, items, choosenItems, isOpen, ope
         :
         <span>{itemName}</span>
       }
+      {choosenItems&&
+            <li><input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/></li>
+        }
       <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue'/></button>
       {isOpen && <>
         {choosenItems.length > 0 &&

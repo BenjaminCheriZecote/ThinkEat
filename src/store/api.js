@@ -29,6 +29,7 @@ class CoreApi {
     if (query) {
       url += `?${query}`;
     }
+    console.log(url);
     const httpResponse = await fetch(url);
     this.errorHandler(httpResponse);
 
@@ -36,6 +37,7 @@ class CoreApi {
   }
   static async update(id, data) {
     const token = await TokenApi.getValidToken();
+    console.log("je passe bien par là ?")
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "PATCH",
@@ -85,6 +87,32 @@ export class HistoryApi extends CoreApi {
 }
 export class IngredientApi extends CoreApi {
   static routeName = "ingredient";
+
+  static async addIngredientToRecipe(recipeId, ingredientId) {
+
+    const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    });
+  
+    this.errorHandler(httpResponse);
+    
+    return await httpResponse.json();
+  }
+
+  static async removeIngredientToRecipe(recipeId, ingredientId) {
+
+    const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+  
+    this.errorHandler(httpResponse);
+    
+    return await httpResponse.json();
+  }
+
+
 }
 export class RecipeApi extends CoreApi {
   static routeName = "recipe";
