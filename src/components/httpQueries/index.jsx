@@ -12,6 +12,7 @@ export function mappingUrlFunction(urlClient){
     const ingredientQuery = [];
     const familyQuery = [];
     const orderByQuery = [];
+    const recipeCriteriaQuery = [];
    
     if (!urlClient.includes('?')) {
         return null;
@@ -25,7 +26,7 @@ export function mappingUrlFunction(urlClient){
         const result = [parts[0], '=', parts[1]];
         if (result[0] === 'hunger') {
             if (result[2] === 'Copieux' || result[2] === 'Normal' || result[2] === 'Léger') {
-                recipeQuery.push(result)
+                recipeCriteriaQuery.push(result)
             }
         }
         if (result[0] === 'preparatingTime' || result[0] === 'cookingTime') {
@@ -66,6 +67,8 @@ export function mappingUrlFunction(urlClient){
             }
         }
 
+
+
     })
 
     const formatQuery = (query) => {
@@ -81,25 +84,37 @@ export function mappingUrlFunction(urlClient){
     console.log(ingredientQuery)
     console.log(familyQuery)
 
-    const objectQuery = {
-    }
+    let stringFilter = ``;
+    let stringOrderBy = '';
+    let stringCriteria = '';
 
-
-            
     if (recipeQuery.length > 0) {
-        objectQuery.recipe = recipeQuery
+        stringFilter = `${stringFilter}"recipe":${JSON.stringify(recipeQuery)},`;
     }
     if (ingredientQuery.length > 0) {
-        objectQuery.ingredient = ingredientQuery
+        stringFilter = `${stringFilter}"ingredient":${JSON.stringify(ingredientQuery)},`
     }
     if (familyQuery.length > 0) {
-        objectQuery.family = familyQuery
+        stringFilter = `${stringFilter}"family":${JSON.stringify(familyQuery)}`
     }
     if (orderByQuery.length > 0) {
-        objectQuery.orderBy = orderByQuery
+        stringOrderBy = `${stringOrderBy}"orderBy":${JSON.stringify(orderByQuery)}`;
+    }
+    if (recipeCriteriaQuery.length > 0) {
+        stringCriteria = `${stringCriteria}"recipe":${JSON.stringify(recipeCriteriaQuery)}`
     }
 
-    console.log("console URL", objectQuery)
+    const filterProperty = `"filter":{${stringFilter}},`
+    const orderByProperty = `"orderBy":{${stringOrderBy}},`
+    const criteriaProperty = `"criteria":{${stringCriteria}},`
+
+    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}}`;
+
+    stringFinalObject = stringFinalObject.slice(0, stringFinalObject.length - 2) + stringFinalObject.slice(stringFinalObject.length - 1);
+    
+    console.log("new string ", stringFinalObject)
+    const objectQuery = JSON.parse(stringFinalObject);
+    console.log("console log final OBJECT : ", objectQuery)
 
     // eslint-disable-next-line no-inner-declarations
     const urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
