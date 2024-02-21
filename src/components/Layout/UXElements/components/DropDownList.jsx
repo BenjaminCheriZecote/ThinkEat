@@ -22,9 +22,9 @@ export default function DropDownList({itemName, items, choosenItems, isOpen, ope
         :
         <span>{itemName}</span>
       }
-      {choosenItems&&
-            <li><input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/></li>
-        }
+      {choosenItems &&
+        <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
+      }
       <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue'/></button>
       {isOpen && <>
         {choosenItems.length > 0 &&

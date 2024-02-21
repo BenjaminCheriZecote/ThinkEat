@@ -8,6 +8,7 @@ import filtersReducer from "./reducers/filters/filters";
 import ingredientsReducer from "./reducers/ingredients";				
 import familiesReducer from "./reducers/families";
 import proposalReducer from "./reducers/proposal";
+import unitReducer from "./reducers/unit";
 				
 const store = configureStore({				
 	reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
 		filters:filtersReducer,
 		ingredients:ingredientsReducer,
 		families:familiesReducer,
-		proposal:proposalReducer
+		proposal:proposalReducer,
+    units:unitReducer
 	}			
 })				
 				

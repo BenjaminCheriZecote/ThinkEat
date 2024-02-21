@@ -14,6 +14,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
   const user = useSelector((state) => state.session);
   const criterias = useSelector((state) => state.criterias);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
+  const units = useSelector((state) => state.units);
 
   const [inChange, setInChange] = useState(false);
   const [steps, setSteps] = useState(recipe.steps);
@@ -55,7 +56,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
             </div>
           </div>
           <figure>
-            <img src="/tartiflete.jpg" alt={recipe.name} />
+            <img src={recipe.image} alt={recipe.name} />
             <figcaption>{recipe.name}</figcaption>
           </figure>
         </section>
@@ -69,7 +70,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
             <li key={ingredient.id}>
               <figure>
                 <img src={ingredient.image} alt={ingredient.name} />
-                <figcaption>{ingredient.name}</figcaption>
+                <figcaption>{ingredient.quantity && ingredient.quantity + " "}{ingredient.unit && ingredient.unit + " "}{ingredient.name}</figcaption>
               </figure>
             </li>
           ))}
@@ -158,7 +159,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
           </div>
           <div className="section-recipe__field">
             <label>Faim :</label> 
-            <select className="section-recipe-field__select" ref={selectElement} name="hunger">
+            <select className="section-recipe-field__select" ref={selectElement} name="hunger" defaultValue={recipe.hunger}>
               {!!criterias.hunger && criterias.hunger.map(({name},index) => (
                 <option key={index} value={name}>{name}</option>
               ))}
@@ -166,7 +167,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
           </div>
         </div>
         <figure>
-          <img src="/tartiflete.jpg" alt="" />
+          <img src={recipe.image} alt="" />
           <figcaption>{recipe.name}</figcaption>
         </figure>
       </fieldset>
@@ -181,7 +182,15 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
             <figure>
               <button type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><MdCancel size={12}/></button>
               <img src={ingredient.image} alt={ingredient.name} />
-              <figcaption>{ingredient.name}</figcaption>
+              <figcaption>
+                {ingredient.name}
+                <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} />
+                <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0} >
+                  {units.map(unit => 
+                    <option key={unit.id} value={unit.id}>{unit.name}</option>
+                  )}
+                </select>
+              </figcaption>
             </figure>
           </li>
         ))}
@@ -194,9 +203,8 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
           <button type="button" onClick={addStepp}><FaPlus /></button>
         </div>
         <ul>
-        {steps&&
-          
-            <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"') }/>
+        {steps &&
+          <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"') }/>
         }
           {steps.map((step, index) => (
             <li key={index}>
@@ -256,8 +264,6 @@ export async function recipeAction({ request }) {
         }));
       }
 
-      // const time = 
-
       const data = {
         name:formData.get("name"),
         hunger:formData.get("hunger"),
@@ -279,8 +285,3 @@ export async function recipeAction({ request }) {
     }
   }
 }
-
-
-
-
-

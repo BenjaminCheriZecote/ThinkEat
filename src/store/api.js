@@ -117,6 +117,9 @@ export class IngredientApi extends CoreApi {
 export class RecipeApi extends CoreApi {
   static routeName = "recipe";
 }
+export class UnitApi extends CoreApi {
+  static routeName = "unit";
+}
 export class FamilyApi extends CoreApi {
   static routeName = "family";
 }
