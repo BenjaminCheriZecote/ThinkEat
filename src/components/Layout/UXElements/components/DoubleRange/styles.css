@@ -9,16 +9,6 @@
     flex-direction: column;
   }
 
-  .multi-range-slider .bar-left {
-    width: 30%;
-    background-color: #f0f0f0;
-    border-radius: 10px 0px 0px 10px;
-    box-shadow: inset 0px 0px 5px black;
-    padding: 4px 0px;
-  }
-
-
-
   .divOutput {
     display: flex;
     justify-content: center;
