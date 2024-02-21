@@ -14,6 +14,7 @@ import { Form } from 'react-router-dom';
 import { useEffect } from 'react';
 import types from '../../../../store/reducers/types';
 import { useRef } from 'react';
+import DoubleInputRange from '../../UXElements/components/DoubleRange';
 
 
 
@@ -167,10 +168,9 @@ const Aside = () => {
         <div>
             {/* mettre le mot "Filter" dans la classe du Form */}
             <Form  className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""} onSubmit={handleSubmitFilter}>
-                <h3>Filtres</h3>
                 <fieldset>
                     <legend>Faim</legend>
-                        <div>
+                        <div className={style.asideFormFilter__hungerContainer}>
                             <li>
                                 <input id="hungerBigFilter" name="hunger" value="Copieux" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hunger[0].state?true:false}/>
                                 <label htmlFor="hungryBigFilter" >{hunger[0].name}</label>
@@ -191,33 +191,15 @@ const Aside = () => {
 
                 <fieldset>
                     <legend>Temps</legend>
-                    <div>
-                        <li className={style.asideformFilter__inputTimeContainer}>
-                            <label htmlFor="preparatingTimeFilter" >Préparation</label>
-                            {/* <div>
-                                <span></span>
-                                <input type="number" name="preparatingTime" defaultValue={preparatingTime} id="preparatingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangePreparatingTimeFilter}/>
-                            </div> */}
-                            <input type="range" min={preparatingTime.min} max={preparatingTime.max} name="preparatingTime" defaultValue={preparatingTime} id="preparatingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangePreparatingTimeFilter}/>
-                            <span></span>
+                    <div className={style.asideformFilter__inputTimeContainer}>
+                    
+                        <li>
+                            <DoubleInputRange label={"Préparation"} name={"preparatingTime"}/>
                         </li>
 
                         <li className={style.asideformFilter__inputTimeContainer}>
-                            <label htmlFor="cookingTimeFilter" >Cuisson</label>
-                            {/* <div>
-                                <span></span>
-                                <input type="number" name="cookingTime" defaultValue={cookingTime} id="cookingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangeCookingTimeFilter}/>
-                            </div> */}
-                            <input type="range" min={cookingTime.min} max={cookingTime.max} name="cookingTime" defaultValue={cookingTime} id="cookingTimeFilter" className={style.asideFormFilter__inputTime} onChange={handleChangeCookingTimeFilter}/>
-
+                            <DoubleInputRange label={"Cuisson"} name={"cookingTime"}/>
                         </li>
-                        {/* <li className={style.asideformFilter__inputTimeContainer}>
-                            <label htmlFor="timeFilter" >Total</label>
-                            <div>
-                                <span></span>
-                                <input type="number" name="timeFilter" id="timeFilter" className={style.asideFormFilter__inputTime}/>
-                            </div>
-                        </li> */}
                     </div>
                 </fieldset>
                 

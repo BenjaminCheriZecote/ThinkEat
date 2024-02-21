@@ -39,11 +39,17 @@ aside fieldset legend {
     text-decoration: underline;
 }
 
-aside fieldset div {
+aside fieldset .asideFormFilter__hungerContainer {
     display: flex;
     width:100%;
     justify-content: space-evenly;
 }
+
+aside fieldset .asideformFilter__inputTimeContainer li {
+  margin-bottom: 0.8rem;
+}
+
+
 
 aside fieldset div li {
     display: flex;

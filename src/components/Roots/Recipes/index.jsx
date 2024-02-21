@@ -21,14 +21,17 @@ import types from "../../../store/reducers/types";
 
 const Recipes = () => {
 
-    const loader = useLoaderData()
-    // console.log(loader)
+    // const loader = useLoaderData()
+
     // const recipesCopy = useLoaderData()
     const {recipes} = useSelector((state) => state.recipes)
+    const {recipesQuerry} = useSelector((state) => state.recipes)
+    console.log(recipes);
+    console.log(recipesQuerry);
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setModeCreator] = useState(false);
     const [isAdmin, setAdmin] = useState(false);
-    const queryRecipes = useLoaderData();
+    
 
     //
     const [orderBy, setOrderBy] = useState([])
@@ -246,7 +249,7 @@ const Recipes = () => {
                     :
                     ""}</div>
             <ul className="section__ulContainerRecipes">
-                {queryRecipes?
+                {/* {queryRecipes?
                     queryRecipes.map((meal, index) => {
                         return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                     })
@@ -257,7 +260,26 @@ const Recipes = () => {
                     })
                     :
                     ""
+                    } */}
+
+                    {recipesQuerry.length?
+                        recipesQuerry.map((meal, index) => {
+                            return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
+                        })
+                        :
+                        recipes.length?
+                        recipes.map((meal, index) => {
+                            return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
+                        })
+                        :
+                        ""
                     }
+
+                    
+                    {/* {recipesCopy &&
+                    recipesCopy.map((meal, index) => {
+                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
+                    })} */}
             </ul>
             </section>
     )
@@ -267,10 +289,21 @@ export default Recipes;
 
 export async function recipesLoader(){
 
-    async function fetchDataRecipesApi(query) {
+    async function fetchDataRecipesApi() {
         try {
             const recipes = await RecipeApi.getAll(query);
             store.dispatch({type:types.SET_RECIPES, payload: recipes})
+            return recipes
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
+
+    async function fetchDataRecipesQueryApi(query) {
+        try {
+            const recipes = await RecipeApi.getAll(query);
+            store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipes})
             return recipes
         } catch (error) {
             console.log(error)
@@ -282,5 +315,5 @@ export async function recipesLoader(){
     
     const query = mappingUrlFunction(urlClient);
     console.log(query);
-    return await fetchDataRecipesApi(query);
+    return await fetchDataRecipesQueryApi(query);
 }
