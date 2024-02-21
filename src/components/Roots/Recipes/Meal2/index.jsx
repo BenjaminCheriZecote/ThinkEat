@@ -8,6 +8,8 @@ import { IoStarSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
 import { IoStarOutline } from "react-icons/io5";
+import { RecipeApi } from "../../../../store/api";
+import types from "../../../../store/reducers/types";
 
 
 const Meal = ({meal}) => {
@@ -18,9 +20,10 @@ const Meal = ({meal}) => {
     const {recipes} = useSelector((state) => state.recipes);
     const [updateMode, setUpdateMode] = useState(false);
     
-    const handleClickDelete = () => {
-        const newRecipes = recipes.filter((element) => element !== meal);
-        store.dispatch({type:"SET_RECIPES", payload:newRecipes })
+    const handleClickDelete = async () => {
+        console.log("test")
+        await RecipeApi.delete(meal.id);
+        store.dispatch({type:types.SET_RECIPES, payload: await RecipeApi.getAll()});
     }
 
     const handleClickUpdate = () => {
@@ -32,7 +35,7 @@ const Meal = ({meal}) => {
         store.dispatch({type:"SET_FAVORITES", payload:[...favorites, meal] })
     }
 
-    const handleClickDeleteFavorites = () => {
+    const handleClickDeleteFavorites = async () => {
         const updatedRecipes = favorites;
         const filteredFavorites = updatedRecipes.filter((element) => element.id !== meal.id);
         console.log("update", filteredFavorites)

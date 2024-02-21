@@ -219,7 +219,7 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
 }
 
 export async function recipeAction({ request }) {
-
+  console.log("test")
   switch (request.method) {
     case "PATCH": {
       let formData = await request.formData();
