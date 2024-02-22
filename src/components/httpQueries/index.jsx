@@ -3,11 +3,10 @@ import store from "../../store";
 import { FamilyApi, IngredientApi, RecipeApi } from "../../store/api";
 import types from "../../store/reducers/types";
 import urlQueryJsonParser from "url-query-json-parser";
+import secondesConverterFunction from "../../helpers/secondesConverterFunction";
+import formatterSecondesTime from "../../helpers/formatterSecondesTime";
 
 export function mappingUrlFunction(urlClient){
-    
-    // les trois tables du back end (recipe, ingredient, family) possiblement concernée par la query + l'orderBy pour le trie
-    // représentés ici par 4 array vides, qui vont être potentiellement alimenté selon l'url généré par les Form concernés
     const recipeQuery = []; 
     const ingredientQuery = [];
     const familyQuery = [];
@@ -21,18 +20,6 @@ export function mappingUrlFunction(urlClient){
    
     if (!urlClient.includes('?')) {
         return null;
-    }
-
-    const secondesConverterFunction = (times) => {
-        const [hours, minutes, secondes] = times.split(':').map(Number);
-        return hours * 3600 + minutes * 60 + secondes;
-    }
-
-    const formatterTime = (totalTime) => {
-        const hours = Math.floor(totalTime / 3600);
-        const minutes = Math.floor((totalTime % 3600) / 60);
-        const secondes = totalTime % 60;
-        return `${hours}:${minutes}:${secondes}`;
     }
     
     const queryString = urlClient.split('?')[1];
@@ -136,7 +123,7 @@ export function mappingUrlFunction(urlClient){
         const timeProperty = 'time';
         const timeOperator = '>=';
         const totalTimesSecondes = timeSecondesMin.preparatingTime + timeSecondesMin.cookingTime;
-        const timeValue = formatterTime(totalTimesSecondes);
+        const timeValue = formatterSecondesTime(totalTimesSecondes);
         console.log(timeValue);
         recipeQuery.push([timeProperty, timeOperator, timeValue]);
     }
@@ -145,7 +132,7 @@ export function mappingUrlFunction(urlClient){
         const timeProperty = 'time';
         const timeOperator = '<=';
         const totalTimesSecondes = timeSecondesMax.preparatingTime + timeSecondesMax.cookingTime;
-        const timeValue = formatterTime(totalTimesSecondes);
+        const timeValue = formatterSecondesTime(totalTimesSecondes);
         console.log(timeValue);
         recipeQuery.push([timeProperty, timeOperator, timeValue]);
     }

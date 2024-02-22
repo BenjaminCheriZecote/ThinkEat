@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: "/signin", element: <SignIn />, action: signInAction },
       { path: "/signup", element: <SignUp />, action: signUpAction},
       { path: "/reset-password", element: <ResetPassword />, action: resetPasswordAction },
-      { path: "/recipes", element: <Recipes />, loader:recipesLoader },
+      { path: "/recipes", element: <Recipes />, action:recipeAction, loader:recipesLoader },
       { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader, action:recipeAction },
       { path: "/validate/account/:uuid", element: <ValidateAccount />, loader: validateAccountLoader },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction }

@@ -18,19 +18,19 @@ import { Form, useLoaderData } from "react-router-dom";
 import { RecipeApi } from "../../../store/api";
 import store from "../../../store";
 import types from "../../../store/reducers/types";
+import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
 
 const Recipes = () => {
 
     // const loader = useLoaderData()
 
     // const recipesCopy = useLoaderData()
-    const {recipes} = useSelector((state) => state.recipes)
-    const {recipesQuerry} = useSelector((state) => state.recipes)
-    console.log(recipes);
-    console.log(recipesQuerry);
+    const {recipes} = useSelector((state) => state.recipes);
+    const {recipesQuerry} = useSelector((state) => state.recipes);
     const [recipesCopy, setCopy] = useState(recipes);
-    const [openModeCreator, setModeCreator] = useState(false);
-    const [isAdmin, setAdmin] = useState(false);
+    const [openModeCreator, setCreatorMode] = useState(false);
+    const [isAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("user")).isAdmin);
+    // const [isAdmin, setAdmin] = useState(false);
     
 
     //
@@ -79,7 +79,7 @@ const Recipes = () => {
     }
 
     const handleClickAddRecipe = () => {
-        setModeCreator((current) => !current) 
+        setCreatorMode((current) => !current) 
     }
 
     //
@@ -234,10 +234,11 @@ const Recipes = () => {
 
             </div>
 
-            {openModeCreator?
-                <ModalCreatingRecipe setModeCreator={setModeCreator}/>
-                :
-                ""
+            {openModeCreator&&
+            <div className="backdrop">
+                <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
+            </div>
+                // <ModalCreatingRecipe setCreatorMode={setCreatorMode}/>
             }
             
             <div className="section__addRecipe"> 
@@ -249,37 +250,13 @@ const Recipes = () => {
                     :
                     ""}</div>
             <ul className="section__ulContainerRecipes">
-                {/* {queryRecipes?
-                    queryRecipes.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
-                    })
-                    :
-                    recipesCopy.length?
-                    recipesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
-                    })
-                    :
-                    ""
-                    } */}
 
-                    {recipesQuerry.length?
-                        recipesQuerry.map((meal, index) => {
+                    {recipesCopy.length &&
+                        recipesCopy.map((meal, index) => {
                             return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                         })
-                        :
-                        recipes.length?
-                        recipes.map((meal, index) => {
-                            return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
-                        })
-                        :
-                        ""
                     }
 
-                    
-                    {/* {recipesCopy &&
-                    recipesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
-                    })} */}
             </ul>
             </section>
     )

@@ -10,6 +10,7 @@ import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
 import { IoStarOutline } from "react-icons/io5";
 import { RecipeApi } from "../../../../store/api";
 import types from "../../../../store/reducers/types";
+import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
 
 
 const Meal = ({meal}) => {
@@ -18,15 +19,21 @@ const Meal = ({meal}) => {
     const {isAdmin} =useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
     const {recipes} = useSelector((state) => state.recipes);
+    const [recipeDetails, setRecipeDetails] = useState()
     const [updateMode, setUpdateMode] = useState(false);
     
     const handleClickDelete = async () => {
-        console.log("test")
+        console.log("test");
         await RecipeApi.delete(meal.id);
-        store.dispatch({type:types.SET_RECIPES, payload: await RecipeApi.getAll()});
+        store.dispatch({type:types.SET_RECIPES, payload:await RecipeApi.getAll()});
     }
 
-    const handleClickUpdate = () => {
+    const handleClickUpdate = async () => {
+        console.log("toto", meal.id)
+        const recipe = await RecipeApi.get(meal.id);
+        console.log(recipe)
+        setRecipeDetails(recipe);
+        console.log(recipeDetails);
         setUpdateMode(true)
     }
 
@@ -41,6 +48,7 @@ const Meal = ({meal}) => {
         console.log("update", filteredFavorites)
         store.dispatch({type:"SET_FAVORITES", payload:filteredFavorites })
     }
+
 
     return(
         <li  className="section__li">
@@ -62,11 +70,14 @@ const Meal = ({meal}) => {
                             :
                             ""
                     }
-                    {updateMode?
-                    <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
-                    :
-                    ""
-                }
+                    {updateMode&&
+                    <>
+                    <div className="backdrop">
+                        <RecipeUX recipe={recipeDetails} modal={"modal"} cancelHandler={() => setUpdateMode(false)}/>
+                    </div>
+                    </>
+                    // <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
+                    }
                 </div>
                 
         </li>

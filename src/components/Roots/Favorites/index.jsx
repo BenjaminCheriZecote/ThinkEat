@@ -75,7 +75,7 @@ const Favorites = () => {
                     </div>
                 </div>
 
-                <div className="addRecipe">
+                <div className="section__addRecipe">
                 {!openModeCreator?
                     <FaSquarePlus onClick={handleClickAddRecipe}/>
                     :

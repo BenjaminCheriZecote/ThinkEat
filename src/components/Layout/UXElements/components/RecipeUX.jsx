@@ -9,32 +9,38 @@ import { MdCancel } from "react-icons/md";
 import DropDownList from "./DropDownList";
 import { IngredientApi, RecipeApi } from "../../../../store/api";
 import store from "../../../../store";
+import secondesConverterFunction from "../../../../helpers/secondesConverterFunction";
+import formatterSecondesTime from "../../../../helpers/formatterSecondesTime";
 
-export default function RecipeUX({recipe, formMethod, cancelHandler}) {
+const recipeInit = {
+  steps:[],
+  ingredients:[]
+}
+
+export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
   const user = useSelector((state) => state.session);
   const criterias = useSelector((state) => state.criterias);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
   const units = useSelector((state) => state.units);
 
-  const [inChange, setInChange] = useState(false);
+  // const [inChange, setInChange] = useState(false);
+  const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);
+  // const [steps, setSteps] = useState();
   const [ingredients, setIngredients] = useState(recipe.ingredients);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const selectElement = useRef();
 
   function  changeRecipe() {
+    if (modal) {
+      cancelHandler();
+    }
     setInChange(!inChange);
-  }
-
-  const handleSubmit = (event) => {
-    const formData = new FormData(event.target);
-    const dataForm = Object.fromEntries(formData);
-    console.log("log data form :", dataForm)
   }
 
   if (!inChange) {
     return (
-      <div className="section__recipe" method={formMethod}>
+      <div className={modal?`${modal} section__recipe`:"section__recipe"} method={formMethod}>
         <h2 className="section-recipe__name">{recipe.name}</h2>
         <section className="section-recipe__top">
           <div>
@@ -138,9 +144,10 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
     setSteps(newSteps);
   }
 
+  
 
   return(
-    <Form className="section__recipe" method={formMethod} onSubmit={handleSubmit}>
+    <Form className={modal?`${modal} section__recipe`:"section__recipe"} method={formMethod} >
       <input type="hidden" name="id" value={recipe.id} />
       <input className="section-recipe__name" name="name" type="text" defaultValue={recipe.name}/>
       <fieldset className="section-recipe__top">
@@ -227,9 +234,10 @@ export default function RecipeUX({recipe, formMethod, cancelHandler}) {
 }
 
 export async function recipeAction({ request }) {
-  console.log("test")
+  console.log("test action form")
   switch (request.method) {
     case "PATCH": {
+      console.log("test action form")
       let formData = await request.formData();
       const {recipes} = store.getState();
 
@@ -279,6 +287,99 @@ export async function recipeAction({ request }) {
       console.log("retour fetch ", updatedRecipe)
       
       return updatedRecipe
+    }
+
+
+    case "POST": {
+      let formData = await request.formData();
+
+      let formFields = {};
+      const unitProperty = [];
+      const quantityProperty = [];
+
+      for (let entry of formData.entries()) {
+          let fieldName = entry[0];
+          let fieldValue = entry[1]; 
+          if (fieldName.startsWith('unit')) {
+            const idIngredientUnit = fieldName.slice(5);
+            console.log(idIngredientUnit)
+            const value = [idIngredientUnit, fieldValue];
+            unitProperty.push(value)
+          }
+          if (fieldName.startsWith('quantity')) {
+            const idIngredientQuantity = fieldName.slice(9);
+            console.log(idIngredientQuantity)
+            const value = [idIngredientQuantity, fieldValue];
+            quantityProperty.push(value)
+          }
+          formFields[fieldName] = fieldValue;
+      }
+
+      console.log("log de unit property  :", unitProperty)
+      console.log("log de unit property  :", quantityProperty)
+
+      console.log("test action form", formFields);
+      const steps = formData.get("steps");
+      const mappingSteps = steps.split('"');
+      const allIngredients = formData.get("ingredients");
+      const mappingIngredientsId = allIngredients.split('-');
+      console.log("mapping ingredients", mappingIngredientsId);
+
+      const preparatingTimeConvertedFormat = `${formData.get("preparationTime")}:00`;
+      const preparatingTimeConvertedInSecondes = secondesConverterFunction(preparatingTimeConvertedFormat);
+     
+      const cookingTimeConvertedFormat = `${formData.get("cookingTime")}:00`;
+      const cookingTimeConvertedInSecondes = secondesConverterFunction(cookingTimeConvertedFormat);
+
+      const totalTimeInSecondes = preparatingTimeConvertedInSecondes + cookingTimeConvertedInSecondes;
+      const timeFormatted = formatterSecondesTime(totalTimeInSecondes);
+      let match = timeFormatted.match(/^(\d+):(\d+):(\d+)$/);
+      const functionParser = (match) => {
+        if (match) {
+          let hours = match[1].padStart(2, '0');
+          let minutes = match[2].padStart(2, '0');
+          let seconds = match[3].padStart(2, '0');
+      
+          let formattedString = `${hours}:${minutes}:${seconds}`;
+          console.log(formattedString);
+          return formattedString;
+        } else {
+          const error = "Format de chaîne invalide."
+            console.log("Format de chaîne invalide.");
+          return error
+        }
+      }
+      const time = functionParser(match);
+
+      const data = {
+        name:formData.get("name"),
+        hunger:formData.get("hunger"),
+        preparatingTime:preparatingTimeConvertedFormat,
+        time:time,
+        person:formData.get("person"),
+        steps:mappingSteps,
+      }
+      console.log("log object data :", data)
+      
+      const createdRecipe = await RecipeApi.create(data);
+      const newIdFromCreatedRecipe = (createdRecipe.id).toString()
+      console.log("retour fetch ", createdRecipe)
+
+      // ajout des ingrédients dans la recette
+      if (mappingIngredientsId.length) {
+        await Promise.all(mappingIngredientsId.map(async (ingredientId) => {
+          // const findQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
+          // const findUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
+          const ingredientToAdd = await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId )
+          console.log("Retour ?", ingredientToAdd)
+        }));
+      }
+      if (mappingIngredientsId.length === 1) {
+        const ingredientToAdd = await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0] )
+        console.log("Retour 2 ?", ingredientToAdd)
+      }
+      
+      return createdRecipe
     }
     default: {
       throw new Response("", { status: 405 });

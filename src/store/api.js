@@ -90,7 +90,7 @@ export class HistoryApi extends CoreApi {
 export class IngredientApi extends CoreApi {
   static routeName = "ingredient";
 
-  static async addIngredientToRecipe(recipeId, ingredientId) {
+  static async addIngredientToRecipe(recipeId, ingredientId, data) {
 
     const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
       method: "PUT",
