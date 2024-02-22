@@ -2,13 +2,14 @@ import { Form, Link, redirect, useActionData} from 'react-router-dom';
 
 import store from '../../../store';
 import { UserApi } from '../../../store/api';
+import UserValidator from '../../../helpers/validators/user.validator';
 
 export default function SignIn() {
-
   const error = useActionData();
 
-  return(
+  return (
     <>
+      {error && <h1>{error}</h1>}
       <section className='section'>
         <Form className='section__form' method="post">
           <h2 className='section-form__h2'>Se connecter</h2>
@@ -17,7 +18,6 @@ export default function SignIn() {
           </div>
           <div className='section-form__div'>
             <input type="password" name="password" id="password" placeholder='******'/>
-            {!!error && <p>{error}</p>}
           </div>
 
           <Link to="/reset-password"> Mot de passe oublié ? </Link>
@@ -33,22 +33,26 @@ export default function SignIn() {
 
 
 export async function signInAction({ request }) {
-  switch (request.method) {
-    case "POST": {
-      let formData = await request.formData()
-      const idConnection = {
-        email: formData.get("email"),
-        password: formData.get("password")
-      };
-      const user = await UserApi.signin(idConnection)
-      if (!user) {
-        return "Erreur de connexion"
+  try {
+    switch (request.method) {
+      case "POST": {
+        let formData = await request.formData()
+        const idConnection = {
+          email: formData.get("email"),
+          password: formData.get("password")
+        };
+        UserValidator.checkBodyForSignIn(idConnection)
+        
+        const user = await UserApi.signin(idConnection)
+        store.dispatch({type:"SIGNIN", payload:user});
+
+        return redirect("/");
       }
-      store.dispatch({type:"SIGNIN", payload:user});
-      return redirect("/");
+      default: {
+        throw new Response("Invalide methode", { status: 405 });
+      }
     }
-    default: {
-      throw new Response("", { status: 405 });
-    }
+  } catch (error) {
+    return error.message;
   }
 }

@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 
-import { Form } from "react-router-dom";
+import { Form, redirect, useActionData } from "react-router-dom";
 import { UserApi } from "../../../store/api";
+import UserValidator from "../../../helpers/validators/user.validator";
 
 export default function SignUp() {
-
+  const error = useActionData();
   return(
     <>
+      {error && <h1>{error}</h1>}
       <section className='section'>
         <Form className='section__form' method='POST'>
           <h2 className='section-form__h2'>Créer un compte</h2>
@@ -35,20 +37,28 @@ export default function SignUp() {
 }
 
 export async function signUpAction({ request, params }) {
-  switch (request.method) {
-    case "POST": {
-      let formData = await request.formData()
-      const data = {
-        name: formData.get("name"),
-        email: formData.get("email"),
-        password: formData.get("password"),
-        passwordConfirm: formData.get("passwordConfirm")
-      };
-      await UserApi.create(data);
-      return true;
+  try {
+    switch (request.method) {
+      case "POST": {
+        let formData = await request.formData()
+        const data = {
+          name: formData.get("name"),
+          email: formData.get("email"),
+          password: formData.get("password"),
+          passwordConfirm: formData.get("passwordConfirm")
+        };
+
+        UserValidator.checkBodyForCreate(data)
+
+        await UserApi.create(data);
+
+        return redirect("/");
+      }
+      default: {
+        throw new Response("Invalide methode", { status: 405 });
+      }
     }
-    default: {
-      throw new Response("", { status: 405 });
-    }
+  } catch (error) {
+    return error.message;
   }
 }

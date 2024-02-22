@@ -13,14 +13,14 @@ class CoreApi {
       body: JSON.stringify(data)
     });
 
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
   static async get(id) {
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
 
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
@@ -30,10 +30,8 @@ class CoreApi {
     if (query) {
       url += `?${query}`;
     }
-    console.log(url);
     const httpResponse = await fetch(url);
-    
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
@@ -47,7 +45,7 @@ class CoreApi {
       body: JSON.stringify(data)
     });
   
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return await httpResponse.json();
   }
@@ -59,7 +57,7 @@ class CoreApi {
       headers: { Authorization: `Bearer ${token}` }
     });
   
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
   
     return true;
   }
@@ -76,11 +74,13 @@ class CoreApi {
   }
   static async errorHandler(res) {
     if (res.ok) return;
-    if (!res.bodyUsed) {
+    let responce
+    try {
+      responce = await res.json();
+    } catch (error) {
       throw new AppError(res.statusText, {httpStatus: res.status});
     }
-    const {error} = await res.json()
-    throw new AppError(error, {httpStatus: res.status});
+    throw new AppError(responce.error, {httpStatus: res.status});
   }
 }
 
@@ -98,7 +98,7 @@ export class IngredientApi extends CoreApi {
       body: JSON.stringify(data)
     });
   
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return true;
   }
@@ -110,7 +110,7 @@ export class IngredientApi extends CoreApi {
       headers: { "Content-Type": "application/json" },
     });
   
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return await httpResponse.json();
   }
@@ -136,7 +136,7 @@ export class UserApi extends CoreApi {
       body: JSON.stringify(data)
     });
 
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     return true;
   }
@@ -147,7 +147,7 @@ export class UserApi extends CoreApi {
       body: JSON.stringify(data)
     });
 
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     const {user, ...tokens} = await httpResponse.json();
     TokenApi.addNewTokken(tokens);
@@ -176,7 +176,7 @@ export class UserApi extends CoreApi {
       body: JSON.stringify(data)
     });
     
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return true;
   }
@@ -186,7 +186,7 @@ export class UserApi extends CoreApi {
       headers: { "Content-Type": "application/json" }
     });
     
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return true;
   }
@@ -197,7 +197,7 @@ export class UserApi extends CoreApi {
       body: JSON.stringify(data)
     });
     
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
     
     return true;
   }
@@ -242,7 +242,7 @@ class TokenApi {
       body: JSON.stringify(refreshToken)
     });
 
-    this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     const newTokens = await httpResponse.json();
     this.addNewTokken(newTokens);

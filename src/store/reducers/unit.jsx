@@ -4,7 +4,7 @@ import { UnitApi } from "../api";
 import types from "./types";
 
 const unitDb = await UnitApi.getAll()
-console.log(unitDb)
+
 const initialState = [
   ...unitDb,
   {id: 0, name: "Sans unité"}
