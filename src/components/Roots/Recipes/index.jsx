@@ -289,31 +289,33 @@ export default Recipes;
 
 export async function recipesLoader(){
 
-    async function fetchDataRecipesApi() {
-        try {
-            const recipes = await RecipeApi.getAll(query);
-            store.dispatch({type:types.SET_RECIPES, payload: recipes})
-            return recipes
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-
-    async function fetchDataRecipesQueryApi(query) {
-        try {
-            const recipes = await RecipeApi.getAll(query);
-            store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipes})
-            return recipes
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-
     const urlClient = window.location.href;
-    
     const query = mappingUrlFunction(urlClient);
     console.log(query);
-    return await fetchDataRecipesQueryApi(query);
+
+    // test
+
+    const recipes = await await RecipeApi.getAll();
+    store.dispatch({type:types.SET_RECIPES, payload: recipes})
+
+    const recipesQuerry = await RecipeApi.getAll(query);
+    store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+    
+    console.log("retour back fetch", recipesQuerry);
+    console.log(query);
+
+    // 
+
+    // async function fetchDataRecipesApi(query) {
+    //     try {
+    //         const recipes = await RecipeApi.getAll(query);
+    //         store.dispatch({type:types.SET_RECIPES, payload: recipes})
+    //         return recipes
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
+    // return fetchDataRecipesApi();
+    return null;
 }

@@ -25,12 +25,14 @@ class CoreApi {
     return await httpResponse.json();
   }
   static async getAll(query = null) {
+    console.log("query catch", query)
     let url = `${apiBaseUrl}/${this.routeName}`;
     if (query) {
       url += `?${query}`;
     }
     console.log(url);
     const httpResponse = await fetch(url);
+    
     this.errorHandler(httpResponse);
 
     return await httpResponse.json();

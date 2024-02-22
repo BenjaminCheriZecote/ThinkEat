@@ -167,7 +167,7 @@ const Aside = () => {
     <aside className={style.aside}>
         <div>
             {/* mettre le mot "Filter" dans la classe du Form */}
-            <Form  className={style.aside__formFilter} method="get" action={currentPath === "/proposal"?"/proposal":currentPath === "/recipes"?"/recipes":currentPath === "/favorites"?"/favorites":""} onSubmit={handleSubmitFilter}>
+            <Form  className={style.aside__formFilter} method="get" action={currentPath} onSubmit={handleSubmitFilter}>
                 <fieldset>
                     <legend>Faim</legend>
                         <div className={style.asideFormFilter__hungerContainer}>

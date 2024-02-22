@@ -110,10 +110,12 @@ export function mappingUrlFunction(urlClient){
             if (!foundErrorTypeData) {
                 splitedIngredientValue.forEach((data) => {
                     if (result[0] === "ingredients" && data !== '') {
+                        console.log("number : ?", data.toString())
                         const resultParam = ['id', '=', data.toString()]
                         ingredientQuery.push(resultParam);
                     }
                     if (result[0] === "families" && data !== '') {
+                        console.log("number : ?", data.toString())
                         const resultParam = ["id", '=', data.toString()]
                         familyQuery.push(resultParam);
                     }  
@@ -147,8 +149,6 @@ export function mappingUrlFunction(urlClient){
         console.log(timeValue);
         recipeQuery.push([timeProperty, timeOperator, timeValue]);
     }
-    
-    
 
     console.log(recipeQuery)
     console.log(ingredientQuery)
@@ -181,13 +181,13 @@ export function mappingUrlFunction(urlClient){
     let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}}`;
 
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
-    console.log("new string ", stringFinalObject)
+    console.log("new string ", stringFinalObject);
     const objectQuery = JSON.parse(stringFinalObject);
-    console.log("console log final OBJECT : ", objectQuery)
+    console.log("console log final OBJECT : ", objectQuery);
 
     // eslint-disable-next-line no-inner-declarations
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
-    if (error.legth) urlQuery = error;
+    // if (error.length) urlQuery = error;
     console.log(urlQuery);
-    return urlQuery
+    return urlQuery;
 }
