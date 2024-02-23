@@ -7,7 +7,7 @@ import style from "./index.module.css"
 import store from "../../../../store/index.jsx"
 import { UserApi } from "../../../../store/api";
 import UserValidator from "../../../../helpers/validators/user.validator.js"
-import { toast } from "react-toastify";
+import toast from "../../../../helpers/toast.js";
 import { useRef, useState } from "react";
 
 export default function Account() {
@@ -24,7 +24,7 @@ export default function Account() {
   function changeValue(event) {
     setValue(event.target.value);
   }
-  function submitHandler(event) {
+  function submitHandler() {
     if (inChange !== "delete") {
       submit({inChange:value},{method: "patch"})
     } else {
