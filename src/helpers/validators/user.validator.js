@@ -18,24 +18,18 @@ export default class UserValidator extends CoreValidator {
     }
     return {name, email, password};
   }
-  static checkBodyForUpdate({name, email, password, passwordConfirm}) {
-
-    if (!Object.values({name, email, password}).some(value => !!value)) {
+  static checkBodyForUpdate({id, name, email}) {
+    if (!Object.values({name, email}).some(value => !!value)) {
       throw new Error("Merci de renseigner un champ à metre à jour");
     }
+    this.checkId(id)
     if (name && !String(name).match(/^[a-zA-Z][\w-]{3,20}$/)) {
       throw new Error("Merci de renseigner votre nom correctement.");
-    }
-    if (password && !String(password).match(/^.{6,40}$/)) {
-      throw new Error("Merci de renseigner un mot de passe correct.");
-    }
-    if (password && (password !== passwordConfirm)) {
-      throw new Error("Les mots de passe ne correspondent pas");
     }
     if (email && !emailValidator.validate(email)) {
       throw new Error("Cet email n'est pas valide.");
     }
-    return {name, email, password: String(password)};
+    return {name, email};
   }
   static checkBodyForSignIn({email, password}) {
     if (Object.values({email, password}).some(value => !value)) {
