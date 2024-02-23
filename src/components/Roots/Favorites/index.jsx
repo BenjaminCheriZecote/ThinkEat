@@ -16,6 +16,9 @@ import Select from "react-select";
 import ModalCreatingRecipe from './ModalCreateingRecipe';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
 import { Form } from 'react-router-dom';
+import { RecipeApi } from '../../../store/api';
+import types from '../../../store/reducers/types';
+import {mappingUrlFunction} from '../../httpQueries/index'
 
 
 
@@ -99,3 +102,37 @@ const Favorites = () => {
 }
 
 export default Favorites;
+
+export async function favoritesLoader(){
+
+    // const urlClient = window.location.href;
+    // const query = mappingUrlFunction(urlClient);
+    // console.log(query);
+
+    // test
+
+    // const favorites = await await RecipeApi.getAll();
+    // store.dispatch({type:types.SET_FAVORITES, payload: favorites})
+
+    // const recipesQuerry = await RecipeApi.getAll(query);
+    // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+    
+    // console.log("retour back fetch", recipesQuerry);
+    // console.log(query);
+
+    // 
+
+    // async function fetchDataRecipesApi(query) {
+    //     try {
+    //         const favorites = await RecipeApi.getAll(query);
+    //         store.dispatch({type:types.SET_FAVORITES, payload: favorites})
+    //         return favorites
+    //     } catch (error) {
+    //         console.log(error)
+    //         return error
+    //     }
+    // }
+    // return fetchDataRecipesApi();
+    
+    return null;
+}

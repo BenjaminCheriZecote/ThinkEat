@@ -95,11 +95,12 @@ export class IngredientApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
     });
   
     this.errorHandler(httpResponse);
     
-    return await httpResponse.json();
+    return true;
   }
 
   static async removeIngredientToRecipe(recipeId, ingredientId) {

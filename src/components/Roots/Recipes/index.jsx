@@ -15,7 +15,7 @@ import ModalCreatingRecipe from "./ModalCreateingRecipe";
 // import '../../../styles/App.scss'
 import './Recipe.scss';
 import { Form, useLoaderData } from "react-router-dom";
-import { RecipeApi } from "../../../store/api";
+import { RecipeApi, UserApi } from "../../../store/api";
 import store from "../../../store";
 import types from "../../../store/reducers/types";
 import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
@@ -23,13 +23,21 @@ import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
 const Recipes = () => {
 
     // const loader = useLoaderData()
+    const actualUser = UserApi.getUser()
+    console.log("log user", actualUser)
 
     // const recipesCopy = useLoaderData()
     const {recipes} = useSelector((state) => state.recipes);
     const {recipesQuerry} = useSelector((state) => state.recipes);
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
-    const [isAdmin, setAdmin] = useState(JSON.parse(localStorage.getItem("user")).isAdmin);
+    const [isAdmin, setAdmin] = useState(true);
+  
+    // if (localStorage.getItem("user")) {
+    //     setAdmin(JSON.parse(localStorage.getItem("user")).isAdmin)
+    // } else {
+    //     setAdmin(false)
+    // }
     // const [isAdmin, setAdmin] = useState(false);
     
 

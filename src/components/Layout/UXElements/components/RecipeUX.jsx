@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 
 import { FaEdit } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
@@ -18,6 +18,9 @@ const recipeInit = {
 }
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
+
+  const error = useActionData();
+
   const user = useSelector((state) => state.session);
   const criterias = useSelector((state) => state.criterias);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
@@ -46,7 +49,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <div>
             <div className="section-recipe__field">
               <h4>Preparation :</h4>
-              <time dateTime={recipe.preparationTime}>{recipe.preparationTime}</time>
+              <time dateTime={recipe.preparatingTime}>{recipe.preparatingTime}</time>
             </div>
             <div className="section-recipe__field">
               <h4>Cuisson :</h4>
@@ -143,7 +146,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     newSteps[id] = event.target.value;
     setSteps(newSteps);
   }
-
   
 
   return(
@@ -154,11 +156,11 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         <div>
           <div className="section-recipe__field">
             <label>Preparation :</label>
-            <input name="preparationTime" type="time" defaultValue={recipe.preparationTime} />
+            <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} required/>
           </div>
           <div className="section-recipe__field">
             <label>Cuisson :</label>
-            <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} />
+            <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} required/>
           </div>
           <div className="section-recipe__field">
             <label>Nombre de convive :</label>
@@ -191,7 +193,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
               <img src={ingredient.image} alt={ingredient.name} />
               <figcaption>
                 {ingredient.name}
-                <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} />
+                <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} required />
                 <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0} >
                   {units.map(unit => 
                     <option key={unit.id} value={unit.id}>{unit.name}</option>
@@ -234,11 +236,30 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
 }
 
 export async function recipeAction({ request }) {
-  console.log("test action form")
   switch (request.method) {
     case "PATCH": {
-      console.log("test action form")
       let formData = await request.formData();
+      let formFields = {};
+      const unitProperty = [];
+      const quantityProperty = [];
+
+      for (let entry of formData.entries()) {
+          let fieldName = entry[0];
+          let fieldValue = entry[1]; 
+          if (fieldName.startsWith('unit')) {
+            const idIngredientUnit = fieldName.slice(5);
+            // console.log(idIngredientUnit)
+            const value = [idIngredientUnit, fieldValue];
+            unitProperty.push(value)
+          }
+          if (fieldName.startsWith('quantity')) {
+            const idIngredientQuantity = fieldName.slice(9);
+            // console.log(idIngredientQuantity)
+            const value = [idIngredientQuantity, fieldValue];
+            quantityProperty.push(value)
+          }
+          formFields[fieldName] = fieldValue;
+      }
       const {recipes} = store.getState();
 
       const id = parseInt(formData.get("id"));
@@ -246,16 +267,68 @@ export async function recipeAction({ request }) {
       const mappingSteps = steps.split('"');
       const allIngredients = formData.get("ingredients");
       const mappingIngredientsId = allIngredients.split('-');
+      // format des temps (préparation / cuisson) peuvent varier si ils sont modifié ou non
+      // le format est soit "" si le temps est vide, soit "00:00" si le temps est modifié, soit "00:00:00" si le temps est présent mais non modifé
       
+      let preparatingTimeFromForm = formFields.preparatingTime; 
+      let cookingTimeFromForm = formFields.cookingTime;
+
+      // fonction pour convertir le format du temps 00:00 au format 00:00:00
+      const checkTimeFunction = (time) => {
+        if (time !== "") {
+          if (time.length === 5) {
+            const newTime = time + ':00';
+            return newTime
+          }
+        }
+        return time
+      }
+      preparatingTimeFromForm = checkTimeFunction(preparatingTimeFromForm); 
+      cookingTimeFromForm = checkTimeFunction(cookingTimeFromForm); 
+
+      // ------ gestion temps total. Le temps de cuisson n'existe pas en bdd, on le créer ici.
+      // conversion des temps en secondes pour additionner les deux temps: 
+
+      if (preparatingTimeFromForm !== "") {
+        preparatingTimeFromForm = secondesConverterFunction(preparatingTimeFromForm);
+      } else preparatingTimeFromForm = 0;
+
+      if (cookingTimeFromForm !== "") {
+        cookingTimeFromForm = secondesConverterFunction(cookingTimeFromForm);
+      } else cookingTimeFromForm = 0
+
+      const totalTimeInSecondes = preparatingTimeFromForm + cookingTimeFromForm;
+      const timeFormatted = formatterSecondesTime(totalTimeInSecondes);
+      const preparatingTimeFormatted = formatterSecondesTime(preparatingTimeFromForm);
+
+      // reconversion du temps total et temps de préparation au format 00:00:00
+      let match = timeFormatted.match(/^(\d+):(\d+):(\d+)$/);
+      let match2 = preparatingTimeFormatted.match(/^(\d+):(\d+):(\d+)$/);
+
+      const functionParser = (match) => {
+        if (match) {
+          let hours = match[1].padStart(2, '0');
+          let minutes = match[2].padStart(2, '0');
+          let seconds = match[3].padStart(2, '0');
+      
+          let formattedString = `${hours}:${minutes}:${seconds}`;
+          return formattedString;
+        } else {
+          const error = "Format de chaine invalide."
+          return error
+        }
+      }
+      const time = functionParser(match);
+      const preparatingTime = functionParser(match2); 
 
       const foundRecipe = recipes.recipes.find((recipe) => recipe.id === id);
       const foundIngredientsOfRecipe = foundRecipe.ingredients;
-      console.log("log found :", foundIngredientsOfRecipe)
+
 
       const removeIngredientsRecipe = foundIngredientsOfRecipe.filter((ingredient) => !mappingIngredientsId.some((id) => {
         return ingredient.id === parseInt(id);
       }));
-      console.log("log remove ", removeIngredientsRecipe)
+
       if (removeIngredientsRecipe.lenght) {
         await Promise.all(removeIngredientsRecipe.map(async (element) => {
             const ingredientRecipe = await IngredientApi.removeIngredientToRecipe( id, element.id )
@@ -264,10 +337,15 @@ export async function recipeAction({ request }) {
       }
 
       const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient)));
-      console.log("log add :", addIngredientsRecipe)
       if (addIngredientsRecipe.length) {
-        await Promise.all(addIngredientsRecipe.map(async (element) => {
-          const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, element )
+        await Promise.all(addIngredientsRecipe.map(async (ingredientId) => {
+          const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
+          const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
+          const data = {
+            quantity:foundQuantityToAddInRecipe[1],
+            unitId:foundUnityToAddInRecipe[1],
+          }
+          const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
           console.log(ingredientRecipe)
         }));
       }
@@ -275,16 +353,12 @@ export async function recipeAction({ request }) {
       const data = {
         name:formData.get("name"),
         hunger:formData.get("hunger"),
-        preparationTime:formData.get("preparationTime"),
-        time:formData.get("cookingTime"),
+        preparatingTime:preparatingTime,
+        time:time,
         person:formData.get("person"),
         steps:mappingSteps,
       }
-      console.log("data time : ", data.time, data.preparationTime)
-      console.log("data time type: ", typeof data.time, typeof data.preparationTime)
-      console.log("log object data :", data)
       const updatedRecipe = await RecipeApi.update(id, data)
-      console.log("retour fetch ", updatedRecipe)
       
       return updatedRecipe
     }
@@ -314,18 +388,14 @@ export async function recipeAction({ request }) {
           }
           formFields[fieldName] = fieldValue;
       }
-
-      console.log("log de unit property  :", unitProperty)
-      console.log("log de unit property  :", quantityProperty)
-
-      console.log("test action form", formFields);
+     
       const steps = formData.get("steps");
       const mappingSteps = steps.split('"');
       const allIngredients = formData.get("ingredients");
       const mappingIngredientsId = allIngredients.split('-');
-      console.log("mapping ingredients", mappingIngredientsId);
+      
 
-      const preparatingTimeConvertedFormat = `${formData.get("preparationTime")}:00`;
+      const preparatingTimeConvertedFormat = `${formData.get("preparatingTime")}:00`;
       const preparatingTimeConvertedInSecondes = secondesConverterFunction(preparatingTimeConvertedFormat);
      
       const cookingTimeConvertedFormat = `${formData.get("cookingTime")}:00`;
@@ -341,11 +411,9 @@ export async function recipeAction({ request }) {
           let seconds = match[3].padStart(2, '0');
       
           let formattedString = `${hours}:${minutes}:${seconds}`;
-          console.log(formattedString);
           return formattedString;
         } else {
-          const error = "Format de chaîne invalide."
-            console.log("Format de chaîne invalide.");
+          const error = "Format de chaine invalide."
           return error
         }
       }
@@ -359,27 +427,35 @@ export async function recipeAction({ request }) {
         person:formData.get("person"),
         steps:mappingSteps,
       }
-      console.log("log object data :", data)
       
       const createdRecipe = await RecipeApi.create(data);
+      if (createdRecipe.error) {
+        return createdRecipe.error
+      }
       const newIdFromCreatedRecipe = (createdRecipe.id).toString()
-      console.log("retour fetch ", createdRecipe)
 
-      // ajout des ingrédients dans la recette
-      if (mappingIngredientsId.length) {
+      if (mappingIngredientsId.length > 1) {
         await Promise.all(mappingIngredientsId.map(async (ingredientId) => {
-          // const findQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
-          // const findUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
-          const ingredientToAdd = await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId )
-          console.log("Retour ?", ingredientToAdd)
+          const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
+          const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
+          const data = {
+            quantity:foundQuantityToAddInRecipe[1],
+            unitId:foundUnityToAddInRecipe[1],
+          }
+          await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
         }));
       }
       if (mappingIngredientsId.length === 1) {
-        const ingredientToAdd = await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0] )
-        console.log("Retour 2 ?", ingredientToAdd)
+        const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === mappingIngredientsId[0]);
+        const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === mappingIngredientsId[0]);
+        const data = {
+          quantity:foundQuantityToAddInRecipe[1],
+          unitId:foundUnityToAddInRecipe[1],
+        }
+        await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
       }
       
-      return createdRecipe
+      return null
     }
     default: {
       throw new Response("", { status: 405 });

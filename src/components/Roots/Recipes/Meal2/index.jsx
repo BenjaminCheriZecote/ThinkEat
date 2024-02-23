@@ -29,9 +29,8 @@ const Meal = ({meal}) => {
     }
 
     const handleClickUpdate = async () => {
-        console.log("toto", meal.id)
         const recipe = await RecipeApi.get(meal.id);
-        console.log(recipe)
+        console.log(recipe);
         setRecipeDetails(recipe);
         console.log(recipeDetails);
         setUpdateMode(true)
@@ -39,14 +38,14 @@ const Meal = ({meal}) => {
 
     const handleClickAddFavorites = () => {
         console.log(meal)
-        store.dispatch({type:"SET_FAVORITES", payload:[...favorites, meal] })
+        store.dispatch({type:types.SET_FAVORITES, payload:[...favorites, meal] })
     }
 
     const handleClickDeleteFavorites = async () => {
         const updatedRecipes = favorites;
         const filteredFavorites = updatedRecipes.filter((element) => element.id !== meal.id);
         console.log("update", filteredFavorites)
-        store.dispatch({type:"SET_FAVORITES", payload:filteredFavorites })
+        store.dispatch({type:types.SET_FAVORITES, payload:filteredFavorites })
     }
 
 

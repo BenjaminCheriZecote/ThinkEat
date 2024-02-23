@@ -97,12 +97,10 @@ export function mappingUrlFunction(urlClient){
             if (!foundErrorTypeData) {
                 splitedIngredientValue.forEach((data) => {
                     if (result[0] === "ingredients" && data !== '') {
-                        console.log("number : ?", data.toString())
                         const resultParam = ['id', '=', data.toString()]
                         ingredientQuery.push(resultParam);
                     }
                     if (result[0] === "families" && data !== '') {
-                        console.log("number : ?", data.toString())
                         const resultParam = ["id", '=', data.toString()]
                         familyQuery.push(resultParam);
                     }  

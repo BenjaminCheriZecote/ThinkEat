@@ -43,10 +43,8 @@ const OrderByComponent = () => {
         setIsVisible(!isVisible)
         const widthFieldsetOrderBy = fieldsetOrderByUl.current.offsetWidth;
         if (!isVisible) {
-            console.log("tototo")
             fieldsetOrderByUl.current.style.transform = `translateX(-${widthFieldsetOrderBy+34}px`;
         } else {
-            console.log("tatata")
             fieldsetOrderByUl.current.style.transform = `translateX(+${widthFieldsetOrderBy}px`;
         }
     }
