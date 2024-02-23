@@ -1,11 +1,10 @@
-import '../Profile.scss'
+import style from "./index.module.css"
 
-const DietPreferences = () => {
+export default function DietPreferences()  {
 
-    return (
-        <section className="sectionProfile sectionProfile--Main">
-            <h2>Préférences utilisateurs</h2>
-        </section>
-    )
+  return (
+    <main className={style.main}>
+      <h2>Préférences utilisateurs</h2>
+    </main>
+  )
 }
-export default DietPreferences

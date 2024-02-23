@@ -24,7 +24,7 @@ import ValidatePassword, { validatePasswordAction } from './components/Roots/Val
 
 import Profil from './components/Roots/Profile/index.jsx';
 import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
-import Account from './components/Roots/Profile/Account/index.jsx.jsx';
+import Account from './components/Roots/Profile/Account/index.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
 import Aside, { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
 import { recipeAction } from './components/Layout/UXElements/components/RecipeUX.jsx';
@@ -49,8 +49,7 @@ const router = createBrowserRouter([
       { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader, action:recipeAction },
       { path: "/validate/account/:uuid", element: <></>, loader: validateAccountLoader },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction },
-      { path: "/profil", element:<Profil />,
-      children: [
+      { path: "/profil", element:<Profil />, children: [
         { index:true, element: <ProfilUser/> },
         { path: "diet-preferences", element: <DietPreferences/> },
         { path: "account", element: <Account/> },

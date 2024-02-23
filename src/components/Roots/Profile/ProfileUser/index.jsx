@@ -1,19 +1,10 @@
+import style from "./index.module.css"
 
-import '../Profile.scss';
+export default function ProfilUserZ() {
 
-
-
-
-const ProfilUserZ = () => {
-
-    return(
-        <section className="sectionProfile sectionProfile--Main">
-            <div className="section__headProfile">
-                <h2>Profile</h2>
-                <img src="" alt="" />
-            </div>
-        </section>
-    )
+  return(
+    <main className={style.main}>
+      <h2>Profile</h2>
+    </main>
+  )
 }
-
-export default ProfilUserZ;
