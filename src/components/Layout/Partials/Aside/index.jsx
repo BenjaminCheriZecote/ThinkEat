@@ -6,7 +6,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 // import './Aside.scss'
-import { NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FamilyApi, IngredientApi } from '../../../../store/api';
 import style from './Aside.module.css'
@@ -164,6 +164,7 @@ const Aside = () => {
     }
 
     return(
+    <>
     <aside className={style.aside}>
         <div>
             {/* mettre le mot "Filter" dans la classe du Form */}
@@ -296,6 +297,8 @@ const Aside = () => {
             </label> 
         </NavLink>
     </aside>
+    <Outlet />
+    </>
     )
 };
 

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import { UserApi } from "../../../store/api";
+import toast from "../../../helpers/toast";
 
 export default function ValidatePassword() {
 
@@ -28,18 +29,25 @@ export default function ValidatePassword() {
 }
 
 export async function validatePasswordAction({ request, params }) {
-  switch (request.method) {
-    case "POST": {
-      let formData = await request.formData()
-      const data = {
-        password: formData.get("password"),
-        passwordConfirm: formData.get("passwordConfirm")
-      };
-      await UserApi.validatePassword(params.uuid ,data);
-      return true;
+  try {
+    switch (request.method) {
+      case "POST": {
+        let formData = await request.formData()
+        const data = {
+          password: formData.get("password"),
+          passwordConfirm: formData.get("passwordConfirm")
+        };
+        await UserApi.validatePassword(params.uuid ,data);
+        
+        toast.success("Mot de passe modifié avec succès.\nVous allez être redirigé.")
+        await new Promise(r => setTimeout(r, 3200));
+        return redirect("/");
+      }
+      default: {
+        throw new Response("", { status: 405 });
+      }
     }
-    default: {
-      throw new Response("", { status: 405 });
-    }
+  } catch (error) {
+    return toast.error(error);
   }
 }
