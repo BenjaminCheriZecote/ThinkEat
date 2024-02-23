@@ -123,7 +123,6 @@ export async function accountAction({request}) {
       }
       case "DELETE": {
         const formData = await request.formData();
-        console.log("Delete",formData.get("email"))
         if (session.email !== formData.get("email")) {
           throw new Error("Vous avez rentrer une mauvaise adresse mail.");
         }
