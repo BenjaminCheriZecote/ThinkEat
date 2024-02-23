@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// import './styles/index.scss';
+import './styles/index.scss';
 
 
 import App from './App.jsx'
@@ -26,21 +26,20 @@ import Profil from './components/Roots/Profile/index.jsx';
 import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
 import Account, { accountAction } from './components/Roots/Profile/Account/index.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
-import Aside, { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
+import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
 import { recipeAction } from './components/Layout/UXElements/components/RecipeUX.jsx';
 
 const router = createBrowserRouter([									
 	{								
-		path: "/",							
-		element: <App />, loader: asideLoader,							
+		path: "",							
+		element: <App />, loader: asideLoader,	
 		// errorElement: <NotFound />,											
 		children: [							
-      { index: true, element: <Home />},
-      { element: <Aside />, children: [
-        { path: "/favorites", element: <Favorites /> },
-        { path: "/proposal", element: <Proposal /> },
-        { path: "/recipes", element: <Recipes />, loader:recipesLoader }
-      ]},
+      // { index: true, element: <Home />},
+      { path:"/", element: <Home />},
+      { path: "/favorites", element: <Favorites /> },
+      { path: "/proposal", element: <Proposal /> },
+      { path: "/recipes", element: <Recipes />, loader:recipesLoader },
       { path: "/historic", element: <Historic /> },
       { path: "/signin", element: <SignIn />, action: signInAction },
       { path: "/signup", element: <SignUp />, action: signUpAction},
@@ -49,7 +48,8 @@ const router = createBrowserRouter([
       { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader, action:recipeAction },
       { path: "/validate/account/:uuid", element: <></>, loader: validateAccountLoader },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction },
-      { path: "/profil", element:<Profil />, children: [
+      { path: "/profil", element:<Profil />, 
+      children: [
         { index:true, element: <ProfilUser/> },
         { path: "diet-preferences", element: <DietPreferences/> },
         { path: "account", element: <Account/>, action: accountAction },

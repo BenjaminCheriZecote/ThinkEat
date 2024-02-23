@@ -45,7 +45,7 @@ const Header = () => {
 
     return(
         <>
-            <header className="header">
+            <header id="header" className="header">
                 <h1>KoiKonMange</h1>
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">

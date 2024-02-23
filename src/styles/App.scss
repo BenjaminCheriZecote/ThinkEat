@@ -2,21 +2,31 @@ html, body, #root, .app {
     height: 100%;
     }
     
-    .app {
-        font-family: "Poppins", sans-serif;
-        display:flex;
-        &__wrapper {
-            width:100%;
-            display: flex;
-            flex-wrap: nowrap;
-            height: 100%;
-        }
+    #app {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    #header {
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+    }
+    #aside {
+        
+        grid-column: 1 / 2;
+        grid-row: 1 / -1;
+    }
+
+    .outlet {
+        grid-column: 1 / -1;
+        grid-row: 2 / -2;
+         
+    }
     
-        &-wrapper__content {
-            width:100%;
-            height: 100%;
-            overflow-y: scroll;
-        }
+    #footer {
+        grid-column: 1 / -1;
+        grid-row: -1 / -2;
     }
 
     // modal

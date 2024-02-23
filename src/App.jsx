@@ -4,11 +4,15 @@ import Header from './components/Layout/Partials/Header';
 import Footer from './components/Layout/Partials/Footer';
 import { Outlet } from 'react-router-dom';
 import store from './store';
-
+import { useSelector } from 'react-redux';
+import Aside from './components/Layout/Partials/Aside';
 
 
 
 function App() {
+  
+  const {isAside} = useSelector((state) => state.isAside)
+
   if (localStorage.getItem("user")) {		
     store.dispatch({type:"IS_CONNECTED"})	
   }
@@ -18,11 +22,18 @@ function App() {
   }
 
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <div id="app">
+
+      <Header/>
+      {isAside &&
+        <Aside />
+      }
+
+          {/* <section className="app-wrapper__content"> */}
+            <Outlet />
+            <Footer id="footer"/>
+          {/* </section> */}
+    </div>
   )
 }
 

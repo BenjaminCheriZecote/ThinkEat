@@ -9,6 +9,7 @@ import ingredientsReducer from "./reducers/ingredients";
 import familiesReducer from "./reducers/families";
 import proposalReducer from "./reducers/proposal";
 import unitReducer from "./reducers/unit";
+import isAsideReducer from "./reducers/isAside";
 				
 const store = configureStore({				
 	reducer: {
@@ -21,7 +22,8 @@ const store = configureStore({
 		ingredients:ingredientsReducer,
 		families:familiesReducer,
 		proposal:proposalReducer,
-    units:unitReducer
+    	units:unitReducer,
+		isAside: isAsideReducer
 	}			
 })				
 				
