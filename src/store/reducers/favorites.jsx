@@ -1,19 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
 import types from "./types";
+import { RecipeApi } from "../api";
 
-// {
-//     id:1,
-//     name:"Hamburger",
-//     image:"",
-//     steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-//     hunger:"Copieux",
-//     preparating_time:10,
-//     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
-// },
-
-// {name:"Tartiflète", hungry:"Grande faim", cooking_time:"Long"},  
-						
+ 
+const recipesFetched = await RecipeApi.getAll();
+const foundFavorites = recipesFetched.filter((recipe) => recipe.userId !== null);
+			
 const initialState = {	
 	validate: true,					
 	favorites:[
@@ -449,7 +442,8 @@ const initialState = {
                 image:"/ail.jpg"
             }]
         }
-	]					
+	],
+    favorites2:foundFavorites				
 }						
 						
 const favoritesReducer = createReducer (initialState, (builder) => {						

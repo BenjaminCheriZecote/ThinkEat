@@ -2,16 +2,12 @@ import { FaPlus } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import store from "../../../../store";
 import { useSelector } from "react-redux";
-import { FaCheck } from "react-icons/fa6";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
-import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
 import { NavLink } from "react-router-dom";
 
-import { useRef } from "react";
 
-
-
+import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
 
 const Meal = ({meal}) => {
 
@@ -31,15 +27,13 @@ const Meal = ({meal}) => {
         <li  className="section__li">
                 <div className="section-li__container--boxLegend">
                     <NavLink to={`/recipes/${meal.id}`}>{meal.name}</NavLink>
-                    
                 </div>
 
                 <div className="section-li__container--options">
-                    {updateMode?
-                    
-                        <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
-                        :
-                        ""
+                    {updateMode&&
+                        <div className="backdrop">
+                            <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)}/>
+                        </div>
                         }
                     <FaPen onClick={handleClickUpdate}/>
                     <MdCancel onClick={handleClickDelete}/>

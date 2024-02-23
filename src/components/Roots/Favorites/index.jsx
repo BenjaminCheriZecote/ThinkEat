@@ -22,6 +22,7 @@ import {mappingUrlFunction} from '../../httpQueries/index'
 
 
 
+
 // {
 //     id:1,
 //     name:"Hamburger",
@@ -39,28 +40,22 @@ const Favorites = () => {
     const {favorites} = useSelector((state) => state.favorites);
     
     const [favoritesCopy, setCopy] = useState(favorites);
-    const [openModeCreator, setModeCreator] = useState(false);
+    const [openModeCreator, setCreatorMode] = useState(false);
     
 
     useEffect(() => {
         setCopy(favorites)
     }, [favorites])
 
-    const handleSubmitSearch = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const dataForm = Object.fromEntries(formData);
-        const filteredResearch = favorites.filter((element) => element.name.toLowerCase().includes(dataForm.search.toLocaleLowerCase()) );
-        console.log(filteredResearch);
-        setCopy(filteredResearch);
-    }
-
     const handleChangeSearch = (event) => {
         if (event.target.value.length === 0) setCopy(favorites)
+        const searchedRecipes = favorites.filter((recipe) => recipe.name.startsWith(event.target.value));
+        setCopy(searchedRecipes);
     }
 
+
     const handleClickAddRecipe = () => {
-        setModeCreator((current) => !current) 
+        setCreatorMode((current) => !current) 
     }
 
     
@@ -70,7 +65,7 @@ const Favorites = () => {
                 <div className="section__divForm">
                 <h2>Favoris</h2>
                     <div>
-                        <Form onSubmit={handleSubmitSearch} className="" action="">
+                        <Form className="" action="">
                             <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
                             <button><CiSearch /></button>
                         </Form>
@@ -87,7 +82,10 @@ const Favorites = () => {
                 </div>
 
                 {openModeCreator&&
-                    <ModalCreatingRecipe setModeCreator={setModeCreator}/>
+                    // <ModalCreatingRecipe setCreatorMode={setCreatorMode}/>
+                    <div className="backdrop">
+                        <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
+                    </div>
                     }
 
                 {favoritesCopy.length > 0 &&
@@ -126,6 +124,7 @@ export async function favoritesLoader(){
     //     try {
     //         const favorites = await RecipeApi.getAll(query);
     //         store.dispatch({type:types.SET_FAVORITES, payload: favorites})
+                
     //         return favorites
     //     } catch (error) {
     //         console.log(error)

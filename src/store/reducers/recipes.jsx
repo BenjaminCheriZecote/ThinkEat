@@ -1,6 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
-import { initialStateIngredients } from "./ingredients";
 
 import { RecipeApi } from "../api";
 import types from "./types";

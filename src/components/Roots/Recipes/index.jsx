@@ -23,8 +23,6 @@ import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
 const Recipes = () => {
 
     // const loader = useLoaderData()
-    const actualUser = UserApi.getUser()
-    console.log("log user", actualUser)
 
     // const recipesCopy = useLoaderData()
     const {recipes} = useSelector((state) => state.recipes);
@@ -32,13 +30,6 @@ const Recipes = () => {
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
     const [isAdmin, setAdmin] = useState(true);
-  
-    // if (localStorage.getItem("user")) {
-    //     setAdmin(JSON.parse(localStorage.getItem("user")).isAdmin)
-    // } else {
-    //     setAdmin(false)
-    // }
-    // const [isAdmin, setAdmin] = useState(false);
     
 
     //
@@ -73,17 +64,10 @@ const Recipes = () => {
         setCopy(recipes)
     }, [recipes])
 
-    const handleSubmitSearch = (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const dataForm = Object.fromEntries(formData);
-        const filteredResearch = recipes.filter((element) => element.name.toLowerCase().includes(dataForm.search.toLocaleLowerCase()) );
-        console.log(filteredResearch);
-        setCopy(filteredResearch);
-    }
-
     const handleChangeSearch = (event) => {
         if (event.target.value.length === 0) setCopy(recipes)
+        const searchedRecipes = recipes.filter((recipe) => recipe.name.startsWith(event.target.value));
+        setCopy(searchedRecipes);
     }
 
     const handleClickAddRecipe = () => {
@@ -178,7 +162,7 @@ const Recipes = () => {
                 <h2>Recettes</h2>
 
                 <div>
-                    <Form onSubmit={handleSubmitSearch} className="section-divForm__Form" action="">
+                    <Form className="section-divForm__Form" action="">
                         <fieldset>
                             <input type="search" placeholder='Rechercher' name="name" onChange={handleChangeSearch}/>
                             <button><CiSearch /></button>
@@ -246,7 +230,6 @@ const Recipes = () => {
             <div className="backdrop">
                 <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
             </div>
-                // <ModalCreatingRecipe setCreatorMode={setCreatorMode}/>
             }
             
             <div className="section__addRecipe"> 
@@ -280,27 +263,26 @@ export async function recipesLoader(){
 
     // test
 
-    const recipes = await await RecipeApi.getAll();
-    store.dispatch({type:types.SET_RECIPES, payload: recipes})
+    // const recipes = await await RecipeApi.getAll();
+    // store.dispatch({type:types.SET_RECIPES, payload: recipes})
 
-    const recipesQuerry = await RecipeApi.getAll(query);
-    store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+    // const recipesQuerry = await RecipeApi.getAll(query);
+    // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
     
-    console.log("retour back fetch", recipesQuerry);
-    console.log(query);
+    // console.log("retour back fetch", recipesQuerry);
+    // console.log(query);
 
     // 
 
-    // async function fetchDataRecipesApi(query) {
-    //     try {
-    //         const recipes = await RecipeApi.getAll(query);
-    //         store.dispatch({type:types.SET_RECIPES, payload: recipes})
-    //         return recipes
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
-    // return fetchDataRecipesApi();
-    return null;
+    async function fetchDataRecipesApi(query) {
+        try {
+            const recipes = await RecipeApi.getAll(query);
+            store.dispatch({type:types.SET_RECIPES, payload: recipes})
+            return recipes
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
+    return fetchDataRecipesApi();
 }
