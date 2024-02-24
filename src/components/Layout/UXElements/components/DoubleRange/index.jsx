@@ -1,5 +1,5 @@
 import "./styles.css";
-// import logo from "./logo.svg";
+import AlarmTime from "../../icons/AlarmTime";
 import { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
 
@@ -58,18 +58,19 @@ export default function DoubleInputRange({label, name}) {
           thumbLeftColor="var(--colorbg2)"
           thumbRightColor="var(--colorbg2)"
         />
-        <div className="divOutput">
+      <div className="divOutput">
 
-        <label htmlFor="preparatingTimeFilter" >{label}</label>
-          <div>
+        <label htmlFor="" >{label}</label>
+          <div className="divOutputContainer">
             <span>
               {minTimeCaption}
-            <input type="hidden" name={`${name}min`} value={minTimeCaption}/>
-              </span>
+              <input type="hidden" name={`${name}min`} value={minTimeCaption}/>
+            </span>
+            <AlarmTime />
             <span>
               {maxTimeCaption}
               <input type="hidden" name={`${name}max`} value={maxTimeCaption}/>
-              </span>
+            </span>
           </div>
         </div>
       </div>

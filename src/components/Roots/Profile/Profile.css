@@ -1,5 +1,14 @@
+.app-wrapper {
+    display: flex;
+    width: 100%;
+    grid-column: 1 / -1;
+    grid-row: 2 /11;
+    padding:0rem 1rem;
+    /* border:1px red solid; */
+    
+}
+
 .sectionProfile {
-    margin:1.5rem;
     height: fit-content;
     border-radius:0.8rem;
     border:none;
@@ -12,7 +21,7 @@
 
 .sectionProfile--Main {
     width:65%;
-    padding-bottom:4rem;
+  
 }
 
 .sectionProfile h2 {
@@ -99,7 +108,7 @@
     display:flex;
     justify-content: space-between;
     border-bottom:1px rgb(231, 231, 231) solid;
-    padding:3rem 0rem;
+    padding:2rem 0rem;
 
 }
 
@@ -131,8 +140,7 @@
 }
 
 .section__mainProfile fieldset button:hover {
-    background-color: rgb(41, 88, 181);
-    color:white;
+    background-color: var(--colorbg3);
 }
 
 .section__mainProfile fieldset label, .section__mainProfile fieldset input, .section__mainProfile fieldset button, .section__mainProfile footer p {

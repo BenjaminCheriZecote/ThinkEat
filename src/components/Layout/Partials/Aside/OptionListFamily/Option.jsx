@@ -36,15 +36,15 @@ const Options = ({family, ingredient}) => {
 
     return(
         <>
-            {family?
-                <li className="liOptions" onClick={(handleClickOption)}>{family.name}</li>
-                :
-                ""
+            {family&&
+                <li className="liOptions" onClick={(handleClickOption)}>
+                    <p>{family.name}</p>
+                </li>
             }
-            {ingredient?
-                <li className="liOptions" onClick={(handleClickOption)}>{ingredient.name}</li>
-                :
-                ""
+            {ingredient&&
+                <li className="liOptions" onClick={(handleClickOption)}>
+                    <p>{ingredient.name}</p>
+                </li>
             }
         </>
     )

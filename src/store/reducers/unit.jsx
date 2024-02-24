@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit";
-import { UnitApi } from "../api";
+import { UnitApi } from "../../api";
 import types from "./types";
 
 const unitDb = await UnitApi.getAll()

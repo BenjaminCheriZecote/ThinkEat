@@ -23,9 +23,9 @@
   gap:1rem;
 }
 
-@media(min-width: 600px) {
+/* @media(min-width: 600px) {
 	.nav{
     position: fixed;
     width: 15rem;
   }
-}
+} */

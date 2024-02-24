@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit";
-import { UserApi } from "../api";
+import { UserApi } from "../../api";
 
 const actualUser = UserApi.getUser()
 let initialState;

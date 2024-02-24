@@ -1,5 +1,5 @@
-import { apiBaseUrl } from "../config.js";
-import AppError from "../helpers/appError.js";
+import { apiBaseUrl } from "./config.js";
+import AppError from "./helpers/appError.js";
 
 class CoreApi {
   static routeName;

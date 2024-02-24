@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { UserApi } from "../../../store/api";
+import { UserApi } from "../../../api"
 import UserValidator from "../../../helpers/validators/user.validator";
 import toast from "../../../helpers/toast";
 

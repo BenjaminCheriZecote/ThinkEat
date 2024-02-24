@@ -7,7 +7,7 @@ import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { FaMinus } from "react-icons/fa6";
 
-import '../Recipe.scss';
+import '../Recipe.css';
 
 
 const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {

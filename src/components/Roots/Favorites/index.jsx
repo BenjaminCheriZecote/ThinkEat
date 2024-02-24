@@ -1,4 +1,4 @@
-import './Favorites.scss';
+import './Favorites.css';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import store from '../../../store';
@@ -16,26 +16,16 @@ import Select from "react-select";
 import ModalCreatingRecipe from './ModalCreateingRecipe';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
 import { Form } from 'react-router-dom';
-import { RecipeApi } from '../../../store/api';
+import { RecipeApi } from '../../../api'
 import types from '../../../store/reducers/types';
-import {mappingUrlFunction} from '../../httpQueries/index'
-
-
-
-
-// {
-//     id:1,
-//     name:"Hamburger",
-//     image:"",
-//     steps:["Cuire les steak à la poèle.", "Chauffer le pain au four, avec steak et fromage", "Rajouter tomate et salade"],
-//     hunger:"big",
-//     preparating_time:10,
-//     ingredients:["pain", "salade", "tomate", "steak", "fromage"]
-// },
+import {mappingUrlFunction} from '../../../helpers/httpQueries'
+import SearchForm from '../../Layout/UXElements/components/SearchForm';
 
 
 
 const Favorites = () => {
+
+    const {isAside} = useSelector((state) => state.isAside)
 
     const {favorites} = useSelector((state) => state.favorites);
     
@@ -60,15 +50,12 @@ const Favorites = () => {
 
     
     return(
-        <>
+        <main style={{ gridColumn: '2 / -1' }}>
             <section className="section">
                 <div className="section__divForm">
                 <h2>Favoris</h2>
                     <div>
-                        <Form className="" action="">
-                            <input type="search" placeholder='Rechercher' name="search" onChange={handleChangeSearch}/>
-                            <button><CiSearch /></button>
-                        </Form>
+                        <SearchForm handleChangeSearch={handleChangeSearch}/>
                         <OrderByComponent />
                     </div>
                 </div>
@@ -82,7 +69,6 @@ const Favorites = () => {
                 </div>
 
                 {openModeCreator&&
-                    // <ModalCreatingRecipe setCreatorMode={setCreatorMode}/>
                     <div className="backdrop">
                         <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
                     </div>
@@ -95,13 +81,15 @@ const Favorites = () => {
                 }
 
             </section>
-        </>
+        </main>
     )
 }
 
 export default Favorites;
 
 export async function favoritesLoader(){
+
+    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
     // const urlClient = window.location.href;
     // const query = mappingUrlFunction(urlClient);
@@ -132,6 +120,8 @@ export async function favoritesLoader(){
     //     }
     // }
     // return fetchDataRecipesApi();
+    
+    
     
     return null;
 }

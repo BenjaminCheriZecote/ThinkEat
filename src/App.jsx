@@ -1,5 +1,5 @@
-import './styles/App.scss';
-import './styles/reset.scss'
+import './styles/App.css';
+import './styles/reset.css'
 import Header from './components/Layout/Partials/Header';
 import Footer from './components/Layout/Partials/Footer';
 import { Outlet } from 'react-router-dom';

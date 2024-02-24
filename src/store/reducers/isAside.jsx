@@ -3,7 +3,7 @@ import { createAction } from "@reduxjs/toolkit";
 import types from "./types";
 						
 const initialState = {						
-	isAside:null				
+	isAside:false				
 }						
 						
 const isAsideReducer = createReducer (initialState, (builder) => {						

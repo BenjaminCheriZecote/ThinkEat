@@ -1,0 +1,13 @@
+
+
+.color {
+    color:green;
+    /* background-color: green; */
+}
+
+.size {
+    /* height:fit-content;
+    width:fit-content; */
+    border-radius: 100%;
+}
+

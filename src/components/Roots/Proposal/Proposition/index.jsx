@@ -1,10 +1,14 @@
-import { CiCircleCheck } from "react-icons/ci";
-import { CiCircleRemove } from "react-icons/ci";
-import { IoStarSharp } from "react-icons/io5";
-import { IoStarOutline } from "react-icons/io5";
+
+import ValidateCheck from "../../../Layout/UXElements/icons/ValidateCheck";
+import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
+
+
+import FavoriteStar from "../../../Layout/UXElements/icons/FavoriteStar";
+import FavoriteStarOutline from "../../../Layout/UXElements/icons/FavoriteStarOutline";
+
 import { NavLink } from "react-router-dom";
 
-import './Proposition.scss'
+import './Proposition.css'
 import { useSelector } from "react-redux";
 import store from "../../../../store";
 import types from "../../../../store/reducers/types";
@@ -51,16 +55,16 @@ const Proposition = ({proposition}) => {
                 <div>
                     <NavLink to={`/recipes/${proposition.id}`}>Voir la recette</NavLink>
                     {favorites.find((recipe) => recipe.id === proposition.id)?
-                        <IoStarSharp className="liProposotion__starFavorite"/>
+                        <FavoriteStar />
                         :
-                        <IoStarOutline className="liProposotion__starFavorite"/>
+                        <FavoriteStarOutline />
                         }
                 </div>
             </div>
 
             <div className="liProposotion__choiceBox">
-                    <CiCircleCheck onClick={handleClickValidateProposition} />
-                    <CiCircleRemove onClick={handleClickDeleteProposition} />
+                    <ValidateCheck onClick={handleClickValidateProposition} />
+                    <DeleteCruse onClick={handleClickDeleteProposition} />
             </div>
         </li>
 

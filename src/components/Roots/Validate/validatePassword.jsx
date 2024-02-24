@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { Form, redirect } from "react-router-dom";
-import { UserApi } from "../../../store/api";
+import { UserApi } from "../../../api"
 import toast from "../../../helpers/toast";
 
 export default function ValidatePassword() {

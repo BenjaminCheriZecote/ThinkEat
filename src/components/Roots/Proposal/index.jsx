@@ -13,33 +13,18 @@ import { v4 as uuidv4 } from 'uuid';
 import store from "../../../store";
 
 
-import './Proposal.scss';
+import './Proposal.css';
 import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
-import { mappingUrlFunction } from "../../httpQueries";
-import { RecipeApi } from "../../../store/api";
+import { mappingUrlFunction } from "../../../helpers/httpQueries"
+import { RecipeApi } from "../../../api";
+import OrderByComponent from "../../Layout/UXElements/components/OrderByComponent";
 
-    // id:1,
-//     name:“Hamburger”,
-//     image:“/hamburger.png”,
-//     steps:[“Cuire les steak à la poèle.“, “Chauffer le pain au four, avec steak et fromage”, “Rajouter tomate et salade”],
-//     hunger:“Copieux”, // ou Normal ou Léger
-//     time:13, // temps total
-//     preparatingTime:10, // temps de preparation
-//     cookingTime: 3 // temps de cuisson
-//     person: 1,
-//     ingredients:[
-//         {
-//             d:30, name:“Pain hamburger”, quantity: “80”, unit:“gramme”, family: [{id:1, name:“Féculent”}, {id:15, name:“Recette”}]
-//         },
-//         {
-//             id:20, name:“Steack”, quantity: “100", unit:“gramme”, family: [{id:2, name:“Viande”}]
-//         },
-//         {...}]
-// }
 
 const Proposal = () => {
+
+    const {isAside} = useSelector((state) => state.isAside)
 
     const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
@@ -48,10 +33,6 @@ const Proposal = () => {
     
     const {proposal} = useSelector((state) => state.proposal)
     const {historical_propositions} = useSelector((state) => state.historical_propositions);
-
-    useEffect(() => {
-        console.log(proposal)
-    })
 
     const handleClickMinus = () => {
         if (numberOfProposition !== 0) store.dispatch({type:types.SUBTRACT_NUMBER_OF_PROPOSITION});
@@ -97,7 +78,7 @@ const Proposal = () => {
   
 
     return(
-        <>
+        <main className="outlet" style={{ gridColumn: '2 / -1' }}>
             <section className="section">
                 
                     <Form className="section__start">
@@ -107,7 +88,7 @@ const Proposal = () => {
                             <CiCirclePlus onClick={handleClickPlus} id="plus"/>
                         </div>
   
-                        <button onClick={handleSubmit}>C'est parti !</button>
+                        <button onClick={handleSubmit} className="buttonStarter">C'est parti !</button>
                     </Form>
             </section>
 
@@ -136,13 +117,15 @@ const Proposal = () => {
                         <p className="section__pNoResults">Aucuns résultats. Précise tes critères</p>
                     }
             </section>
-        </>
+        </main>
     )
 }
 
 export default Proposal;
 
 export async function proposaLoader(){
+
+store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
 const urlClient = window.location.href;
 const endpointApi = 'https://localhost:3000/api/recipe?';

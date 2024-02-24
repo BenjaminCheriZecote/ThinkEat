@@ -15,9 +15,8 @@ const OptionChosen = ({choosen,stateName}) => {
 
     return(
         <li className="optionChosen">
-          {/* <input id={stateName} name={stateName} type="hidden"  defaultValue={choosen[0]} /> */}
-          <p>{choosen[1]} </p>
-          <MdCancel size={10} onClick={handleClickOption}/>
+          <p>{choosen[1]}</p>
+          <MdCancel className="optionChosen__cancel" size={10} onClick={handleClickOption}/>
         </li>
     )
 

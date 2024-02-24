@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
 
 import { Form, redirect } from "react-router-dom";
-import { UserApi } from "../../../store/api";
+import { UserApi } from "../../../api"
 import UserValidator from "../../../helpers/validators/user.validator";
 import toast from "../../../helpers/toast";
+import store from "../../../store";
+import types from "../../../store/reducers/types";
 
 export default function SignUp() {
   return(
-    <main className='section'>
+    <main className='section outlet'>
       <Form className='section__form' method='POST'>
         <h2 className='section-form__h2'>Créer un compte</h2>
         <div className='section-form__div'>
@@ -61,4 +63,22 @@ export async function signUpAction({ request, params }) {
     toast.error(error);
     return {error};
   }
+}
+
+export function signupLoader(){
+
+  store.dispatch({type:types.SET_IS_ASIDE_FALSE});
+  // const headerElement = document.querySelector("#header");
+  //   console.log(headerElement)
+  //   headerElement.style.gridColumn = "1 /-1";
+
+  //   const footerElement = document.querySelector("#footer");
+  //   footerElement.style.gridColumn = "1 /-1";
+
+  //   const outletsElements = document.querySelectorAll(".outlet");
+  //   outletsElements.forEach((element) => {
+  //       element.style.gridColumn = "1 /-1";
+  //   })
+  
+return null
 }

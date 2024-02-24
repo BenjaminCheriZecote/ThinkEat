@@ -4,11 +4,12 @@ import store from "../../../../store";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa6";
-import { IoStarSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import ModalUpdatingRecipe from "../ModalUpdatingRecipe";
-import { IoStarOutline } from "react-icons/io5";
-import { RecipeApi } from "../../../../store/api";
+import EditPen from "../../../Layout/UXElements/icons/EditPen";
+import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
+import FavoriteStar from "../../../Layout/UXElements/icons/FavoriteStar";
+import FavoriteStarOutline from "../../../Layout/UXElements/icons/FavoriteStarOutline";
+import { RecipeApi } from "../../../../api";
 import types from "../../../../store/reducers/types";
 import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
 
@@ -57,15 +58,15 @@ const Meal = ({meal}) => {
                 <div className="section-li__container--options">
                     {isAdmin?
                         <>
-                            <FaPen onClick={handleClickUpdate}/>
-                            <MdCancel onClick={handleClickDelete}/>
+                            <EditPen onClick={handleClickUpdate}/>
+                            <DeleteCruse onClick={handleClickDelete}/>
                         </>
                         :
                         isConnected?
                         favorites.find((element) => element.id === meal.id)?
-                            <IoStarSharp onClick={handleClickDeleteFavorites}/>
+                            <FavoriteStar onClick={handleClickDeleteFavorites}/>
                             :
-                            <IoStarOutline onClick={handleClickAddFavorites}/>
+                            <FavoriteStarOutline onClick={handleClickAddFavorites}/>
                             :
                             ""
                     }

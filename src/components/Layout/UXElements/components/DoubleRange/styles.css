@@ -11,15 +11,31 @@
 
   .divOutput {
     display: flex;
-    justify-content: center;
+    flex-direction:column;
+    width:100%;
+    gap:0.2rem;
     align-items: center;
     /* padding:0.1rem 0.5rem; */
+    /* padding:0.8rem 0.3rem; */
   }
+
   .divOutput > div {
-    width: 50%;
+    width: 100%;
     font-size:0.6rem;
+  }
+
+  .divOutput label {
+    font-size:1rem;
+    font-weight:300;
+    font-family: 'Playpen Sans', cursive;
   }
   .divOutput span {
    padding:0.3rem;
+   font-size:0.9rem;
+   font-family: 'Playpen Sans', cursive;
+  }
+
+  .Test {
+    color:black;
   }
   

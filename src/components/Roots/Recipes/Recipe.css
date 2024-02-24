@@ -99,7 +99,7 @@
 }
 
 .section__recipe ul li div > div {
-    // moins étapes
+    /* // moins étapes */
     width:fit-content;
     height: fit-content;
     overflow: hidden;
@@ -108,7 +108,7 @@
 }
 
 .section__recipe textarea {
-    // textarea step
+    /* // textarea step */
     padding:0.3rem;
     text-align: start;
     width:100%;
@@ -125,7 +125,7 @@ textarea:focus{
 }
 
 .section__recipe .section-recipe__field--ingredientsContainer li {
-    // container ingredient
+    /* // container ingredient */
     border:1px black solid;
     width:7rem;
     overflow: hidden;
@@ -146,7 +146,7 @@ textarea:focus{
 }
 
 
-// Modal creation
+/* // Modal creation */
 
 .section-recipe__figure {
         display:flex;

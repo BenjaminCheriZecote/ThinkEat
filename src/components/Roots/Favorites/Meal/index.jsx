@@ -4,6 +4,8 @@ import store from "../../../../store";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa";
+import EditPen from "../../../Layout/UXElements/icons/EditPen";
+import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
 import { NavLink } from "react-router-dom";
 
 
@@ -35,8 +37,8 @@ const Meal = ({meal}) => {
                             <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)}/>
                         </div>
                         }
-                    <FaPen onClick={handleClickUpdate}/>
-                    <MdCancel onClick={handleClickDelete}/>
+                    <EditPen onClick={handleClickUpdate}/>
+                    <DeleteCruse onClick={handleClickDelete}/>
                 </div>
         </li>
     )

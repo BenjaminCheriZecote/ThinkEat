@@ -9,16 +9,18 @@ import { FaSquareMinus } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { MdSort } from "react-icons/md";
-import { mappingUrlFunction } from "../../httpQueries";
+import { mappingUrlFunction } from "../../../helpers/httpQueries"
 
 import ModalCreatingRecipe from "./ModalCreateingRecipe";
 // import '../../../styles/App.scss'
-import './Recipe.scss';
+import './Recipe.css';
 import { Form, useLoaderData } from "react-router-dom";
-import { RecipeApi, UserApi } from "../../../store/api";
+import { RecipeApi, UserApi } from "../../../api"
 import store from "../../../store";
 import types from "../../../store/reducers/types";
 import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
+import OrderByComponent from "../../Layout/UXElements/components/OrderByComponent";
+import SearchForm from "../../Layout/UXElements/components/SearchForm";
 
 const Recipes = () => {
 
@@ -30,41 +32,13 @@ const Recipes = () => {
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
     const [isAdmin, setAdmin] = useState(true);
-    
-
-    //
-    const [orderBy, setOrderBy] = useState([])
-    const [ascName, setAscName] = useState(true)
-    const [ascTime, setAscTime] = useState(true)
-    const [ascHunger, setAscHunger] = useState(true)
-    const [isVisible, setIsVisible] = useState(false)
-    const fieldsetOrderByUl = useRef()
-
-    const [objectsOrder, setObjectsOrder] = useState({
-        name: { position: 1, title: "name", label: "Nom", ascState: ascName },
-        time: { position: 2, title: "time", label: "Temps", ascState: ascTime },
-        hunger: { position: 3, title: "hunger", label: "Faim", ascState: ascHunger }
-      });
-
-    //
-    useEffect(() => {
-        console.log("following order by :", orderBy)
-    }, [orderBy])
-    //
-    useEffect(() => {
-        setObjectsOrder(prevState => ({
-            ...prevState,
-            name: { ...prevState.name, ascState: ascName },
-            time: { ...prevState.time, ascState: ascTime },
-            hunger: { ...prevState.hunger, ascState: ascHunger }
-          }));
-    }, [ascName, ascTime, ascHunger])
 
     useEffect(() => {
         setCopy(recipes)
     }, [recipes])
 
     const handleChangeSearch = (event) => {
+        console.log(event.target.value)
         if (event.target.value.length === 0) setCopy(recipes)
         const searchedRecipes = recipes.filter((recipe) => recipe.name.startsWith(event.target.value));
         setCopy(searchedRecipes);
@@ -72,156 +46,19 @@ const Recipes = () => {
 
     const handleClickAddRecipe = () => {
         setCreatorMode((current) => !current) 
-    }
-
-    //
-    const handleClickOrderBy = () => {
-        setIsVisible(!isVisible)
-        const widthFieldsetOrderBy = fieldsetOrderByUl.current.offsetWidth;
-        if (!isVisible) {
-            fieldsetOrderByUl.current.style.transform = `translateX(-${widthFieldsetOrderBy+34}px`;
-        } else {
-            fieldsetOrderByUl.current.style.transform = `translateX(+${widthFieldsetOrderBy}px`;
-        }
-    }
-
-    //
-    const handleClickOrderByChoice = (event) => {
-        const liParentElement = event.target.closest("li");
-        liParentElement.classList.toggle("selectedOrderBY");
-        const containerOptionOrderBy = liParentElement.querySelector("div");
-        const foundOption = orderBy.find((option) => option.label === containerOptionOrderBy.className);
-        if (!foundOption) {
-            if (containerOptionOrderBy.className === objectsOrder.name.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.name])
-            if (containerOptionOrderBy.className === objectsOrder.time.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.time])
-            if (containerOptionOrderBy.className === objectsOrder.hunger.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.hunger])  
-        } else {
-            if (containerOptionOrderBy.className === objectsOrder.name.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.name.label)
-                setOrderBy(filteredArray)
-            }
-
-            if (containerOptionOrderBy.className === objectsOrder.time.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.time.label)
-                setOrderBy(filteredArray)
-            }
-            if (containerOptionOrderBy.className === objectsOrder.hunger.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.hunger.label)
-                setOrderBy(filteredArray)
-            }
-        }
-    }
-    //
-    const setAscFunction = (event) => {
-        const liParentElement = event.target.closest("li");
-        const containerOptionOrderBy = liParentElement.querySelector("div");
-        const foundOption = orderBy.find((option) => option.label === containerOptionOrderBy.className);
-
-
-        if (foundOption) {
-
-            if (foundOption.label === objectsOrder.name.label) {
-                // setAscName(prevState => !prevState)
-                console.log("test name", ascName)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascName}
-                console.log("updated array !!", updatedArray[foundIndex])
-                setOrderBy(updatedArray)
-            }
-
-            if (foundOption.label === objectsOrder.time.label) {
-                // setAscTime(prevState => !prevState)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                console.log("test name", ascTime)
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascTime}
-                console.log("updated array !!", updatedArray[foundIndex])
-                setOrderBy(updatedArray)
-            }
-
-            if (foundOption.label === objectsOrder.hunger.label) {
-                // setAscHunger(prevState => !prevState)
-                console.log("test name", ascHunger)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascHunger}
-                setOrderBy(updatedArray)
-            }
-        }
-        
-        
-    }
+    }       
+    
 
     return(
+        <main className="main" >
+        
         <section className="section">
             <div className="section__divForm">
                 <h2>Recettes</h2>
 
                 <div>
-                    <Form className="section-divForm__Form" action="">
-                        <fieldset>
-                            <input type="search" placeholder='Rechercher' name="name" onChange={handleChangeSearch}/>
-                            <button><CiSearch /></button>
-                        </fieldset>
-
-                    </Form>
-
-                    <Form>
-                        <fieldset className="fieldsetOrderBy">
-                            <ul>
-                                {orderBy.map((option, index) => {
-                                    return(
-                                        <input key={index} name={`orderBy${option.title}`} value={option.ascState?"ASC":"DESC"} type="hidden"/>
-                                    )
-                                })}
-
-                            </ul>
-
-                            <legend><button type="button" onClick={handleClickOrderBy}><MdSort /></button></legend>
-                                
-                                <ul ref={fieldsetOrderByUl} className='fieldsetOrderBy__ulContainer'>
-                                    <li className={objectsOrder.name.label}>
-                                        <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                        <div className={objectsOrder.name.label} onClick={handleClickOrderByChoice}>
-                                            <p className="tag">{objectsOrder.name.label}</p> <p className="ascOrderBy">{ascName?"Croissant":"Décroissant"}</p>
-                                        </div>
-                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                            setAscName(prevState => !prevState);
-                                            setAscFunction(event);
-                                            }}/>
-                                    </li>
-
-                                    <li className={objectsOrder.time.label}>
-                                        <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                        <div className={objectsOrder.time.label} onClick={handleClickOrderByChoice}>
-                                            <p className="tag">{objectsOrder.time.label}</p> <p className="ascOrderBy"> {ascTime?"Croissant":"Décroissant"}</p>
-                                        </div> 
-                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                            setAscTime(prevState => !prevState);
-                                            setAscFunction(event);
-                                        }}/>
-                                        
-                                            
-                                    </li>
-
-                                    <li className={objectsOrder.hunger.label}>
-                                        <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                        <div className={objectsOrder.hunger.label} onClick={handleClickOrderByChoice}>
-                                            <p className="tag">{objectsOrder.hunger.label}</p> <p className="ascOrderBy"> {ascHunger?"Croissant":"Décroissant"}</p>
-                                        </div>
-                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                            setAscHunger(prevState => !prevState);
-                                            setAscFunction(event);
-                                            }}/>
-                                        </li>
-                                    <button>Trier</button>
-                                </ul>           
-                        </fieldset>    
-                    </Form>
+                    <SearchForm handleChangeSearch={handleChangeSearch}/>
+                    <OrderByComponent />
                 </div>
 
             </div>
@@ -242,7 +79,7 @@ const Recipes = () => {
                     ""}</div>
             <ul className="section__ulContainerRecipes">
 
-                    {recipesCopy.length &&
+                    {recipesCopy.length > 0&&
                         recipesCopy.map((meal, index) => {
                             return(<Meal key={index} meal={meal} isAdmin={isAdmin} setAdmin={setAdmin}/>)
                         })
@@ -250,12 +87,15 @@ const Recipes = () => {
 
             </ul>
             </section>
+        </main>
     )
 }
 
 export default Recipes;
 
 export async function recipesLoader(){
+
+    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
     const urlClient = window.location.href;
     const query = mappingUrlFunction(urlClient);

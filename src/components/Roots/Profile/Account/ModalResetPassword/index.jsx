@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UserApi } from "../../../../../store/api";
+import { UserApi } from "../../../../../api"
 import { Form, redirect} from 'react-router-dom';
 
 import { MdCancel } from "react-icons/md";

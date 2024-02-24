@@ -1,4 +1,4 @@
-import './Header.scss';
+import './Header.css';
 import { useRef, useState } from 'react';
 import store from '../../../../store';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { IoIosSettings } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
+    const {isAside} = useSelector((state) => state.isAside);
 
     const boxProfile = useRef();
     const {isConnected} = useSelector((state) => state.session);
@@ -30,7 +31,7 @@ const Header = () => {
 
         } else {
             boxProfile.current.style.transform = `translateX(-${widthBox+17}px)`;
-            event.target.style.color = 'var(--colorbgOrangeAside3)'
+            event.target.style.color = 'var(--colorOrange)'
         }
         
     }
@@ -45,7 +46,7 @@ const Header = () => {
 
     return(
         <>
-            <header id="header" className="header">
+            <header id="header" className="header" style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
                 <h1>KoiKonMange</h1>
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">
@@ -72,18 +73,18 @@ const Header = () => {
                             
                             <p>{name}</p> 
                             <NavLink className="header-rightSide-boxProfile__settings" to="/profil">Profil <IoIosSettings/></NavLink>
-                            <button onClick={handleClickDeconnexion}>Se déconnecter</button>
+                            <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
                         
                         </div>
                         :
                         <div ref={boxProfile} className='header-rightSide__boxProfile'>
                             
                             <NavLink to="/signin">
-                                <button >Se connecter</button>
+                                <button className="btnBoxProfil">Se connecter</button>
                             </NavLink>
                             
                             <NavLink to="/signup">
-                                <button>Créer un compte</button>
+                                <button className="btnBoxProfil">Créer un compte</button>
                             </NavLink>
                         </div> 
                         }

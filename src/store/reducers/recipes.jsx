@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
 
-import { RecipeApi } from "../api";
+import { RecipeApi } from "../../api";
 import types from "./types";
 
 

@@ -1,10 +1,10 @@
 import { apiBaseUrl } from "../../config";
 import store from "../../store";
-import { FamilyApi, IngredientApi, RecipeApi } from "../../store/api";
+import { FamilyApi, IngredientApi, RecipeApi } from '../../api'
 import types from "../../store/reducers/types";
 import urlQueryJsonParser from "url-query-json-parser";
-import secondesConverterFunction from "../../helpers/secondesConverterFunction";
-import formatterSecondesTime from "../../helpers/formatterSecondesTime";
+import secondesConverterFunction from "../secondesConverterFunction";
+import formatterSecondesTime from "../formatterSecondesTime";
 
 export function mappingUrlFunction(urlClient){
     const recipeQuery = []; 

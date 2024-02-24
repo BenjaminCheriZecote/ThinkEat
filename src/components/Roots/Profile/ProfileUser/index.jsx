@@ -1,6 +1,6 @@
 import style from "./index.module.css"
 
-export default function ProfilUserZ() {
+export default function ProfilUser() {
 
   return(
     <main className={style.main}>

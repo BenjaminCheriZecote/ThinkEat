@@ -1,20 +1,15 @@
 
-// font-family: 'Playpen Sans', cursive;
 
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200;300;400&display=swap');
-// font-family: 'Playpen Sans', cursive;
+/* // font-family: 'Playpen Sans', cursive; */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-// font-family: "Poppins", sans-serif;
+/* // font-family: "Poppins", sans-serif; */
 
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  /* color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,11 +18,22 @@
 
   --colorbg1: #fefefe;
   --colorbg2: #e8eceb;
-  --colorbgAside1: rgba(255, 245, 180, 0.769);
-  // --colorbgAside2: rgb(222, 194, 132);
+  --colorbg3: #e3eae9;
+  --colorbg4: #282a2c;
+  --colorbg6: #d4ebe8;
+  --colorbg7:rgb(198, 173, 134);
+
+  --colorBtnStarterAside: rgb(80, 152, 104);
+
+  --colorbgProfil: rgb(45, 56, 105);
+  /* --colorbgAside1: rgba(255, 245, 180, 0.769); */
+  --colorbgAside1: rgba(255, 246, 189, 0.769);
+  --colorbgAside2: rgb(222, 194, 132);
   --colorbgAside2: rgb(196, 175, 121);
-  --colorbgOrangeAside3:rgb(235, 171, 8);
-  
+  --colorOrange:rgb(235, 171, 8);
+  --colorOrange: rgba(202, 94, 61, 0.75);
+  /* --colorOrange: rgba(180, 90, 62, 0.75); */
+  --colorYellow: rgb(222, 200, 4);
   --color1: black;
   --padHeader: 1rem; 
   /* btn nouvelle proposition */
@@ -38,11 +44,12 @@
 
 body {
   z-index:0;
-  // background: no-repeat url('/wallpaper5.jpeg');
+  /* // background: no-repeat url('/wallpaper5.jpeg'); */
   background-color: rgb(238, 238, 238);
   background-size:cover;
   background-position: left;
-  display: flex
+  display: flex;
+  font-family: "Poppins", sans-serif;
 }
 
 body > #root {
@@ -57,7 +64,7 @@ body > #root {
   box-shadow: 5px 5px 30px -15px rgba(0,0,0,0.8);
 }
 
-// -> dès que la taille d’écran atteint 1400px, on redimensionne
+/* // -> dès que la taille d’écran atteint 1400px, on redimensionne */
 
 @media screen and (max-width: 1400px) {
   body > #root {

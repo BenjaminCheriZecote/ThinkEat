@@ -4,8 +4,9 @@ import { Form, redirect, useSubmit } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 import style from "./index.module.css"
 
+
 import store from "../../../../store/index.jsx"
-import { UserApi } from "../../../../store/api";
+import { UserApi } from "../../../../api.js"
 import UserValidator from "../../../../helpers/validators/user.validator.js"
 import toast from "../../../../helpers/toast.js";
 import { useRef, useState } from "react";
@@ -35,12 +36,15 @@ export default function Account() {
   }
 
   return(
-    <main className={style.main}>
+    <main className={`${style.main} sectionProfile sectionProfile--Main`}>
       <h2>Compte</h2>
       <Form ref={submitRef} className={style.form} method="patch" onSubmit={submitHandler}>
         <fieldset>
-          <label htmlFor="name">Nom :</label>
-          <input type="text" id="name" value={inChange !== "name" ? session.name : value} onChange={changeValue} disabled={inChange !== "name" ? true : false}/>
+          <div>
+            <label htmlFor="name">Nom :</label>
+            <input type="text" id="name" value={inChange !== "name" ? session.name : value} onChange={changeValue} disabled={inChange !== "name" ? true : false}/>
+          </div>
+          
           {inChange !== "name" ?
           <>
             <button type="button" data-input-id="name" onClick={clickHandler} >Changer</button>

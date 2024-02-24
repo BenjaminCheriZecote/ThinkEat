@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
 import types from "./types";
-import { RecipeApi } from "../api";
+import { RecipeApi } from "../../api";
 
  
 const recipesFetched = await RecipeApi.getAll();

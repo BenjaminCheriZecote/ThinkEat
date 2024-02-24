@@ -2,13 +2,14 @@ import { Form, Link, redirect} from 'react-router-dom';
 import toast from "../../../helpers/toast.js"
 
 import store from '../../../store';
-import { UserApi } from '../../../store/api';
+import { UserApi } from "../../../api.js"
 import UserValidator from '../../../helpers/validators/user.validator';
+import types from '../../../store/reducers/types/index.jsx';
 
 export default function SignIn() {
 
   return (
-    <main className='section'>
+    <main className='section outlet'>
       <Form className='section__form' method="post">
         <h2 className='section-form__h2'>Se connecter</h2>
         <div className='section-form__div input-box'>
@@ -21,7 +22,7 @@ export default function SignIn() {
         <Link to="/reset-password"> Mot de passe oublié ? </Link>
         <Link to="/signup">Pas encore de compte ? Créer un compte</Link>
 
-        <button className='section-form__btn' type="submit">Connection</button>
+        <button className='section-form__btn'>Connection</button>
 
       </Form>
     </main>
@@ -54,4 +55,22 @@ export async function signInAction({ request }) {
   } catch (error) {
     return toast.error(error);
   }
+}
+
+export function signinLoader(){
+
+  store.dispatch({type:types.SET_IS_ASIDE_FALSE});
+  // const headerElement = document.querySelector("#header");
+  //   console.log(headerElement)
+  //   headerElement.style.gridColumn = "1 /-1";
+
+  //   const footerElement = document.querySelector("#footer");
+  //   footerElement.style.gridColumn = "1 /-1";
+
+  //   const outletsElements = document.querySelectorAll(".outlet");
+  //   outletsElements.forEach((element) => {
+  //       element.style.gridColumn = "1 /-1";
+  //   })
+  
+return null
 }

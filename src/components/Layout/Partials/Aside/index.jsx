@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 // import './Aside.scss'
 import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { FamilyApi, IngredientApi } from '../../../../store/api';
+import { FamilyApi, IngredientApi } from '../../../../api'
 import style from './Aside.module.css'
 import { Form } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -61,7 +61,7 @@ const Aside = () => {
         if (currentPath !== "/proposal") {
             setBtnFooter("Nouvelle proposition")
         } else {
-            setBtnFooter("Générer la proposition")
+            setBtnFooter("C'est parti !")
         }
     })
 
@@ -173,16 +173,16 @@ const Aside = () => {
                     <legend>Faim</legend>
                         <div className={style.asideFormFilter__hungerContainer}>
                             <li>
-                                <input id="hungerBigFilter" name="hunger" value="Copieux" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hunger[0].state?true:false}/>
+                                <input className={style.checkboxAside} id="hungerBigFilter" name="hunger" value="Copieux" type="checkbox" onChange={handleChangeHungerBigFilter} checked={hunger[0].state?true:false}/>
                                 <label htmlFor="hungryBigFilter" >{hunger[0].name}</label>
                             </li>
 
                             <li>
-                                <input id="hungerNormalFilter" name="hunger" value="Normal" type="checkbox" onChange={handleChangeHungerNormalFilter} checked={hunger[1].state?true:false}/>
+                                <input className={style.checkboxAside} id="hungerNormalFilter" name="hunger" value="Normal" type="checkbox" onChange={handleChangeHungerNormalFilter} checked={hunger[1].state?true:false}/>
                                 <label htmlFor="hungerNormalFilter" >{hunger[1].name}</label>
                             </li>
                             <li>
-                                <input id="hungerFewFilter" name="hunger" value="Léger" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hunger[2].state?true:false}/>
+                                <input className={style.checkboxAside} id="hungerFewFilter" name="hunger" value="Léger" type="checkbox" onChange={handleChangeHungerFewFilter} checked={hunger[2].state?true:false}/>
                                 <label htmlFor="hungerFewFilter" >{hunger[2].name}</label>
                             </li>
 
@@ -262,14 +262,14 @@ const Aside = () => {
                         </fieldset> 
                     </div>
 
-                <li>
-                    <input id="favoritesRecipes" type="checkbox" onChange={handleChangeFavoritesRecipes} checked={favoritesRecipes.state?true:false}/>
-                    <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
-                </li>
 
                 <footer>
-                    <small>0 résultats possibles</small>
-                    <button ref={btnFormElement}>Filtrer</button>
+                    <div>
+                        <input className={style.checkboxAside} id="favoritesRecipes" type="checkbox" onChange={handleChangeFavoritesRecipes} checked={favoritesRecipes.state?true:false}/>
+                        <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
+                    </div>
+               
+                    <button ref={btnFormElement} className={style.buttonElement}>Filtrer</button>
                 </footer>        
 
             </Form>
@@ -279,7 +279,7 @@ const Aside = () => {
             
                 
         
-        <NavLink className={style.asideA} to={currentPath === "/proposal"?"./":"/proposal"} >
+        <NavLink className={`${style.asideA} asideA`} to={currentPath === "/proposal"?"./":"/proposal"} >
             <p>{btnFooter}</p>
             <label className={style.container}>
                 <input checked="checked" type="checkbox"/>

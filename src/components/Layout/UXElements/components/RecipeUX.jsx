@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import DropDownList from "./DropDownList";
-import { IngredientApi, RecipeApi } from "../../../../store/api";
+import { IngredientApi, RecipeApi } from "../../../../api"
 import store from "../../../../store";
 import secondesConverterFunction from "../../../../helpers/secondesConverterFunction";
 import formatterSecondesTime from "../../../../helpers/formatterSecondesTime";
