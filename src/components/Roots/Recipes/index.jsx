@@ -1,20 +1,14 @@
 import { useSelector } from "react-redux";
-import { useRef, useState } from "react";
-
+import { useState } from "react";
 import { useEffect } from "react";
 import Meal from "./Meal2";
-import { CiSearch } from "react-icons/ci";
-import { FaSquarePlus } from "react-icons/fa6";
 import { FaSquareMinus } from "react-icons/fa6";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { FaArrowsRotate } from "react-icons/fa6";
-import { MdSort } from "react-icons/md";
-import { mappingUrlFunction } from "../../../helpers/httpQueries"
+import { mappingUrlFunction } from "../../../helpers/httpQueries";
+import AddPlus from '../../Layout/UXElements/icons/AddPlus';
 
-import ModalCreatingRecipe from "./ModalCreateingRecipe";
 // import '../../../styles/App.scss'
 import './Recipe.css';
-import { Form, useLoaderData } from "react-router-dom";
+
 import { RecipeApi, UserApi } from "../../../api"
 import store from "../../../store";
 import types from "../../../store/reducers/types";
@@ -50,7 +44,7 @@ const Recipes = () => {
     
 
     return(
-        <main className="main" >
+        <main className="main" style={{ gridColumn: '2 / -1'}}>
         
         <section className="section">
             <div className="section__divForm">
@@ -72,7 +66,7 @@ const Recipes = () => {
             <div className="section__addRecipe"> 
             {isAdmin?
                     !openModeCreator?
-                        <FaSquarePlus onClick={handleClickAddRecipe}/>
+                        <AddPlus handleClick={handleClickAddRecipe}/>
                         :
                         <FaSquareMinus onClick={handleClickAddRecipe}/>
                     :

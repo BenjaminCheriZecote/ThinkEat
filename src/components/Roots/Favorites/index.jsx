@@ -5,6 +5,7 @@ import store from '../../../store';
 import Meal from './Meal';
 import { CiSearch } from "react-icons/ci";
 import { FaPlus } from 'react-icons/fa6';
+import AddPlus from '../../Layout/UXElements/icons/AddPlus';
 import { useSelector } from 'react-redux';
 import { FaSquarePlus } from "react-icons/fa6";
 import { FaSquareMinus } from 'react-icons/fa6';
@@ -15,7 +16,7 @@ import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 import Select from "react-select";
 import ModalCreatingRecipe from './ModalCreateingRecipe';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
-import { Form } from 'react-router-dom';
+import { Form, useLoaderData } from 'react-router-dom';
 import { RecipeApi } from '../../../api'
 import types from '../../../store/reducers/types';
 import {mappingUrlFunction} from '../../../helpers/httpQueries'
@@ -25,9 +26,10 @@ import SearchForm from '../../Layout/UXElements/components/SearchForm';
 
 const Favorites = () => {
 
-    const {isAside} = useSelector((state) => state.isAside)
+    const {isAside} = useSelector((state) => state.isAside);
+    const favorites = useLoaderData();
 
-    const {favorites} = useSelector((state) => state.favorites);
+    // const {favorites} = useSelector((state) => state.favorites);
     
     const [favoritesCopy, setCopy] = useState(favorites);
     const [openModeCreator, setCreatorMode] = useState(false);
@@ -50,7 +52,7 @@ const Favorites = () => {
 
     
     return(
-        <main style={{ gridColumn: '2 / -1' }}>
+        <main style={{ gridColumn: '2 / -1'}}>
             <section className="section">
                 <div className="section__divForm">
                 <h2>Favoris</h2>
@@ -62,7 +64,7 @@ const Favorites = () => {
 
                 <div className="section__addRecipe">
                 {!openModeCreator?
-                    <FaSquarePlus onClick={handleClickAddRecipe}/>
+                    <AddPlus handleClick={handleClickAddRecipe}/>
                     :
                     <FaSquareMinus onClick={handleClickAddRecipe}/>
                     }
@@ -91,20 +93,23 @@ export async function favoritesLoader(){
 
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
-    // const urlClient = window.location.href;
-    // const query = mappingUrlFunction(urlClient);
-    // console.log(query);
+    const urlClient = window.location.href;
+    const query = mappingUrlFunction(urlClient);
+    console.log(query);
 
     // test
 
     // const favorites = await await RecipeApi.getAll();
     // store.dispatch({type:types.SET_FAVORITES, payload: favorites})
 
-    // const recipesQuerry = await RecipeApi.getAll(query);
-    // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+    const recipesQuerry = await RecipeApi.getAll(query);
+    // if (recipesQuerry.error) {
+
+    //     // toast
+    // }
+    store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
     
-    // console.log("retour back fetch", recipesQuerry);
-    // console.log(query);
+    console.log("retour back fetch", recipesQuerry);
 
     // 
 
@@ -123,5 +128,5 @@ export async function favoritesLoader(){
     
     
     
-    return null;
+    return recipesQuerry;
 }

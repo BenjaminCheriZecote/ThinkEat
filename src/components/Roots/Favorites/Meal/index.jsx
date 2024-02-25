@@ -37,8 +37,8 @@ const Meal = ({meal}) => {
                             <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)}/>
                         </div>
                         }
-                    <EditPen onClick={handleClickUpdate}/>
-                    <DeleteCruse onClick={handleClickDelete}/>
+                    <EditPen handleClick={handleClickUpdate}/>
+                    <DeleteCruse handleClick={handleClickDelete}/>
                 </div>
         </li>
     )

@@ -10,12 +10,15 @@ export default function RecipePage() {
   
   return(
     <main className="section outlet">
-      <RecipeUX inUpdate={true} formMethod={"PATCH"}/>
+      <RecipeUX inUpdate={true} formMethod={"PATCH"} recipe={recipe}/>
     </main>
   )
 }
 
 export async function recipeLoader({params}) {
   store.dispatch({type:types.SET_IS_ASIDE_FALSE});
-  return await RecipeApi.get(params.id);
+  console.log(params.id)
+  const recipe = await RecipeApi.get(params.id);
+  console.log(recipe)
+  return recipe;
 }

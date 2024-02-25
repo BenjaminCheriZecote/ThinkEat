@@ -1,6 +1,7 @@
 .color {
     color:red;
     /* background-color: rgb(255, 0, 0);; */
+    cursor: pointer;
 }
 
 .size {

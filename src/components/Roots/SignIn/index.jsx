@@ -60,17 +60,6 @@ export async function signInAction({ request }) {
 export function signinLoader(){
 
   store.dispatch({type:types.SET_IS_ASIDE_FALSE});
-  // const headerElement = document.querySelector("#header");
-  //   console.log(headerElement)
-  //   headerElement.style.gridColumn = "1 /-1";
-
-  //   const footerElement = document.querySelector("#footer");
-  //   footerElement.style.gridColumn = "1 /-1";
-
-  //   const outletsElements = document.querySelectorAll(".outlet");
-  //   outletsElements.forEach((element) => {
-  //       element.style.gridColumn = "1 /-1";
-  //   })
   
 return null
 }

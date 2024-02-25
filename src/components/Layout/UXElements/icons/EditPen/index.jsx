@@ -1,9 +1,11 @@
 import { CiEdit } from "react-icons/ci";
+import style from './index.module.css'
 
-const EditPen = () => {
+const EditPen = ({handleClick}) => {
+
 
     return(
-        <CiEdit />
+        <CiEdit onClick={handleClick} className={`${style.color}`}/>
     )
 }
 

@@ -68,6 +68,7 @@ export function mappingUrlFunction(urlClient){
                     value.forEach((data) => {
                     const parseValue = parseInt(data);
                 if (parseValue == undefined || parseValue == isNaN) {
+                    console.log(parseValue )
                     return error.push(errorDataCookingTime)
                 }
                 });
@@ -160,11 +161,14 @@ export function mappingUrlFunction(urlClient){
     }
 
     const filterProperty = `"filter":{${stringFilter}},`
-    const orderByProperty = `"orderBy":{${stringOrderBy}},`
+    const orderByProperty = `${stringOrderBy}`
     const criteriaProperty = `"criteria":{${stringCriteria}},`
 
     let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}}`;
-
+    // const test = '{"orderBy":[["name","=","ASC"]],}';
+    // console.log("orderByProperty :", orderByProperty)
+    // const test2 = orderByProperty.replace(/,\}/g, '}');
+    // console.log("testeuh : ", test2);
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
     console.log("new string ", stringFinalObject);
     const objectQuery = JSON.parse(stringFinalObject);
@@ -175,4 +179,5 @@ export function mappingUrlFunction(urlClient){
     // if (error.length) urlQuery = error;
     console.log(urlQuery);
     return urlQuery;
+  
 }

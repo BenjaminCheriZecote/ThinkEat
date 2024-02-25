@@ -27,7 +27,7 @@ import DietPreferences from './components/Roots/Profile/DietPreferences/index.js
 import Account, { accountAction } from './components/Roots/Profile/Account/index.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
 import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
-import { recipeAction } from './components/Layout/UXElements/components/RecipeUX.jsx';
+import { recipeAction } from './components/Layout/UXElements/components/RecipeUX/index.jsx';
 
 
 
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
 		children: [							
       // { index: true, element: <Home />},
       { path:"/", element: <Home />, loader:homeLoader},
-      { path: "/favorites", element: <Favorites />, loader:favoritesLoader },
+      { path: "/favorites", element: <Favorites />, action:recipeAction, loader:favoritesLoader },
       { path: "/proposal", element: <Proposal />, loader:proposaLoader },
       { path: "/recipes", element: <Recipes />, loader:recipesLoader },
       { path: "/historic", element: <Historic />, loader:historicLoader },

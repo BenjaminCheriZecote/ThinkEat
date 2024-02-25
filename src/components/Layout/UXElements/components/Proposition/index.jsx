@@ -1,20 +1,20 @@
 
-import ValidateCheck from "../../../Layout/UXElements/icons/ValidateCheck";
-import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
+import ValidateCheck from "../../icons/ValidateCheck";
+import DeleteCruse from "../../icons/DeleteCruse";
+import { IoCartOutline } from "react-icons/io5";
 
-
-import FavoriteStar from "../../../Layout/UXElements/icons/FavoriteStar";
-import FavoriteStarOutline from "../../../Layout/UXElements/icons/FavoriteStarOutline";
-
+import FavoriteStar from "../../icons/FavoriteStar";
+import FavoriteStarOutline from "../../icons/FavoriteStarOutline";
 import { NavLink } from "react-router-dom";
 
 import './Proposition.css'
 import { useSelector } from "react-redux";
-import store from "../../../../store";
-import types from "../../../../store/reducers/types";
-import { useEffect } from "react";
+import store from "../../../../../store";
+import types from "../../../../../store/reducers/types";
 
-const Proposition = ({proposition}) => {
+
+
+const Proposition = ({proposition, historic}) => {
 
     const {proposal} = useSelector((state) => state.proposal)
     const {favorites} = useSelector((state) => state.favorites)
@@ -46,7 +46,7 @@ const Proposition = ({proposition}) => {
     return(
         <li className={proposition.validate? "liProposotion validate":"liProposotion unvalidate"}>
             <div className="liProposotion__imgContainer">
-                <img src={proposition.image} alt="" />
+                <img src={proposition.image === null?"/default-img.jpg":proposition.image} alt="" />
             </div>
             <div className="liProposotion__legendContainer">
                 <p className="liProposotion__p--name">
@@ -62,10 +62,18 @@ const Proposition = ({proposition}) => {
                 </div>
             </div>
 
-            <div className="liProposotion__choiceBox">
-                    <ValidateCheck onClick={handleClickValidateProposition} />
-                    <DeleteCruse onClick={handleClickDeleteProposition} />
+            {historic?
+                <div className="liProposotion__choiceBox">
+                                    
+                <IoCartOutline />
             </div>
+            :
+            <div className="liProposotion__choiceBox">
+                    <ValidateCheck handleClick={handleClickValidateProposition}/>
+                    <DeleteCruse handleClick={handleClickDeleteProposition} />
+            </div>
+            }
+
         </li>
 
     )

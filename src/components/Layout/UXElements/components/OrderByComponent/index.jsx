@@ -4,6 +4,9 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { Form } from "react-router-dom";
 import './OrderBy.css';
+import { mappingUrlFunction } from "../../../../../helpers/httpQueries";
+import { RecipeApi } from "../../../../../api";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -16,6 +19,7 @@ const OrderByComponent = () => {
     const [ascHunger, setAscHunger] = useState(true)
     const [isVisible, setIsVisible] = useState(false)
     const fieldsetOrderByUl = useRef()
+    const navigate = useNavigate();
 
     const [objectsOrder, setObjectsOrder] = useState({
         name: { position: 1, title: "name", label: "Nom", ascState: ascName },
@@ -119,7 +123,23 @@ const OrderByComponent = () => {
             }
         }
         
+    }
+
+    const handleSubmitOrderBy = async (event) => {
+        // event.preventDefault()
+        // const formData = new FormData(event.target);
+        // const dataForm = Object.fromEntries(formData);
+        // const urlOrderBy = `${dataForm}`;
+        // console.log("log UrlOrderBy", urlOrderBy)
+        // history.push(urlOrderBy);
+        // console.log("log form data OrderBy :");
+        // const urlClient = window.location.href;
+        // const url = urlClient + urlOrderBy;
+        // const query = mappingUrlFunction(url);
         
+        // const recipesQuerry = await RecipeApi.getAll(query);
+        // // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+        // navigate(url);
     }
 
     return(
@@ -138,8 +158,8 @@ const OrderByComponent = () => {
                         </ul>
 
                         <legend>
-                            <button type="button">
-                                {/* <MdSort /> */}
+                            <button className="buttonOrderBy" type="button">
+                               
                                 <label className="hamburger">
                                     <input type="checkbox"/>
                                     <svg viewBox="0 0 32 32" onClick={handleClickOrderBy}>
@@ -185,7 +205,7 @@ const OrderByComponent = () => {
                                         setAscFunction(event);
                                         }}/>
                                     </li>
-                                <button>Trier</button>
+                                <button type="submit" onSubmit={handleSubmitOrderBy}>Trier</button>
                             </ul>           
                     </fieldset>    
                 </Form>  

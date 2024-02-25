@@ -3,6 +3,7 @@
 .fieldsetOrderBy {
     position: relative;
     transition: 700ms ease-in-out;
+
 }
 
 .fieldsetOrderBy__ulContainer {
@@ -11,11 +12,12 @@
     top:0.5rem;
     padding:1rem;
     transition: 700ms ease-in-out;
-    border:1px rgb(6, 0, 0) solid;
     display:flex;
     flex-direction: column;
-    background-color: var(--colorbg2);
+    background-color: var(--colorbg1);
+    border:none;
     border-radius: 0.3rem;
+    box-shadow: -8px 10px 8px -8px rgba(0,0,0,0.48);
 }
 
 .fieldsetOrderBy__ulContainer li {
@@ -48,6 +50,7 @@
     width:fit-content;
     align-self: end;
     margin-top: 0.2rem;
+    /* border-radius: 0.3rem; */
 }
 
 /* Hamburger */
@@ -89,6 +92,11 @@
   .hamburger input:checked + svg .line-top-bottom {
     stroke-dasharray: 20 300;
     stroke-dashoffset: -32.42;
+  }
+
+  .buttonOrderBy {
+    border:none;
+    background-color: inherit;
   }
   
 

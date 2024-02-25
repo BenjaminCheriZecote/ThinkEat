@@ -13,7 +13,6 @@ html, body, #root, .app {
         grid-row: 1 / 2;
     }
     #aside {
-        
         grid-column: 1 / 2;
         grid-row: 1 / -1;
     }
@@ -21,12 +20,16 @@ html, body, #root, .app {
     .outlet {
         grid-column: 1 / -1;
         grid-row: 2 / -2;
-         
+        overflow-y: scroll;
     }
     
     #footer {
         grid-column: 1 / -1;
         grid-row: -1 / -2;
+    }
+
+    .app-wrapper__content {
+        overflow-y: scroll;
     }
 
     /* // modal */
@@ -70,8 +73,8 @@ html, body, #root, .app {
         align-items: center;
         position: relative;
         box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
-        rgb(80, 152, 104) 0px -36px 30px 0px inset,
-        rgb(80, 152, 104) 0px -36px 30px 0px inset,
+       var(--colorBtnStarterAside) 0px -36px 30px 0px inset,
+       var(--colorBtnStarterAside) 0px -36px 30px 0px inset,
         rgba(80, 152, 104, 0.089) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
         rgba(80, 152, 104, 0.078) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
         rgba(80, 152, 104, 0.068) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
@@ -84,7 +87,6 @@ html, body, #root, .app {
         gap:0.3rem;
         align-items: center;
         margin:0.2rem 0rem;
-        background-color: rgba(0, 128, 0, 0.389);
         background-color: var(--colorBtnStarterAside);
         color:white;
         padding:0.2rem;
@@ -145,7 +147,7 @@ html, body, #root, .app {
         max-width: 20rem;
         border:1px rgb(255, 255, 255) solid;
         padding:3rem 3.7rem;
-        margin: 7rem auto 2rem auto;
+        margin: 2rem auto 2rem auto;
         background: white;
         border-radius: 0.8rem;
     }
@@ -155,7 +157,7 @@ html, body, #root, .app {
         padding:0.3rem 1rem;
         margin:auto;
         background-color: inherit;
-        background-color: var(--colorOrange);
+        background-color: var(--colorBtnStarterAside);
         color:white;
         font-size: 1rem;
         font-weight: 600;
@@ -190,11 +192,16 @@ html, body, #root, .app {
         color:var(--colorOrange)
     }
 
+    .section-form__btn {
+        background-color: var(--colorOrange);
+    }
+
     .section__divForm {
         display:flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom:2rem;
+        z-index:2;
     }
     
     .section__divForm > div {
@@ -231,8 +238,9 @@ html, body, #root, .app {
         border:1px rgb(6, 0, 0) solid;
         display:flex;
         flex-direction: column;
-        /* // background-color: var(--colorbg2); */
+        background-color: var(--colorbg1);
         border-radius: 0.3rem;
+        z-index:5
     }
     
     .fieldsetOrderBy__ulContainer li {
@@ -255,11 +263,7 @@ html, body, #root, .app {
     .sizeIconsOrderBy {
         font-size: 0.7rem;
     }
-    
-    .selectedOrderBy {
-        border: 1px var(--colorOrange) solid;
-        border-left:5px var(--colorOrange) solid;
-    }
+
     
     .fieldsetOrderBy__ulContainer button {
         width:fit-content;

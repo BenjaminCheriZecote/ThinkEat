@@ -28,13 +28,14 @@ function App() {
       {isAside &&
         <Aside />
       }
-
-          {/* <section className="app-wrapper__content"> */}
             <Outlet />
-            <Footer id="footer"/>
-          {/* </section> */}
+            <Footer/>
     </div>
   )
 }
 
-export default App
+export default App;
+
+{/* <section className="app-wrapper__content outlet"> */}
+
+{/* </section> */}

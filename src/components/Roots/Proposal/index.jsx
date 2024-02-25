@@ -1,14 +1,12 @@
-import { FaCirclePlus } from "react-icons/fa6";
-import { FaCircleMinus } from "react-icons/fa6";
+
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { MdCancel } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
-import { FaPerson } from "react-icons/fa6";
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
-import Proposition from "./Proposition";
+import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
+
+
 
 import store from "../../../store";
 
@@ -18,11 +16,12 @@ import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
 import { mappingUrlFunction } from "../../../helpers/httpQueries"
-import { RecipeApi } from "../../../api";
-import OrderByComponent from "../../Layout/UXElements/components/OrderByComponent";
+import { HistoryApi, RecipeApi } from "../../../api";
 
 
 const Proposal = () => {
+
+    
 
     const {isAside} = useSelector((state) => state.isAside)
 
@@ -32,7 +31,7 @@ const Proposal = () => {
     const {numberOfProposition} = useSelector((state) => state.filters.filters);
     
     const {proposal} = useSelector((state) => state.proposal)
-    const {historical_propositions} = useSelector((state) => state.historical_propositions);
+    const {historicalPropositions} = useSelector((state) => state.historicalPropositions);
 
     const handleClickMinus = () => {
         if (numberOfProposition !== 0) store.dispatch({type:types.SUBTRACT_NUMBER_OF_PROPOSITION});
@@ -67,12 +66,19 @@ const Proposal = () => {
         store.dispatch({ type: types.SET_PROPOSAL, payload: objectProposal });
     }
 
-    const handleClickValidateChoices = () => {
-        
+    const handleClickValidateChoices = async () => {
+        // const hystoryRecipes = await HistoryApi.getAll();
+
 
         if (proposal.array.length > 0) {
-            const findProposal = historical_propositions.find((e) => e.historic.id === proposal.id)
-            if (!findProposal) store.dispatch({type:"SET_HISTORIC", payload:[... historical_propositions, {date:new Date().toLocaleString(), historic:proposal}]});
+            const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
+            // const findProposal = hystoryRecipes.find((e) => e.historic.id === proposal.id);
+            if (!findProposal) {
+                console.log("log proposal :", proposal)
+                store.dispatch({type:"SET_HISTORIC", payload:[... historicalPropositions, {date:new Date().toLocaleString(), historic:proposal}]});
+                // const createdHistory = await HistoryApi.create()
+                //await PromiseAll(proposal.array.map(async (recipe) => await HistoryApi.addRecipeToHystory(createdHystory.id, recipe.id) );
+            }
         }
     }
   
@@ -93,7 +99,7 @@ const Proposal = () => {
             </section>
 
             <section className="section">
-                    {proposal.array?
+                    {proposal.array.length > 0?
                     <>
                         <ul className="section__ulContainerProposal">
                             {proposal.array.map((element, index) => {
@@ -108,7 +114,7 @@ const Proposal = () => {
                             </div>
                             :
                             <div className="section__btnValidate">
-                                <NavLink to={"/signin"}>Connecte toi pour valider tes choix</NavLink>
+                                <p>Connecte toi <NavLink to={"/signin"}>ici</NavLink> pour valider tes choix</p>
                             </div>
                             }
                     

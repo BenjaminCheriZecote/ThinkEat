@@ -3,7 +3,7 @@ import { createAction } from "@reduxjs/toolkit";
 import types from "./types";
 						
 const initialState = {						
-	proposal:[]					
+	proposal:{array:[]}					
 }						
 						
 const proposalReducer = createReducer (initialState, (builder) => {						

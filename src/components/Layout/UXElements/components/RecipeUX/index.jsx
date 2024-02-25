@@ -6,11 +6,13 @@ import { FaEdit } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
-import DropDownList from "./DropDownList";
-import { IngredientApi, RecipeApi } from "../../../../api"
-import store from "../../../../store";
-import secondesConverterFunction from "../../../../helpers/secondesConverterFunction";
-import formatterSecondesTime from "../../../../helpers/formatterSecondesTime";
+import DropDownList from "../DropDownList";
+import { IngredientApi, RecipeApi } from "../../../../../api"
+import store from "../../../../../store";
+import secondesConverterFunction from "../../../../../helpers/secondesConverterFunction";
+import formatterSecondesTime from "../../../../../helpers/formatterSecondesTime";
+// import './style.css'
+import style from './index.module.css'
 
 const recipeInit = {
   steps:[],
@@ -19,6 +21,8 @@ const recipeInit = {
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
 
+  console.log("log recipe", recipe)
+
   const error = useActionData();
 
   const user = useSelector((state) => state.session);
@@ -26,8 +30,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
   const units = useSelector((state) => state.units);
 
-  // const [inChange, setInChange] = useState(false);
-  const [inChange, setInChange] = useState(modal);
+  const [inChange, setInChange] = useState(false);
+  // const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);
   // const [steps, setSteps] = useState();
   const [ingredients, setIngredients] = useState(recipe.ingredients);
@@ -43,68 +47,72 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
 
   if (!inChange) {
     return (
-      <div className={modal?`${modal} section__recipe`:"section__recipe"} method={formMethod}>
-        <h2 className="section-recipe__name">{recipe.name}</h2>
-        <section className="section-recipe__top">
+      <><div className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
+        <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
+        <section className={`${style.sectionRecipeTop}`}>
           <div>
-            <div className="section-recipe__field">
+            <div className={`${style.sectionRecipeField}`}>
               <h4>Preparation :</h4>
               <time dateTime={recipe.preparatingTime}>{recipe.preparatingTime}</time>
             </div>
-            <div className="section-recipe__field">
+            <div className={`${style.sectionRecipeField}`}>
               <h4>Cuisson :</h4>
               <time dateTime={recipe.cookingTime}>{recipe.cookingTime}</time>
             </div>
-            <div className="section-recipe__field">
+            <div className={`${style.sectionRecipeField}`}>
               <h4>Nombre de convive :</h4>
               <span>{recipe.person}</span>
             </div>
-            <div className="section-recipe__field">
-              <h4>Faim :</h4> 
+            <div className={`${style.sectionRecipeField}`}>
+              <h4>Faim :</h4>
               <span>{recipe.hunger}</span>
             </div>
           </div>
           <figure>
-            <img src={recipe.image} alt={recipe.name} />
+            <img src={recipe.image === null ? "/default-img.jpg" : recipe.image} alt={recipe.name} />
             <figcaption>{recipe.name}</figcaption>
           </figure>
         </section>
 
         <section>
-          <div className="section-recipe__field">
+          <div className={`${style.sectionRecipeField}`}>
             <h3>Ingredients</h3>
           </div>
-          <ul className="section-recipe__field--ingredientsContainer">
+          <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
           {recipe.ingredients.map(ingredient => (
             <li key={ingredient.id}>
               <figure>
-                <img src={ingredient.image} alt={ingredient.name} />
+                <div>
+                  <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
+                </div>
+                
                 <figcaption>{ingredient.quantity && ingredient.quantity + " "}{ingredient.unit && ingredient.unit + " "}{ingredient.name}</figcaption>
+                
               </figure>
             </li>
           ))}
-          </ul>
-        </section>
-
-        <section>
-          <div className="section-recipe__field">
+        </ul>
+      </section>
+      <section>
+          <div className={`${style.sectionRecipeField}`}>
             <h3>Etapes</h3>
           </div>
           <ul>
             {recipe.steps.map((step, index) => (
-              <li key={index}>
-                <h4>Etape {index+1}</h4>
+              <li key={index} className={`${style.liSteps}`}>
+                <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}</h4>
                 <p>{step}</p>
               </li>
-            ))}      
+            ))}
           </ul>
         </section>
         { (user.isAdmin || user.id === recipe.userId) &&
-          <div className="section-recipe__bottom">
+          <div className={`${style.sectionRecipeBottom}`}>
             <button type="button" onClick={changeRecipe}><FaEdit/></button>
           </div>
         }
       </div>
+      </>
     );
   }
 
@@ -149,89 +157,85 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   
 
   return(
-    <Form className={modal?`${modal} section__recipe`:"section__recipe"} method={formMethod} >
+    <><Form className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
-      <input className="section-recipe__name" name="name" type="text" defaultValue={recipe.name}/>
+      <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }}/>
       <fieldset className="section-recipe__top">
         <div>
-          <div className="section-recipe__field">
+          <div className={`${style.sectionRecipeField}`}>
             <label>Preparation :</label>
-            <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} required/>
+            <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} required />
           </div>
-          <div className="section-recipe__field">
+          <div className={`${style.sectionRecipeField}`}>
             <label>Cuisson :</label>
-            <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} required/>
+            <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} required />
           </div>
-          <div className="section-recipe__field">
+          <div className={`${style.sectionRecipeField}`}>
             <label>Nombre de convive :</label>
             <input name="person" type="number" min="1" defaultValue={recipe.person} />
           </div>
-          <div className="section-recipe__field">
-            <label>Faim :</label> 
-            <select className="section-recipe-field__select" ref={selectElement} name="hunger" defaultValue={recipe.hunger}>
-              {!!criterias.hunger && criterias.hunger.map(({name},index) => (
+          <div className={`${style.sectionRecipeField}`}>
+            <label>Faim :</label>
+            <select className={`${style.sectionRecipeFieldSelect}`} ref={selectElement} name="hunger" defaultValue={recipe.hunger}>
+              {!!criterias.hunger && criterias.hunger.map(({ name }, index) => (
                 <option key={index} value={name}>{name}</option>
               ))}
             </select>
           </div>
         </div>
         <figure>
-          <img src={recipe.image} alt="" />
+          <img src={recipe.image === null ? "/default-img.jpg" : recipe.image} alt={recipe.name} />
           <figcaption>{recipe.name}</figcaption>
         </figure>
       </fieldset>
 
       <fieldset>
-        <div className="section-recipe__field">
+        <div className={`${style.sectionRecipeField}`}>
           <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
         </div>
-        <ul className="section-recipe__field--ingredientsContainer">
+        <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
         {ingredients.map(ingredient => (
           <li key={ingredient.id}>
             <figure>
-              <button type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><MdCancel size={12}/></button>
-              <img src={ingredient.image} alt={ingredient.name} />
+              <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem}><MdCancel size={12} /></button>
+              <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
               <figcaption>
                 {ingredient.name}
                 <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} required />
-                <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0} >
-                  {units.map(unit => 
-                    <option key={unit.id} value={unit.id}>{unit.name}</option>
+                <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
+                  {units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
                   )}
                 </select>
               </figcaption>
             </figure>
           </li>
         ))}
-        </ul>
-      </fieldset>
-
-      <fieldset>
-        <div className="section-recipe__field">
+      </ul>
+    </fieldset>
+    <fieldset>
+        <div className={`${style.sectionRecipeField}`}>
           <legend>Etapes</legend>
           <button type="button" onClick={addStepp}><FaPlus /></button>
         </div>
-        <ul>
-        {steps &&
-          <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"') }/>
-        }
+        <ul className={style.sectionRecipeFieldIngredientsContainer}>
+          {steps &&
+            <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"')} />}
           {steps.map((step, index) => (
-            <li key={index}>
-              <p>Etape {index+1}</p>
-              <button type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
-                <MdCancel size={12}/>
-              </button>
+            <li key={index} className={`${style.liSteps}`}>
+              <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}<button className={style.BtnDeleteStep} type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
+                <MdCancel size={12} />
+                </button></h4>
               <textarea name={`steps${index}`} value={step} data-item-id={`steps-${index}`} onChange={stepUpdate}/>
+              
             </li>
-          ))}      
+          ))}
         </ul>
-      </fieldset>
-      
-      <div className="section-recipe__bottom">
-        <button type="submit"><FaCheck/></button>
-        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel/></button>
+      </fieldset><div className={`${style.sectionRecipeBottom}`}>
+        <button type="submit"><FaCheck /></button>
+        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel /></button>
       </div>
     </Form>
+    </>
   )
 }
 

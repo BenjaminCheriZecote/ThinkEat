@@ -20,7 +20,7 @@ class CoreApi {
   static async get(id) {
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
 
-    await this.errorHandler(httpResponse);
+    // await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
@@ -67,25 +67,41 @@ class CoreApi {
 
     if ((new Date().getTime() / 1000) > accessTokenExpiresAt) {
       this.signout();
-      throw new AppError("token expired", {httpStatus: 401});
+      // throw new AppError("token expired", {httpStatus: 401});
     }
 
     return accessToken;
   }
   static async errorHandler(res) {
+    console.log("log errorHandler", res)
     if (res.ok) return;
     let responce
     try {
       responce = await res.json();
     } catch (error) {
-      throw new AppError(res.statusText, {httpStatus: res.status});
+      // throw new AppError(res.statusText, {httpStatus: res.status});
+      console.log(error)
     }
-    throw new AppError(responce.error, {httpStatus: res.status});
+    // throw new AppError(responce.error, {httpStatus: res.status});
   }
 }
 
 export class HistoryApi extends CoreApi {
   static routeName = "hitory";
+
+  static async addRecipeToHistory(historyId, recipeId) {
+    // /api/history/:historyId/recipe/:RecipeId
+
+    const httpResponse = await fetch(`${apiBaseUrl}/history/${historyId}/ingredient/${recipeId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
+
 }
 export class IngredientApi extends CoreApi {
   static routeName = "ingredient";
@@ -210,7 +226,7 @@ class TokenApi {
   static async getValidToken() {
     const tokens = localStorage.getItem('tokens');
     if (!tokens) {
-      throw new AppError("Veuillez vous connecter.", {httpStatus: 401});
+      // throw new AppError("Veuillez vous connecter.", {httpStatus: 401});
     }
 
     const {

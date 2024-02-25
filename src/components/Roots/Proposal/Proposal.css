@@ -29,8 +29,14 @@
     margin: 5rem auto;
 }
 
+.section__btnValidate a {
+  color:var(--colorbg6);
+  text-decoration: underline;
+}
+
 .section__pNoResults {
     text-align: center;
+    font-family: "Poppins", sans-serif;
 }
 
 .buttonStarter {

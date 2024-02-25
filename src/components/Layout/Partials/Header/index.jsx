@@ -66,7 +66,7 @@ const Header = () => {
                     
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
                 </nav>
-                    <div><CiSearch /></div>
+                   
                     <div><CgProfile onClick={handleClick}  className="iconProfile"/>
                     {isConnected?
                         <div ref={boxProfile} className='header-rightSide__boxProfile '>

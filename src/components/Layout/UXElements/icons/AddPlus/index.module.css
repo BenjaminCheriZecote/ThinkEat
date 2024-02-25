@@ -1,0 +1,4 @@
+.color {
+    color:var(--colorBtnStarterAside);
+    cursor: pointer;
+}

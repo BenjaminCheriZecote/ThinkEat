@@ -1,10 +1,10 @@
 import { CiCircleRemove } from "react-icons/ci";
 import style from "./index.module.css"
 
-const DeleteCruse = () => {
+const DeleteCruse = ({handleClick}) => {
 
     return(
-        <CiCircleRemove className={`${style.color} ${style.size}`}/>
+        <CiCircleRemove className={`${style.color}`}  onClick={handleClick}/>
     )
 }
 
