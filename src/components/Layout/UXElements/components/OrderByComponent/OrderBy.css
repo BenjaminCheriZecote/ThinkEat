@@ -8,7 +8,7 @@
 
 .fieldsetOrderBy__ulContainer {
     position: absolute;
-    left: 4rem;
+    left: 5rem;
     top:0.5rem;
     padding:1rem;
     transition: 700ms ease-in-out;
@@ -57,6 +57,7 @@
 
 .hamburger {
     cursor: pointer;
+
   }
   
   .hamburger input {
@@ -65,7 +66,7 @@
   
   .hamburger svg {
     /* The size of the SVG defines the overall size */
-    height: 1em;
+    height: 2em;
     /* Define the transition for transforming the SVG */
     transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
   }

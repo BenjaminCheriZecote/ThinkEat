@@ -1,4 +1,7 @@
-
+.divDropDonwList {
+    /* background-color:red; */
+    position:relative;
+}
 
 .sectionRecipe {
     display: flex;
@@ -6,11 +9,16 @@
     gap:1rem;
     overflow-y:scroll;
     font-family: 'Playpen Sans', cursive;
+    z-index:100;
    
 }
 
+.sectionRecipe button {
+    border:none;
+}
+
 .sectionRecipe > input {
-    width:30rem;
+    /* width:30rem; */
     font-family: 'Playpen Sans', cursive;
 }
 
@@ -19,15 +27,20 @@
     width:fit-content;
 }
 
-.sectionRecipeFieldIngredientsContainer, .sectionRecipeFieldIngredientsContainer {
-    /* margin-top: 5rem; */
-    /* background-color: red;; */
-}
+
+
+
+
 
 
 
 .sectionRecipeField h3, .sectionRecipeFieldH4, .sectionRecipeField legend, .sectionRecipeField > div > span {
     font-family: "Poppins", sans-serif;
+}
+
+.sectionRecipeField h3, .sectionRecipeField legend {
+    text-decoration: underline;
+
 }
 
 .sectionRecipeTop, .sectionRecipeBottom {
@@ -102,7 +115,6 @@
     display: flex;
     font-size:1.5rem;
     width:fit-content;
-    align-items: center;
     gap:1rem;
 }
 
@@ -111,9 +123,10 @@
 }
 
 .sectionRecipe ul {
+    display:flex;
     flex-wrap: wrap;
-    gap:1rem;
-    border-top:1px black solid;
+    /* gap:1rem; */
+    /* border-top:1px black solid; */
     padding:1.4rem 1rem;
 }
 
@@ -125,6 +138,12 @@
 
 
 /* STEPS */
+
+.sectionRecipeFieldStepsContainer {
+    display:flex;
+    flex-direction: column;
+    gap:1rem;
+}
 
 .sectionRecipe ul li > div {
     display: flex;
@@ -157,10 +176,7 @@
 
 .sectionRecipe  p, .sectionRecipe  textarea {
     border-radius: 0.3rem;
-}
-
-.liSteps {
-    margin-bottom: 1rem;
+    padding:0.5rem
 }
 
 .BtnDeleteStep {
@@ -181,22 +197,17 @@ textarea:focus{
 .sectionRecipeFieldIngredientsContainer {
     display: flex;
     flex-direction: row;
+    gap:1rem;
 }
 
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li {
     /* // container ingredient */
-    /* border:1px black solid; */
     width:15rem;
-    /* height:10rem; */
     padding-bottom:2rem;
     padding:0rem 0rem;
     overflow: hidden;
     border-radius: 0.3rem;
     box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.11);
-}
-
-.sectionRecipe .sectionRecipeFieldIngredientsContainer li input {
-    width:100%;
 }
 
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li div {
@@ -206,6 +217,30 @@ textarea:focus{
 .sectionRecipeFieldIngredientsContainer figcaption {
     padding:1rem;
 }
+
+.sectionRecipeFieldIngredientsContainer figcaption input {
+    height:1.8rem;
+    font-family: 'Playpen Sans', cursive; 
+    padding:0rem;
+}
+
+.figcaption {
+    display:flex;
+    flex-direction:column;
+}
+
+.figcaptionDiv {
+    display:flex;
+    flex-flow: row nowrap;
+    gap:0.3rem;
+    background-color: inherit;
+}
+
+.figcaption .figcaptionDiv input {
+    width:fit-content;
+}
+
+
 
 .sectionRecipe .sectionRecipeName {
     font-size: 2rem;

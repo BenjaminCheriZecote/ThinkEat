@@ -16,25 +16,30 @@ export default function DropDownList({itemName, items, choosenItems, isOpen, ope
   
   return (
     
-    <div onClick={openHandler}>
-      {isOpen ?
-        <input type="search" placeholder={itemName} value={searchValue} onChange={handleChangeSearch}/>
-        :
-        <span>{itemName}</span>
-      }
-      {choosenItems &&
-        <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
-      }
-      <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue'/></button>
+    <div className="dropDownListContainer" onClick={openHandler}>
+      <div className="dropDownListSearchContainer">
+      {/* <span>{itemName}</span> */}
+        {isOpen ?
+          <input className="dropDownListSearch" type="search" placeholder="Rechercher" value={searchValue} onChange={handleChangeSearch}/>
+          :
+          ""
+          // <span>{itemName}</span>
+        }
+        {choosenItems &&
+          <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
+        }
+        <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue'/></button>
+
+      </div>
       {isOpen && <>
         {choosenItems.length > 0 &&
-          <ul>
+          <ul className="choosenItemsContainer">
             {choosenItems.map(item =>(
               <li key={item.id}><Tag itemName={itemName} item={item} removeHandler={toggleItemHandler}/></li>
             ))}
           </ul>
         }
-        <ul>
+        <ul className="itemsListContainer">
           {!!searchValue && filteredItems.length === 0 &&
             <li>Aucun élément trouvé.</li>
           }

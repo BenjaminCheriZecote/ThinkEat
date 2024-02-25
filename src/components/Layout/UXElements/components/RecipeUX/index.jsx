@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, useActionData } from "react-router-dom";
 
+
 import { FaEdit } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
@@ -11,8 +12,11 @@ import { IngredientApi, RecipeApi } from "../../../../../api"
 import store from "../../../../../store";
 import secondesConverterFunction from "../../../../../helpers/secondesConverterFunction";
 import formatterSecondesTime from "../../../../../helpers/formatterSecondesTime";
-// import './style.css'
+import './style.css'
 import style from './index.module.css'
+import DeleteCruse from "../../icons/DeleteCruse";
+import EditPen from "../../icons/EditPen";
+import ValidateCheck from "../../icons/ValidateCheck";
 
 const recipeInit = {
   steps:[],
@@ -21,7 +25,7 @@ const recipeInit = {
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
 
-  console.log("log recipe", recipe)
+  console.log("log recipe", recipe, modal)
 
   const error = useActionData();
 
@@ -30,13 +34,14 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
   const units = useSelector((state) => state.units);
 
-  const [inChange, setInChange] = useState(false);
+  const [inChange, setInChange] = useState(modal);
   // const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);
   // const [steps, setSteps] = useState();
   const [ingredients, setIngredients] = useState(recipe.ingredients);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const selectElement = useRef();
+
 
   function  changeRecipe() {
     if (modal) {
@@ -97,7 +102,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <div className={`${style.sectionRecipeField}`}>
             <h3>Etapes</h3>
           </div>
-          <ul>
+          <ul className={style.sectionRecipeFieldStepsContainer}>
             {recipe.steps.map((step, index) => (
               <li key={index} className={`${style.liSteps}`}>
                 <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}</h4>
@@ -108,7 +113,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         </section>
         { (user.isAdmin || user.id === recipe.userId) &&
           <div className={`${style.sectionRecipeBottom}`}>
-            <button type="button" onClick={changeRecipe}><FaEdit/></button>
+            <button type="button"><EditPen handleClick={changeRecipe} size={30}/></button>
           </div>
         }
       </div>
@@ -189,23 +194,27 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         </figure>
       </fieldset>
 
-      <fieldset>
-        <div className={`${style.sectionRecipeField}`}>
+      <fieldset >
+        <div className={`${style.sectionRecipeField} ${style.divDropDonwList}`}>
+          <legend>Ingredients</legend>
           <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
         </div>
         <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
         {ingredients.map(ingredient => (
           <li key={ingredient.id}>
             <figure>
-              <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem}><MdCancel size={12} /></button>
+              <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteCruse /></button>
               <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
-              <figcaption>
-                {ingredient.name}
-                <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} required />
-                <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
-                  {units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
-                  )}
-                </select>
+              <figcaption className={style.figcaption}>
+                <p>{ingredient.name}</p>
+                <div className={style.figcaptionDiv}>
+                  <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} required size="2"/>
+                  <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
+                    {units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
+                    )}
+                  </select>
+                </div>
+                
               </figcaption>
             </figure>
           </li>
@@ -217,13 +226,14 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <legend>Etapes</legend>
           <button type="button" onClick={addStepp}><FaPlus /></button>
         </div>
-        <ul className={style.sectionRecipeFieldIngredientsContainer}>
+        <ul className={style.sectionRecipeFieldStepsContainer}>
           {steps &&
             <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"')} />}
           {steps.map((step, index) => (
-            <li key={index} className={`${style.liSteps}`}>
-              <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}<button className={style.BtnDeleteStep} type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
-                <MdCancel size={12} />
+            <li key={index} >
+              <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}
+              <button className={style.BtnDeleteStep} type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
+                <DeleteCruse />
                 </button></h4>
               <textarea name={`steps${index}`} value={step} data-item-id={`steps-${index}`} onChange={stepUpdate}/>
               
@@ -231,13 +241,14 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           ))}
         </ul>
       </fieldset><div className={`${style.sectionRecipeBottom}`}>
-        <button type="submit"><FaCheck /></button>
-        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel /></button>
+        <button type="submit"><ValidateCheck size={30} /></button>
+        <button type="button" onClick={cancelHandler || changeRecipe}><DeleteCruse size={30} /></button>
       </div>
     </Form>
     </>
   )
 }
+
 
 export async function recipeAction({ request }) {
   switch (request.method) {

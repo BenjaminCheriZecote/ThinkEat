@@ -22,6 +22,7 @@
   --colorbg4: #282a2c;
   --colorbg6: #3892ab;
   --colorbg7:rgb(198, 173, 134);
+  --colorGrey: #ada28f;
 
   --colorBtnStarterAside: rgb(80, 152, 104);
 
@@ -38,6 +39,8 @@
   --color1: black;
   --padHeader: 1rem; 
   /* btn nouvelle proposition */
+
+  --widthLegendFieldset: 15rem;
 
   --mobile-breakpoint: 600px;
 	--tablet-breakpoint: 900px;
