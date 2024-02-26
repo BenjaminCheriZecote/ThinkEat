@@ -29,9 +29,14 @@
     padding-left:2rem;
     padding: 1rem 2rem;
     font-weight: 700;
-    background-color: rgb(18, 33, 100);
+    /* background-color: rgb(18, 33, 100); */
+    /* background-color: var(--colorbg6); */
+    /* background-color: var(--colorOrange); */
     /* background-color: var(--colorBtnStarterAside); */
+    background-color: var(--colorbgProfil);
     color:white;
+    /* color:var(--colorOrange); */
+    /* color:var(--colorbg6); */
     border-radius:0.8rem;
     border-radius: 0.8rem 0.8rem 0% 0%;
 }

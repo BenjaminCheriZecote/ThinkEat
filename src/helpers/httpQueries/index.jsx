@@ -39,8 +39,8 @@ export function mappingUrlFunction(urlClient){
             }
         }
 
-        if (result[0].startsWith('preparatingTime')) { // %3A; 00%3A21%3A44 => 00:21:44
-            let value = result[2].split('%3A');
+        if (result[0].startsWith('preparatingTime')) {
+            let value = result[2].split(':');
             if (value.length === 3) {
                 value.forEach((data) => {
                     const parseValue = parseInt(data);
@@ -61,6 +61,7 @@ export function mappingUrlFunction(urlClient){
                     operator = '<=';
                     const maximalTimeInSecondesPreparatingTime = secondesConverterFunction(value);
                     timeSecondesMax.preparatingTime = maximalTimeInSecondesPreparatingTime ;
+               
                 }
                 
                 recipeQuery.push([property, operator, value]);
@@ -68,7 +69,8 @@ export function mappingUrlFunction(urlClient){
         }
 
         if (result[0].startsWith('cookingTime')) { // %3A; 00%3A21%3A44 => 00:21:44
-            let value = result[2].split('%3A');
+
+            let value = result[2].split(':');
                 if (value.length === 3) {
                     value.forEach((data) => {
                     const parseValue = parseInt(data);

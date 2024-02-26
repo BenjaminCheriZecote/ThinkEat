@@ -6,6 +6,15 @@
     background-image: linear-gradient(to bottom, var(--colorbg2), var(--colorbg1), var(--colorbg1));
 }
 
+.header h1 {
+  color:var(--colorbg6);
+  font-weight: 500;
+}
+
+.header h1 span {
+  color:var(--colorOrange)
+}
+
 .header__rightSide {
     display:flex;
     gap:0.5rem; 

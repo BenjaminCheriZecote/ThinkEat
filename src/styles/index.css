@@ -20,7 +20,8 @@
   --colorbg2: #e8eceb;
   --colorbg3: #e3eae9;
   --colorbg4: #282a2c;
-  --colorbg6: #3892ab;
+  /* #e3eae9; */
+  --colorbg6: #d9e6e3;
   --colorbg7:rgb(198, 173, 134);
   --colorGrey: #ada28f;
 
@@ -28,17 +29,14 @@
 
 
   --colorbgProfil: rgb(45, 56, 105);
-  /* --colorbgAside1: rgba(255, 245, 180, 0.769); */
   --colorbgAside1: rgba(255, 246, 189, 0.769);
   --colorbgAside2: rgb(222, 194, 132);
   --colorbgAside2: rgb(196, 175, 121);
   --colorOrange:rgb(235, 171, 8);
   --colorOrange: rgba(202, 94, 61, 0.75);
-  /* --colorOrange: rgba(180, 90, 62, 0.75); */
   --colorYellow: rgb(222, 200, 4);
   --color1: black;
   --padHeader: 1rem; 
-  /* btn nouvelle proposition */
 
   --widthLegendFieldset: 15rem;
 

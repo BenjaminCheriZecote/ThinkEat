@@ -47,7 +47,7 @@ const Header = () => {
     return(
         <>
             <header id="header" className="header" style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
-                <h1>KoiKonMange</h1>
+                <h1>KoiKon<span>Mange</span></h1>
                 <div className="header__rightSide">
                 <nav className="header-rightSide__nav">
                     <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
