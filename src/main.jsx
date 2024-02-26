@@ -41,7 +41,6 @@ const router = createBrowserRouter([
       { path:"/", element: <Home />, loader:homeLoader},
       { path: "/favorites", element: <Favorites />, action:recipeAction, loader:favoritesLoader },
       { path: "/proposal", element: <Proposal />, loader:proposaLoader },
-      { path: "/recipes", element: <Recipes />, loader:recipesLoader },
       { path: "/historic", element: <Historic />, loader:historicLoader },
       { path: "/signin", element: <SignIn />, loader:signinLoader, action: signInAction },
       { path: "/signup", element: <SignUp />, loader:signupLoader ,action: signUpAction},

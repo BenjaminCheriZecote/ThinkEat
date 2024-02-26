@@ -15,7 +15,6 @@ import sortArray from "sort-array";
 const OrderByComponent = ({setCopy}) => {
 
     const recipes = useSelector((state) => state.recipes.recipes)
-//    console.log("recettes avant trie : ", recipes);
 
     //
     const [orderBy, setOrderBy] = useState([])
@@ -40,9 +39,9 @@ const OrderByComponent = ({setCopy}) => {
 
 
     //
-    useEffect(() => {
-        console.log("following order by :", orderBy)
-    }, [orderBy])
+    // useEffect(() => {
+    //     console.log("following order by :", orderBy)
+    // }, [orderBy])
     //
     // useEffect(() => {
     //     setObjectsOrder(prevState => ({
@@ -70,7 +69,7 @@ const OrderByComponent = ({setCopy}) => {
  
         const liParentElement = event.target.closest("li");
         const dataset = liParentElement.dataset.label;
-        console.log("essai", dataset)
+      
         liParentElement.classList.toggle("selectedOrderBy")
 
         const findObjectClicked = varOrderBy.find((object) => object.label === dataset);

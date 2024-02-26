@@ -22,21 +22,17 @@ const Meal = ({meal}) => {
     const [updateMode, setUpdateMode] = useState(false);
     
     const handleClickDelete = async () => {
-        console.log("test");
         await RecipeApi.delete(meal.id);
         store.dispatch({type:types.SET_RECIPES, payload:await RecipeApi.getAll()});
     }
 
     const handleClickUpdate = async () => {
         const recipe = await RecipeApi.get(meal.id);
-        console.log(recipe);
         setRecipeDetails(recipe);
-        console.log(recipeDetails);
         setUpdateMode(true)
     }
 
     const handleClickAddFavorites = () => {
-        console.log(meal)
         store.dispatch({type:types.SET_FAVORITES, payload:[...favorites, meal] })
     }
 
@@ -76,10 +72,9 @@ const Meal = ({meal}) => {
                     {updateMode&&
                     <>
                     <div className="backdrop">
-                        <RecipeUX recipe={recipeDetails} modal={"modal"} cancelHandler={() => setUpdateMode(false)}/>
+                        <RecipeUX recipe={recipeDetails} modal={"modal"} cancelHandler={() => setUpdateMode(false)} formMethod={"PATCH"}/>
                     </div>
                     </>
-                    // <ModalUpdatingRecipe meal={meal} setUpdateMode={setUpdateMode}/>
                     }
                 </div>
                 

@@ -117,7 +117,6 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
 
     const cancelCreationRecipe = () => {
         setUpdateMode((current) => !current)
-        console.log("update store", favorites)
     }
 
     const handleChangeValue = (event) => {
@@ -126,13 +125,11 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
         const { name, value } = event.target;
         if (!event.target.name.includes("step")) {
             setMealValue(currentMeal => ({...currentMeal, [name]: value }));
-            console.log("essai quoi");
+         
         } else {
-            console.log("areuh areuh");
             const index = parseInt(name.slice(-1));
             setStep(prevSteps => {
                     const updatedSteps = [...prevSteps];
-                    console.log(updatedSteps)
                     updatedSteps[index] = value;
                     return updatedSteps;
                 })
@@ -140,10 +137,9 @@ const ModalUpdatingRecipe = ({meal, setUpdateMode}) => {
     }
 
     const handleChangeValueSelect = (selectedOption) => {
-        console.log(selectElement.current)
+       
         const value = selectedOption.value;
         setMealValue(currentMeal => ({...currentMeal, hunger: value }));
-        console.log(mealValue, value)
     }
     
 

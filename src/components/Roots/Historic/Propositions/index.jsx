@@ -12,8 +12,6 @@ import Proposition from '../../../Layout/UXElements/components/Proposition';
 
 const Propositions = ({proposition}) => {
     const {favorites} = useSelector((state) => state.favorites);
-    console.log("log", favorites);
-    console.log(proposition)
 
     return(
         <>

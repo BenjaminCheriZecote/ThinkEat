@@ -25,7 +25,6 @@ class CoreApi {
     return await httpResponse.json();
   }
   static async getAll(query = null) {
-    console.log("query catch", query)
     let url = `${apiBaseUrl}/${this.routeName}`;
     if (query) {
       url += `?${query}`;
@@ -37,7 +36,6 @@ class CoreApi {
   }
   static async update(id, data) {
     const token = await TokenApi.getValidToken();
-    console.log("je passe bien par là ?")
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "PATCH",
@@ -73,16 +71,15 @@ class CoreApi {
     return accessToken;
   }
   static async errorHandler(res) {
-    console.log("log errorHandler", res)
     if (res.ok) return;
     let responce
     try {
       responce = await res.json();
     } catch (error) {
-      // throw new AppError(res.statusText, {httpStatus: res.status});
-      console.log(error)
+      throw new AppError(res.statusText, {httpStatus: res.status});
+      
     }
-    // throw new AppError(responce.error, {httpStatus: res.status});
+    throw new AppError(responce.error, {httpStatus: res.status});
   }
 }
 

@@ -25,7 +25,7 @@
     padding-bottom: 0.8rem;
     transition: 700ms ease-in-out;
     background-color: inherit;
-    z-index:20;
+    z-index:7;
 }
 
 .header-rightSide__boxProfile p {

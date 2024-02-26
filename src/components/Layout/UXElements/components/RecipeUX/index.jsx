@@ -163,7 +163,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   return(
     <><Form className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
-      <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }}/>
+      <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
       <fieldset className="section-recipe__top">
         <div>
           <div className={`${style.sectionRecipeField}`}>
@@ -235,7 +235,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
                 <DeleteCruse />
                 </button></h4>
               <textarea name={`steps${index}`} value={step} data-item-id={`steps-${index}`} onChange={stepUpdate}/>
-              
             </li>
           ))}
         </ul>
@@ -250,6 +249,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
 
 
 export async function recipeAction({ request }) {
+
   switch (request.method) {
     case "PATCH": {
       let formData = await request.formData();
@@ -346,7 +346,6 @@ export async function recipeAction({ request }) {
       if (removeIngredientsRecipe.lenght) {
         await Promise.all(removeIngredientsRecipe.map(async (element) => {
             const ingredientRecipe = await IngredientApi.removeIngredientToRecipe( id, element.id )
-            console.log(ingredientRecipe)
         }));
       }
 
@@ -360,7 +359,6 @@ export async function recipeAction({ request }) {
             unitId:foundUnityToAddInRecipe[1],
           }
           const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
-          console.log(ingredientRecipe)
         }));
       }
 
@@ -379,37 +377,41 @@ export async function recipeAction({ request }) {
 
 
     case "POST": {
-
-      let formData = await request.formData();
+      try {
+        let formData = await request.formData();
 
       let formFields = {};
       const unitProperty = [];
       const quantityProperty = [];
 
-      
 
       for (let entry of formData.entries()) {
           let fieldName = entry[0];
           let fieldValue = entry[1]; 
           if (fieldName.startsWith('unit')) {
             const idIngredientUnit = fieldName.slice(5);
-            console.log(idIngredientUnit)
             const value = [idIngredientUnit, fieldValue];
             unitProperty.push(value)
           }
           if (fieldName.startsWith('quantity')) {
             const idIngredientQuantity = fieldName.slice(9);
-            console.log(idIngredientQuantity)
             const value = [idIngredientQuantity, fieldValue];
             quantityProperty.push(value)
           }
           formFields[fieldName] = fieldValue;
       }
 
-      if (!formFields.ingredients) {
-        toast.error("Veuillez ajouter au moins un ingrédient à la recette.")
+      if (formFields.name === "" || formFields.name.charAt(0) !== formFields.name.charAt(0).toUpperCase() || formFields.name.length <= 3) {
+        toast.error({message:"Merci de renseigner le nom correctement. \nUne majuscule, 4 caractères minimum."})
         return null
       }
+
+      if (!formFields.ingredients || formFields.steps === "") {
+        toast.error({message:"Veuillez ajouter au moins un ingrédient et une étape à la recette."})
+        return null
+      }
+
+ 
      
       const steps = formData.get("steps");
       const mappingSteps = steps.split('"');
@@ -449,44 +451,63 @@ export async function recipeAction({ request }) {
         person:formData.get("person"),
         steps:mappingSteps,
       }
+
+      console.log("DATA :", data)
       
       const createdRecipe = await RecipeApi.create(data);
       if (createdRecipe.error) {
-        return createdRecipe.error
+        toast.error({message:createdRecipe.error})
+        return null
       }
       const newIdFromCreatedRecipe = (createdRecipe.id).toString()
-
-      if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] !== '') {
-        return toast.error("Veuillez ajouter au moins ingrédient à la recette.")
+      // && mappingIngredientsId[0] == ''
+      if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] === '') {
+        toast.error({message:"Veuillez ajouter au moins un ingrédient à la recette."});
+        return null
       }
 
       if (mappingIngredientsId.length > 1) {
         await Promise.all(mappingIngredientsId.map(async (ingredientId) => {
+          
           const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
           const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
-          const data = {
-            quantity:foundQuantityToAddInRecipe[1],
-            unitId:foundUnityToAddInRecipe[1],
-          }
+          const data = {};
+          data.quantity = foundQuantityToAddInRecipe[1];
+          if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
+          
+          // const data = {
+          //   quantity:foundQuantityToAddInRecipe[1],
+          //   unitId:foundUnityToAddInRecipe[1],
+          // }
+          console.log("DATA PUT Unit", data )
           await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
         }));
       }
       if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] !== '') {
         const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === mappingIngredientsId[0]);
         const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === mappingIngredientsId[0]);
-        const data = {
-          quantity:foundQuantityToAddInRecipe[1],
-          unitId:foundUnityToAddInRecipe[1],
-        }
+        const data = {};
+          data.quantity = foundQuantityToAddInRecipe[1];
+          if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
+        // const data = {
+        //   quantity:foundQuantityToAddInRecipe[1],
+        //   unitId:foundUnityToAddInRecipe[1],
+        // }
+        console.log("DATA PUT Unit", data )
         await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
       }
       toast.error("Test.")
       toast.success("La recette a été créée avec succès.")
       
       return null;
+      } catch (error) {
+        console.log(error)
+      }
+      return null
     }
     default: {
-      throw new Response("", { status: 405 });
+      // throw new Response("", { status: 405 });
+      return null
     }
   }
 }

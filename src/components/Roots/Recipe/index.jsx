@@ -17,8 +17,6 @@ export default function RecipePage() {
 
 export async function recipeLoader({params}) {
   store.dispatch({type:types.SET_IS_ASIDE_FALSE});
-  console.log(params.id)
   const recipe = await RecipeApi.get(params.id);
-  console.log(recipe)
   return recipe;
 }

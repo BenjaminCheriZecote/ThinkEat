@@ -9,21 +9,23 @@ import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
 import { NavLink } from "react-router-dom";
 
 
-import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
+import RecipeUX, { recipeAction } from "../../../Layout/UXElements/components/RecipeUX";
+import { RecipeApi } from "../../../../api";
 
 const Meal = ({meal}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
+    const [recipeDetails, setRecipeDetails] = useState()
     const [updateMode, setUpdateMode] = useState();
     
     const handleClickDelete = () => {
-        console.log("test")
         const newFavorites = favorites.filter((element) => element !== meal);
-        console.log(newFavorites)
         store.dispatch({type:"SET_FAVORITES", payload:newFavorites })
     }
 
-    const handleClickUpdate = (event) => {
+    const handleClickUpdate = async () => {
+        const recipe = await RecipeApi.get(meal.id);
+        setRecipeDetails(recipe);
         setUpdateMode(true)
     }
 
@@ -36,7 +38,7 @@ const Meal = ({meal}) => {
                 <div className="section-li__container--options">
                     {updateMode&&
                         <div className="backdrop">
-                            <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)}/>
+                            <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)} recipe={recipeDetails}/>
                         </div>
                         }
                     <button onClick={handleClickUpdate}>

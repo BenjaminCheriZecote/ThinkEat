@@ -26,7 +26,7 @@ html, body, #root, .app {
     #footer {
         grid-column: 1 / -1;
         grid-row: -1 / -2;
-        
+        overflow-x:
     }
 
     .app-wrapper__content {
@@ -41,6 +41,7 @@ html, body, #root, .app {
         left:0;
         width:100%;
         height: 100vh;
+        z-index:10;
         
     }
     

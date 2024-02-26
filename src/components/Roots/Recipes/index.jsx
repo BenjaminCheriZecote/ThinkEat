@@ -32,7 +32,6 @@ const Recipes = () => {
     }, [recipes])
 
     const handleChangeSearch = (event) => {
-        console.log(event.target.value)
         if (event.target.value.length === 0) setCopy(recipes)
         const searchedRecipes = recipes.filter((recipe) => recipe.name.startsWith(event.target.value));
         setCopy(searchedRecipes);
@@ -44,7 +43,7 @@ const Recipes = () => {
     
 
     return(
-        <main className="main" style={{ gridColumn: '2 / -1'}}>
+        <main className="main outlet" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
         
         <section className="section">
             <div className="section__divForm">
@@ -87,28 +86,17 @@ const Recipes = () => {
 
 export default Recipes;
 
-export async function recipesLoader(){
+export async function recipesLoader({request}){
 
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
-    const urlClient = window.location.href;
+    const url = new URL(request.url);
+
+    // const urlClient = window.location.href;
+    const urlClient = url;
     const query = mappingUrlFunction(urlClient);
-    console.log(query);
 
-    // test
-
-    // const recipes = await await RecipeApi.getAll();
-    // store.dispatch({type:types.SET_RECIPES, payload: recipes})
-
-    // const recipesQuerry = await RecipeApi.getAll(query);
-    // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
-    
-    // console.log("retour back fetch", recipesQuerry);
-    // console.log(query);
-
-    // 
-
-    async function fetchDataRecipesApi(query) {
+    async function fetchDataRecipesApi() {
         try {
             const recipes = await RecipeApi.getAll(query);
             store.dispatch({type:types.SET_RECIPES, payload: recipes})

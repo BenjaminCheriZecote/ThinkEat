@@ -17,20 +17,25 @@ export function mappingUrlFunction(urlClient){
     const errorDataCookingTime = 'Erreur sur le temps de cuisson. Format de données non valide.';
     const timeSecondesMax = {};
     const timeSecondesMin = {};
-   
-    if (!urlClient.includes('?')) {
-        return null;
+
+
+    if (!urlClient) {
+        return null
     }
     
-    const queryString = urlClient.split('?')[1];
+    const urlSplited = urlClient.search;
+    const urlParsed = decodeURIComponent(urlSplited);
+    const queryString = urlParsed.slice(1);
+
     const params = queryString.split('&');
 
     const mappingParams = params.forEach((param) => {
         const parts = param.split('=');
         const result = [parts[0], '=', parts[1]];
         if (result[0] === 'hunger') {
-            if (result[2] === 'Copieux' || result[2] === 'Normal' || result[2] === 'Léger') {
-                recipeCriteriaQuery.push(result)
+            if (parts[1] === 'Copieux' || parts[1] === 'Normal' || parts[1] === 'Léger') {
+                const result2 = [parts[0], '=', parts[1]];
+                recipeCriteriaQuery.push(result2)
             }
         }
 
@@ -68,7 +73,7 @@ export function mappingUrlFunction(urlClient){
                     value.forEach((data) => {
                     const parseValue = parseInt(data);
                 if (parseValue == undefined || parseValue == isNaN) {
-                    console.log(parseValue )
+                   
                     return error.push(errorDataCookingTime)
                 }
                 });
@@ -112,7 +117,7 @@ export function mappingUrlFunction(urlClient){
 
         if (result[0].startsWith('orderBy')) {
             if (result[0].slice(7) === "name" || result[0].slice(7) === "time" || result[0].slice(7) === "hunger") {
-                const resultParam = [result[0].slice(7), '=', result[2]]
+                const resultParam = [result[0].slice(7), result[2]]
                 orderByQuery.push(resultParam)
             }
         }
@@ -123,7 +128,6 @@ export function mappingUrlFunction(urlClient){
         const timeOperator = '>=';
         const totalTimesSecondes = timeSecondesMin.preparatingTime + timeSecondesMin.cookingTime;
         const timeValue = formatterSecondesTime(totalTimesSecondes);
-        console.log(timeValue);
         recipeQuery.push([timeProperty, timeOperator, timeValue]);
     }
 
@@ -132,13 +136,8 @@ export function mappingUrlFunction(urlClient){
         const timeOperator = '<=';
         const totalTimesSecondes = timeSecondesMax.preparatingTime + timeSecondesMax.cookingTime;
         const timeValue = formatterSecondesTime(totalTimesSecondes);
-        console.log(timeValue);
         recipeQuery.push([timeProperty, timeOperator, timeValue]);
     }
-
-    console.log(recipeQuery)
-    console.log(ingredientQuery)
-    console.log(familyQuery)
 
     let stringFilter = '';
     let stringOrderBy = '';
@@ -170,14 +169,12 @@ export function mappingUrlFunction(urlClient){
     // const test2 = orderByProperty.replace(/,\}/g, '}');
     // console.log("testeuh : ", test2);
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
-    console.log("new string ", stringFinalObject);
     const objectQuery = JSON.parse(stringFinalObject);
     console.log("console log final OBJECT : ", objectQuery);
 
     // eslint-disable-next-line no-inner-declarations
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
     // if (error.length) urlQuery = error;
-    console.log(urlQuery);
     return urlQuery;
   
 }

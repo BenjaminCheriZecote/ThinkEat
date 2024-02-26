@@ -52,7 +52,7 @@ const Favorites = () => {
 
     
     return(
-        <main style={{ gridColumn: '2 / -1'}}>
+        <main className="main outlet" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
             <section className="section">
                 <div className="section__divForm">
                 <h2>Favoris</h2>
@@ -89,44 +89,25 @@ const Favorites = () => {
 
 export default Favorites;
 
-export async function favoritesLoader(){
+export async function favoritesLoader({request}){
 
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
-    const urlClient = window.location.href;
-    const query = mappingUrlFunction(urlClient);
-    console.log(query);
+    const url = new URL(request.url);
 
-    // test
+    const urlClient = url;
+    const query = mappingUrlFunction(urlClient); 
 
-    // const favorites = await await RecipeApi.getAll();
-    // store.dispatch({type:types.SET_FAVORITES, payload: favorites})
-
-    const recipesQuerry = await RecipeApi.getAll(query);
-    // if (recipesQuerry.error) {
-
-    //     // toast
-    // }
-    store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
+    async function fetchDataRecipesApi() {
+        try {
+            const recipes = await RecipeApi.getAll(query);
+            store.dispatch({type:types.SET_RECIPES, payload: recipes})
+            return recipes
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
+    return fetchDataRecipesApi();
     
-    console.log("retour back fetch", recipesQuerry);
-
-    // 
-
-    // async function fetchDataRecipesApi(query) {
-    //     try {
-    //         const favorites = await RecipeApi.getAll(query);
-    //         store.dispatch({type:types.SET_FAVORITES, payload: favorites})
-                
-    //         return favorites
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
-    // return fetchDataRecipesApi();
-    
-    
-    
-    return recipesQuerry;
 }

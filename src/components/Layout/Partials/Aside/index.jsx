@@ -22,9 +22,10 @@ const Aside = () => {
 
     const [activeSelectorCriteria, setActiveSelectorCriteria] = useState(null)
     const [activeSelectorFilter, setActiveSelectorFilter] = useState(null)
-    const [btnFooter, setBtnFooter] = useState()
     const location = useLocation();
     const currentPath = location.pathname;
+    const btnFooter = currentPath !== "/proposal" ? "Nouvelle proposition" : "C'est parti !";
+
     const navigate = useNavigate();
     const {proposal} = useSelector((state) => state.proposal);
 
@@ -48,26 +49,6 @@ const Aside = () => {
     const {cookingTime} = useSelector((state) => state.filters.filters);
     const {favoritesRecipes} = useSelector((state) => state.filters.filters);
     const {filter} = useSelector((state) => state.filters.filters);
-    const btnFormElement = useRef();
-
-
-    
-
-    // console.log(families);
-    // console.log(familiesChoices);
-    // console.log(ingredients);
-    // console.log(ingredientsChoices);
-
-
-
-
-    useEffect(() => {
-        if (currentPath !== "/proposal") {
-            setBtnFooter("Nouvelle proposition")
-        } else {
-            setBtnFooter("C'est parti !")
-        }
-    }, [currentPath])
     
 
 
@@ -157,11 +138,6 @@ const Aside = () => {
         setIngredientsCopy(filteredResearch)
     }
 
-
-    const handleSubmitFilter = (event) => {
-        store.dispatch({type:"TURN_FILTER"})
-    }
-
     const handleClickStarterButton = () => {
         store.dispatch({type:types.SET_STARTER});
 
@@ -172,7 +148,7 @@ const Aside = () => {
     <aside id="aside" className={style.aside}>
         <div>
             {/* mettre le mot "Filter" dans la classe du Form */}
-            <Form  className={style.aside__formFilter} method="get" action={currentPath} onSubmit={handleSubmitFilter}>
+            <Form  className={style.aside__formFilter} method="get" action={currentPath}>
                 <fieldset>
                     <legend>Faim</legend>
                         <div className={style.asideFormFilter__hungerContainer}>
@@ -300,7 +276,6 @@ const Aside = () => {
             </label> 
         </NavLink>
     </aside>
-    <Outlet />
     </>
     )
 };
