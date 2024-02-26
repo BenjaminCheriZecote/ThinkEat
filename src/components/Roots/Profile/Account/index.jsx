@@ -1,15 +1,15 @@
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, redirect, useSubmit } from "react-router-dom";
 
 import { CiTrash } from "react-icons/ci";
 import style from "./index.module.css"
 
-
 import store from "../../../../store/index.jsx"
+import types from "../../../../store/reducers/types/index.jsx";
 import { UserApi } from "../../../../api.js"
 import UserValidator from "../../../../helpers/validators/user.validator.js"
 import toast from "../../../../helpers/toast.js";
-import { useRef, useState } from "react";
 
 export default function Account() {
   const submit = useSubmit();
@@ -119,12 +119,15 @@ export async function accountAction({request}) {
           name: formData.get("name"),
           email: formData.get("email")
         };
-        console.log(data)
+
         data = UserValidator.checkBodyForUpdate(data)
-        console.log(data)
+
         const { session }= store.getState();
-        console.log(session)
-        await UserApi.update(session.id,data);
+
+        const newUser = await UserApi.update(session.id,data);
+
+        localStorage.setItem('user', JSON.stringify(newUser));
+        store.dispatch({type: types.UPDATE_USER, payload:newUser});
 
         toast.success("Mise à jour du compte effectué avec succès.")
         return null

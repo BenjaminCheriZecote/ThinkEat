@@ -18,25 +18,48 @@ class CoreApi {
     return await httpResponse.json();
   }
   static async get(id) {
-    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
+    let token;
+    try {
+      token = await TokenApi.getValidToken();
+    } catch (err) {
+      if (err.httpStatus !== 403) {
+        throw err
+      }
+      token = null
+    }
+
+    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : null
+    });
 
     await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
   static async getAll(query = null) {
+    let token;
+    try {
+      token = await TokenApi.getValidToken();
+    } catch (err) {
+      if (err.httpStatus !== 403) {
+        throw err
+      }
+      token = null
+    }
+
     let url = `${apiBaseUrl}/${this.routeName}`;
     if (query) {
       url += `?${query}`;
     }
-    const httpResponse = await fetch(url);
+    const httpResponse = await fetch(url, {
+      headers: token ? { Authorization: `Bearer ${token}` } : null
+    });
     await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
   static async update(id, data) {
     const token = await TokenApi.getValidToken();
-    console.log(token)
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "PATCH",
@@ -76,9 +99,11 @@ export class HistoryApi extends CoreApi {
   static routeName = "hitory";
 
   static async addRecipeToHistory(historyId, recipeId) {
+    const token = await TokenApi.getValidToken();
+
     const httpResponse = await fetch(`${apiBaseUrl}/history/${historyId}/ingredient/${recipeId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     });
   
     await this.errorHandler(httpResponse);
@@ -91,10 +116,11 @@ export class IngredientApi extends CoreApi {
   static routeName = "ingredient";
 
   static async addIngredientToRecipe(recipeId, ingredientId, data) {
+    const token = await TokenApi.getValidToken();
 
     const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data)
     });
   
@@ -104,10 +130,11 @@ export class IngredientApi extends CoreApi {
   }
 
   static async removeIngredientToRecipe(recipeId, ingredientId) {
+    const token = await TokenApi.getValidToken();
 
     const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     });
   
     await this.errorHandler(httpResponse);
@@ -219,30 +246,28 @@ class TokenApi {
       refreshToken,
       refreshTokenExpiresAt
     } = JSON.parse(tokens);
-    console.log(accessTokenExpiresAt)
-    const accessTokenisExpired = new Date(accessTokenExpiresAt).getTime() < new Date().getTime;
-    console.log(accessTokenisExpired)
+
+    const accessTokenisExpired = Date.parse(accessTokenExpiresAt) < Date.now();
     if (!accessTokenisExpired) {
       return accessToken;
     }
-    console.log("access token expired")
     
-    const refreshTokenisExpired = new Date(refreshTokenExpiresAt).getTime() < new Date().getTime;
+    const refreshTokenisExpired = Date.parse(refreshTokenExpiresAt) < Date.now();
     if (refreshTokenisExpired) {
       console.log("refresh token expired")
-      // this.deleteToken();
+      this.deleteToken();
       throw new AppError("Veuillez vous reconnecter.", {httpStatus: 401});
     }
     
     await this.postRefreshToken(accessToken,refreshToken)
 
-    this.getValidToken();
+    return await this.getValidToken();
   }
   static async postRefreshToken(accessToken,refreshToken) {
     const httpResponse = await fetch(`${apiBaseUrl}/user/token`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
-      body: JSON.stringify(refreshToken)
+      body: JSON.stringify({refreshToken})
     });
 
     await this.errorHandler(httpResponse);
