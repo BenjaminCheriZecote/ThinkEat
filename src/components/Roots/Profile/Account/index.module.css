@@ -39,12 +39,11 @@
   flex-direction: column;
   gap:1rem;
   padding:1rem;
-  border:1px red solid;
 }
 
 .form label {
   position: absolute;
-  top: 1.5rem;
+  top: 0.5rem;
   left: 0rem;
   font-weight: 700;
 }

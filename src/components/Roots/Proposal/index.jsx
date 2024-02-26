@@ -21,9 +21,9 @@ import { HistoryApi, RecipeApi } from "../../../api";
 
 const Proposal = () => {
 
-    
-
     const {isAside} = useSelector((state) => state.isAside)
+    // const {starter} = useSelector((state) => state.proposal);
+    
 
     const {isConnected} = useSelector((state) => state.session);
     const {favorites} = useSelector((state) => state.favorites);
@@ -45,7 +45,7 @@ const Proposal = () => {
         //
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event = null) => {
         event.preventDefault();
         store.dispatch({type:types.TURN_FILTER})
         setProposition2();

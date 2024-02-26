@@ -7,10 +7,15 @@ import './OrderBy.css';
 import { mappingUrlFunction } from "../../../../../helpers/httpQueries";
 import { RecipeApi } from "../../../../../api";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import sortArray from "sort-array";
 
 
 
-const OrderByComponent = () => {
+const OrderByComponent = ({setCopy}) => {
+
+    const recipes = useSelector((state) => state.recipes.recipes)
+//    console.log("recettes avant trie : ", recipes);
 
     //
     const [orderBy, setOrderBy] = useState([])
@@ -18,7 +23,7 @@ const OrderByComponent = () => {
     const [ascTime, setAscTime] = useState(true)
     const [ascHunger, setAscHunger] = useState(true)
     const [isVisible, setIsVisible] = useState(false)
-    const fieldsetOrderByUl = useRef()
+    const fieldsetOrderByUl = useRef();
     const navigate = useNavigate();
 
     const [objectsOrder, setObjectsOrder] = useState({
@@ -27,19 +32,27 @@ const OrderByComponent = () => {
         hunger: { position: 3, title: "hunger", label: "Faim", ascState: ascHunger }
       });
 
+    const [varOrderBy, setVarOrderBy] = useState([
+        { position: 1, title: "name", label: "Nom", ascState: ascName },
+        { position: 2, title: "time", label: "Temps", ascState: ascTime },
+        { position: 3, title: "hunger", label: "Faim", ascState: ascHunger }
+    ]);
+
+
     //
     useEffect(() => {
         console.log("following order by :", orderBy)
     }, [orderBy])
     //
-    useEffect(() => {
-        setObjectsOrder(prevState => ({
-            ...prevState,
-            name: { ...prevState.name, ascState: ascName },
-            time: { ...prevState.time, ascState: ascTime },
-            hunger: { ...prevState.hunger, ascState: ascHunger }
-          }));
-    }, [ascName, ascTime, ascHunger])
+    // useEffect(() => {
+    //     setObjectsOrder(prevState => ({
+    //         ...prevState,
+    //         name: { ...prevState.name, ascState: ascName },
+    //         time: { ...prevState.time, ascState: ascTime },
+    //         hunger: { ...prevState.hunger, ascState: ascHunger }
+    //       }));
+    //       console.log(objectsOrder)
+    // }, [ascName, ascTime, ascHunger])
 
     //
     const handleClickOrderBy = () => {
@@ -54,98 +67,81 @@ const OrderByComponent = () => {
 
     //
     const handleClickOrderByChoice = (event) => {
+ 
         const liParentElement = event.target.closest("li");
+        const dataset = liParentElement.dataset.label;
+        console.log("essai", dataset)
         liParentElement.classList.toggle("selectedOrderBy")
-        const containerOptionOrderBy = liParentElement.querySelector("div");
 
-        const foundOption = orderBy.find((option) => option.label === containerOptionOrderBy.className);
-        
-        if (!foundOption) {
-            if (containerOptionOrderBy.className === objectsOrder.name.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.name])
-            if (containerOptionOrderBy.className === objectsOrder.time.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.time])
-            if (containerOptionOrderBy.className === objectsOrder.hunger.label) setOrderBy((currentArray) => [...currentArray, objectsOrder.hunger])  
+        const findObjectClicked = varOrderBy.find((object) => object.label === dataset);
+        const foundCurrentOptionSelected = orderBy.find((option) => option.label === dataset);
+
+        if (!foundCurrentOptionSelected) {
+            setOrderBy((currentArray) => [...currentArray, findObjectClicked ]) 
         } else {
-            if (containerOptionOrderBy.className === objectsOrder.name.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.name.label)
-                setOrderBy(filteredArray)
-            }
-
-            if (containerOptionOrderBy.className === objectsOrder.time.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.time.label)
-                setOrderBy(filteredArray)
-            }
-            if (containerOptionOrderBy.className === objectsOrder.hunger.label) {
-                const updatedArray = [...orderBy];
-                const filteredArray = updatedArray.filter((element) => element.label !== objectsOrder.hunger.label)
-                setOrderBy(filteredArray)
-            }
+            const updatedArray = [...orderBy];
+            const filteredArray = updatedArray.filter((element) => element.label !== findObjectClicked.label)
+            setOrderBy(filteredArray);
         }
     }
 
     //
     const setAscFunction = (event) => {
+        console.log("orderBY :", orderBy)
         const liParentElement = event.target.closest("li");
-        const containerOptionOrderBy = liParentElement.querySelector("div");
-        const foundOption = orderBy.find((option) => option.label === containerOptionOrderBy.className);
-
-
+        const dataset = liParentElement.dataset.label;
+        const foundOption = varOrderBy.find((option) => option.label === dataset);
         if (foundOption) {
-
-            if (foundOption.label === objectsOrder.name.label) {
-                // setAscName(prevState => !prevState)
-                console.log("test name", ascName)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascName}
-                console.log("updated array !!", updatedArray[foundIndex])
-                setOrderBy(updatedArray)
-            }
-
-            if (foundOption.label === objectsOrder.time.label) {
-                // setAscTime(prevState => !prevState)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                console.log("test name", ascTime)
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascTime}
-                console.log("updated array !!", updatedArray[foundIndex])
-                setOrderBy(updatedArray)
-            }
-
-            if (foundOption.label === objectsOrder.hunger.label) {
-                // setAscHunger(prevState => !prevState)
-                console.log("test name", ascHunger)
-                const foundIndex = orderBy.findIndex((option) => (option.label === foundOption.label))
-                const updatedArray = [...orderBy];
-                updatedArray[foundIndex] = {...updatedArray[foundIndex], ascState:ascHunger}
-                setOrderBy(updatedArray)
-            }
+                const foundIndex = varOrderBy.findIndex((option) => (option.label === foundOption.label))
+                const updatedpArrayVar = [...varOrderBy];
+                updatedpArrayVar[foundIndex] = {...updatedpArrayVar[foundIndex], ascState:!updatedpArrayVar[foundIndex].ascState}
+                console.log("updated array !!", updatedpArrayVar[foundIndex])
+                setVarOrderBy(updatedpArrayVar);
         }
         
     }
 
-    const handleSubmitOrderBy = async (event) => {
-        // event.preventDefault()
-        // const formData = new FormData(event.target);
-        // const dataForm = Object.fromEntries(formData);
-        // const urlOrderBy = `${dataForm}`;
-        // console.log("log UrlOrderBy", urlOrderBy)
-        // history.push(urlOrderBy);
-        // console.log("log form data OrderBy :");
-        // const urlClient = window.location.href;
-        // const url = urlClient + urlOrderBy;
-        // const query = mappingUrlFunction(url);
-        
-        // const recipesQuerry = await RecipeApi.getAll(query);
-        // // store.dispatch({type:types.SET_RECIPES_QUERRY, payload: recipesQuerry})
-        // navigate(url);
+
+    const handleClickSort = (event) => {
+        event.preventDefault()
+        const recipesToSort = recipes.slice();
+        const orderByTest = [{title:"name", ascState:true}, {title:"hunger", ascState:true}]
+
+        const recipesCopy = recipesToSort;
+
+        const result = recipesCopy.sort((a, b) => {
+            return a.time.localeCompare(b.time) || b.hunger - a.hunger;
+        })
+
+        // if (orderByTest.length > 0) {
+        //     if (orderByTest[0])
+        // }
+       
+        console.log(result)
     }
 
-    return(
-        
+    
 
-                <Form>
+
+
+    const draggItem = useRef();
+    const draggOverItem = useRef();
+
+    const handleSort = () => {
+        let orderByItems = [...varOrderBy];
+        const draggedItemContent = orderByItems.splice(draggItem.current, 1)[0];
+        orderByItems.splice(draggOverItem.current, 0, draggedItemContent);
+        draggItem.current = null
+        draggItem.current = null
+        setVarOrderBy(orderByItems);
+        console.log(varOrderBy)
+    }
+
+    
+    
+
+    return(
+                <form >
                     <fieldset className="fieldsetOrderBy">
 
                         <ul>
@@ -171,44 +167,32 @@ const OrderByComponent = () => {
                         </legend>
                         
                             <ul ref={fieldsetOrderByUl} className='fieldsetOrderBy__ulContainer'>
-                                <li className={objectsOrder.name.label}>
-                                    <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                    <div className={objectsOrder.name.label} onClick={handleClickOrderByChoice}>
-                                        <p className="tag">{objectsOrder.name.label}</p> <p className="ascOrderBy">{ascName?"Croissant":"Décroissant"}</p>
-                                    </div>
-                                    <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                        setAscName(prevState => !prevState);
-                                        setAscFunction(event);
-                                        }}/>
-                                </li>
+                                {varOrderBy.map((element, index) => {
+                                    return(
+                                            <li data-label={element.label} key={index} className={element.label} draggable 
+                                            onDragStart={() => draggItem.current=index}
+                                            onDragEnter={() => draggOverItem.current= index}
+                                            onDragEnd={handleSort}
+                                            onDragOver={(e) => e.preventDefault() }
+                                            >
+                                                <RxHamburgerMenu className="sizeIconsOrderBy"/>
+                                                <div className={element.label} onClick={handleClickOrderByChoice}>
+                                                    <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
+                                                    <input type="hidden" name={element.title} value={element.ascState}/>
+                                                </div>
+                                                <FaArrowsRotate className="sizeIconsOrderBy" onClick={setAscFunction}
+                                                />
+                                        </li> 
 
-                                <li className={objectsOrder.time.label}>
-                                    <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                    <div className={objectsOrder.time.label} onClick={handleClickOrderByChoice}>
-                                        <p className="tag">{objectsOrder.time.label}</p> <p className="ascOrderBy"> {ascTime?"Croissant":"Décroissant"}</p>
-                                    </div> 
-                                    <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                        setAscTime(prevState => !prevState);
-                                        setAscFunction(event);
-                                    }}/>
-                                       
-                                        
-                                </li>
+                                    )
+                                    
+                                })}
+                                <button type="button" onClick={handleClickSort}>Trier</button>
+                            </ul> 
 
-                                <li className={objectsOrder.hunger.label}>
-                                    <RxHamburgerMenu className="sizeIconsOrderBy"/>
-                                    <div className={objectsOrder.hunger.label} onClick={handleClickOrderByChoice}>
-                                        <p className="tag">{objectsOrder.hunger.label}</p> <p className="ascOrderBy"> {ascHunger?"Croissant":"Décroissant"}</p>
-                                    </div>
-                                    <FaArrowsRotate className="sizeIconsOrderBy" onClick={() => {
-                                        setAscHunger(prevState => !prevState);
-                                        setAscFunction(event);
-                                        }}/>
-                                    </li>
-                                <button type="submit" onSubmit={handleSubmitOrderBy}>Trier</button>
-                            </ul>           
+                                      
                     </fieldset>    
-                </Form>  
+                </form>  
     )
 }
 

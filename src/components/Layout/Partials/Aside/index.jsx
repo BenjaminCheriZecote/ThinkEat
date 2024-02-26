@@ -48,7 +48,8 @@ const Aside = () => {
     const {cookingTime} = useSelector((state) => state.filters.filters);
     const {favoritesRecipes} = useSelector((state) => state.filters.filters);
     const {filter} = useSelector((state) => state.filters.filters);
-    const btnFormElement = useRef()
+    const btnFormElement = useRef();
+
 
     
 
@@ -66,11 +67,7 @@ const Aside = () => {
         } else {
             setBtnFooter("C'est parti !")
         }
-    })
-
-    // useEffect(() => {
-    //     btnFormElement.current.click()
-    // }, [filter])
+    }, [currentPath])
     
 
 
@@ -162,8 +159,12 @@ const Aside = () => {
 
 
     const handleSubmitFilter = (event) => {
-    
         store.dispatch({type:"TURN_FILTER"})
+    }
+
+    const handleClickStarterButton = () => {
+        store.dispatch({type:types.SET_STARTER});
+
     }
 
     return(
@@ -210,7 +211,6 @@ const Aside = () => {
                     <div className={style.asideFormFilter__foodContainer}>
                         <fieldset>
                             <legend>Ingredients</legend>
-
 
                                 <li className={style.selectBox}>
                                     <div className={style.selectOption} onClick={handleClickSelectIngredient}>
@@ -272,7 +272,7 @@ const Aside = () => {
                         <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
                     </div>
                
-                    <button ref={btnFormElement} className={style.buttonElement}>Filtrer</button>
+                    <button className={style.buttonElement}>Filtrer</button>
                 </footer>        
 
             </Form>
@@ -282,7 +282,7 @@ const Aside = () => {
             
                 
         
-        <NavLink className={`${style.asideA} asideA`} to={currentPath === "/proposal"?"./":"/proposal"} >
+        <NavLink className={`${style.asideA} asideA`} to={currentPath === "/proposal"?"/proposal":"/proposal"} onClick={handleClickStarterButton}>
             <p>{btnFooter}</p>
             <label className={style.container}>
                 <input checked={proposal.lenght > 0?"true":""} type="checkbox"/>

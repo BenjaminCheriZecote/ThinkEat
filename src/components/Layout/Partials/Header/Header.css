@@ -25,7 +25,11 @@
     padding-bottom: 0.8rem;
     transition: 700ms ease-in-out;
     background-color: inherit;
-    z-index:9;
+    z-index:20;
+}
+
+.header-rightSide__boxProfile p {
+  margin-bottom: 0.3rem;
 }
 
 
@@ -36,6 +40,7 @@
 .header-rightSide-boxProfile__settings {
     display:flex;
     gap:0.5rem;
+    font-size:0.8rem;;
 }
 
 .iconProfile {

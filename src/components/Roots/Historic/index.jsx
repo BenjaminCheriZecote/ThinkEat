@@ -17,7 +17,7 @@ const Historic = () => {
     return (
         <main className="outlet">
             <section className="section">
-                <h1>Historic</h1>
+                <h2>Historique</h2>
                 <ul className="section__ulContainer">
                     {historicalPropositions.map((proposition, index) => {
                         return(

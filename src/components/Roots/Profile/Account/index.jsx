@@ -40,10 +40,10 @@ export default function Account() {
       <h2>Compte</h2>
       <Form ref={submitRef} className={style.form} method="patch" onSubmit={submitHandler}>
         <fieldset>
-          <div>
+          
             <label htmlFor="name">Nom :</label>
             <input type="text" id="name" value={inChange !== "name" ? session.name : value} onChange={changeValue} disabled={inChange !== "name" ? true : false}/>
-          </div>
+         
           
           {inChange !== "name" ?
           <>

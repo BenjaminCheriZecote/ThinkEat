@@ -86,10 +86,10 @@
   border-radius:0.6rem;
   padding:1rem;
 }
-
+/* 
 @media(min-width: 600px) {
 	.main{
     margin-left: max(calc((100vw - 40rem - 16rem) / 2 + 16rem), 16rem);
     max-width: 40rem;
   }
-}
+} */

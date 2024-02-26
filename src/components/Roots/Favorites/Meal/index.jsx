@@ -17,7 +17,9 @@ const Meal = ({meal}) => {
     const [updateMode, setUpdateMode] = useState();
     
     const handleClickDelete = () => {
+        console.log("test")
         const newFavorites = favorites.filter((element) => element !== meal);
+        console.log(newFavorites)
         store.dispatch({type:"SET_FAVORITES", payload:newFavorites })
     }
 
@@ -37,8 +39,13 @@ const Meal = ({meal}) => {
                             <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)}/>
                         </div>
                         }
-                    <EditPen handleClick={handleClickUpdate}/>
-                    <DeleteCruse handleClick={handleClickDelete}/>
+                    <button onClick={handleClickUpdate}>
+                    <EditPen />
+                    </button>
+
+                    <button onClick={handleClickDelete}>
+                    <DeleteCruse/>
+                    </button>
                 </div>
         </li>
     )

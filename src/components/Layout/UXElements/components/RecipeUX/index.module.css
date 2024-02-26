@@ -22,16 +22,16 @@
     font-family: 'Playpen Sans', cursive;
 }
 
+.sectionRecipe .sectionRecipeName {
+    font-size: 2rem;
+    margin:auto auto 4rem auto;
+}
+
 .sectionRecipeName {
     font-family: 'Playpen Sans', cursive;
     width:fit-content;
+    text-decoration: underline;
 }
-
-
-
-
-
-
 
 
 .sectionRecipeField h3, .sectionRecipeFieldH4, .sectionRecipeField legend, .sectionRecipeField > div > span {
@@ -69,6 +69,7 @@
 .sectionRecipeBottom > * {
     justify-self: center;
     margin:0.3rem;
+    background-color: inherit;
 }
 
 .sectionRecipeTop figure, .sectionRecipeTop form {
@@ -242,10 +243,7 @@ textarea:focus{
 
 
 
-.sectionRecipe .sectionRecipeName {
-    font-size: 2rem;
-    margin:auto;
-}
+
 
 .BtnDeleteIngredient {
     position:absolute;

@@ -7,9 +7,12 @@ const Footer = () => {
 
     return(
         <footer id="footer" className={style.footer} style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
-           <p>©Koikonmange 2024</p>
-            <NavLink>Gestion des cookies</NavLink>
-            <NavLink>Contact</NavLink>
+            <div>
+                <p>©Koikonmange 2024</p>
+                <NavLink>Gestion des cookies</NavLink>
+                <NavLink>Contact</NavLink>
+            </div>
+            <img src="/logo.png" alt="Logo de Koikonmange" />
         </footer>
     )
 }

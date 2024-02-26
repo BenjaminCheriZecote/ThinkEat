@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, useActionData } from "react-router-dom";
+import { Form, redirect, useActionData } from "react-router-dom";
+import toast from "../../../../../helpers/toast";
 
 
 import { FaEdit } from "react-icons/fa";
@@ -24,8 +25,6 @@ const recipeInit = {
 }
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
-
-  console.log("log recipe", recipe, modal)
 
   const error = useActionData();
 
@@ -380,11 +379,14 @@ export async function recipeAction({ request }) {
 
 
     case "POST": {
+
       let formData = await request.formData();
 
       let formFields = {};
       const unitProperty = [];
       const quantityProperty = [];
+
+      
 
       for (let entry of formData.entries()) {
           let fieldName = entry[0];
@@ -402,6 +404,11 @@ export async function recipeAction({ request }) {
             quantityProperty.push(value)
           }
           formFields[fieldName] = fieldValue;
+      }
+
+      if (!formFields.ingredients) {
+        toast.error("Veuillez ajouter au moins un ingrédient à la recette.")
+        return null
       }
      
       const steps = formData.get("steps");
@@ -449,6 +456,10 @@ export async function recipeAction({ request }) {
       }
       const newIdFromCreatedRecipe = (createdRecipe.id).toString()
 
+      if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] !== '') {
+        return toast.error("Veuillez ajouter au moins ingrédient à la recette.")
+      }
+
       if (mappingIngredientsId.length > 1) {
         await Promise.all(mappingIngredientsId.map(async (ingredientId) => {
           const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
@@ -460,7 +471,7 @@ export async function recipeAction({ request }) {
           await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
         }));
       }
-      if (mappingIngredientsId.length === 1) {
+      if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] !== '') {
         const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === mappingIngredientsId[0]);
         const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === mappingIngredientsId[0]);
         const data = {
@@ -469,8 +480,10 @@ export async function recipeAction({ request }) {
         }
         await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
       }
+      toast.error("Test.")
+      toast.success("La recette a été créée avec succès.")
       
-      return null
+      return null;
     }
     default: {
       throw new Response("", { status: 405 });

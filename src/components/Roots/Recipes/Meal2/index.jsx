@@ -1,9 +1,7 @@
 
-import { MdCancel } from "react-icons/md";
 import store from "../../../../store";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { FaPen } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import EditPen from "../../../Layout/UXElements/icons/EditPen";
 import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
@@ -57,9 +55,14 @@ const Meal = ({meal}) => {
                 </div>
                 <div className="section-li__container--options">
                     {isAdmin?
-                        <>
-                            <EditPen onClick={handleClickUpdate}/>
-                            <DeleteCruse onClick={handleClickDelete}/>
+                        <>  
+                        <button onClick={handleClickUpdate}>
+                            <EditPen />
+
+                        </button>
+                            <button onClick={handleClickDelete}>
+                                <DeleteCruse/>
+                            </button>
                         </>
                         :
                         isConnected?
