@@ -18,11 +18,10 @@ export default class UserValidator extends CoreValidator {
     }
     return {name, email, password};
   }
-  static checkBodyForUpdate({id, name, email}) {
-    if (!Object.values({name, email}).some(value => !!value)) {
+  static checkBodyForUpdate({name, email}) {
+    if (![name, email].some(value => !!value)) {
       throw new Error("Merci de renseigner un champ à metre à jour");
     }
-    this.checkId(id)
     if (name && !String(name).match(/^[a-zA-Z][\w-]{3,20}$/)) {
       throw new Error("Merci de renseigner votre nom correctement.");
     }

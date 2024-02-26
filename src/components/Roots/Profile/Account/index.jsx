@@ -27,7 +27,9 @@ export default function Account() {
   }
   function submitHandler() {
     if (inChange !== "delete") {
-      submit({inChange:value},{method: "patch"})
+      const data = {};
+      data[inChange] = value;
+      submit(data,{method: "patch"})
     } else {
       submit({email:value},{method: "delete"})
     }
@@ -111,16 +113,18 @@ export async function accountAction({request}) {
   try {
     const {session} = store.getState();
     switch (request.method) {
-      case "patch": {
+      case "PATCH": {
         const formData = await request.formData();
         let data = {
           name: formData.get("name"),
           email: formData.get("email")
         };
-
+        console.log(data)
         data = UserValidator.checkBodyForUpdate(data)
-
-        await UserApi.update(data);
+        console.log(data)
+        const { session }= store.getState();
+        console.log(session)
+        await UserApi.update(session.id,data);
 
         toast.success("Mise à jour du compte effectué avec succès.")
         return null

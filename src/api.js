@@ -20,7 +20,7 @@ class CoreApi {
   static async get(id) {
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`);
 
-    // await this.errorHandler(httpResponse);
+    await this.errorHandler(httpResponse);
 
     return await httpResponse.json();
   }
@@ -36,6 +36,7 @@ class CoreApi {
   }
   static async update(id, data) {
     const token = await TokenApi.getValidToken();
+    console.log(token)
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "PATCH",
@@ -59,17 +60,6 @@ class CoreApi {
   
     return true;
   }
-  static async getValidToken() {
-    const tokens = localStorage.getItem('tokens');
-    const { accessToken, accessTokenExpiresAt, ...otherTokens}= JSON.parse(tokens);
-
-    if ((new Date().getTime() / 1000) > accessTokenExpiresAt) {
-      this.signout();
-      // throw new AppError("token expired", {httpStatus: 401});
-    }
-
-    return accessToken;
-  }
   static async errorHandler(res) {
     if (res.ok) return;
     let responce
@@ -77,7 +67,6 @@ class CoreApi {
       responce = await res.json();
     } catch (error) {
       throw new AppError(res.statusText, {httpStatus: res.status});
-      
     }
     throw new AppError(responce.error, {httpStatus: res.status});
   }
@@ -87,8 +76,6 @@ export class HistoryApi extends CoreApi {
   static routeName = "hitory";
 
   static async addRecipeToHistory(historyId, recipeId) {
-    // /api/history/:historyId/recipe/:RecipeId
-
     const httpResponse = await fetch(`${apiBaseUrl}/history/${historyId}/ingredient/${recipeId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -223,7 +210,7 @@ class TokenApi {
   static async getValidToken() {
     const tokens = localStorage.getItem('tokens');
     if (!tokens) {
-      // throw new AppError("Veuillez vous connecter.", {httpStatus: 401});
+      throw new AppError("Veuillez vous connecter.", {httpStatus: 401});
     }
 
     const {
@@ -232,15 +219,18 @@ class TokenApi {
       refreshToken,
       refreshTokenExpiresAt
     } = JSON.parse(tokens);
-
-    const accessTokenisExpired = new Date((accessTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
+    console.log(accessTokenExpiresAt)
+    const accessTokenisExpired = new Date(accessTokenExpiresAt).getTime() < new Date().getTime;
+    console.log(accessTokenisExpired)
     if (!accessTokenisExpired) {
       return accessToken;
     }
-
-    const refreshTokenisExpired = new Date((refreshTokenExpiresAt - 10)* 1000).getTime() < new Date().getTime();
+    console.log("access token expired")
+    
+    const refreshTokenisExpired = new Date(refreshTokenExpiresAt).getTime() < new Date().getTime;
     if (refreshTokenisExpired) {
-      this.deleteToken();
+      console.log("refresh token expired")
+      // this.deleteToken();
       throw new AppError("Veuillez vous reconnecter.", {httpStatus: 401});
     }
     
