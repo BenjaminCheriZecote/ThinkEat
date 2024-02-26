@@ -22,16 +22,23 @@ export default function Account() {
     setValue("");
     setInChange(event.target.dataset.inputId);
   }
+  function changePassword() {
+    submit({email: session.email}, {
+      method: "post",
+      action: "/reset-password"
+    })
+  }
   function changeValue(event) {
     setValue(event.target.value);
   }
-  function submitHandler() {
+  function submitHandler(event) {
+    event.preventDefault();
     if (inChange !== "delete") {
       const data = {};
       data[inChange] = value;
       submit(data,{method: "patch"})
     } else {
-      submit({email:value},{method: "delete"})
+      submit({email:value},{method: "delete"});
     }
     setValue("");
     setInChange(null);
@@ -76,7 +83,7 @@ export default function Account() {
 
         <fieldset>
           <label htmlFor="password">Mot de passe :</label>
-          <input type="password" id="password" value={inChange !== "password" ? "*******" : value} onChange={changeValue} disabled={inChange !== "password" ? true : false}/>
+          <input type="password" id="password" defaultValue={"*******"}  disabled/>
           {inChange !== "password" ?
           <>
             <button type="button" data-input-id="password" onClick={clickHandler} >Changer</button>
@@ -84,7 +91,7 @@ export default function Account() {
           :
           <>
             <button type="button" data-input-id={null} onClick={clickHandler} >Annuler</button>
-            <button data-input-id="password" >Valider</button>
+            <button type="button" data-input-id="password" onClick={changePassword} >Confirmer</button>
           </>
           }
         </fieldset>
