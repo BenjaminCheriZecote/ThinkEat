@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Tag from "./Tag";
 
-export default function DropDownList({itemName, items, choosenItems, isOpen, openHandler, closeHandler, toggleItemHandler}) {
+export default function DropDownList({itemName, items, choosenItems=[], isOpen, openHandler, closeHandler, toggleItemHandler}) {
   // itemsName = Ingredients
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchValue, setsearchValue] = useState();

@@ -6,7 +6,7 @@ import urlQueryJsonParser from "url-query-json-parser";
 import secondesConverterFunction from "../secondesConverterFunction";
 import formatterSecondesTime from "../formatterSecondesTime";
 
-export function mappingUrlFunction(urlClient){
+export function mappingUrlFunction(urlClient,filter){
     const recipeQuery = []; 
     const ingredientQuery = [];
     const familyQuery = [];
@@ -172,7 +172,22 @@ export function mappingUrlFunction(urlClient){
     // console.log("testeuh : ", test2);
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
     const objectQuery = JSON.parse(stringFinalObject);
+    
+    if (filter) {
+      Object.entries(filter).forEach(([tableName,data]) => {
+        if (!objectQuery["filter"]) {
+          objectQuery["filter"]=[];
+        }
+        if (!objectQuery["filter"][tableName]) {
+          objectQuery["filter"][tableName]=[];
+        }
+        data.forEach(condition => {
+          objectQuery["filter"][tableName].push(condition)
+        })
+      });
+    }
     console.log("console log final OBJECT : ", objectQuery);
+
 
     // eslint-disable-next-line no-inner-declarations
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);

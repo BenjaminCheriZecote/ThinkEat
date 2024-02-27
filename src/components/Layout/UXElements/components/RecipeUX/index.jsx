@@ -39,7 +39,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   // const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);
   // const [steps, setSteps] = useState();
-  const [ingredients, setIngredients] = useState(recipe.ingredients);
+  const [ingredients, setIngredients] = useState(recipe.ingredients || []);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const selectElement = useRef();
 
@@ -90,7 +90,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             <h3>Ingredients</h3>
           </div>
           <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
-          {recipe.ingredients.map(ingredient => (
+          {recipe.ingredients && recipe.ingredients.map(ingredient => (
             <li key={ingredient.id}>
               <figure>
                 <div>
@@ -109,7 +109,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             <h3>Etapes</h3>
           </div>
           <ul className={style.sectionRecipeFieldStepsContainer}>
-            {recipe.steps.map((step, index) => (
+            {recipe.steps && recipe.steps.map((step, index) => (
               <li key={index} className={`${style.liSteps}`}>
                 <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}</h4>
                 <p>{step}</p>
@@ -210,7 +210,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
         </div>
         <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
-        {ingredients.map(ingredient => (
+        {ingredients && ingredients.map(ingredient => (
           <li key={ingredient.id}>
             <figure>
               <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteTrash /></button>
@@ -220,7 +220,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
                 <div className={style.figcaptionDiv}>
                   <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2"/>
                   <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
-                    {units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
+                    {units && units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
                     )}
                   </select>
                 </div>
@@ -239,7 +239,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         <ul className={style.sectionRecipeFieldStepsContainer}>
           {steps &&
             <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"')} />}
-          {steps.map((step, index) => (
+          {steps && steps.map((step, index) => (
             <li key={index} >
               <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}
               <button className={style.BtnDeleteStep} type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
@@ -360,7 +360,7 @@ export async function recipeAction({ request, params }) {
       const preparatingTime = functionParser(match2); 
 
       const foundRecipe = recipes.recipes.find((recipe) => recipe.id === id);
-      const foundIngredientsOfRecipe = foundRecipe.ingredients;
+      const foundIngredientsOfRecipe = foundRecipe.ingredients || [];
 
 
       const removeIngredientsRecipe = foundIngredientsOfRecipe.filter((ingredient) => !mappingIngredientsId.some((id) => {

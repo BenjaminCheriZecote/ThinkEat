@@ -92,13 +92,14 @@ const Favorites = () => {
 export default Favorites;
 
 export async function favoritesLoader({request}){
+    const {session} = store.getState();
 
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
     const url = new URL(request.url);
 
     const urlClient = url;
-    const query = mappingUrlFunction(urlClient); 
+    const query = mappingUrlFunction(urlClient,{recipe : [["userId","=",session.id]]}); 
 
     async function fetchDataRecipesApi() {
       const recipes = await RecipeApi.getAll(query);
@@ -106,5 +107,4 @@ export async function favoritesLoader({request}){
       return recipes
     }
     return fetchDataRecipesApi();
-    
 }

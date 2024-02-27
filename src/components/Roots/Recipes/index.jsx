@@ -95,7 +95,7 @@ export async function recipesLoader({request}){
 
   // const urlClient = window.location.href;
   const urlClient = url;
-  const query = mappingUrlFunction(urlClient);
+  const query = mappingUrlFunction(urlClient,{recipe : [["userId","is","null"]]});
 
   async function fetchDataRecipesApi() {
     const recipes = await RecipeApi.getAll(query);
