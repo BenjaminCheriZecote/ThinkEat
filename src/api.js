@@ -22,14 +22,14 @@ class CoreApi {
     try {
       token = await TokenApi.getValidToken();
     } catch (err) {
-      if (err.httpStatus !== 403) {
+      if (err.httpStatus !== 401) {
         throw err
       }
       token = null
     }
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : null
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     });
 
     await this.errorHandler(httpResponse);
@@ -41,7 +41,7 @@ class CoreApi {
     try {
       token = await TokenApi.getValidToken();
     } catch (err) {
-      if (err.httpStatus !== 403) {
+      if (err.httpStatus !== 401) {
         throw err
       }
       token = null
@@ -52,7 +52,7 @@ class CoreApi {
       url += `?${query}`;
     }
     const httpResponse = await fetch(url, {
-      headers: token ? { Authorization: `Bearer ${token}` } : null
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     });
     await this.errorHandler(httpResponse);
 
