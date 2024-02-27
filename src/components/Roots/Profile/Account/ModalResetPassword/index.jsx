@@ -13,7 +13,6 @@ const ModalResetPassword = ({setOpenCloseModal}) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const dataForm = Object.fromEntries(formData);
-        console.log(dataForm);
         const {newPassword, confirmPassword} = dataForm;
         // if (password === mot pde passe actuel )
         if (newPassword === confirmPassword) {

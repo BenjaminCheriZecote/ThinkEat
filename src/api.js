@@ -254,7 +254,6 @@ class TokenApi {
     
     const refreshTokenisExpired = Date.parse(refreshTokenExpiresAt) < Date.now();
     if (refreshTokenisExpired) {
-      console.log("refresh token expired")
       this.deleteToken();
       throw new AppError("Veuillez vous reconnecter.", {httpStatus: 401});
     }

@@ -39,7 +39,6 @@ const Meal = ({meal}) => {
     const handleClickDeleteFavorites = async () => {
         const updatedRecipes = favorites;
         const filteredFavorites = updatedRecipes.filter((element) => element.id !== meal.id);
-        console.log("update", filteredFavorites)
         store.dispatch({type:types.SET_FAVORITES, payload:filteredFavorites })
     }
 

@@ -186,8 +186,6 @@ export function mappingUrlFunction(urlClient,filter){
         })
       });
     }
-    console.log("console log final OBJECT : ", objectQuery);
-
 
     // eslint-disable-next-line no-inner-declarations
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);

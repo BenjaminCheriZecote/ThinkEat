@@ -150,7 +150,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     if (itemName === "steps") {
       const newSteps = [...steps];
       newSteps.splice(id,1)
-      console.log(newSteps)
       setSteps(() => newSteps);
     }
   }
@@ -275,13 +274,11 @@ export async function recipeAction({ request, params }) {
           let fieldValue = entry[1]; 
           if (fieldName.startsWith('unit')) {
             const idIngredientUnit = fieldName.slice(5);
-            // console.log(idIngredientUnit)
             const value = [idIngredientUnit, fieldValue];
             unitProperty.push(value)
           }
           if (fieldName.startsWith('quantity')) {
             const idIngredientQuantity = fieldName.slice(9);
-            // console.log(idIngredientQuantity)
             const value = [idIngredientQuantity, fieldValue];
             quantityProperty.push(value)
           }
@@ -297,8 +294,6 @@ export async function recipeAction({ request, params }) {
         return null
       }
       const {recipes} = store.getState();
-
-      console.log("quantity Propoerty  :", quantityProperty)
 
       const id = parseInt(formData.get("id"));
       const steps = formData.get("steps");
@@ -398,7 +393,6 @@ export async function recipeAction({ request, params }) {
       
       return updatedRecipe
       } catch (error) {
-        console.log(error)
         toast.error({message:error})
         return null
       }
@@ -481,8 +475,6 @@ export async function recipeAction({ request, params }) {
         person:formData.get("person"),
         steps:mappingSteps,
       }
-
-      console.log("DATA :", data)
       
       const createdRecipe = await RecipeApi.create(data);
       if (createdRecipe.error) {
@@ -509,7 +501,6 @@ export async function recipeAction({ request, params }) {
           //   quantity:foundQuantityToAddInRecipe[1],
           //   unitId:foundUnityToAddInRecipe[1],
           // }
-          console.log("DATA PUT Unit", data )
           await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
         }));
       }
@@ -523,7 +514,6 @@ export async function recipeAction({ request, params }) {
         //   quantity:foundQuantityToAddInRecipe[1],
         //   unitId:foundUnityToAddInRecipe[1],
         // }
-        console.log("DATA PUT Unit", data )
         await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
       }
       toast.error("Test.")
@@ -531,8 +521,6 @@ export async function recipeAction({ request, params }) {
       
       return null;
       } catch (error) {
-        console.log(error)
-        
         toast.error({message:error})
         return null
       }

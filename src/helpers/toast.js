@@ -2,7 +2,6 @@ import { Zoom, toast } from 'react-toastify';
 
 function error(error) {
   let message = error.message;
-
   if (error.httpStatus) {
     message =
     `Erreur ${error.httpStatus} :

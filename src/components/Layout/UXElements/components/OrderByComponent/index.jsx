@@ -86,7 +86,6 @@ const OrderByComponent = ({setCopy}) => {
 
     //
     const setAscFunction = (event) => {
-        console.log("orderBY :", orderBy)
         const liParentElement = event.target.closest("li");
         const dataset = liParentElement.dataset.label;
         const foundOption = varOrderBy.find((option) => option.label === dataset);
@@ -94,7 +93,6 @@ const OrderByComponent = ({setCopy}) => {
                 const foundIndex = varOrderBy.findIndex((option) => (option.label === foundOption.label))
                 const updatedpArrayVar = [...varOrderBy];
                 updatedpArrayVar[foundIndex] = {...updatedpArrayVar[foundIndex], ascState:!updatedpArrayVar[foundIndex].ascState}
-                console.log("updated array !!", updatedpArrayVar[foundIndex])
                 setVarOrderBy(updatedpArrayVar);
         }
         
@@ -116,7 +114,6 @@ const OrderByComponent = ({setCopy}) => {
         //     if (orderByTest[0])
         // }
        
-        console.log(result)
     }
 
     
@@ -133,7 +130,6 @@ const OrderByComponent = ({setCopy}) => {
         draggItem.current = null
         draggItem.current = null
         setVarOrderBy(orderByItems);
-        console.log(varOrderBy)
     }
 
     

@@ -76,7 +76,6 @@ const Proposal = () => {
             const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
             // const findProposal = hystoryRecipes.find((e) => e.historic.id === proposal.id);
             if (!findProposal) {
-                console.log("log proposal :", proposal)
                 store.dispatch({type:"SET_HISTORIC", payload:[... historicalPropositions, {date:new Date().toLocaleString(), historic:proposal}]});
                 // const createdHistory = await HistoryApi.create()
                 //await PromiseAll(proposal.array.map(async (recipe) => await HistoryApi.addRecipeToHystory(createdHystory.id, recipe.id) );
@@ -136,11 +135,8 @@ export async function proposaLoader(){
 store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
 const urlClient = window.location.href;
-const endpointApi = 'https://localhost:3000/api/recipe?';
-const routeName = "recipe";
 
-
-mappingUrlFunction(urlClient, endpointApi, routeName);
+mappingUrlFunction(urlClient);
 
 return null
 }
