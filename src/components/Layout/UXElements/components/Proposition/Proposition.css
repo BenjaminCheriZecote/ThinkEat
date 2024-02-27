@@ -43,6 +43,7 @@
 .liProposotion__p--name  {
     font-weight: 500;
     font-family: 'Playpen Sans', cursive;
+    color:var(--colorOrange)
 }
 
 .liProposotion__legendContainer a {

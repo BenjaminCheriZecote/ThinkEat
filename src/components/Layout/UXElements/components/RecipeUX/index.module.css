@@ -13,25 +13,121 @@
    
 }
 
+.sectionRecipe > div {
+    display:flex;
+    align-items: center;
+    
+    margin-bottom:1rem;
+}
+.sectionRecipe > div img {
+    width:4rem;
+    
+}
+
 .sectionRecipe button {
+    border-radius:0.3rem;
     border:none;
 }
 
 .sectionRecipe > input {
-    /* width:30rem; */
     font-family: 'Playpen Sans', cursive;
 }
 
 .sectionRecipe .sectionRecipeName {
-    font-size: 2rem;
-    margin:auto auto 4rem auto;
+    margin-left:1rem;
+    font-size: 2.4rem;
+    /* margin:auto auto 4rem auto; */
+    width:fit-content;
+    padding:1rem;
+    text-align:center;
+    background: linear-gradient(to right, var(--colorOrangeDark), var(--colorOrange), var(--colorOrange),var(--colorOrangeDark) );
+    background-size:3rem;
+    color:white;
+    border-radius: 0.3rem;
+    font-family: "Poppins", sans-serif;
+    box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorOrange) 0 -3px 0 inset;
+    
 }
 
-.sectionRecipeName {
-    font-family: 'Playpen Sans', cursive;
-    width:fit-content;
-    text-decoration: underline;
+.sectionRecipe .sectionRecipeName img {
+    width:2rem;
 }
+
+/* .sectionRecipeName {
+    
+    width:fit-content;
+    display:block;
+    width:100%;
+    padding:2rem;
+    text-align:center;
+    background-color:var(--colorOrange);
+    color:white;
+    
+} */
+
+.timeContainer {
+    display:flex;
+    flex-flow:row wrap;
+    gap:1rem;
+}
+
+.preparatingTimeContainer, .cookingTimeContainer {
+    display:flex;
+    flex-direction:column;
+    gap:2rem;
+}
+
+.preparatingTimeContainer time, .preparatingTimeContainer input, .cookingTimeContainer time, .cookingTimeContainer input {
+    align-items: center;
+    appearance: none;
+    border-radius: 4px;
+    border-width: 0;
+    box-sizing: border-box;
+    color: white;
+    display: inline-flex;
+    font-family: 'Playpen Sans', cursive;
+    height: 2rem;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding:2rem;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s,transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow,transform;
+    font-size: 2rem;
+ }
+ 
+ .cookingTimeContainer time, .cookingTimeContainer input {
+     background-color: var(--colorOrange);
+     box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorOrange) 0 -3px 0 inset;
+   
+ }
+ .preparatingTimeContainer time, .preparatingTimeContainer input {
+    background-color: var(--colorBtnStarterAside);
+    box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorBtnStarterAside) 0 -3px 0 inset;
+ }
+ 
+ .preparatingTimeContainer time:hover {
+  box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px, var(--colorBtnStarterAside) 0 -3px 0 inset;
+  transform: translateY(-2px);
+ }
+
+ .cookingTimeContainer time:hover {
+    box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px, var(--colorOrange) 0 -3px 0 inset;
+  transform: translateY(-2px);
+ }
+
+ .preparatingTimeContainer input, .cookingTimeContainer input {
+    padding:0.5rem;
+ }
+
 
 
 .sectionRecipeField h3, .sectionRecipeFieldH4, .sectionRecipeField legend, .sectionRecipeField > div > span {
@@ -43,17 +139,26 @@
 
 }
 
+.sectionRecipeFieldH4 {
+    color:var(--colorOrange)
+}
+
 .sectionRecipeTop, .sectionRecipeBottom {
     display: flex;
     border-radius: 0.3rem;
 }
 .sectionRecipeTop {
     justify-content: space-between;
+    box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorbg3) 0 -3px 0 inset;
+    padding:0.2rem;
 }
 
 .sectionRecipeTop > div {
     padding:1rem;
     justify-self: center;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
 }
 
 .sectionRecipeTop > div > * {
@@ -249,7 +354,9 @@ textarea:focus{
     position:absolute;
     top:0;
     right:0;
-    border:none;
+    border:0.5px grey solid;;
+    border-radius: 0.3rem;
+    padding:0.2rem;
     background-color:inherit;
 }
 

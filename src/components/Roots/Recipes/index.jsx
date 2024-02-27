@@ -6,6 +6,7 @@ import { FaSquareMinus } from "react-icons/fa6";
 import { mappingUrlFunction } from "../../../helpers/httpQueries";
 import AddPlus from '../../Layout/UXElements/icons/AddPlus';
 
+
 // import '../../../styles/App.scss'
 import './Recipe.css';
 
@@ -65,7 +66,7 @@ const Recipes = () => {
             <div className="section__addRecipe"> 
             {isAdmin?
                     !openModeCreator?
-                        <AddPlus handleClick={handleClickAddRecipe}/>
+                        <AddPlus handleClick={handleClickAddRecipe} />
                         :
                         <FaSquareMinus onClick={handleClickAddRecipe}/>
                     :

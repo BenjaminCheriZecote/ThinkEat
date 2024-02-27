@@ -174,7 +174,7 @@ const OrderByComponent = ({setCopy}) => {
                                             onDragEnd={handleSort}
                                             onDragOver={(e) => e.preventDefault() }
                                             >
-                                                <RxHamburgerMenu className="sizeIconsOrderBy"/>
+                                                <RxHamburgerMenu size={15}/>
                                                 <div className={element.label} onClick={handleClickOrderByChoice}>
                                                     <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
                                                     <input type="hidden" name={element.title} value={element.ascState}/>
@@ -186,7 +186,7 @@ const OrderByComponent = ({setCopy}) => {
                                     )
                                     
                                 })}
-                                <button type="button" onClick={handleClickSort}>Trier</button>
+                                <button type="button" className="btnValidate" onClick={handleClickSort}>Trier</button>
                             </ul> 
 
                                       

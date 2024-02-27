@@ -5,6 +5,7 @@ import store from './store/index.jsx';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Error404 from './components/Roots/ErrorElement/Error404/Error404.jsx'
 
 import './styles/index.css';
 
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
 	{								
 		path: "",							
 		element: <App />, loader: asideLoader,	
-		// errorElement: <NotFound />,											
+		errorElement: <Error404 />,									
 		children: [							
       // { index: true, element: <Home />},
       { path:"/", element: <Home />, loader:homeLoader},

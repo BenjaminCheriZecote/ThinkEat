@@ -26,7 +26,6 @@ html, body, #root, .app {
     #footer {
         grid-column: 1 / -1;
         grid-row: -1 / -2;
-        overflow-x:
     }
 
     .app-wrapper__content {
@@ -89,7 +88,7 @@ html, body, #root, .app {
         gap:0.3rem;
         align-items: center;
         margin:0.2rem 0rem;
-        background-color: var(--colorBtnStarterAside);
+        background-color: var(--colorOrange);
         color:white;
         padding:0.2rem;
         border-radius:0.3rem;
@@ -264,6 +263,7 @@ html, body, #root, .app {
     
     .sizeIconsOrderBy {
         font-size: 0.7rem;
+        color:var(--colorBtnStarterAside)
     }
 
     
@@ -281,6 +281,8 @@ html, body, #root, .app {
     .starFavorite {
         color:var(--colorYellow)
     }
+
+    
     
     
     

@@ -54,7 +54,7 @@
     width: fit-content;
     align-items: center;
     margin:0.1rem 0rem;
-    background-color: var(--colorBtnStarterAside);
+    background-color: var(--colorOrange);
     color:white;
     padding:0.2rem;
     border-radius:0.3rem;
@@ -68,6 +68,7 @@
 .tagChoosenItem button {
     border:none;
     background-color:inherit;
+    color:white;
 }
 
 .itemsListContainer {

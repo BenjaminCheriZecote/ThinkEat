@@ -1,5 +1,5 @@
 import './Header.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import store from '../../../../store';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,14 +10,18 @@ import { IoIosSettings } from "react-icons/io";
 
 import { NavLink } from "react-router-dom";
 
+import style from './index.module.css'
+
 const Header = () => {
     const {isAside} = useSelector((state) => state.isAside);
 
     const boxProfile = useRef();
+    const headerRightSideElement = useRef();
+    const [menuOpen, setMenuOpen] = useState(true);
     const {isConnected} = useSelector((state) => state.session);
     const {name} = useSelector((state) => state.session);
     const {isAdmin} =useSelector((state) => state.session);
-    const [isBox, setBox] = useState(false)
+    const [isBox, setBox] = useState(false);
 
     const navigate=  useNavigate()
 
@@ -36,6 +40,20 @@ const Header = () => {
         
     }
 
+    const handleClickBurgerMenu = () => {
+
+        setMenuOpen((prevMenuOpen) => !prevMenuOpen)
+        console.log(menuOpen)  
+    };
+
+    const menuOpenStyle = {
+        right:"0%"
+    }
+
+    const menuClosedStyle = {
+        right:"-100%"
+    }
+
     const handleClickDeconnexion = () => {
         localStorage.removeItem("user");
         store.dispatch({type:"SIGNOUT"})
@@ -48,25 +66,26 @@ const Header = () => {
         <>
             <header id="header" className="header" style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
                 <h1>KoiKon<span>Mange</span></h1>
-                <div className="header__rightSide">
-                <nav className="header-rightSide__nav">
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
+                <h2 className="headerH1initial hidden">KK<span>M</span></h2>
+                <div ref={headerRightSideElement} className={menuOpen?'header__rightSide':'header__rightSide hidden'}>
+                    <nav className="header-rightSide__nav">
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
+                        
+                        {!isAdmin?
+                            isConnected?
+                            <>
+                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
+                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
+                            </>
+                                :
+                                ""
+                                :
+                                ""}
+                        
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
+                    </nav>
                     
-                    {!isAdmin?
-                        isConnected?
-                        <>
-                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
-                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
-                        </>
-                            :
-                            ""
-                            :
-                            ""}
-                    
-                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
-                </nav>
-                   
                     <div><CgProfile onClick={handleClick}  className="iconProfile"/>
                     {isConnected?
                         <div ref={boxProfile} className='header-rightSide__boxProfile '>
@@ -88,8 +107,16 @@ const Header = () => {
                             </NavLink>
                         </div> 
                         }
+                        
                     </div>
                 </div>
+                <label className="burgerHeader" htmlFor="burger" onClick={handleClickBurgerMenu}>
+                    <input type="checkbox" id="burger"/>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+                
             </header>
         </>
     )

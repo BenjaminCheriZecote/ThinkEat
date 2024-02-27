@@ -5,6 +5,8 @@ import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
 import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
+import { FaPlus } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa6";
 
 
 
@@ -89,9 +91,9 @@ const Proposal = () => {
                 
                     <Form className="section__start">
                         <div>
-                            <CiCircleMinus onClick={handleClickMinus} id="minus"/>
+                            <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorOrange)"}} size={20}/>
                             <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
-                            <CiCirclePlus onClick={handleClickPlus} id="plus"/>
+                            <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorOrange)"}} size={20}/>
                         </div>
   
                         <button onClick={handleSubmit} className="buttonStarter">C'est parti !</button>
@@ -110,7 +112,7 @@ const Proposal = () => {
                         </ul>
                         {isConnected?
                             <div className="section__btnValidate">
-                                <button onClick={handleClickValidateChoices}>Valider mes choix</button>
+                                <button className="btnValidate" role="button" onClick={handleClickValidateChoices}>Valider mes choix</button>
                             </div>
                             :
                             <div className="section__btnValidate">
