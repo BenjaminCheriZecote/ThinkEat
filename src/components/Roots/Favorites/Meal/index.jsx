@@ -28,6 +28,7 @@ const Meal = ({meal}) => {
         setRecipeDetails(recipe);
         setUpdateMode(true)
     }
+    
 
     return(
         <li  className="section__li">
@@ -41,6 +42,7 @@ const Meal = ({meal}) => {
                             <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)} recipe={recipeDetails}/>
                         </div>
                         }
+                        
                     <button onClick={handleClickUpdate}>
                     <EditPen />
                     </button>

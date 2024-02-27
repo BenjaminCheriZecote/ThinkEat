@@ -78,7 +78,9 @@ const Favorites = () => {
 
                 {favoritesCopy.length > 0 &&
                     favoritesCopy.map((meal, index) => {
-                        return(<Meal key={index} meal={meal}/>)
+                        return(
+                        <Meal key={index} meal={meal}/>
+                        )
                     }) 
                 }
 

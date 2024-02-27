@@ -218,7 +218,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
               <figcaption className={style.figcaption}>
                 <p>{ingredient.name}</p>
                 <div className={style.figcaptionDiv}>
-                  <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} required size="2"/>
+                  <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2"/>
                   <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
                     {units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
                     )}
@@ -263,7 +263,8 @@ export async function recipeAction({ request }) {
 
   switch (request.method) {
     case "PATCH": {
-      let formData = await request.formData();
+      try {
+        let formData = await request.formData();
       let formFields = {};
       const unitProperty = [];
       const quantityProperty = [];
@@ -285,7 +286,18 @@ export async function recipeAction({ request }) {
           }
           formFields[fieldName] = fieldValue;
       }
+      if (formFields.name === "" || formFields.name.charAt(0) !== formFields.name.charAt(0).toUpperCase() || formFields.name.length <= 3) {
+        toast.error({message:"Merci de renseigner le nom correctement. \nUne majuscule, 4 caractères minimum."})
+        return null
+      }
+
+      if (!formFields.ingredients || formFields.steps === "") {
+        toast.error({message:"Veuillez ajouter au moins un ingrédient et une étape à la recette."})
+        return null
+      }
       const {recipes} = store.getState();
+
+      console.log("quantity Propoerty  :", quantityProperty)
 
       const id = parseInt(formData.get("id"));
       const steps = formData.get("steps");
@@ -365,10 +377,9 @@ export async function recipeAction({ request }) {
         await Promise.all(addIngredientsRecipe.map(async (ingredientId) => {
           const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
           const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
-          const data = {
-            quantity:foundQuantityToAddInRecipe[1],
-            unitId:foundUnityToAddInRecipe[1],
-          }
+          const data = {};
+          data.quantity = foundQuantityToAddInRecipe[1];
+          if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
           const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
         }));
       }
@@ -382,8 +393,15 @@ export async function recipeAction({ request }) {
         steps:mappingSteps,
       }
       const updatedRecipe = await RecipeApi.update(id, data)
+      toast.success("La recette a été modifié avec succès.")
       
       return updatedRecipe
+      } catch (error) {
+        console.log(error)
+        toast.error({message:error})
+        return null
+      }
+      
     }
 
 
@@ -513,8 +531,11 @@ export async function recipeAction({ request }) {
       return null;
       } catch (error) {
         console.log(error)
+        
+        toast.error({message:error})
+        return null
       }
-      return null
+      
     }
     default: {
       // throw new Response("", { status: 405 });
