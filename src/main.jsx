@@ -30,31 +30,31 @@ import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
 import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
 import { recipeAction } from './components/Layout/UXElements/components/RecipeUX/index.jsx';
 
-
+import eh from './helpers/errorHandler.js'
 
 const router = createBrowserRouter([									
 	{								
 		path: "",							
-		element: <App />, loader: asideLoader,	
+		element: <App />, loader: eh(asideLoader),	
 		errorElement: <Error404 />,									
 		children: [							
       // { index: true, element: <Home />},
-      { path:"/", element: <Home />, loader:homeLoader},
-      { path: "/favorites", element: <Favorites />, action:recipeAction, loader:favoritesLoader },
-      { path: "/proposal", element: <Proposal />, loader:proposaLoader },
-      { path: "/historic", element: <Historic />, loader:historicLoader },
-      { path: "/signin", element: <SignIn />, loader:signinLoader, action: signInAction },
-      { path: "/signup", element: <SignUp />, loader:signupLoader ,action: signUpAction},
-      { path: "/reset-password", element: <ResetPassword />, action: resetPasswordAction },
-      { path: "/recipes", element: <Recipes />, action:recipeAction, loader:recipesLoader },
-      { path: "/recipes/:id",element: <Recipe />, loader: recipeLoader, action:recipeAction },
-      { path: "/validate/account/:uuid", element: <></>, loader: validateAccountLoader },
-      { path: "/validate/password/:uuid", element: <ValidatePassword />, action: validatePasswordAction },
+      { path:"/", element: <Home />, loader:eh(homeLoader)},
+      { path: "/favorites", element: <Favorites />, action:eh(recipeAction), loader:eh(favoritesLoader) },
+      { path: "/proposal", element: <Proposal />, loader:eh(proposaLoader) },
+      { path: "/historic", element: <Historic />, loader:eh(historicLoader) },
+      { path: "/signin", element: <SignIn />, loader:eh(signinLoader), action: eh(signInAction) },
+      { path: "/signup", element: <SignUp />, loader:eh(signupLoader) ,action: eh(signUpAction)},
+      { path: "/reset-password", element: <ResetPassword />, action: eh(resetPasswordAction) },
+      { path: "/recipes", element: <Recipes />, action:eh(recipeAction), loader:eh(recipesLoader) },
+      { path: "/recipes/:id",element: <Recipe />, loader: eh(recipeLoader), action:eh(recipeAction) },
+      { path: "/validate/account/:uuid", element: <></>, loader: eh(validateAccountLoader) },
+      { path: "/validate/password/:uuid", element: <ValidatePassword />, action: eh(validatePasswordAction) },
       { path: "/profil", element:<Profil />, 
       children: [
-        { index:true, element: <ProfilUser/>, loader:profilLoader },
+        { index:true, element: <ProfilUser/>, loader:eh(profilLoader) },
         { path: "diet-preferences", element: <DietPreferences/> },
-        { path: "account", element: <Account/>, action: accountAction },
+        { path: "account", element: <Account/>, action:eh(accountAction) },
       ]}		
 		],
 	},								

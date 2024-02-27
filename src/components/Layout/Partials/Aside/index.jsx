@@ -284,29 +284,18 @@ export default Aside;
 
 export async function asideLoader() {
     async function fetchDataFamilyApi() {
-        try {
-            const families = await FamilyApi.getAll();
-            store.dispatch({type:types.SET_FAMILIES, payload: families})
-            return families
-        } catch (error) {
-            console.log(error)
-        }
+      const families = await FamilyApi.getAll();
+      store.dispatch({type:types.SET_FAMILIES, payload: families})
+      return families 
     }
     await fetchDataFamilyApi()
 
     async function fetchDataIngredientApi() {
-        try {
-            const ingredients = await IngredientApi.getAll();
-            store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
-            return ingredients
-        } catch (error) {
-            console.log(error)
-        }
+      const ingredients = await IngredientApi.getAll();
+      store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
+      return ingredients
     }
     await fetchDataIngredientApi()
 
-    // route back à corrigé
-
-    // autre fetch ici
     return null;
   }

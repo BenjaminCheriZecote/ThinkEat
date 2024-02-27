@@ -101,14 +101,9 @@ export async function favoritesLoader({request}){
     const query = mappingUrlFunction(urlClient); 
 
     async function fetchDataRecipesApi() {
-        try {
-            const recipes = await RecipeApi.getAll(query);
-            store.dispatch({type:types.SET_RECIPES, payload: recipes})
-            return recipes
-        } catch (error) {
-            console.log(error)
-            return error
-        }
+      const recipes = await RecipeApi.getAll(query);
+      store.dispatch({type:types.SET_RECIPES, payload: recipes})
+      return recipes
     }
     return fetchDataRecipesApi();
     

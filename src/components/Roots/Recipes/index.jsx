@@ -89,23 +89,18 @@ export default Recipes;
 
 export async function recipesLoader({request}){
 
-    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
+  store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
-    const url = new URL(request.url);
+  const url = new URL(request.url);
 
-    // const urlClient = window.location.href;
-    const urlClient = url;
-    const query = mappingUrlFunction(urlClient);
+  // const urlClient = window.location.href;
+  const urlClient = url;
+  const query = mappingUrlFunction(urlClient);
 
-    async function fetchDataRecipesApi() {
-        try {
-            const recipes = await RecipeApi.getAll(query);
-            store.dispatch({type:types.SET_RECIPES, payload: recipes})
-            return recipes
-        } catch (error) {
-            console.log(error)
-            return error
-        }
-    }
-    return fetchDataRecipesApi();
+  async function fetchDataRecipesApi() {
+    const recipes = await RecipeApi.getAll(query);
+    store.dispatch({type:types.SET_RECIPES, payload: recipes})
+    return recipes
+  }
+  return fetchDataRecipesApi();
 }

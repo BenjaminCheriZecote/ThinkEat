@@ -259,7 +259,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
 }
 
 
-export async function recipeAction({ request }) {
+export async function recipeAction({ request, params }) {
+  const {session} = store.getState();
 
   switch (request.method) {
     case "PATCH": {
@@ -537,9 +538,15 @@ export async function recipeAction({ request }) {
       }
       
     }
-    default: {
-      // throw new Response("", { status: 405 });
-      return null
+    case "DELETE": {
+      await RecipeApi.delete(params.id)
+
+      toast.success("Suppression de la recette effectué avec succès.");
+      break;
     }
+    default: {
+      throw new Response("Invalide methode", { status: 405 });
+    }
+
   }
 }

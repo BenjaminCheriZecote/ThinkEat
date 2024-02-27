@@ -13,7 +13,7 @@ const Home = () => {
 
 export default Home;
 
-export async function homeLoader(){
+export function homeLoader(){
 
     store.dispatch({type:types.SET_IS_ASIDE_FALSE});
     

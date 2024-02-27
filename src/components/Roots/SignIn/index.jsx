@@ -31,29 +31,25 @@ export default function SignIn() {
 
 
 export async function signInAction({ request }) {
-  try {
-    switch (request.method) {
-      case "POST": {
-        let formData = await request.formData()
-        const idConnection = {
-          email: formData.get("email"),
-          password: formData.get("password")
-        };
-        UserValidator.checkBodyForSignIn(idConnection)
-        
-        const user = await UserApi.signin(idConnection)
-        store.dispatch({type:"SIGNIN", payload:user});
+  switch (request.method) {
+    case "POST": {
+      let formData = await request.formData()
+      const idConnection = {
+        email: formData.get("email"),
+        password: formData.get("password")
+      };
+      UserValidator.checkBodyForSignIn(idConnection)
+      
+      const user = await UserApi.signin(idConnection)
+      store.dispatch({type:"SIGNIN", payload:user});
 
-        toast.success("Connexion réussie.\nVous allez être redirigé.")
-        await new Promise(r => setTimeout(r, 3200));
-        return redirect("/");
-      }
-      default: {
-        throw new Response("Invalide methode", { status: 405 });
-      }
+      toast.success("Connexion réussie.\nVous allez être redirigé.")
+      await new Promise(r => setTimeout(r, 3200));
+      return redirect("/");
     }
-  } catch (error) {
-    return toast.error(error);
+    default: {
+      throw new Response("Invalide methode", { status: 405 });
+    }
   }
 }
 
