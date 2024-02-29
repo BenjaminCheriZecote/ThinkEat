@@ -11,10 +11,9 @@ import { useState } from 'react';
 import { FamilyApi, IngredientApi } from '../../../../api'
 import style from './Aside.module.css'
 import { Form } from 'react-router-dom';
-import { useEffect } from 'react';
 import types from '../../../../store/reducers/types';
-import { useRef } from 'react';
 import DoubleInputRange from '../../UXElements/components/DoubleRange';
+import BurgerMenu from '../../UXElements/components/BurgerMenu';
 
 
 
@@ -25,6 +24,7 @@ const Aside = () => {
     const location = useLocation();
     const currentPath = location.pathname;
     const btnFooter = currentPath !== "/proposal" ? "Nouvelle proposition" : "C'est parti !";
+    const [menuOpen, setMenuOpen] = useState(false)
 
     const navigate = useNavigate();
     const {proposal} = useSelector((state) => state.proposal);
@@ -143,10 +143,20 @@ const Aside = () => {
 
     }
 
+    const handleClickBurgerMenu = () => {
+        setMenuOpen(!menuOpen)
+        console.log(menuOpen);
+
+    }
+
+    // className={menuOpen?'':`${style.hideAside}`}
+
     return(
     <>
     <aside id="aside" className={style.aside}>
-        <div>
+            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorbg1)"}}/>
+
+        <div className={menuOpen?'':`${style.hideAside}`}>
             {/* mettre le mot "Filter" dans la classe du Form */}
             <Form  className={style.aside__formFilter} method="get" action={currentPath}>
                 <fieldset>
@@ -258,7 +268,7 @@ const Aside = () => {
             
                 
         
-        <NavLink className={`${style.asideA} asideA`} to={currentPath === "/proposal"?"/proposal":"/proposal"} onClick={handleClickStarterButton}>
+        <NavLink className={`${style.asideA} ${style.hideAside} asideA`} to={currentPath === "/proposal"?"/proposal":"/proposal"} onClick={handleClickStarterButton}>
             <p>{btnFooter}</p>
             <label className={style.container}>
                 <input checked={proposal.lenght > 0?"true":""} type="checkbox"/>

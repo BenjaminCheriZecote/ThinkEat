@@ -15,6 +15,7 @@
 
 .footer div {
     display:flex;
+    align-items: center;
     gap: 1rem;
 }
 
@@ -27,4 +28,13 @@
     font-size:0.7rem;
     color: rgb(156, 155, 155);
 }
+
+@media screen and (max-width: 340px) { /*  --gridd-breakpoint */
+  
+  .footer p, .footer a {
+    font-size:0.5rem;
+  }
+  
+    
+  }
 

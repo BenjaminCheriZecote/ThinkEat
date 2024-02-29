@@ -37,30 +37,13 @@ const OrderByComponent = ({setCopy}) => {
         { position: 3, title: "hunger", label: "Faim", ascState: ascHunger }
     ]);
 
-
-    //
-    // useEffect(() => {
-    //     console.log("following order by :", orderBy)
-    // }, [orderBy])
-    //
-    // useEffect(() => {
-    //     setObjectsOrder(prevState => ({
-    //         ...prevState,
-    //         name: { ...prevState.name, ascState: ascName },
-    //         time: { ...prevState.time, ascState: ascTime },
-    //         hunger: { ...prevState.hunger, ascState: ascHunger }
-    //       }));
-    //       console.log(objectsOrder)
-    // }, [ascName, ascTime, ascHunger])
-
     //
     const handleClickOrderBy = () => {
         setIsVisible(!isVisible)
-        const widthFieldsetOrderBy = fieldsetOrderByUl.current.offsetWidth;
         if (!isVisible) {
-            fieldsetOrderByUl.current.style.transform = `translateX(-${widthFieldsetOrderBy+34}px`;
+            fieldsetOrderByUl.current.style.transform = `translateX(-150%)`;
         } else {
-            fieldsetOrderByUl.current.style.transform = `translateX(+${widthFieldsetOrderBy}px`;
+            fieldsetOrderByUl.current.style.transform = `translateX(+150%)`;
         }
     }
 

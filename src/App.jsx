@@ -22,20 +22,19 @@ function App() {
   }
 
   return (
-    <div id="app">
+    <>
+      {/* <div id="app"> */}
 
-      <Header/>
-      {isAside &&
-        <Aside />
-      }
-            <Outlet />
-            <Footer/>
-    </div>
+        <Header/>
+        {isAside &&
+          <Aside />
+        }
+              <Outlet />
+              <Footer/>
+      {/* </div> */}
+    </>
   )
 }
 
 export default App;
 
-{/* <section className="app-wrapper__content outlet"> */}
-
-{/* </section> */}

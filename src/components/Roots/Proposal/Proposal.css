@@ -69,6 +69,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
   display: inline-flex;
   font-family: 'Playpen Sans', cursive;
+  font-family: "Poppins", sans-serif;
   height: 2rem;
   justify-content: center;
   line-height: 1;

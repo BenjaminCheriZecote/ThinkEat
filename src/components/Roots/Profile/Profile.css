@@ -2,10 +2,9 @@
     display: flex;
     width: 100%;
     grid-column: 1 / -1;
-    grid-row: 2 /11;
+    grid-row: 2 /-2;
     padding:0rem 1rem;
-    /* border:1px red solid; */
-    
+    overflow-y: scroll;;
 }
 
 .sectionProfile {
@@ -15,9 +14,9 @@
     box-shadow: 0px 8px 50px 0px rgba(0,0,0,0.07);
 }
 
-.sectionProfile--Nav {
+/* .sectionProfile--Nav {
     width:15rem;
-}
+} */
 
 .sectionProfile--Main {
     width:65%;
@@ -33,10 +32,11 @@
     /* background-color: var(--colorbg6); */
     /* background-color: var(--colorOrange); */
     /* background-color: var(--colorBtnStarterAside); */
-    background-color: var(--colorbgProfil);
+    /* background-color: var(--colorbgProfil); */
+     background-color: var(--colorbgAside3);
     color:white;
     /* color:var(--colorOrange); */
-    /* color:var(--colorbg6); */
+    color:var(--colorOrange);
     border-radius:0.8rem;
     border-radius: 0.8rem 0.8rem 0% 0%;
 }

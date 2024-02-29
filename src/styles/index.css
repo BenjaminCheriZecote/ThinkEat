@@ -34,6 +34,8 @@
   --colorbgAside1: rgba(255, 246, 189, 0.769);
   --colorbgAside2: rgb(222, 194, 132);
   --colorbgAside2: rgb(196, 175, 121);
+  --colorbgAside3:  rgb(227, 209, 163);;
+
   --colorOrange:rgb(235, 171, 8);
   --colorOrange: rgba(202, 94, 61, 0.75);
   --colorOrangeDark: rgba(169, 62, 30, 0.75);
@@ -47,6 +49,7 @@
   --mobile-breakpoint: 600px;
 	--tablet-breakpoint: 900px;
   --laptop-breakpoint:1400px;
+  --grid-breakpoint: 780px;
 }
 
 body {
@@ -81,6 +84,63 @@ body > #root {
     box-shadow:none;
   }
 }
+
+@media screen and (max-width: 780px) { /*  --header-breakpoint */
+  #header .burgerHeader {
+    display:block;
+  }
+
+  #burgerHeader input {
+    display:block;
+  }
+
+  #footer {
+    flex-direction: column;
+    height:fit-content;
+    gap:0rem;
+    padding:1rem;
+  }
+
+  #footer img {
+    width:2rem;
+    margin-top:1rem;
+  }
+
+  .app-wrapper {
+    flex-direction:column;
+    gap:0.5rem;
+  }
+
+  .sectionProfil--Nav {
+    width:100%;
+  }
+
+  body > #root .sectionProfil--Main {
+    width:100%;
+    border:1px red solid;
+    background-color: green;
+    color:blue;
+  }
+  
+}
+
+@media screen and (max-width: 600px) { /*  --gridd-breakpoint */
+  #header .burgerHeader {
+    display:block;
+  }
+  body > #root {
+    display:flex;
+    flex-direction: column;
+    gap:0rem;
+  }
+
+  #footer {
+    margin-top: auto;
+  }
+  
+}
+
+
 
 
 
