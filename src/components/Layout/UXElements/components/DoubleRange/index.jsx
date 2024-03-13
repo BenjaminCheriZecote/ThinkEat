@@ -52,11 +52,11 @@ export default function DoubleInputRange({label, name}) {
           style={{ border: "none", boxShadow: "none", padding: "15px 10px", height:"0.2rem"}}
           ruler='false'
           label = 'false'
-          barLeftColor="grey"
-          barInnerColor="var(--colorbg2)"
-          barRightColor="grey"
-          thumbLeftColor="var(--colorbg2)"
-          thumbRightColor="var(--colorbg2)"
+          barLeftColor="var(--colorOrangeDark)"
+          barInnerColor="var(--colorOrangeRange)"
+          barRightColor="var(--colorOrangeDark)"
+          thumbLeftColor="var(--colorOrangeRange)"
+          thumbRightColor="var(--colorOrangeRange)"
         />
       <div className="divOutput">
 

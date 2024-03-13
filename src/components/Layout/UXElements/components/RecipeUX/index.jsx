@@ -167,13 +167,13 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   
 
   return(
-    <><Form className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
+    <><Form className={modal ? `${modal} ${style.sectionRecipe} ${style.scrollY}` : `${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
       <div>
         <img src="/logo1.png" alt="Logo de Koikonmange" /> 
         <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
       </div>
-      <fieldset className="section-recipe__top">
+      <fieldset className={`${style.sectionRecipeTop}`}>
         <div>
           <div className={`${style.sectionRecipeField}`}>
             <label>Preparation :</label>

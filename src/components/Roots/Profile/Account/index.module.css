@@ -19,8 +19,6 @@
   font-size: 1.6rem;
   padding: 1rem 2rem;
   font-weight: 700;
-  /* background-color: rgb(18, 33, 100);
-  color:white; */
   border-radius:0.8rem;
   border-radius: 0.8rem 0.8rem 0% 0%;
 }
@@ -100,3 +98,9 @@
     max-width: 40rem;
   }
 } */
+
+@media(max-width: 780px) {
+	 /* .main{
+    width:96%;
+  } */
+}

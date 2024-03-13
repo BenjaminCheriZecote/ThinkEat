@@ -7,10 +7,8 @@ import './Profile.css'
 export default function Profil() {
   return(
     <main className="section app-wrapper">
-   
         <Nav />
         <Outlet />
-
     </main>
   )
 }

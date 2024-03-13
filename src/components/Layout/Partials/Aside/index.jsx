@@ -1,7 +1,7 @@
 import store from '../../../../store'
 import { useSelector } from 'react-redux';
-import Options from './OptionListFamily/Option';
-import OptionChosen from './OptionListChosenFamily/OptionChosen';
+import Options from './Option/Option';
+import OptionChosen from './OptionChosen/OptionChosen';
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 

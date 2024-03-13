@@ -3,6 +3,7 @@
     text-align: center;
     width: 100%;
     z-index:0;
+    /* border:1px red solid; */
   }
   
   .multi-range-slider-container {
@@ -36,7 +37,8 @@
    font-family: 'Playpen Sans', cursive;
   }
 
-  .Test {
-    color:black;
+  .multi-range-slider-container .multi-range-slider .thumb::before, .multi-range-slider-container .multi-range-slider .bar-inner {
+    box-shadow: none;
+    border:1px var(--colorOrange) solid;
   }
   

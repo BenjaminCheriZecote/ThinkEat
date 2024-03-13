@@ -20,9 +20,14 @@
   color:var(--colorOrange)
 }
 
-.header__rightSide {
+.header__middleSide {
     display:flex;
     gap:0.5rem; 
+}
+
+.header-rightSide {
+  display:flex;
+  gap:0.5rem;
 }
 
 .header-rightSide__boxProfile {
@@ -30,6 +35,7 @@
     flex-direction: column;
     gap:0.3rem;
     position: absolute;
+    top:2rem;
     right:-10rem;
     box-shadow: -8px 10px 8px -8px rgba(0,0,0,0.48);
     width:fit-content;
@@ -62,7 +68,7 @@
 }
 
 
-.header-rightSide__nav * {
+.header-middleSide__nav * {
     margin: 0rem 0.3rem;
 }
 
@@ -179,9 +185,9 @@
   }
 
   @media screen and (max-width: 780px) {
-    
 
-    .header__rightSide {
+
+    .header__middleSide {
       position: fixed;
       top:3rem;
       right:0%;
@@ -195,6 +201,7 @@
       background-color: var(--colorbg1);
       background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2));
       z-index:10;
+      border-left:1px var(--colorbg3) solid;
     }
 
     .hideNav {
@@ -202,7 +209,7 @@
     }
 
 
-    .header-rightSide__nav {
+    .header-middleSide__nav {
       display:flex;
       flex-direction:column;
       gap:1rem;

@@ -19,11 +19,7 @@ import SearchForm from "../../Layout/UXElements/components/SearchForm";
 
 const Recipes = () => {
 
-    // const loader = useLoaderData()
-
-    // const recipesCopy = useLoaderData()
     const {recipes} = useSelector((state) => state.recipes);
-    const {recipesQuerry} = useSelector((state) => state.recipes);
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
     const [isAdmin, setAdmin] = useState(true);
@@ -34,7 +30,7 @@ const Recipes = () => {
 
     const handleChangeSearch = (event) => {
         if (event.target.value.length === 0) setCopy(recipes)
-        const searchedRecipes = recipes.filter((recipe) => recipe.name.startsWith(event.target.value));
+        const searchedRecipes = recipes.filter((recipe) => recipe.name.toLowerCase().startsWith(event.target.value));
         setCopy(searchedRecipes);
     }
 

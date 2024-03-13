@@ -28,7 +28,6 @@ const Header = () => {
         
         const widthBox = boxProfile.current.offsetWidth;
         setBox(!isBox)
-        console.log(isBox)
         
         if (isBox) {
             boxProfile.current.style.transform = `translateX(${widthBox+10}px)`;
@@ -59,8 +58,8 @@ const Header = () => {
             <header id="header" className="header" style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
                 <h1>KoiKon<span>Mange</span></h1>
                 <h2 className="headerH1initial hidden">KK<span>M</span></h2>
-                <div ref={headerRightSideElement} className={menuOpen?'header__rightSide':'header__rightSide hideNav'}>
-                    <nav className="header-rightSide__nav">
+                <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
+                    <nav className="header-middleSide__nav">
                         <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
                         <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
                         
@@ -77,34 +76,32 @@ const Header = () => {
                         
                         <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
                     </nav>
-                    
-                    <div>
-                        <CgProfile onClick={handleClick}  className="iconProfile"/>
-                        {isConnected?
-                            <div ref={boxProfile} className='header-rightSide__boxProfile '>
-                                
-                                <p>{name}</p> 
-                                <NavLink className="header-rightSide-boxProfile__settings" to="/profil">Paramètres <IoIosSettings/></NavLink>
-                                <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
-                            
-                            </div>
-                            :
-                            <div ref={boxProfile} className='header-rightSide__boxProfile'>
-                                
-                                <NavLink to="/signin">
-                                    <button className="btnBoxProfil">Se connecter</button>
-                                </NavLink>
-                                
-                                <NavLink to="/signup">
-                                    <button className="btnBoxProfil">Créer un compte</button>
-                                </NavLink>
-                            </div> 
-                            }
-                        
-                    </div>
                 </div>
+                <div className='header-rightSide'>
+                    <CgProfile onClick={handleClick}  className="iconProfile"/>
+                    {isConnected?
+                        <div ref={boxProfile} className='header-rightSide__boxProfile'>
+                            
+                            <p>{name}</p> 
+                            <NavLink className="header-rightSide-boxProfile__settings" to="/profil">Paramètres <IoIosSettings/></NavLink>
+                            <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
+                        
+                        </div>
+                        :
+                        <div ref={boxProfile} className='header-rightSide__boxProfile'>
+                            
+                            <NavLink to="/signin">
+                                <button className="btnBoxProfil">Se connecter</button>
+                            </NavLink>
+                            
+                            <NavLink to="/signup">
+                                <button className="btnBoxProfil">Créer un compte</button>
+                            </NavLink>
+                        </div> 
+                        }
 
-                <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorOrange)"}}/>
+                    <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorOrange)"}}/>
+                </div>
                 
             </header>
         </>
