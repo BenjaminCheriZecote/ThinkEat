@@ -17,7 +17,7 @@ import Select from "react-select";
 import ModalCreatingRecipe from './ModalCreateingRecipe';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
 import { Form, useLoaderData } from 'react-router-dom';
-import { RecipeApi } from '../../../api'
+import { FamilyApi, IngredientApi, RecipeApi } from '../../../api'
 import types from '../../../store/reducers/types';
 import {mappingUrlFunction} from '../../../helpers/httpQueries'
 import SearchForm from '../../Layout/UXElements/components/SearchForm';
@@ -106,5 +106,19 @@ export async function favoritesLoader({request}){
       store.dispatch({type:types.SET_RECIPES, payload: recipes})
       return recipes
     }
+    async function fetchDataFamilyApi() {
+        const families = await FamilyApi.getAll();
+        store.dispatch({type:types.SET_FAMILIES, payload: families})
+        return families 
+      }
+      await fetchDataFamilyApi()
+  
+      async function fetchDataIngredientApi() {
+        const ingredients = await IngredientApi.getAll();
+        store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
+        return ingredients
+      }
+      await fetchDataIngredientApi()
+
     return fetchDataRecipesApi();
 }

@@ -1,12 +1,12 @@
-import { apiBaseUrl } from "../../config";
-import store from "../../store";
-import { FamilyApi, IngredientApi, RecipeApi } from '../../api'
-import types from "../../store/reducers/types";
 import urlQueryJsonParser from "url-query-json-parser";
 import secondesConverterFunction from "../secondesConverterFunction";
 import formatterSecondesTime from "../formatterSecondesTime";
 
 export function mappingUrlFunction(urlClient,filter){
+    // si il n'y a pas d'urlClient, on sort de la fonction
+    if (!urlClient) {
+        return null
+    }
     const recipeQuery = []; 
     const ingredientQuery = [];
     const familyQuery = [];
@@ -17,53 +17,72 @@ export function mappingUrlFunction(urlClient,filter){
     const errorDataCookingTime = 'Erreur sur le temps de cuisson. Format de données non valide.';
     const timeSecondesMax = {};
     const timeSecondesMin = {};
-
-
-    if (!urlClient) {
-        return null
-    }
     
+    // récupération de la query du formulaire
     const urlSplited = urlClient.search;
+    // décodage des caractères spéciaux de la query
     const urlParsed = decodeURIComponent(urlSplited);
+    // supression du "?" en début de string
     const queryString = urlParsed.slice(1);
-
+    // création d'un tableau avec les données du formulaire
     const params = queryString.split('&');
+    
 
     const mappingParams = params.forEach((param) => {
         const parts = param.split('=');
         const result = [parts[0], '=', parts[1]];
+
+        // si le param est hunger
         if (result[0] === 'hunger') {
-            if (parts[1] === 'Copieux' || parts[1] === 'Normal' || parts[1] === 'Léger') {
-                const result2 = [parts[0], '=', parts[1]];
-                recipeCriteriaQuery.push(result2)
+            // et que sa valeur est 'Copieux', ou 'Normal', ou 'Léger'
+            if (result[2] === 'Copieux' || result[2] === 'Normal' || result[2] === 'Léger') {
+                // on push dans la variable recipeCriteriaQuery
+                recipeCriteriaQuery.push(result)
             }
         }
 
+        // si le param commence par 'preparatingTime'
         if (result[0].startsWith('preparatingTime')) {
+            // on récupère les les données entre les ':' dans un tableau
             let value = result[2].split(':');
+
+            // si on a bien un tableau de 3 valeurs
             if (value.length === 3) {
                 value.forEach((data) => {
+                    // on vérifie que chacunes d'elles peut-être converti en nombre
                     const parseValue = parseInt(data);
+
+                    // sinon on push une erreur et on sort de la fonction
                     if (parseValue == undefined || parseValue == isNaN) {
-                    return error.push(errorDataPreparatingTime)
+                        return error.push(errorDataPreparatingTime)
                     }
                 });
                 
                 const property = 'preparatingTime';
                 value = value.join(':');
+
+                // on récupère la string après 'preparatingTime', c.à.d soit 'min' soit 'max'
                 let operator = result[0].slice(15);
+
+                // si c'est 'min'
                 if (operator === 'min') {
+                    // la variable operator prend la valeur '>='
+                    // le temps de preparation doit être supérieur ou égale au temps minimal indiqué
                     operator = '>=';
                     const minimalTimeInSecondesPreparatingTime = secondesConverterFunction(value);
                     timeSecondesMin.preparatingTime = minimalTimeInSecondesPreparatingTime ;
                 }
+                // si c'est 'max'
                 if (operator === 'max') {
+                    // la variable operator prend la valeur '<='
+                    // le temps de preparation doit être inférieur ou égale au temps maximal indiqué 
                     operator = '<=';
                     const maximalTimeInSecondesPreparatingTime = secondesConverterFunction(value);
                     timeSecondesMax.preparatingTime = maximalTimeInSecondesPreparatingTime ;
                
                 }
-                
+                // le temps de préparation est une propriété de la table recipe dans la base de donnée
+                // on push dans la variable recipeQuery : le nom de la propriété, l'opérateur, la valeur
                 recipeQuery.push([property, operator, value]);
             } else return error = errorDataPreparatingTime
         }
@@ -93,21 +112,32 @@ export function mappingUrlFunction(urlClient,filter){
                 } else return error = errorDataCookingTime
             }
         }
-
+        // si le param est ingredients ou families
         if (result[0] === 'ingredients' || result[0] === 'families') {
+            // on récupère les valeurs des param 
+            // des id séparés par des '-' 
             const splitedIngredientValue = result[2].split("-");
             
+            // on les converti en nombre pour vérification
             const convertedArray = splitedIngredientValue.map((data) => {
                 const parseNumber = parseInt(data);
                 return parseNumber
             })
+            // si un valeur n'est pas convertible en nombre la valeur d'erreur devient true
             const foundErrorTypeData = convertedArray.find((data) => data == undefined || data == isNaN)
+
+            // si il n'y a pas d'erreur
             if (!foundErrorTypeData) {
+
                 splitedIngredientValue.forEach((data) => {
+                    // si le param est ingrédient
                     if (result[0] === "ingredients" && data !== '') {
+                        // variable avec le nom de la propriété, l'operateur, la valeur reconverti en string
                         const resultParam = ['id', '=', data.toString()]
+                        // on push dans ingrédientQuery
                         ingredientQuery.push(resultParam);
                     }
+
                     if (result[0] === "families" && data !== '') {
                         const resultParam = ["id", '=', data.toString()]
                         familyQuery.push(resultParam);
@@ -145,32 +175,37 @@ export function mappingUrlFunction(urlClient,filter){
     let stringOrderBy = '';
     let stringCriteria = '';
 
-    if (recipeQuery.length > 0) {
-        stringFilter = `${stringFilter}"recipe":${JSON.stringify(recipeQuery)},`;
-    }
-    if (ingredientQuery.length > 0) {
-        stringFilter = `${stringFilter}"ingredient":${JSON.stringify(ingredientQuery)},`
-    }
-    if (familyQuery.length > 0) {
-        stringFilter = `${stringFilter}"family":${JSON.stringify(familyQuery)},`
-    }
-    if (orderByQuery.length > 0) {
-        stringOrderBy = `${stringOrderBy}"orderBy":${JSON.stringify(orderByQuery)},`;
-    }
-    if (recipeCriteriaQuery.length > 0) {
-        stringCriteria = `${stringCriteria}"recipe":${JSON.stringify(recipeCriteriaQuery)},`
+    // typage demandé :
+    // filter={<nom de la table>:[[<nom de la propriété>,<operateur>,<valeur>]]...}
+    const builderStringFunction = (queryArray, string, tableName) => {
+
+        // on vérifie que les variables array ne soient pas vide
+        if (queryArray.length > 0) {
+            // afin d'être insérer dans les variables strings, on stringify les array
+            // string += `"${tableName}":${JSON.stringify(queryArray)},`;
+            string += `${tableName?`"${tableName}"`:""}:${JSON.stringify(queryArray)},`;
+        }
+        return string
     }
 
-    const filterProperty = `"filter":{${stringFilter}},`
-    const orderByProperty = `${stringOrderBy}`
-    const criteriaProperty = `"criteria":{${stringCriteria}},`
+    stringFilter = builderStringFunction(recipeQuery, stringFilter, "recipe");
+    stringFilter = builderStringFunction(ingredientQuery, stringFilter, "ingredient");
+    stringFilter = builderStringFunction(familyQuery, stringFilter, "family");
+
+    stringOrderBy = builderStringFunction(orderByQuery, stringOrderBy);
+
+    stringCriteria = builderStringFunction(recipeCriteriaQuery, stringCriteria, "recipe");
+
+    const filterProperty = `"filter":{${stringFilter}},`;
+    const orderByProperty = `"orderBy"${stringOrderBy}`;
+    const criteriaProperty = `"criteria":{${stringCriteria}},`;
 
     let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}}`;
-    // const test = '{"orderBy":[["name","=","ASC"]],}';
-    // console.log("orderByProperty :", orderByProperty)
-    // const test2 = orderByProperty.replace(/,\}/g, '}');
-    // console.log("testeuh : ", test2);
+
+    // regex pour remplacer la chaîne de caractère “,}” par “}”
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
+    
+    // parse de la string en objet au format JSON
     const objectQuery = JSON.parse(stringFinalObject);
     
     if (filter) {
@@ -191,5 +226,6 @@ export function mappingUrlFunction(urlClient,filter){
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
     // if (error.length) urlQuery = error;
     return urlQuery;
+ 
   
 }

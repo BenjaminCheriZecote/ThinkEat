@@ -35,10 +35,10 @@ import eh from './helpers/errorHandler.js'
 const router = createBrowserRouter([									
 	{								
 		path: "",							
-		element: <App />, loader: eh(asideLoader),	
+		element: <App />,
+    // loader: eh(asideLoader)	
 		// errorElement: <Error404 />,									
 		children: [							
-      // { index: true, element: <Home />},
       { path:"/", element: <Home />, loader:eh(homeLoader)},
       { path: "/favorites", element: <Favorites />, action:eh(recipeAction), loader:eh(favoritesLoader) },
       { path: "/proposal", element: <Proposal />, loader:eh(proposaLoader) },

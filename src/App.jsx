@@ -23,15 +23,12 @@ function App() {
 
   return (
     <>
-      {/* <div id="app"> */}
-
         <Header/>
         {isAside &&
           <Aside />
         }
-              <Outlet />
-              <Footer/>
-      {/* </div> */}
+        <Outlet />
+        <Footer/>
     </>
   )
 }

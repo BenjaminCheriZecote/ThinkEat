@@ -41,7 +41,6 @@ const Header = () => {
     }
 
     const handleClickBurgerMenu = () => {
-        console.log(menuOpen)
         setMenuOpen((prevMenuOpen) => !prevMenuOpen)
     };
 
