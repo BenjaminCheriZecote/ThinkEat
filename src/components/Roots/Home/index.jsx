@@ -12,10 +12,3 @@ const Home = () => {
 }
 
 export default Home;
-
-export function homeLoader(){
-
-    store.dispatch({type:types.SET_IS_ASIDE_FALSE});
-    
-    return null;
-}

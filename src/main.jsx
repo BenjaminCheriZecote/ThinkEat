@@ -5,30 +5,42 @@ import store from './store/index.jsx';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Error404 from './components/Roots/ErrorElement/Error404/Error404.jsx'
+// import Error404 from './components/Roots/ErrorElement/Error404/Error404.jsx'
 
 import './styles/index.css';
 
-
 import App from './App.jsx'
-import Home, { homeLoader } from './components/Roots/Home/index.jsx';
-import Proposal, { proposaLoader } from './components/Roots/Proposal/index.jsx';
-import Favorites, { favoritesLoader } from './components/Roots/Favorites/index.jsx';
-import Historic, { historicLoader } from './components/Roots/Historic/index.jsx';
-import SignIn, { signInAction, signinLoader } from './components/Roots/SignIn/index.jsx';
-import SignUp, { signUpAction, signupLoader } from './components/Roots/SignUp/index.jsx';
-import ResetPassword, { resetPasswordAction } from './components/Roots/ResetPassword/index.jsx';
-import Recipes, { recipesLoader } from './components/Roots/Recipes/index.jsx';
-import Recipe, { recipeLoader } from './components/Roots/Recipe/index.jsx';
-import { validateAccountLoader } from './components/Roots/Validate/validateAccount.js';
-import ValidatePassword, { validatePasswordAction } from './components/Roots/Validate/validatePassword.jsx';
-
-import Profil, { profilLoader } from './components/Roots/Profile/index.jsx';
-import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
-import Account, { accountAction } from './components/Roots/Profile/Account/index.jsx';
+import Home from './components/Roots/Home/index.jsx';
+import { homeLoader } from './components/Roots/Home/homeLoader.js';
+import Proposal from './components/Roots/Proposal/index.jsx';
+import { proposalLoader } from './components/Roots/Proposal/proposalLoader.js';
+import Favorites from './components/Roots/Favorites/index.jsx';
+import { favoritesLoader } from './components/Roots/Favorites/favoritesLoader.js';
+import Historic from './components/Roots/Historic/index.jsx';
+import { historicLoader } from './components/Roots/Historic/historicLoader.js';
+import SignIn from './components/Roots/SignIn/index.jsx';
+import { signinLoader } from './components/Roots/SignIn/signinLoader.js';
+import { signInAction } from './components/Actions/signInAction.js';
+import SignUp from './components/Roots/SignUp/index.jsx';
+import { signUpAction } from './components/Actions/signUpAction.js';
+import { signupLoader } from './components/Roots/SignUp/signupLoader.js';
+import ResetPassword from './components/Roots/ResetPassword/index.jsx';
+import { resetPasswordAction } from './components/Actions/resetPasswordAction.js';
+import Recipes from './components/Roots/Recipes/index.jsx';
+import { recipesLoader } from './components/Roots/Recipes/recipesLoader.js';
+import Recipe from './components/Roots/Recipe/index.jsx';
+import { recipeLoader } from './components/Roots/Recipe/recipeLoader.js';
+import ValidatePassword from './components/Roots/Validate/validatePassword.jsx';
+import { validatePasswordAction } from './components/Actions/validatePasswordAction.js';
+import Profil from './components/Roots/Profile/index.jsx';
 import ProfilUser from './components/Roots/Profile/ProfileUser/index.jsx';
-import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
-import { recipeAction } from './components/Layout/UXElements/components/RecipeUX/index.jsx';
+import { profilLoader } from './components/Roots/Profile/profilLoader.js';
+import DietPreferences from './components/Roots/Profile/DietPreferences/index.jsx';
+import Account from './components/Roots/Profile/Account/index.jsx';
+import { accountAction } from './components/Actions/accountAction.js';
+import { validateAccountLoader } from './components/Roots/Validate/validateAccountLoader.js';
+// import { asideLoader } from './components/Layout/Partials/Aside/index.jsx';
+import { recipeAction } from './components/Actions/recipeAction.js';
 
 import eh from './helpers/errorHandler.js'
 
@@ -40,13 +52,13 @@ const router = createBrowserRouter([
 		// errorElement: <Error404 />,									
 		children: [							
       { path:"/", element: <Home />, loader:eh(homeLoader)},
-      { path: "/favorites", element: <Favorites />, action:eh(recipeAction), loader:eh(favoritesLoader) },
-      { path: "/proposal", element: <Proposal />, loader:eh(proposaLoader) },
+      { path: "/favorites", element: <Favorites />,loader:eh(favoritesLoader), action:eh(recipeAction),  },
+      { path: "/proposal", element: <Proposal />, loader:eh(proposalLoader) },
       { path: "/historic", element: <Historic />, loader:eh(historicLoader) },
       { path: "/signin", element: <SignIn />, loader:eh(signinLoader), action: eh(signInAction) },
       { path: "/signup", element: <SignUp />, loader:eh(signupLoader) ,action: eh(signUpAction)},
       { path: "/reset-password", element: <ResetPassword />, action: eh(resetPasswordAction) },
-      { path: "/recipes", element: <Recipes />, action:eh(recipeAction), loader:eh(recipesLoader) },
+      { path: "/recipes", element: <Recipes />,loader:eh(recipesLoader), action:eh(recipeAction)  },
       { path: "/recipes/:id",element: <Recipe />, loader: eh(recipeLoader), action:eh(recipeAction) },
       { path: "/validate/account/:uuid", element: <></>, loader: eh(validateAccountLoader) },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: eh(validatePasswordAction) },

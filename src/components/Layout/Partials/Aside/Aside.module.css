@@ -51,11 +51,9 @@ aside fieldset .asideformFilter__inputTimeContainer li {
   margin-bottom: 0.8rem;
 }
 
-
-
-aside fieldset div li {
-    display: flex;
-    align-items: center;
+.boxContainer {
+  display: flex;
+  align-items: center;
 }
 
 aside footer small {
@@ -286,8 +284,7 @@ form li {
     transform: scale(1);
   }
 }
-/* 
-BUTTONELEMENTS */
+/* BUTTONELEMENTS */
 
 .buttonElement {
   cursor: pointer;
@@ -309,8 +306,6 @@ BUTTONELEMENTS */
   box-shadow: rgba(240, 32, 8, 0.25) 0px 30px 60px -12px inset,
   rgba(255, 1, 1, 0.3) 0px 18px 36px -18px inset;
 }
-
-
 
 
 /* CHECKBOX BTN GENERATE PROPOSITION ASIDE  */

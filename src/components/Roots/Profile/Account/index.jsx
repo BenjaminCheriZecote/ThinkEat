@@ -1,15 +1,9 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, redirect, useSubmit } from "react-router-dom";
+import { Form, useSubmit } from "react-router-dom";
 
 import { CiTrash } from "react-icons/ci";
 import style from "./index.module.css"
-
-import store from "../../../../store/index.jsx"
-import types from "../../../../store/reducers/types/index.jsx";
-import { UserApi } from "../../../../api.js"
-import UserValidator from "../../../../helpers/validators/user.validator.js"
-import toast from "../../../../helpers/toast.js";
 
 export default function Account() {
   const submit = useSubmit();
@@ -114,44 +108,4 @@ export default function Account() {
       </Form>
     </main>
   )
-}
-
-export async function accountAction({request}) {
-  const {session} = store.getState();
-  switch (request.method) {
-    case "PATCH": {
-      const formData = await request.formData();
-      let data = {
-        name: formData.get("name"),
-        email: formData.get("email")
-      };
-
-      data = UserValidator.checkBodyForUpdate(data)
-
-      const { session }= store.getState();
-
-      const newUser = await UserApi.update(session.id,data);
-
-      localStorage.setItem('user', JSON.stringify(newUser));
-      store.dispatch({type: types.UPDATE_USER, payload:newUser});
-
-      toast.success("Mise à jour du compte effectué avec succès.")
-      return null
-    }
-    case "DELETE": {
-      const formData = await request.formData();
-      if (session.email !== formData.get("email")) {
-        throw new Error("Vous avez rentrer une mauvaise adresse mail.");
-      }
-      await UserApi.delete(session.id)
-      store.dispatch({type:"SIGNOUT"});
-
-      toast.success("Suppression du compte effectué avec succès.\nVous allez être redirigé.")
-      await new Promise(r => setTimeout(r, 3200));
-      return redirect("/");
-    }
-    default: {
-      throw new Response("Invalide methode", { status: 405 });
-    }
-  }
 }

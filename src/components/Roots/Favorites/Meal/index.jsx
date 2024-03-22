@@ -9,7 +9,7 @@ import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
 import { NavLink, useSubmit } from "react-router-dom";
 
 
-import RecipeUX, { recipeAction } from "../../../Layout/UXElements/components/RecipeUX";
+import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
 import { RecipeApi } from "../../../../api";
 
 const Meal = ({meal}) => {

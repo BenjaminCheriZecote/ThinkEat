@@ -1,53 +1,49 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
+import types from "./types";
 
 
-const initialState = {						
-	filters:[
-        {hungerBigFilter:false, name:"Copieux"},
-        {hungerNormalFilter:false, name:"Normal"},
-        {hungerFewFilter:false, name:"Léger"},
-        {preparatingTimeFilter:false, name:"Préparation"},
-        {cookingTimeFilter:false, name:"Cuisson"},
-        {favoriteFilter:true, name:"Favoris"},
-        {familyIngredientFilter:false, name:"Catégorie d'ingrédients"},
-        {ingredientFilter:false, name:"Ingrédients"},
-        {time:false, name:"Temps"},
-        {diet_preferences:[{vegetarien:false}, {crudivore:false}, {calorique:false}, {gluten:false}], name:"Régime alimentaire"},
-        {type_ingredients:null},
-        {person:null},
-        {filter:false}
-    ]				
+const initialState = {	
+    filters: {
+        numberOfProposition:0,
+        hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
+        preparatingTime: {min:"00:00",max:"23:59"},
+        cookingTime: {min:"00:00",max:"23:59"},
+        dietPreferences: [{name:"Vegetarien", state: false}, {name:"Vegetalien", state: false}, {name:"Crudivore", state:false}, {name:"Sans gluten", state: false}, {name:"Sans lactose", state: false}],
+        favoritesRecipes: {name:"Favoris", state:true},
+        filter:{name:"Filtrer", state:false}
+    }					
 }						
 						
 const filtersReducer = createReducer (initialState, (builder) => {						
 	builder
-    .addCase(createAction("SET_HUNGER_BIG_FILTER"), (state, action) => {					
-		state.filters[0].hungerBigFilter = !state.filters[0].hungerBigFilter;				
+    .addCase(createAction(types.ADD_NUMBER_OF_PROPOSITION), (state) => {					
+		state.filters.numberOfProposition = state.filters.numberOfProposition + 1	
 	})
-  .addCase(createAction("SET_HUNGER_NORMAL_FILTER"), (state) => {					
-		state.filters[1].hungerNormalFilter = !state.filters[1].hungerNormalFilter;				
+    .addCase(createAction(types.SUBTRACT_NUMBER_OF_PROPOSITION), (state) => {					
+		state.filters.numberOfProposition = state.filters.numberOfProposition - 1	
 	})
-    .addCase(createAction("SET_HUNGER_FEW_FILTER"), (state) => {					
-		state.filters[2].hungerFewFilter = !state.filters[2].hungerFewFilter;				
+    .addCase(createAction(types.SET_HUNGER_BIG), (state) => {					
+		state.filters.hunger[0].state = !state.filters.hunger[0].state;				
 	})
-    .addCase(createAction("SET_PREPARATING_TIME_FILTER"), (state) => {					
-		state.filters[3].preparatingTimeFilter = action.payload;
+    .addCase(createAction(types.SET_HUNGER_NORMAL), (state) => {					
+		state.filters.hunger[1].state = !state.filters.hunger[1].state;			
 	})
-    .addCase(createAction("SET_COOKING_TIME_FILTER"), (state) => {					
-		state.filters[4].cookingTimeFilter = action.payload;	
+    .addCase(createAction(types.SET_HUNGER_FEW), (state) => {					
+		state.filters.hunger[2].state = !state.filters.hunger[2].state;				
 	})
-  .addCase(createAction("SET_FAVORITES_FILTER"), (state) => {					
-		state.filters[5].favoriteFilter = !state.filters[5].favoriteFilter
+    .addCase(createAction(types.SET_PREPARATING_TIME), (state, action) => {					
+		state.filters.preparatingTime = action.payload;
 	})
-  .addCase(createAction("SET_FAMILY_FILTER"), (state) => {					
-		state.filters[6].familyIngredientFilter = !state.filters[6].familyIngredientFilter
+    .addCase(createAction(types.SET_COOKING_TIME), (state, action) => {					
+		state.filters.cookingTime = action.payload;	
 	})
-  .addCase(createAction("SET_INGREDIENT_FILTER"), (state) => {					
-		state.filters[7].ingredientFilter = !state.filters[7].ingredientFilter
+  .addCase(createAction(types.SET_FAVORITES_RECIPES), (state) => {					
+		state.filters.favoritesRecipes.state = !state.filters.favoritesRecipes.state
 	})
-  .addCase(createAction("TURN_FILTER"), (state) => {					
-		state.filters[12].filter = !state.filters[12].filter
+  
+  .addCase(createAction(types.TURN_FILTER), (state) => {					
+		state.filters.filter = !state.filters.filter
 	})
 
 })						

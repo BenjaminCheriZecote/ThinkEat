@@ -1,25 +1,14 @@
 import './Favorites.css';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import store from '../../../store';
 import Meal from './Meal';
-import { CiSearch } from "react-icons/ci";
-import { FaPlus } from 'react-icons/fa6';
 import AddPlus from '../../Layout/UXElements/icons/AddPlus';
 import { useSelector } from 'react-redux';
-import { FaSquarePlus } from "react-icons/fa6";
 import { FaSquareMinus } from 'react-icons/fa6';
-import { MdCancel } from "react-icons/md";
-import { FaCheck } from "react-icons/fa6";
 import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
-import Select from "react-select";
-import ModalCreatingRecipe from './ModalCreateingRecipe';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
-import { Form, useLoaderData } from 'react-router-dom';
-import { FamilyApi, IngredientApi, RecipeApi } from '../../../api'
-import types from '../../../store/reducers/types';
-import {mappingUrlFunction} from '../../../helpers/httpQueries'
+import { useLoaderData } from 'react-router-dom';
 import SearchForm from '../../Layout/UXElements/components/SearchForm';
 
 
@@ -90,35 +79,3 @@ const Favorites = () => {
 }
 
 export default Favorites;
-
-export async function favoritesLoader({request}){
-    const {session} = store.getState();
-
-    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
-
-    const url = new URL(request.url);
-
-    const urlClient = url;
-    const query = mappingUrlFunction(urlClient,{recipe : [["userId","=",session.id]]}); 
-
-    async function fetchDataRecipesApi() {
-      const recipes = await RecipeApi.getAll(query);
-      store.dispatch({type:types.SET_RECIPES, payload: recipes})
-      return recipes
-    }
-    async function fetchDataFamilyApi() {
-        const families = await FamilyApi.getAll();
-        store.dispatch({type:types.SET_FAMILIES, payload: families})
-        return families 
-      }
-      await fetchDataFamilyApi()
-  
-      async function fetchDataIngredientApi() {
-        const ingredients = await IngredientApi.getAll();
-        store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
-        return ingredients
-      }
-      await fetchDataIngredientApi()
-
-    return fetchDataRecipesApi();
-}

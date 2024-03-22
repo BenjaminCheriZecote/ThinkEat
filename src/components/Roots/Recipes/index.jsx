@@ -82,33 +82,3 @@ const Recipes = () => {
 }
 
 export default Recipes;
-
-export async function recipesLoader({request}){
-  store.dispatch({type:types.SET_IS_ASIDE_TRUE});
-
-  const url = new URL(request.url);
-
-  const urlClient = url;
-  const query = mappingUrlFunction(urlClient,{recipe : [["userId","is","null"]]});
-
-  async function fetchDataRecipesApi() {
-    const recipes = await RecipeApi.getAll(query);
-    store.dispatch({type:types.SET_RECIPES, payload: recipes})
-    return recipes
-  }
-  async function fetchDataFamilyApi() {
-    const families = await FamilyApi.getAll();
-    store.dispatch({type:types.SET_FAMILIES, payload: families})
-    return families 
-  }
-  await fetchDataFamilyApi()
-
-  async function fetchDataIngredientApi() {
-    const ingredients = await IngredientApi.getAll();
-    store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
-    return ingredients
-  }
-  await fetchDataIngredientApi()
-  
-  return fetchDataRecipesApi();
-}

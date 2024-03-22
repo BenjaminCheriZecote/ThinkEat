@@ -127,10 +127,10 @@ const OrderByComponent = () => {
                 </ul>
 
                 <legend>
-                    <button className="buttonOrderBy" type="button">
+                    <button className="buttonOrderBy" type="button" aria-label="Open and close button to sort recipes">
                         
-                        <label className="hamburger">
-                            <input type="checkbox"/>
+                        <label className="hamburger" htmlFor="humburgerOrderBy">
+                            <input type="checkbox" id="humburgerOrderBy"/>
                             <svg viewBox="0 0 32 32" onClick={handleClickOrderBy}>
                                 <path className="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
                                 <path className="line" d="M7 16 27 16"></path>
@@ -152,14 +152,14 @@ const OrderByComponent = () => {
                                         <div className={element.label} onClick={handleClickOrderByChoice}>
                                             <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
                                         </div>
-                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={setAscFunction}
-                                        />
-                                </li> 
+                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={setAscFunction}/>
+                                        
+                                    </li> 
 
                             )
                             
                         })}
-                        <button className="btnValidate" >Trier</button>
+                        <button className="btnValidate" aria-label="button to sort">Trier</button>
                     </ul> 
               
             </fieldset>    

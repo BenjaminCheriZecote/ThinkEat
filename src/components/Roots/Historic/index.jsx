@@ -36,13 +36,3 @@ const Historic = () => {
 }
 
 export default Historic;
-
-export async function historicLoader(){
-
-    store.dispatch({type:types.SET_IS_ASIDE_FALSE});
-
-    // const hystory = await HistoryApi.getAll();
-
-    // return hystory
-    return null
-}
