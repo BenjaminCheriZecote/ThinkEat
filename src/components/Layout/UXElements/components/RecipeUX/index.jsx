@@ -16,19 +16,17 @@ const recipeInit = {
   ingredients:[]
 }
 
-export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal }) {
+export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal, favorite}) {
 
   const error = useActionData();
 
   const user = useSelector((state) => state.session);
-  const criterias = useSelector((state) => state.criterias);
+  const {filters} = useSelector((state) => state.filters);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
   const units = useSelector((state) => state.units);
 
   const [inChange, setInChange] = useState(modal);
-  // const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);
-  // const [steps, setSteps] = useState();
   const [ingredients, setIngredients] = useState(recipe.ingredients || []);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const selectElement = useRef();
@@ -159,6 +157,9 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   return(
     <><Form className={modal ? `${modal} ${style.sectionRecipe} ${style.scrollY}` : `${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
+      {favorite &&
+        <input type="hidden" name="userId" value={user.id} />
+      }
       <div>
         <img src="/logo1.png" alt="Logo de Koikonmange" /> 
         <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
@@ -181,7 +182,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <div className={`${style.sectionRecipeField}`}>
             <label>Faim :</label>
             <select className={`${style.sectionRecipeFieldSelect}`} ref={selectElement} name="hunger" defaultValue={recipe.hunger}>
-              {!!criterias.hunger && criterias.hunger.map(({ name }, index) => (
+              {!!filters.hunger && filters.hunger.map(({ name }, index) => (
                 <option key={index} value={name}>{name}</option>
               ))}
             </select>

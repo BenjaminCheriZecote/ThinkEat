@@ -1,8 +1,8 @@
 import './Header.css';
 import { useRef, useState } from 'react';
 import store from '../../../../store';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { CgProfile } from "react-icons/cg";
 import { IoIosSettings } from "react-icons/io";
@@ -10,20 +10,24 @@ import { IoIosSettings } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 import BurgerMenu from '../../UXElements/components/BurgerMenu';
+import types from '../../../../store/reducers/types';
 
 const Header = () => {
     const {isAside} = useSelector((state) => state.isAside);
 
+    const dispatch = useDispatch()
+
     const boxProfile = useRef();
     const headerRightSideElement = useRef();
+
     const {isConnected} = useSelector((state) => state.session);
     const {name} = useSelector((state) => state.session);
     const {isAdmin} =useSelector((state) => state.session);
     const [isBox, setBox] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const navigate=  useNavigate()
-
+    const navigate=  useNavigate();
+    const {search} = useLocation();
     const handleClick = (event) => {
         
         const widthBox = boxProfile.current.offsetWidth;
@@ -31,11 +35,11 @@ const Header = () => {
         
         if (isBox) {
             boxProfile.current.style.transform = `translateX(${widthBox+10}px)`;
-            event.target.style.color = 'inherit'
+           
 
         } else {
             boxProfile.current.style.transform = `translateX(-${widthBox+17}px)`;
-            event.target.style.color = 'var(--colorOrange)'
+            
         }
         
     }
@@ -46,7 +50,7 @@ const Header = () => {
 
     const handleClickDeconnexion = () => {
         localStorage.removeItem("user");
-        store.dispatch({type:"SIGNOUT"})
+        dispatch({type:types.SIGNOUT})
         location.reload();
         navigate("/");
     };
@@ -59,21 +63,21 @@ const Header = () => {
                 <h2 className="headerH1initial hidden">KK<span>M</span></h2>
                 <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
                     <nav className="header-middleSide__nav">
-                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/" >Accueil</NavLink>
-                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/proposal">Propositions</NavLink>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search}`} >Accueil</NavLink>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/proposal${search && search}`}>Propositions</NavLink>
                         
                         {!isAdmin?
                             isConnected?
                             <>
-                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/favorites">Favoris</NavLink>
-                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/historic">Historique</NavLink>
+                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/favorites${search && search}`}>Favoris</NavLink>
+                                <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/history${search && search}`}>Historique</NavLink>
                             </>
                                 :
                                 ""
                                 :
                                 ""}
                         
-                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to="/recipes">Recettes</NavLink>
+                        <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/recipes${search && search}`}>Recettes</NavLink>
                     </nav>
                 </div>
                 <div className='header-rightSide'>
@@ -89,11 +93,11 @@ const Header = () => {
                         :
                         <div ref={boxProfile} className='header-rightSide__boxProfile'>
                             
-                            <NavLink to="/signin">
+                            <NavLink to={`/signin${search && search}`}>
                                 <button className="btnBoxProfil">Se connecter</button>
                             </NavLink>
                             
-                            <NavLink to="/signup">
+                            <NavLink to={`/signup${search && search}`}>
                                 <button className="btnBoxProfil">Créer un compte</button>
                             </NavLink>
                         </div> 

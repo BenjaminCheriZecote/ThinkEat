@@ -1,22 +1,11 @@
 .section {
     padding:2rem;
+}
 
-    &__divForm, &__divInput {
-        display: flex;
-        margin-bottom: 3rem;
-    }
-
-    &__divForm, &__article {
-        justify-content: space-between;
-    }
-
-    &__divInput div {
-        margin-left: 1rem;
-    }
-
-    &__article {
-        display:flex;
-    }
+.section-li__container--options {
+    width:4rem;
+    display: flex;
+    justify-content:flex-end;
 
 }
 

@@ -127,6 +127,17 @@ body > #root {
     width:80%;
     margin:0rem auto;
   }
+
+  /*  --signin/signup-breakpoint */
+  .section .section__form {
+    width:100%;
+    padding: 2rem 2.7rem;
+  }
+
+  .section {
+    overflow-x:hidden;
+    padding:0rem;
+  }
   
 }
 
@@ -135,6 +146,23 @@ body > #root {
   .multi-range-slider-container {
     width:100%;
   }
+  
+  .section .section__form {
+    width:50%;
+
+  }
+  .section .section__form h2 {
+    font-size:1.5rem;
+  }
+
+  .section .section__form a, .section .section__form label, .section .section-form__btn  {
+    font-size:0.8rem;
+  }
+
+  .section .section__form input {
+    padding:0.7rem;
+  }
+
   
 }
 

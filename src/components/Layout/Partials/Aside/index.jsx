@@ -1,14 +1,14 @@
 import store from '../../../../store'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Options from './Option/Option';
 import OptionChosen from './OptionChosen/OptionChosen';
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 // import './Aside.scss'
-import { NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { FamilyApi, IngredientApi } from '../../../../api'
+import { NavLink, useLocation, useSubmit } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+
 import style from './Aside.module.css'
 import { Form } from 'react-router-dom';
 import types from '../../../../store/reducers/types';
@@ -18,49 +18,56 @@ import BurgerMenu from '../../UXElements/components/BurgerMenu';
 
 
 const Aside = () => {
+    
+    const dispatch = useDispatch()
+    const filterButton = useRef();
+    const submit = useSubmit();
 
     const [activeSelectorFilter, setActiveSelectorFilter] = useState(null)
     const location = useLocation();
     const currentPath = location.pathname;
     const btnFooter = currentPath !== "/proposal" ? "Nouvelle proposition" : "C'est parti !";
-    const [menuOpen, setMenuOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false);
 
-    const navigate = useNavigate();
-    const {proposal} = useSelector((state) => state.proposal);
+    const {hunger, favoritesRecipes} = useSelector((state) => state.filters.filters)
 
-    const {families} = useSelector((state) => state.families);
-    const [familiesCopy, setFamiliesCopy] = useState(families);
-    const {familiesChoices} = useSelector((state) => state.families);
-    
-    const {ingredients} = useSelector((state) => state.ingredients);
+    const {ingredients, ingredientsChoices} = useSelector((state) => state.ingredients);
     const [ingredientsCopy, setIngredientsCopy] = useState(ingredients);
-    const {ingredientsChoices} = useSelector((state) => state.ingredients);
+    
+    const {families, familiesChoices} = useSelector((state) => state.families);
+    const [familiesCopy, setFamiliesCopy] = useState(families);
+    
+    const {generatedProposal, proposal} = useSelector((state) => state.proposal);
     
     const allFamilies = {families,familiesChoices,familiesCopy}
     const allIngredients = {ingredients, ingredientsChoices, ingredientsCopy}
     
     const [isRotatedFamilyIngredientSelect, setIsRotatedFamilyIngredient] = useState(false)
     const [isRotatedIngredientSelect, setIsRotatedIngredient] = useState(false)
+
     
-    const {hunger} = useSelector((state) => state.filters.filters)
-    const {favoritesRecipes} = useSelector((state) => state.filters.filters);
-    
+    useEffect(() => {
+        if (generatedProposal) {
+            submit(filterButton.current);
+        }
+        
+    }, [generatedProposal])
 
 
     const handleChangeHungerBigFilter = () => {
-        store.dispatch({type:types.SET_HUNGER_BIG});
+        dispatch({type:types.SET_HUNGER_BIG});
     }
 
     const handleChangeHungerNormalFilter = () => {
-        store.dispatch({type:types.SET_HUNGER_NORMAL});
+        dispatch({type:types.SET_HUNGER_NORMAL});
     }
 
     const handleChangeHungerFewFilter = () => {
-        store.dispatch({type:types.SET_HUNGER_FEW});
+        dispatch({type:types.SET_HUNGER_FEW});
     }
 
     const handleChangeFavoritesRecipes = () => {
-        store.dispatch({type:types.SET_FAVORITES_RECIPES})
+        dispatch({type:types.SET_FAVORITES_RECIPES})
     }
 
     const handleClickSelect = (selected) => {
@@ -95,13 +102,11 @@ const Aside = () => {
     }
 
     const handleClickStarterButton = () => {
-        store.dispatch({type:types.SET_STARTER});
-
+        if (currentPath === "/proposal") dispatch({type:types.GENERATE_PROPOSAL})
     }
 
     const handleClickBurgerMenu = () => {
         setMenuOpen(!menuOpen)
-
     }
 
     return(
@@ -218,11 +223,11 @@ const Aside = () => {
 
                 <footer>
                     <div>
-                        <input className={style.checkboxAside} id="favoritesRecipes" type="checkbox" onChange={handleChangeFavoritesRecipes} checked={favoritesRecipes.state?true:false}/>
+                        <input className={style.checkboxAside} id="favoritesRecipes" name="favoritesRecipes" value={favoritesRecipes.state} type="checkbox" onChange={handleChangeFavoritesRecipes} checked={favoritesRecipes.state?true:false}/>
                         <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
                     </div>
                
-                    <button className={style.buttonElement}>Filtrer</button>
+                    <button ref={filterButton} className={style.buttonElement}>Filtrer</button>
                 </footer>        
 
             </Form>
@@ -255,21 +260,3 @@ const Aside = () => {
 };
 
 export default Aside;
-
-// export async function asideLoader() {
-//     async function fetchDataFamilyApi() {
-//       const families = await FamilyApi.getAll();
-//       store.dispatch({type:types.SET_FAMILIES, payload: families})
-//       return families 
-//     }
-//     await fetchDataFamilyApi()
-
-//     async function fetchDataIngredientApi() {
-//       const ingredients = await IngredientApi.getAll();
-//       store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
-//       return ingredients
-//     }
-//     await fetchDataIngredientApi()
-
-//     return null;
-//   }

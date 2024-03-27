@@ -5,24 +5,16 @@ import types from "./types";
 
 const initialState = {	
     filters: {
-        numberOfProposition:0,
         hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
         preparatingTime: {min:"00:00",max:"23:59"},
         cookingTime: {min:"00:00",max:"23:59"},
         dietPreferences: [{name:"Vegetarien", state: false}, {name:"Vegetalien", state: false}, {name:"Crudivore", state:false}, {name:"Sans gluten", state: false}, {name:"Sans lactose", state: false}],
         favoritesRecipes: {name:"Favoris", state:true},
-        filter:{name:"Filtrer", state:false}
     }					
 }						
 						
 const filtersReducer = createReducer (initialState, (builder) => {						
 	builder
-    .addCase(createAction(types.ADD_NUMBER_OF_PROPOSITION), (state) => {					
-		state.filters.numberOfProposition = state.filters.numberOfProposition + 1	
-	})
-    .addCase(createAction(types.SUBTRACT_NUMBER_OF_PROPOSITION), (state) => {					
-		state.filters.numberOfProposition = state.filters.numberOfProposition - 1	
-	})
     .addCase(createAction(types.SET_HUNGER_BIG), (state) => {					
 		state.filters.hunger[0].state = !state.filters.hunger[0].state;				
 	})
@@ -40,10 +32,6 @@ const filtersReducer = createReducer (initialState, (builder) => {
 	})
   .addCase(createAction(types.SET_FAVORITES_RECIPES), (state) => {					
 		state.filters.favoritesRecipes.state = !state.filters.favoritesRecipes.state
-	})
-  
-  .addCase(createAction(types.TURN_FILTER), (state) => {					
-		state.filters.filter = !state.filters.filter
 	})
 
 })						

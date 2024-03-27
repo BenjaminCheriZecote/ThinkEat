@@ -1,4 +1,4 @@
-import {  IngredientApi, RecipeApi } from "../../api";
+import {  IngredientApi, RecipeApi, UserApi } from "../../api";
 import formatterSecondesTime from "../../helpers/formatterSecondesTime";
 import secondesConverterFunction from "../../helpers/secondesConverterFunction";
 import toast from "../../helpers/toast";
@@ -8,7 +8,6 @@ import store from "../../store";
 
 
 export async function recipeAction({ request, params }) {
-    const {session} = store.getState();
   
     switch (request.method) {
       case "PATCH": {
@@ -224,10 +223,15 @@ export async function recipeAction({ request, params }) {
         }
         
         const createdRecipe = await RecipeApi.create(data);
+
         if (createdRecipe.error) {
           toast.error({message:createdRecipe.error})
           return null
         }
+        if (formFields.userId) {
+          await UserApi.addRecipeToUser(formFields.userId, createdRecipe.id)
+        }
+
         const newIdFromCreatedRecipe = (createdRecipe.id).toString()
         // && mappingIngredientsId[0] == ''
         if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] === '') {
@@ -244,10 +248,6 @@ export async function recipeAction({ request, params }) {
             data.quantity = foundQuantityToAddInRecipe[1];
             if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
             
-            // const data = {
-            //   quantity:foundQuantityToAddInRecipe[1],
-            //   unitId:foundUnityToAddInRecipe[1],
-            // }
             await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
           }));
         }
@@ -257,10 +257,6 @@ export async function recipeAction({ request, params }) {
           const data = {};
             data.quantity = foundQuantityToAddInRecipe[1];
             if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-          // const data = {
-          //   quantity:foundQuantityToAddInRecipe[1],
-          //   unitId:foundUnityToAddInRecipe[1],
-          // }
           await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
         }
         toast.error("Test.")

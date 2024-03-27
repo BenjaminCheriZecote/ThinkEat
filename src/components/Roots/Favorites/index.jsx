@@ -1,24 +1,19 @@
 import './Favorites.css';
-import { useRef } from 'react';
 import { useEffect } from 'react';
 import Meal from './Meal';
 import AddPlus from '../../Layout/UXElements/icons/AddPlus';
-import { useSelector } from 'react-redux';
 import { FaSquareMinus } from 'react-icons/fa6';
 import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
 import { useLoaderData } from 'react-router-dom';
 import SearchForm from '../../Layout/UXElements/components/SearchForm';
-
-
+import { useSelector } from 'react-redux';
 
 const Favorites = () => {
 
-    const {isAside} = useSelector((state) => state.isAside);
-    const favorites = useLoaderData();
-
-    // const {favorites} = useSelector((state) => state.favorites);
+    // const favorites = useLoaderData();
+    const {favorites} = useSelector((state) => state.favorites);
     
     const [favoritesCopy, setCopy] = useState(favorites);
     const [openModeCreator, setCreatorMode] = useState(false);
@@ -61,7 +56,7 @@ const Favorites = () => {
 
                 {openModeCreator&&
                     <div className="backdrop">
-                        <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
+                        <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)} favorite={true}/>
                     </div>
                     }
 

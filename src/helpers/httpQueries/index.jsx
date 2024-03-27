@@ -227,5 +227,5 @@ export function mappingUrlFunction(urlClient,filter){
     // if (error.length) urlQuery = error;
     return urlQuery;
  
-  
+
 }

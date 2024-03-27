@@ -189,8 +189,12 @@ html, body, #root, .app {
         flex-flow:row wrap;
         justify-content: space-between;
         align-items: center;
-        margin-bottom:2rem;
+        
         z-index:2;
+    }
+
+    .section__divForm, section h2 {
+        margin-bottom:2rem;
     }
     
     .section__divForm > div {
@@ -199,7 +203,7 @@ html, body, #root, .app {
         gap:2rem;
     }
 
-    .section__divForm h2 {
+    .section__divForm h2, section h2 {
         font-family: "Poppins", sans-serif;
         font-size: 1.7rem;
         font-weight:400;

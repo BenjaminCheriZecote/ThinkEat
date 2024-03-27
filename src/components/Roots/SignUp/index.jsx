@@ -1,11 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { Form, redirect } from "react-router-dom";
-import { UserApi } from "../../../api"
-import UserValidator from "../../../helpers/validators/user.validator";
-import toast from "../../../helpers/toast";
-import store from "../../../store";
-import types from "../../../store/reducers/types";
+import { Form } from "react-router-dom";
 
 export default function SignUp() {
   return(

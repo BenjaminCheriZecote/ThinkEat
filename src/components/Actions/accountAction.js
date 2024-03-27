@@ -33,7 +33,7 @@ export async function accountAction({request}) {
           throw new Error("Vous avez rentrer une mauvaise adresse mail.");
         }
         await UserApi.delete(session.id)
-        store.dispatch({type:"SIGNOUT"});
+        store.dispatch({type:types.SIGNOUT});
   
         toast.success("Suppression du compte effectué avec succès.\nVous allez être redirigé.")
         await new Promise(r => setTimeout(r, 3200));

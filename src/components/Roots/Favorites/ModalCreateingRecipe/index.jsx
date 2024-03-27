@@ -12,8 +12,6 @@ import types from "../../../../store/reducers/types";
 const ModalCreatingRecipe = ({setModeCreator}) => {
 
     const {favorites} = useSelector((state) => state.favorites);
-    // const hungerBigName = useSelector((state) => state.criterias.criterias[1].name);
-    // const hungerFewName = useSelector((state) => state.criterias.criterias[2].name);
     const {hunger} = useSelector((state) => state.filters.filters);
     const [steps, setStep] = useState(['']);
     const [ingredients, setIngredient] = useState(['']);

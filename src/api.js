@@ -96,14 +96,15 @@ class CoreApi {
 }
 
 export class HistoryApi extends CoreApi {
-  static routeName = "hitory";
+  static routeName = "history";
 
-  static async addRecipeToHistory(historyId, recipeId) {
+  static async addRecipeToHistory(historyId, recipeId, data) {
     const token = await TokenApi.getValidToken();
 
-    const httpResponse = await fetch(`${apiBaseUrl}/history/${historyId}/ingredient/${recipeId}`, {
+    const httpResponse = await fetch(`${apiBaseUrl}/history/${historyId}/recipe/${recipeId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(data)
     });
   
     await this.errorHandler(httpResponse);
@@ -139,7 +140,7 @@ export class IngredientApi extends CoreApi {
   
     await this.errorHandler(httpResponse);
     
-    return await httpResponse.json();
+    return true;
   }
 
 
@@ -228,6 +229,57 @@ export class UserApi extends CoreApi {
     
     return true;
   }
+
+  static async addRecipeToUser(userId, recipeId) {
+    const token = await TokenApi.getValidToken();
+
+    const httpResponse = await fetch(`${apiBaseUrl}/user/${userId}/recipe/${recipeId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
+
+  static async removeRecipeToUser(userId, recipeId) {
+    const token = await TokenApi.getValidToken();
+
+    const httpResponse = await fetch(`${apiBaseUrl}/user/${userId}/recipe/${recipeId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
+
+  static async getRecipeToUser(query = null, userId) {
+    let token;
+    try {
+      token = await TokenApi.getValidToken();
+    } catch (err) {
+      if (err.httpStatus !== 401) {
+        throw err
+      }
+      token = null
+    }
+
+    let url = `${apiBaseUrl}/user/${userId}/recipe`;
+    if (query) {
+      url += `?${query}`;
+    }
+    const httpResponse = await fetch(url, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+    await this.errorHandler(httpResponse);
+
+    return await httpResponse.json();
+
+  }
+
 }
 
 class TokenApi {
@@ -275,7 +327,7 @@ class TokenApi {
     this.addNewTokken(newTokens);
   }
   static deleteToken() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("tokens");
   }
   static async errorHandler(res) {
     if (res.ok) return;

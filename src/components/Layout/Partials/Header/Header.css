@@ -65,6 +65,7 @@
 
 .iconProfile {
     cursor: pointer;
+    color:var(--colorOrange)
 }
 
 

@@ -3,16 +3,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Meal from "./Meal2";
 import { FaSquareMinus } from "react-icons/fa6";
-import { mappingUrlFunction } from "../../../helpers/httpQueries";
 import AddPlus from '../../Layout/UXElements/icons/AddPlus';
 
-
-// import '../../../styles/App.scss'
 import './Recipe.css';
 
-import { FamilyApi, IngredientApi, RecipeApi, UserApi } from "../../../api"
-import store from "../../../store";
-import types from "../../../store/reducers/types";
 import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
 import OrderByComponent from "../../Layout/UXElements/components/OrderByComponent";
 import SearchForm from "../../Layout/UXElements/components/SearchForm";
@@ -36,7 +30,8 @@ const Recipes = () => {
 
     const handleClickAddRecipe = () => {
         setCreatorMode((current) => !current) 
-    }       
+    }
+
     
 
     return(

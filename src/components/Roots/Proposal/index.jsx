@@ -1,57 +1,51 @@
 
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 
-
-
-import store from "../../../store";
-
-
 import './Proposal.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, useLoaderData, useLocation } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
-import { RecipeApi } from "../../../api";
+import { HistoryApi, RecipeApi, UserApi } from "../../../api";
 
 
 const Proposal = () => {
-
-    const {isAside} = useSelector((state) => state.isAside)
-    // const {starter} = useSelector((state) => state.proposal);
+    const dispatch = useDispatch();
     
+    const {isConnected, id} = useSelector((state) => state.session);
+    const {recipes} = useSelector((state) => state.proposal);
+    const {numberOfProposition, generatedProposal, proposal, historicalPropositions} = useSelector((state) => state.proposal);
 
-    const {isConnected} = useSelector((state) => state.session);
-    const {favorites} = useSelector((state) => state.favorites);
-    const {recipes} = useSelector((state) => state.recipes);
-    const {numberOfProposition} = useSelector((state) => state.filters.filters);
-    
-    const {proposal} = useSelector((state) => state.proposal)
-    const {historicalPropositions} = useSelector((state) => state.historicalPropositions);
+    useEffect(() => {
+        if (generatedProposal === false) {
+            setProposition();
+            dispatch({type:types.CLOSE_PROPOSAL})
+        }
+
+    }, [generatedProposal])
 
     const handleClickMinus = () => {
-        if (numberOfProposition !== 0) store.dispatch({type:types.SUBTRACT_NUMBER_OF_PROPOSITION});
+        if (numberOfProposition !== 0) dispatch({type:types.SUBTRACT_NUMBER_OF_PROPOSITION});
     }
-
+    
     const handleClickPlus = () => {
-        store.dispatch({type:types.ADD_NUMBER_OF_PROPOSITION});
+        dispatch({type:types.ADD_NUMBER_OF_PROPOSITION});
     }
 
     const handleChange = () => {
         //
     }
 
-    const handleSubmit = (event = null) => {
+    const handleSubmit = async (event = null) => {
         event.preventDefault();
-        store.dispatch({type:types.TURN_FILTER})
-        setProposition2();
+        dispatch({type:types.GENERATE_PROPOSAL});
     }
 
-    const setProposition2 = async () => {
-        const recipes = await RecipeApi.getAll();
+    const setProposition = async () => {
         const proposalsWithValidate = recipes.map(recipe => {
             return { ...recipe, validate: true }; // Crée un nouvel objet avec la propriété validate ajoutée
         });
@@ -62,20 +56,18 @@ const Proposal = () => {
             id: uuidv4(),
             array: limitedProposal
         }
-        store.dispatch({ type: types.SET_PROPOSAL, payload: objectProposal });
+        dispatch({ type: types.SET_PROPOSAL, payload: objectProposal });
     }
 
     const handleClickValidateChoices = async () => {
-        // const hystoryRecipes = await HistoryApi.getAll();
-
 
         if (proposal.array.length > 0) {
             const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
-            // const findProposal = hystoryRecipes.find((e) => e.historic.id === proposal.id);
             if (!findProposal) {
-                store.dispatch({type:"SET_HISTORIC", payload:[... historicalPropositions, {date:new Date().toLocaleString(), historic:proposal}]});
-                // const createdHistory = await HistoryApi.create()
-                //await PromiseAll(proposal.array.map(async (recipe) => await HistoryApi.addRecipeToHystory(createdHystory.id, recipe.id) );
+                const createdHistory = await HistoryApi.create({userId:id});
+                await Promise.all(proposal.array.map(async (recipe) => await HistoryApi.addRecipeToHistory(createdHistory.id, recipe.id, {validate:recipe.validate}) ));
+                
+                dispatch({type:types.SET_HISTORIC_PROPOSAL, payload:[... historicalPropositions, {date:new Date().toLocaleString(), historic:proposal}]});
             }
         }
     }
@@ -85,14 +77,14 @@ const Proposal = () => {
         <main className="outlet" style={{ gridColumn: '2 / -1' }}>
             <section className="section">
                 
-                    <Form className="section__start">
+                    <Form className="section__start" action="/proposal">
                         <div>
                             <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorOrange)"}} size={20}/>
                             <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
                             <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorOrange)"}} size={20}/>
                         </div>
   
-                        <button onClick={handleSubmit} className="buttonStarter">C'est parti !</button>
+                        <button onClick={handleSubmit} className="buttonStarter" id="starterButton">C'est parti !</button>
                     </Form>
             </section>
 

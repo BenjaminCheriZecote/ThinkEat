@@ -2,10 +2,10 @@
 import { IoStarOutline } from "react-icons/io5";
 
 
-const FavoriteStarOutline = () => {
+const FavoriteStarOutline = ({handleClick}) => {
 
     return(
-        <IoStarOutline className="starFavorite"/>
+        <IoStarOutline className="starFavorite" onClick={handleClick}/>
     )
 }
 

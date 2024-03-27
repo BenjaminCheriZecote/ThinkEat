@@ -16,8 +16,8 @@ import Proposal from './components/Roots/Proposal/index.jsx';
 import { proposalLoader } from './components/Roots/Proposal/proposalLoader.js';
 import Favorites from './components/Roots/Favorites/index.jsx';
 import { favoritesLoader } from './components/Roots/Favorites/favoritesLoader.js';
-import Historic from './components/Roots/Historic/index.jsx';
-import { historicLoader } from './components/Roots/Historic/historicLoader.js';
+import History from './components/Roots/History/index.jsx';
+import { historyLoader } from './components/Roots/History/historyLoader.js';
 import SignIn from './components/Roots/SignIn/index.jsx';
 import { signinLoader } from './components/Roots/SignIn/signinLoader.js';
 import { signInAction } from './components/Actions/signInAction.js';
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
       { path:"/", element: <Home />, loader:eh(homeLoader)},
       { path: "/favorites", element: <Favorites />,loader:eh(favoritesLoader), action:eh(recipeAction),  },
       { path: "/proposal", element: <Proposal />, loader:eh(proposalLoader) },
-      { path: "/historic", element: <Historic />, loader:eh(historicLoader) },
+      { path: "/history", element: <History />, loader:eh(historyLoader) },
       { path: "/signin", element: <SignIn />, loader:eh(signinLoader), action: eh(signInAction) },
       { path: "/signup", element: <SignUp />, loader:eh(signupLoader) ,action: eh(signUpAction)},
       { path: "/reset-password", element: <ResetPassword />, action: eh(resetPasswordAction) },

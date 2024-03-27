@@ -52,7 +52,7 @@ input::-webkit-inner-spin-button {
 }
 
 .section__btnValidate a {
-  color:var(--colorbg6);
+  color:var(--colorOrange);
   text-decoration: underline;
 }
 
@@ -68,7 +68,7 @@ input::-webkit-inner-spin-button {
   color: white;
   cursor: pointer;
   display: inline-flex;
-  font-family: 'Playpen Sans', cursive;
+  /* font-family: 'Playpen Sans', cursive; */
   font-family: "Poppins", sans-serif;
   height: 2rem;
   justify-content: center;
@@ -85,7 +85,7 @@ input::-webkit-inner-spin-button {
   touch-action: manipulation;
   white-space: nowrap;
   will-change: box-shadow,transform;
-  font-size: 18px;
+  font-size: 12px;
  }
  
  .btnValidate:focus {
@@ -101,6 +101,11 @@ input::-webkit-inner-spin-button {
   box-shadow: #D6D6E7 0 3px 7px inset;
   transform: translateY(2px);
  }
+
+ .section__btnValidate .btnValidate {
+  font-size:0.9rem;
+  padding:1.3rem 1rem;
+}
  
 
 .section__pNoResults {

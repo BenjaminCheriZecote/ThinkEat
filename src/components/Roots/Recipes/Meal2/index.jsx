@@ -1,29 +1,28 @@
 
-import store from "../../../../store";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import EditPen from "../../../Layout/UXElements/icons/EditPen";
 import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
 import FavoriteStar from "../../../Layout/UXElements/icons/FavoriteStar";
 import FavoriteStarOutline from "../../../Layout/UXElements/icons/FavoriteStarOutline";
-import { RecipeApi } from "../../../../api";
+import { RecipeApi, UserApi } from "../../../../api";
 import types from "../../../../store/reducers/types";
 import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
 
 
 const Meal = ({meal}) => {
 
-    const {isConnected} = useSelector((state) => state.session);
-    const {isAdmin} =useSelector((state) => state.session);
+    const dispatch = useDispatch()
+    const {id, isConnected, isAdmin} = useSelector((state) => state.session)
     const {favorites} = useSelector((state) => state.favorites);
-    const {recipes} = useSelector((state) => state.recipes);
     const [recipeDetails, setRecipeDetails] = useState()
     const [updateMode, setUpdateMode] = useState(false);
     
     const handleClickDelete = async () => {
         await RecipeApi.delete(meal.id);
-        store.dispatch({type:types.SET_RECIPES, payload:await RecipeApi.getAll()});
+        dispatch({type:types.SET_RECIPES, payload:await RecipeApi.getAll()});
     }
 
     const handleClickUpdate = async () => {
@@ -32,14 +31,15 @@ const Meal = ({meal}) => {
         setUpdateMode(true)
     }
 
-    const handleClickAddFavorites = () => {
-        store.dispatch({type:types.SET_FAVORITES, payload:[...favorites, meal] })
+    const handleClickAddFavorites = async () => {
+        await UserApi.addRecipeToUser(id, meal.id);
+        dispatch({type:types.SET_FAVORITES, payload:[...favorites, meal] })
+
     }
 
     const handleClickDeleteFavorites = async () => {
-        const updatedRecipes = favorites;
-        const filteredFavorites = updatedRecipes.filter((element) => element.id !== meal.id);
-        store.dispatch({type:types.SET_FAVORITES, payload:filteredFavorites })
+        await UserApi.removeRecipeToUser(id, meal.id);
+        dispatch({type:types.SET_FAVORITES, payload: await UserApi.getRecipeToUser(null, id) })
     }
 
 
@@ -62,9 +62,9 @@ const Meal = ({meal}) => {
                         :
                         isConnected?
                         favorites.find((element) => element.id === meal.id)?
-                            <FavoriteStar onClick={handleClickDeleteFavorites}/>
+                            <FavoriteStar handleClick={handleClickDeleteFavorites}/>
                             :
-                            <FavoriteStarOutline onClick={handleClickAddFavorites}/>
+                            <FavoriteStarOutline handleClick={handleClickAddFavorites}/>
                             :
                             ""
                     }

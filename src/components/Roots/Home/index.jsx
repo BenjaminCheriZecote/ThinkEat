@@ -1,5 +1,4 @@
-import store from "../../../store";
-import types from "../../../store/reducers/types";
+
 
 const Home = () => {
     

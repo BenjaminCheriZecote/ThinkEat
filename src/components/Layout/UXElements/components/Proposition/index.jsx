@@ -8,17 +8,18 @@ import FavoriteStarOutline from "../../icons/FavoriteStarOutline";
 import { NavLink } from "react-router-dom";
 
 import './Proposition.css'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store from "../../../../../store";
 import types from "../../../../../store/reducers/types";
 
 
 
-const Proposition = ({proposition, historic}) => {
+const Proposition = ({proposition, history}) => {
 
+    const {isConnected} = useSelector((state) => state.session);
     const {proposal} = useSelector((state) => state.proposal)
-    const {favorites} = useSelector((state) => state.favorites)
-
+    const {favorites} = useSelector((state) => state.favorites);
+    const dispatch = useDispatch()
 
     const handleClickDeleteProposition = (event) => {
         
@@ -27,7 +28,7 @@ const Proposition = ({proposition, historic}) => {
         const updatedProposalArray = [...proposal.array];
         updatedProposalArray[foundIndexRecipe] = {...updatedProposalArray[foundIndexRecipe], validate:false}
         copyProposal.array = updatedProposalArray
-        store.dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
+        dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
         event.target.closest("li").style.backgroundColor = "#fafafa";
         event.target.closest("li").style.filter = "grayscale(70%)"
     };
@@ -38,7 +39,7 @@ const Proposition = ({proposition, historic}) => {
         const updatedProposalArray = [...proposal.array];
         updatedProposalArray[foundIndexRecipe] = {...updatedProposalArray[foundIndexRecipe], validate:true}
         copyProposal.array = updatedProposalArray
-        store.dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
+        dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
         event.target.closest("li").style.backgroundColor = "white",
         event.target.closest("li").style.filter= "grayscale(0%)"
     }
@@ -46,7 +47,7 @@ const Proposition = ({proposition, historic}) => {
     return(
         <li className={proposition.validate? "liProposotion validate":"liProposotion unvalidate"}>
             <div className="liProposotion__imgContainer">
-                <img src={proposition.image === null?"/default-img.jpg":proposition.image} alt="" />
+                <img src={proposition.image === null?"/default-img.jpg":proposition.image} alt={`${proposition.name}`} />
             </div>
             <div className="liProposotion__legendContainer">
                 <p className="liProposotion__p--name">
@@ -54,19 +55,21 @@ const Proposition = ({proposition, historic}) => {
                 </p>
                 <div>
                     <NavLink to={`/recipes/${proposition.id}`}>Voir la recette</NavLink>
-                    {favorites.find((recipe) => recipe.id === proposition.id)?
+                    {isConnected?
+                    favorites.find((recipe) => recipe.id === proposition.id)?
                         <FavoriteStar />
                         :
                         <FavoriteStarOutline />
+                        :
+                        ""
                         }
                 </div>
             </div>
 
-            {historic?
-                <div className="liProposotion__choiceBox">
-                                    
-                <IoCartOutline />
-            </div>
+            {history?
+                <div className="liProposotion__choiceBox">        
+                    <IoCartOutline />
+                </div>
             :
             <div className="liProposotion__choiceBox">
                     <ValidateCheck handleClick={handleClickValidateProposition}/>

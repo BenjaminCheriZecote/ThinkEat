@@ -1,26 +1,28 @@
-import { FaPlus } from "react-icons/fa6";
-import { MdCancel } from "react-icons/md";
-import store from "../../../../store";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { FaPen } from "react-icons/fa";
 import EditPen from "../../../Layout/UXElements/icons/EditPen";
 import DeleteCruse from "../../../Layout/UXElements/icons/DeleteCruse";
 import { NavLink, useSubmit } from "react-router-dom";
 
 
 import RecipeUX from "../../../Layout/UXElements/components/RecipeUX";
-import { RecipeApi } from "../../../../api";
+import { RecipeApi, UserApi } from "../../../../api";
+import store from "../../../../store";
+import types from "../../../../store/reducers/types";
 
 const Meal = ({meal}) => {
 
+    const dispatch = useDispatch()
+    const {id} = useSelector((state) => state.session)
     const {favorites} = useSelector((state) => state.favorites);
     const [recipeDetails, setRecipeDetails] = useState()
     const [updateMode, setUpdateMode] = useState();
-    const submit = useSubmit()
     
-    const handleClickDelete = () => {
-      submit(null,{method: "delete"});
+    const handleClickDelete = async () => {
+    await UserApi.removeRecipeToUser(id, meal.id);
+    dispatch({type:types.REMOVE_RECIPE_FROM_FAVORITES, payload:meal.id});
+    
     }
 
     const handleClickUpdate = async () => {
@@ -42,10 +44,12 @@ const Meal = ({meal}) => {
                             <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)} recipe={recipeDetails}/>
                         </div>
                         }
-                        
-                    <button onClick={handleClickUpdate}>
-                    <EditPen />
-                    </button>
+                    
+                    {(meal.userId === id) &&
+                        <button onClick={handleClickUpdate}>
+                        <EditPen />
+                        </button>
+                    }
 
                     <button onClick={handleClickDelete}>
                     <DeleteCruse/>
