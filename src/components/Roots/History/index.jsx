@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 const History = () => {
     
-    const {history} = useSelector((state) => state.history)
+    const {history} = useSelector((state) => state.history);
     const dispatch = useDispatch();
 
     const handleDelete = async (event) => {
@@ -27,24 +27,24 @@ const History = () => {
             <section className="section">
                 <h2>Historique</h2>
                     {history.length > 0?
-                        history.map((history, index) => {
-                            <ul className="section__ulContainer">
-                                    return(
-                                        <li data-id={history.historyid} key={index} className="section-ulContainer__li">
-                                            <div>
-                                                <span>
-                                                    <p>{history.date}</p>
-                                                    <IoCartOutline className="section-ulContainer-li--cartShopping" size={16}/>
-                                                </span>
-                                                <DeleteTrash handleClick={handleDelete}/>
-                                            </div>
-                                            
-                                            <Proposition history={history}/>
-                                            
-                                        </li>
-                                    )
-                            </ul>
-                        })
+                        <ul className="section__ulContainer">
+                            {history.map((history, index) => {
+                                return(
+                                    <li data-id={history.historyid} key={index} className="section-ulContainer__li">
+                                        <div>
+                                            <span>
+                                                <p>{history.date}</p>
+                                                <IoCartOutline className="section-ulContainer-li--cartShopping" size={16}/>
+                                            </span>
+                                            <DeleteTrash handleClick={handleDelete}/>
+                                        </div>
+                                        
+                                        <Proposition history={history}/>
+                                        
+                                    </li>
+                                )
+                            })}
+                        </ul>
                     :
                         <p style={{fontFamily: "Poppins, sans-serif"}}>Aucun historique, génère des idées de repas <NavLink style={{color: "var(--colorOrange)", textDecoration:"underline"}}>ici</NavLink>.</p>
                     }

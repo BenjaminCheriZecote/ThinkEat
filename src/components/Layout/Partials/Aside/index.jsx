@@ -1,4 +1,4 @@
-import store from '../../../../store'
+
 import { useDispatch, useSelector } from 'react-redux';
 import Options from './Option/Option';
 import OptionChosen from './OptionChosen/OptionChosen';
@@ -29,7 +29,6 @@ const Aside = () => {
     const btnFooter = currentPath !== "/proposal" ? "Nouvelle proposition" : "C'est parti !";
     const [menuOpen, setMenuOpen] = useState(false);
     const {isConnected} = useSelector((state) => state.session);
-    console.log(isConnected)
 
     const {hunger, favoritesRecipes} = useSelector((state) => state.filters.filters)
 

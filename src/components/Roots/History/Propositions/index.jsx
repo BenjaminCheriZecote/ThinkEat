@@ -1,11 +1,8 @@
 import './Proposition.css'
-import { useSelector } from 'react-redux';
 import Proposition from '../../../Layout/UXElements/components/Proposition';
 
 
 const Propositions = ({history}) => {
-    const {favorites} = useSelector((state) => state.favorites);
-
     return(
         <>
             <ul className="ulContainer">
