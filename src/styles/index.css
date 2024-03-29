@@ -26,6 +26,7 @@
   --colorbg6: #cadbd7;
   --colorbg7:rgb(198, 173, 134);
   --colorGrey: #ada28f;
+  --colorGreyHome: rgba(68, 68, 68, 0.714);
 
   --colorBtnStarterAside: rgb(80, 152, 104);
 
@@ -117,6 +118,7 @@ body > #root {
     display:flex;
     flex-direction: column;
     gap:0rem;
+    overflow-y:scroll;
   }
 
   #footer {
@@ -138,7 +140,26 @@ body > #root {
     overflow-x:hidden;
     padding:0rem;
   }
-  
+
+
+  #header #header__section-tittle {
+    padding:0rem 2rem 2rem 2rem;
+    width:60%;
+  }
+
+  #header__section-tittle h2 {
+    font-size:2rem;
+  }
+
+  #header__section-tittle p {
+    display:none;
+  }
+
+  #header__section-tittle a {
+    position:absolute;
+    bottom:1.4rem;
+  }
+
 }
 
 @media screen and (max-width: 400px) {
@@ -162,6 +183,20 @@ body > #root {
   .section .section__form input {
     padding:0.7rem;
   }
+
+  #header #header__section-tittle {
+    width:100%;
+  }
+
+  #header__section-tittle h2 {
+    font-size:1.8rem;
+  }
+
+  #header__section-tittle a {
+    font-size:0.9rem;
+    padding:0.7rem;
+  }
+
 
   
 }

@@ -1,13 +1,13 @@
 import './index.css'
 
-const BurgerMenu = ({handleClick, color}) => {
+const BurgerMenu = ({handleClick, color, label}) => {
 
     // background: var(--colorbg4);
 
     return(
         <>
-            <label className="burgerHeader" >
-                <input  onClick={handleClick} type="checkbox"/>
+            <label className="burgerHeader" htmlFor={label}>
+                <input  onClick={handleClick} type="checkbox" id={label}/>
                 <span style={color}></span>
                 <span style={color}></span>
                 <span style={color}></span>

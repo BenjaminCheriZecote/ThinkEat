@@ -60,16 +60,17 @@ export default function DoubleInputRange({label, name}) {
         />
       <div className="divOutput">
 
-        <label htmlFor="" >{label}</label>
+        <label htmlFor={label}>{label}
+              <input type="hidden" name={`${name}min`} value={minTimeCaption} id={label}/>
+              <input type="hidden" name={`${name}max`} value={maxTimeCaption} id={label}/>
+        </label>
           <div className="divOutputContainer">
             <span>
               {minTimeCaption}
-              <input type="hidden" name={`${name}min`} value={minTimeCaption}/>
             </span>
             <AlarmTime />
             <span>
               {maxTimeCaption}
-              <input type="hidden" name={`${name}max`} value={maxTimeCaption}/>
             </span>
           </div>
         </div>

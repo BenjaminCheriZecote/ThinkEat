@@ -1,6 +1,5 @@
 .liProposotion {
     width:9rem;
-    /* // border:1px black solid; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,7 +7,6 @@
     
     border-radius: 0.3rem;
     position: relative;
-    /* // padding:2rem 2rem 0.5rem 2rem; */
     padding:0.5rem 0.5rem;
 }
 

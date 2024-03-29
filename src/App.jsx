@@ -10,7 +10,7 @@ import Aside from './components/Layout/Partials/Aside';
 
 function App() {
   
-  const {isAside} = useSelector((state) => state.isAside)
+  const {isAside} = useSelector((state) => state.isAside);
 
   return (
     <>

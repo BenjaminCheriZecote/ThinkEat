@@ -28,6 +28,8 @@ const Aside = () => {
     const currentPath = location.pathname;
     const btnFooter = currentPath !== "/proposal" ? "Nouvelle proposition" : "C'est parti !";
     const [menuOpen, setMenuOpen] = useState(false);
+    const {isConnected} = useSelector((state) => state.session);
+    console.log(isConnected)
 
     const {hunger, favoritesRecipes} = useSelector((state) => state.filters.filters)
 
@@ -112,7 +114,7 @@ const Aside = () => {
     return(
     <>
     <aside id="aside" className={style.aside}>
-            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorbg1)"}}/>
+            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorbg1)"}} label={"burgerAside"}/>
 
         <div className={menuOpen?'':`${style.hideAside}`}>
             {/* mettre le mot "Filter" dans la classe du Form */}
@@ -222,10 +224,21 @@ const Aside = () => {
 
 
                 <footer>
-                    <div>
-                        <input className={style.checkboxAside} id="favoritesRecipes" name="favoritesRecipes" value={favoritesRecipes.state} type="checkbox" onChange={handleChangeFavoritesRecipes} checked={favoritesRecipes.state?true:false}/>
-                        <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
-                    </div>
+                    {isConnected && currentPath === '/proposal' &&
+                        <div>
+                            <input 
+                            className={style.checkboxAside} 
+                            id="favoritesRecipes" 
+                            name="favoritesRecipes" 
+                            value={favoritesRecipes.state} 
+                            type="checkbox" 
+                            onChange={handleChangeFavoritesRecipes} 
+                            checked={favoritesRecipes.state?true:false} 
+                            />
+
+                            <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
+                        </div>
+                    }
                
                     <button ref={filterButton} className={style.buttonElement}>Filtrer</button>
                 </footer>        

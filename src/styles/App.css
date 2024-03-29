@@ -8,6 +8,29 @@ html, body, #root, .app {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     }
+    #root::-webkit-scrollbar {
+        display: none;
+    }
+    #root {
+        -ms-overflow-style: none; 
+        scrollbar-width: none;
+    }
+    #root {
+        overflow: auto;
+        -ms-overflow-style: none;
+        scrollbar-color: transparent transparent;
+    }
+
+
+    /* #root::-webkit-scrollbar {
+        opacity: 0; 
+        visibility: hidden; 
+    }
+      #root:hover::-webkit-scrollbar {
+        opacity: 1; 
+        visibility: visible; 
+    } */
+
     #header {
         grid-column: 1 / -1;
         grid-row: 1 / 2;
@@ -26,10 +49,6 @@ html, body, #root, .app {
     #footer {
         grid-column: 1 / -1;
         grid-row: -1 / -2;
-    }
-
-    .app-wrapper__content {
-        overflow-y: scroll;
     }
 
     /* // modal */

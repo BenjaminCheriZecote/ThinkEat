@@ -63,6 +63,14 @@ aside footer small {
 aside footer {
   display: flex;
   justify-content: space-between;
+  justify-content: flex-end;
+  
+}
+
+.aside footer div {
+  margin-right:auto;
+  display:flex;
+  align-items: center;
 }
 
 .asideFormCriteria__foodContainer {
