@@ -147,6 +147,30 @@ export class IngredientApi extends CoreApi {
 }
 export class RecipeApi extends CoreApi {
   static routeName = "recipe";
+
+  static async getProposal(query = null) {
+    let token;
+    try {
+      token = await TokenApi.getValidToken();
+    } catch (err) {
+      if (err.httpStatus !== 401) {
+        throw err
+      }
+      token = null
+    }
+
+    let url = `${apiBaseUrl}/proposal`;
+    if (query) {
+      url += `?${query}`;
+    }
+    const httpResponse = await fetch(url, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    await this.errorHandler(httpResponse);
+
+    const proposal = await httpResponse.json();
+    return proposal;
+  }
 }
 export class UnitApi extends CoreApi {
   static routeName = "unit";

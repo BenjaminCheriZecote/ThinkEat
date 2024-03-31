@@ -204,9 +204,9 @@ export function mappingUrlFunction(urlClient,filter){
 
     // regex pour remplacer la chaîne de caractère “,}” par “}”
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
-    
     // parse de la string en objet au format JSON
     const objectQuery = JSON.parse(stringFinalObject);
+    
     
     if (filter) {
       Object.entries(filter).forEach(([tableName,data]) => {
