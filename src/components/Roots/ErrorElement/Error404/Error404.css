@@ -5,11 +5,16 @@
     box-shadow:none;
   
   } */
+  #root main .error404 {
+    border:1px red solid;
+    width: 100%;
+  }
+
   .error404 {
     background-image: url('/404-Chuck-norris.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: right center;
+    background-position: left center;
     height:100%;
 }
 .sectionErrorPage h1{
@@ -47,7 +52,6 @@
 @media screen and (max-width: 1400px) { /*  --mobile-breakpoint */
  .error404 {
   background-position: left bottom;
-  
  } 
 
  .sectionErrorPage h1 {

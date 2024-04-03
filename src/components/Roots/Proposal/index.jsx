@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,10 +7,10 @@ import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 
 import './Proposal.css';
-import { NavLink, useLoaderData, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
-import { HistoryApi, RecipeApi, UserApi } from "../../../api";
+import { HistoryApi } from "../../../api";
 
 
 const Proposal = () => {

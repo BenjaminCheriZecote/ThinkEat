@@ -7,29 +7,15 @@ html, body, #root, .app {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    }
-    #root::-webkit-scrollbar {
-        display: none;
-    }
-    #root {
         -ms-overflow-style: none; 
         scrollbar-width: none;
-    }
-    #root {
         overflow: auto;
         -ms-overflow-style: none;
         scrollbar-color: transparent transparent;
     }
-
-
-    /* #root::-webkit-scrollbar {
-        opacity: 0; 
-        visibility: hidden; 
+    #root::-webkit-scrollbar {
+        display: none;
     }
-      #root:hover::-webkit-scrollbar {
-        opacity: 1; 
-        visibility: visible; 
-    } */
 
     #header {
         grid-column: 1 / -1;

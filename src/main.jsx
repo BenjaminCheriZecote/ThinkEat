@@ -5,7 +5,7 @@ import store from './store/index.jsx';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import Error404 from './components/Roots/ErrorElement/Error404/Error404.jsx'
+import Error404 from './components/Roots/ErrorElement/Error404/Error404.jsx'
 
 import './styles/index.css';
 
@@ -47,9 +47,7 @@ import eh from './helpers/errorHandler.js'
 const router = createBrowserRouter([									
 	{								
 		path: "",							
-		element: <App />,
-    // loader: eh(asideLoader)	
-		// errorElement: <Error404 />,									
+		element: <App />,								
 		children: [							
       { path:"/", element: <Home />, loader:eh(homeLoader)},
       { path: "/favorites", element: <Favorites />,loader:eh(favoritesLoader), action:eh(recipeAction),  },
@@ -67,9 +65,10 @@ const router = createBrowserRouter([
         { index:true, element: <ProfilUser/>, loader:eh(profilLoader) },
         { path: "diet-preferences", element: <DietPreferences/> },
         { path: "account", element: <Account/>, action:eh(accountAction) },
-      ]}		
+      ]},	
 		],
-	},								
+	},
+  { path: "*", element: <Error404 /> }									
 ]);	
 
 

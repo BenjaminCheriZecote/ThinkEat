@@ -57,7 +57,10 @@ const Header = () => {
 
     return(
         <>
-            <header id="header" className={isHome?"header backgroundHome":"header"} style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'}}>
+            <header 
+            id="header" 
+            className={isHome?"header backgroundHome":"header"} 
+            style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'}}>
                 <div className={isHome?"headerTop":"headerTop "}>
 
                     <h1>KoiKon<span>Mange</span></h1>
@@ -116,7 +119,6 @@ const Header = () => {
                         </div>
                     </section>
                 }
-                
             </header>
         </>
     )
