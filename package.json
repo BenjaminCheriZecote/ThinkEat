@@ -1,0 +1,20 @@
+{
+  "name": "koikonmange",
+  "version": "1.0.0",
+  "description": "Project Gyoza - 2023/2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run dev:front --prefix ./front & npm run dev:back --prefix ./back"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenjaminCheriZecote/KoiKonMange.git"
+  },
+  "author": "Benjamin Chéri-Zécoté",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenjaminCheriZecote/KoiKonMange/issues"
+  },
+  "homepage": "https://github.com/BenjaminCheriZecote/KoiKonMange#readme"
+}
