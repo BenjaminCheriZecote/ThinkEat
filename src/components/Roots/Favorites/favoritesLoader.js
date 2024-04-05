@@ -11,7 +11,7 @@ export async function favoritesLoader({request}){
     const url = new URL(request.url);
 
     const urlClient = url;
-    // ,{recipe : [["userId","=",session.id]]}
+
     const query = mappingUrlFunction(urlClient); 
 
     async function fetchDataRecipesApi() {

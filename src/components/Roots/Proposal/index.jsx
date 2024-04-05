@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
 import { HistoryApi } from "../../../api";
+import { toast } from "react-toastify";
 
 
 const Proposal = () => {
@@ -42,6 +43,7 @@ const Proposal = () => {
 
     const handleSubmit = async (event = null) => {
         event.preventDefault();
+        if(!isConnected) toast.success("Connecte toi pour générer des propositions.")
         dispatch({type:types.GENERATE_PROPOSAL});
     }
 

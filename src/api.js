@@ -87,9 +87,7 @@ class CoreApi {
     if (res.ok) return;
     let responce
     try {
-      console.log("alors ?")
       responce = await res.json();
-      console.log(responce)
     } catch (error) {
       throw new AppError(res.statusText, {httpStatus: res.status});
     }

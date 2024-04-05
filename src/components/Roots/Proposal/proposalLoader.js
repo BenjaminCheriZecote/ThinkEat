@@ -24,14 +24,18 @@ export async function proposalLoader({request}){
 
   // /!\ faire le dispatch recipesProposal avant le dispatch generatedProposal
   // pas de useLoaderData() pour cette raison
-  if (favoriteParam) {
-    store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getProposal(query, favoriteParam)})
-    // store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await UserApi.getRecipeToUser(query, session.id)})
-    if (state.proposal.generatedProposal) store.dispatch({type:types.GENERATED_PROPOSAL});
+  if (session.id) {
+    if (favoriteParam) {
+      store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getProposal(query, favoriteParam)})
+      // store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await UserApi.getRecipeToUser(query, session.id)})
+      if (state.proposal.generatedProposal) store.dispatch({type:types.GENERATED_PROPOSAL});
+    } else {
+      // store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getAll(query)})
+      store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getProposal(query)})
+      if (state.proposal.generatedProposal) store.dispatch({type:types.GENERATED_PROPOSAL});
+    }
   } else {
-    // store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getAll(query)})
-    store.dispatch({type:types.SET_RECIPES_PROPOSAL, payload: await RecipeApi.getProposal(query)})
-    if (state.proposal.generatedProposal) store.dispatch({type:types.GENERATED_PROPOSAL});
+    return null
   }
 
   return null

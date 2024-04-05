@@ -6,13 +6,11 @@ import { FaSquareMinus } from 'react-icons/fa6';
 import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
-import { useLoaderData } from 'react-router-dom';
 import SearchForm from '../../Layout/UXElements/components/SearchForm';
 import { useSelector } from 'react-redux';
 
 const Favorites = () => {
 
-    // const favorites = useLoaderData();
     const {favorites} = useSelector((state) => state.favorites);
     
     const [favoritesCopy, setCopy] = useState(favorites);
