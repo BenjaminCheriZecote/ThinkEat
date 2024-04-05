@@ -3,7 +3,10 @@ import { createAction } from "@reduxjs/toolkit";
 import { UnitApi } from "../../api";
 import types from "./types";
 
-const unitDb = await UnitApi.getAll()
+const unitDb = (async function () {
+  return await UnitApi.getAll()
+})
+
 
 const initialState = [
   ...unitDb,
