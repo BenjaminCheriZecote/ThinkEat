@@ -1,4 +1,4 @@
-import { FamilyApi, IngredientApi, RecipeApi, UserApi } from "../../../api";
+import { FamilyApi, IngredientApi, RecipeApi, UnitApi, UserApi } from "../../../api";
 import { mappingUrlFunction } from "../../../helpers/httpQueries";
 import store from "../../../store";
 import types from "../../../store/reducers/types";
@@ -8,7 +8,7 @@ import types from "../../../store/reducers/types";
 export async function recipesLoader({request}){
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
-    const {session} = store.getState();
+    const {session, units} = store.getState();
   
     const url = new URL(request.url);
   
@@ -18,6 +18,10 @@ export async function recipesLoader({request}){
     store.dispatch({type:types.SET_FAMILIES, payload: await FamilyApi.getAll()})
     // récupération des ingrédients
     store.dispatch({type:types.SET_INGREDIENTS, payload: await IngredientApi.getAll()})
+    //récupération des unités
+    let unitDb = await UnitApi.getAll();
+    unitDb.unshift(units.units[0])
+    store.dispatch({type:types.SET_UNIT, payload:unitDb})
     // récupération des favoris
     if (session.isConnected) store.dispatch({type:types.SET_FAVORITES, payload: await UserApi.getRecipeToUser(null, session.id)})
     // récupération des recettes

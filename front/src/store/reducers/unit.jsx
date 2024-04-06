@@ -1,22 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { createAction } from "@reduxjs/toolkit";
-import { UnitApi } from "../../api";
 import types from "./types";
 
-const unitDb = (async function () {
-  return await UnitApi.getAll()
-})
-
-
-const initialState = [
-  ...unitDb,
-  {id: 0, name: "Sans unité"}
-]
+const initialState = {
+  units:[{id: 0, name: "Sans unité"}]
+}
 		
 const unitReducer = createReducer (initialState, (builder) => {		
-	builder	
+	builder
+  .addCase(createAction(types.SET_UNIT), (state, action) => {	
+    state.units = action.payload;
+	})
   .addCase(createAction(types.ADD_UNIT), (state, action) => {	
-    return state = [...state, action.payload];
+    state.units = [...state.units, action.payload];
 	});
 })		
 

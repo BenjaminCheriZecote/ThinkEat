@@ -23,7 +23,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   const user = useSelector((state) => state.session);
   const {filters} = useSelector((state) => state.filters);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
-  const units = useSelector((state) => state.units);
+  const {units} = useSelector((state) => state.units);
 
   const [inChange, setInChange] = useState(modal);
   const [steps, setSteps] = useState(recipe.steps);

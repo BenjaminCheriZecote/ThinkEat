@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 const Error404 = () => {
     
     useEffect(() => {
-        console.log("404")
         
             const rootElement = document.querySelector("#root");
             const defaultStyles = {

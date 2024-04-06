@@ -15,8 +15,8 @@ app.set('query parser', queryParser);
 // Allow some Cross origin requests
 app.use(cors({ origin: process.env.CORS }));
 
-// Statically serve the /dist folder
-app.use(express.static("../../front/dist"));
+// Statically serve the build
+app.use(express.static('public'));
 
 // Add body parser
 app.use(express.urlencoded({ extended: true })); // Body parser for application/x-www-urlencoded

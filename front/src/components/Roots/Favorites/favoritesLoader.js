@@ -1,10 +1,10 @@
-import { FamilyApi, IngredientApi, RecipeApi, UserApi } from "../../../api";
+import { FamilyApi, IngredientApi, RecipeApi, UnitApi, UserApi } from "../../../api";
 import { mappingUrlFunction } from "../../../helpers/httpQueries";
 import store from "../../../store";
 import types from "../../../store/reducers/types";
 
 export async function favoritesLoader({request}){
-    const {session} = store.getState();
+    const {session, units} = store.getState();
 
     store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
@@ -13,34 +13,20 @@ export async function favoritesLoader({request}){
     const urlClient = url;
 
     const query = mappingUrlFunction(urlClient); 
+    
+    
+    store.dispatch({type:types.SET_RECIPES, payload: await RecipeApi.getAll(query)})
+    store.dispatch({type:types.SET_FAMILIES, payload: await FamilyApi.getAll()})
+    store.dispatch({type:types.SET_INGREDIENTS, payload: await IngredientApi.getAll()})
 
-    async function fetchDataRecipesApi() {
-      const recipes = await RecipeApi.getAll(query);
-      store.dispatch({type:types.SET_RECIPES, payload: recipes})
-      return recipes
-    }
-    await fetchDataRecipesApi()
-
+    let unitDb = await UnitApi.getAll();
+    unitDb.unshift(units.units[0])
+    store.dispatch({type:types.SET_UNIT, payload:unitDb})
+    
     async function fetchDataFavoritesRecipesApi() {
       const favorites = await UserApi.getRecipeToUser(query, session.id);
       store.dispatch({type:types.SET_FAVORITES, payload: favorites})
       return favorites
     }
-    
-
-    async function fetchDataFamilyApi() {
-        const families = await FamilyApi.getAll();
-        store.dispatch({type:types.SET_FAMILIES, payload: families})
-        return families 
-      }
-      await fetchDataFamilyApi()
-  
-      async function fetchDataIngredientApi() {
-        const ingredients = await IngredientApi.getAll();
-        store.dispatch({type:types.SET_INGREDIENTS, payload: ingredients})
-        return ingredients
-      }
-      await fetchDataIngredientApi()
-
     return fetchDataFavoritesRecipesApi();
 }
