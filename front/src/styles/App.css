@@ -78,6 +78,11 @@ html, body, #root, .app {
         padding:0.2rem;
         border-radius:0.3rem;
     }
+
+    .optionChosen:hover {
+        filter:grayscale(35%)
+    }
+
     .optionChosen__cancel, .liOptions p {
         cursor: pointer;
     }

@@ -4,9 +4,7 @@ import { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
 
 export default function DoubleInputRange({label, name}) {
-  //Time Range Selection methods/state/constants
-  const curTime = new Date();
-  // const timeMax = 24 * 60 * 60 - 1;
+  
   const timeMax = 6 * 60 * 60 - 1;
   const curMin =  0;
   const [minTimeCaption, set_minTimeCaption] = useState("");
@@ -66,11 +64,11 @@ export default function DoubleInputRange({label, name}) {
         </label>
           <div className="divOutputContainer">
             <span>
-              {minTimeCaption}
+              {minTimeCaption === ""?"00:00:00":minTimeCaption}
             </span>
             <AlarmTime />
             <span>
-              {maxTimeCaption}
+              {maxTimeCaption === ""?"05:59:59":maxTimeCaption}
             </span>
           </div>
         </div>

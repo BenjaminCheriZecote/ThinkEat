@@ -166,7 +166,8 @@ CREATE VIEW extends_ingredient("id", "name", "image", "families") AS
     SELECT COALESCE(json_agg(f.*) FILTER (WHERE f.* IS NOT NULL), '[]') FROM short_family_view AS f
     WHERE f."id" IN (SELECT "family_id" FROM "ingredient_has_family" WHERE "ingredient_id" = i."id")
   ) FROM "ingredient" AS i
-  WHERE "delete_at" IS NULL;
+  WHERE "delete_at" IS NULL
+  ORDER BY i."name";
 
 --  ---------------------------------------- Ingredient type ------------------------------------------------------
 

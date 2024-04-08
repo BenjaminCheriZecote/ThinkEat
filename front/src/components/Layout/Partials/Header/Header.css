@@ -224,6 +224,10 @@
     font-weight: 500;
 }
 
+.starterLink:hover {
+  filter:drop-shadow(5px 5px 5px var(--colorbg1)) ;
+}
+
 
   @media screen and (max-width: 900px) { /*  --tablet-breakpoint */
     #header h1 {

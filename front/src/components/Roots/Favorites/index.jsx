@@ -23,7 +23,7 @@ const Favorites = () => {
 
     const handleChangeSearch = (event) => {
         if (event.target.value.length === 0) setCopy(favorites)
-        const searchedRecipes = favorites.filter((recipe) => recipe.name.toLowerCase().startsWith(event.target.value));
+        const searchedRecipes = favorites.filter((recipe) => recipe.name.toLowerCase().startsWith(event.target.value.toLowerCase()));
         setCopy(searchedRecipes);
     }
 

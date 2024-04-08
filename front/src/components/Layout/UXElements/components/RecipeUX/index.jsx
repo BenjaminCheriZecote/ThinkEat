@@ -137,7 +137,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     }
     if (itemName === "steps") {
       const newSteps = [...steps];
-      newSteps.splice(id,1)
+      newSteps.splice(id,1);
       setSteps(() => newSteps);
     }
   }
@@ -152,6 +152,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     newSteps[id] = event.target.value;
     setSteps(newSteps);
   }
+  console.log(recipe)
+  console.log("units", units)
   
 
   return(
@@ -209,8 +211,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
                 <p>{ingredient.name}</p>
                 <div className={style.figcaptionDiv}>
                   <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2"/>
-                  <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit || 0}>
-                    {units && units.map(unit => <option key={unit.id} value={unit.id}>{unit.name}</option>
+                  <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit ? ingredient.unit: 0}>
+                    {units && units.map((unit, index) => <option key={index} value={unit.id}>{unit.name}</option>
                     )}
                   </select>
                 </div>

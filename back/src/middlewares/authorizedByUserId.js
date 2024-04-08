@@ -4,6 +4,7 @@ import UserDatamapper from "../datamappers/user.datamapper.js";
 import ApiError from "../helpers/apiError.js";
 
 export default function (paramsName, tableName) {
+  
   return async function (req, _, next) {
     const id = req.params[paramsName];
     const user = await UserDatamapper.findByPk(req.user.id);

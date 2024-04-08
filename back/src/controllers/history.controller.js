@@ -10,7 +10,9 @@ export default class HistoryController extends CoreController{
   static validator = HistoryValidator;
 
   static async getRecipeToHistory(req, res) {
+    
     const userId = req.user.id;
+
     const rows = await this.datamapper.getRecipeToHistory(userId);
     res.status(200).json(rows);
   }

@@ -1,6 +1,7 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
 import { FaPlus } from "react-icons/fa";
@@ -16,10 +17,13 @@ import { toast } from "react-toastify";
 
 const Proposal = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     
     const {isConnected, id} = useSelector((state) => state.session);
     const {recipes} = useSelector((state) => state.proposal);
     const {numberOfProposition, generatedProposal, proposal, historicalPropositions} = useSelector((state) => state.proposal);
+
+    const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
 
     useEffect(() => {
         if (generatedProposal === false) {
@@ -64,12 +68,14 @@ const Proposal = () => {
     const handleClickValidateChoices = async () => {
 
         if (proposal.array.length > 0) {
-            const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
             if (!findProposal) {
                 const createdHistory = await HistoryApi.create({userId:id});
                 await Promise.all(proposal.array.map(async (recipe) => await HistoryApi.addRecipeToHistory(createdHistory.id, recipe.id, {validate:recipe.validate}) ));
                 
                 dispatch({type:types.SET_HISTORIC_PROPOSAL, payload:[... historicalPropositions, {date:new Date().toLocaleString(), historic:proposal}]});
+                
+            } else {
+                navigate('/history')
             }
         }
     }
@@ -102,7 +108,7 @@ const Proposal = () => {
                         </ul>
                         {isConnected?
                             <div className="section__btnValidate">
-                                <button className="btnValidate" role="button" onClick={handleClickValidateChoices}>Valider mes choix</button>
+                                <button className="btnValidate" role="button" onClick={handleClickValidateChoices}>{findProposal?"Voir l'historique":"Valider les choix"}</button>
                             </div>
                             :
                             <div className="section__btnValidate">
