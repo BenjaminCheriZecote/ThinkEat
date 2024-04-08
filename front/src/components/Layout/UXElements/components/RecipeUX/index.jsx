@@ -152,8 +152,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     newSteps[id] = event.target.value;
     setSteps(newSteps);
   }
-  console.log(recipe)
-  console.log("units", units)
   
 
   return(

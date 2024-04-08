@@ -4,7 +4,6 @@ import toast from "../toast.js";
 
 export default class RecipeValidator extends CoreValidator {
     static checkBodyForCreate({ name, image, steps, hunger, cookingTime, preparatingTime, person },{id}) {
-        console.log(steps)
       if (!name || !String(name).match(/^[A-Z][a-zA-Z0-9\u00E0-\u00EF\u00F9-\u00FC' .-]{3,}$/)) {
         const message = "Merci de renseigner le nom correctement.";
         toast.error({message:message})

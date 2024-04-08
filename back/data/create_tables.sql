@@ -200,6 +200,7 @@ $$ LANGUAGE sql;
 
 CREATE FUNCTION find_ingredient() RETURNS SETOF "extends_ingredient" AS $$
 	SELECT * FROM "extends_ingredient"
+  ORDER BY name
 $$ LANGUAGE sql;
 
 CREATE FUNCTION find_ingredient(int) RETURNS SETOF "extends_ingredient" AS $$
@@ -735,35 +736,6 @@ CREATE FUNCTION remove_recipe_to_history(json) RETURNS "history_has_recipe" AS $
   AND "recipe_id" = ($1->>'recipeId')::int
 	RETURNING *
 $$ LANGUAGE sql;
-
-
---  ---------------------------------------- Proposal function -------------------------------------------------------
-
--- CREATE FUNCTION evaluate_proposal(int) RETURNS TABLE ("id" int, "name" text, "image" text, "history_note" int) AS $$
---   SELECT "id", "name", "image",
---   COALESCE((
---     SELECT
---     CASE
---       WHEN "date" >= now() - INTERVAL '7 days' THEN 0
---       WHEN "date" >= now() - INTERVAL '10 days' THEN 1
---       WHEN "date" >= now() - INTERVAL '14 days' THEN 2
---       WHEN "date" >= now() - INTERVAL '19 days' THEN 3
---       WHEN "date" >= now() - INTERVAL '25 days' THEN 4
---       WHEN "date" >= now() - INTERVAL '32 days' THEN 5
---       WHEN "date" >= now() - INTERVAL '39 days' THEN 6
---       WHEN "date" >= now() - INTERVAL '47 days' THEN 7
---       WHEN "date" >= now() - INTERVAL '56 days' THEN 8
---       WHEN "date" >= now() - INTERVAL '66 days' THEN 9
---       ELSE 10
---     END 
---     FROM "extends_history"
---     WHERE "userId" = $1
---     AND r."id" IN (
---       SELECT (json_array_elements(recipes)->>'id')::int
---     )
---   ), 10) AS "history_note"
---   FROM "recipe" AS r
--- $$ LANGUAGE sql;
 
 CREATE FUNCTION evaluate_proposal(int) RETURNS TABLE ("id" int, "name" text, "image" text, "history_note" int) AS $$
   SELECT "id", "name", "image",
