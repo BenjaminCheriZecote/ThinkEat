@@ -21,7 +21,7 @@ export default function SignUp() {
         </div>
         <div className='section-form__div'>
           <label htmlFor="passwordConfirm">Confirmer le mot de passe :</label>
-          <input type="text" id="passwordConfirm" name="passwordConfirm" placeholder='******'/>
+          <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder='******'/>
         </div>
 
         <button className='section-form__btn' type="submit">Créer un compte</button>
