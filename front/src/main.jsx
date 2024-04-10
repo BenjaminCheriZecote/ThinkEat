@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       { path: "/reset-password", element: <ResetPassword />, action: eh(resetPasswordAction) },
       { path: "/recipes", element: <Recipes />,loader:eh(recipesLoader), action:eh(recipeAction)  },
       { path: "/recipes/:id",element: <Recipe />, loader: eh(recipeLoader), action:eh(recipeAction) },
-      { path: "/validate/account/:uuid", element: <></>, loader: eh(validateAccountLoader) },
+      { path: "/validate/account/:uuid", element: <Home/>, loader: eh(validateAccountLoader) },
       { path: "/validate/password/:uuid", element: <ValidatePassword />, action: eh(validatePasswordAction) },
       { path: "/profil", element:<Profil />, 
       children: [

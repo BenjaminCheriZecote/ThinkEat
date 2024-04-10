@@ -16,7 +16,7 @@ export default function SignUp() {
 
         <div className='section-form__div'>
           <label htmlFor="password">Mot de passe :</label>
-          <input type="text" id="password" name="password" placeholder='******'/>
+          <input type="password" id="password" name="password" placeholder='******'/>
           <p className="section-form-div__warningPassword">*14 caractères minimums, une lettre majuscule et minuscule, un chiffre.</p>
         </div>
         <div className='section-form__div'>
