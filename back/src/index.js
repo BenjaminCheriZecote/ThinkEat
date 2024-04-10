@@ -4,7 +4,7 @@ import cors from "cors";
 
 // Import local dependencies
 import { router as apiRouter } from "./routers/index.js";
-import { bodySanitizer, errorMiddleware, notFoundMiddleware, queryParser } from "./middlewares/index.js";
+import { bodySanitizer, errorMiddleware, notFoundMiddleware, queryParser, redirectToApp } from "./middlewares/index.js";
 
 // Create Express App
 const app = express();
@@ -27,6 +27,9 @@ app.use(bodySanitizer);
 
 // Prefix api routes with "/api"
 app.use("/api", apiRouter);
+
+// if client get path with no file redirect to react app
+app.get(/\/[A-Za-z0-9-]*$/, redirectToApp);
 
 // Not Found Middleware (404)
 app.use(notFoundMiddleware);
