@@ -2,7 +2,7 @@ import urlQueryJsonParser from "url-query-json-parser";
 import secondesConverterFunction from "../secondesConverterFunction";
 import formatterSecondesTime from "../formatterSecondesTime";
 
-export function mappingUrlFunction(urlClient,filter){
+export function mappingUrlFunction(urlClient){
     // si il n'y a pas d'urlClient, on sort de la fonction
     if (!urlClient) {
         return null
@@ -11,6 +11,7 @@ export function mappingUrlFunction(urlClient,filter){
     const ingredientQuery = [];
     const familyQuery = [];
     const orderByQuery = [];
+    const favoriteQuery = [];
     const recipeCriteriaQuery = [];
     let error = [];
     const errorDataPreparatingTime = 'Erreur sur le temps de préparation. Format de données non valide.';
@@ -153,6 +154,14 @@ export function mappingUrlFunction(urlClient,filter){
                 orderByQuery.push(resultParam)
             }
         }
+
+        if (result[0] === 'favorites') {
+            if (result[2] === 'true') {
+                const resultParam = `"${result[0]}":${result[2]}`
+                favoriteQuery.push(resultParam)
+            }
+        }
+
     })
 
     if (timeSecondesMin.preparatingTime && timeSecondesMin.cookingTime) {
@@ -200,32 +209,16 @@ export function mappingUrlFunction(urlClient,filter){
     const orderByProperty = `"orderBy"${stringOrderBy}`;
     const criteriaProperty = `"criteria":{${stringCriteria}},`;
 
-    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}}`;
+    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}${favoriteQuery[0]?favoriteQuery[0].length > 0?favoriteQuery[0]:"":""}}`;
 
     // regex pour remplacer la chaîne de caractère “,}” par “}”
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
     // parse de la string en objet au format JSON
     const objectQuery = JSON.parse(stringFinalObject);
-    
-    
-    if (filter) {
-      Object.entries(filter).forEach(([tableName,data]) => {
-        if (!objectQuery["filter"]) {
-          objectQuery["filter"]=[];
-        }
-        if (!objectQuery["filter"][tableName]) {
-          objectQuery["filter"][tableName]=[];
-        }
-        data.forEach(condition => {
-          objectQuery["filter"][tableName].push(condition)
-        })
-      });
-    }
 
     // eslint-disable-next-line no-inner-declarations
     let urlQuery = urlQueryJsonParser.parseJSON(objectQuery);
     // if (error.length) urlQuery = error;
     return urlQuery;
  
-
 }

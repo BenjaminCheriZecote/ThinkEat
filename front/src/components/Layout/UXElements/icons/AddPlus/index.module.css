@@ -1,9 +1,6 @@
 .color {
-    /* color:var(--colorBtnStarterAside); */
     color:white;
     color:var(--colorOrange);
-    /* background-color:var(--colorOrange); */
     border:none;
-  
     cursor: pointer;
 }

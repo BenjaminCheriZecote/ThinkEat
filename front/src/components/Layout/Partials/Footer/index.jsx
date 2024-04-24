@@ -12,7 +12,7 @@ const Footer = () => {
                 <NavLink>Gestion des cookies</NavLink>
                 <NavLink>Contact</NavLink>
             </div>
-            <img src="/logo1.png" alt="Logo de Koikonmange" />
+            <img src="/logo1.webp" alt="Logo de Koikonmange" />
         </footer>
     )
 }

@@ -28,9 +28,9 @@ const Aside = () => {
     const currentPath = location.pathname;
     
     const [menuOpen, setMenuOpen] = useState(false);
-    const {isConnected} = useSelector((state) => state.session);
+    const {isConnected, id} = useSelector((state) => state.session);
 
-    const {hunger, favoritesRecipes} = useSelector((state) => state.filters.filters)
+    const {hunger, favorites} = useSelector((state) => state.filters.filters)
 
     const {ingredients, ingredientsChoices} = useSelector((state) => state.ingredients);
     const [ingredientsCopy, setIngredientsCopy] = useState(ingredients);
@@ -55,7 +55,7 @@ const Aside = () => {
         
     }, [generatedProposal])
 
-
+// style={currentPath === '/proposal'? {visibility:'hidden'}:{}}
 
     const handleChangeHungerBigFilter = () => {
         dispatch({type:types.SET_HUNGER_BIG});
@@ -69,7 +69,7 @@ const Aside = () => {
         dispatch({type:types.SET_HUNGER_FEW});
     }
 
-    const handleChangeFavoritesRecipes = () => {
+    const handleChangeFavoritesFilter = () => {
         dispatch({type:types.SET_FAVORITES_RECIPES})
     }
 
@@ -231,30 +231,27 @@ const Aside = () => {
 
 
                 <footer>
-                    {/* {isConnected && currentPath === '/proposal' &&
+                    {isConnected && currentPath === '/proposal' &&
                         <div>
                             <input 
                             className={style.checkboxAside} 
-                            id="favoritesRecipes" 
-                            name="favoritesRecipes" 
-                            value={favoritesRecipes.state} 
+                            id="favorites" 
+                            name="favorites" 
+                            value={favorites.state} 
                             type="checkbox" 
-                            onChange={handleChangeFavoritesRecipes} 
-                            checked={favoritesRecipes.state?true:false} 
+                            onChange={handleChangeFavoritesFilter} 
+                            checked={favorites.state} 
                             />
 
-                            <label htmlFor="favoritesRecipes" >{favoritesRecipes.name}</label>
+                            <label htmlFor="favorites" >{favorites.name}</label>
                         </div>
-                    } */}
-               
-                    <button ref={filterButton} className={style.buttonElement}>Filtrer</button>
+                    }
+
+                    <button  ref={filterButton} className={currentPath === '/proposal'?style.invisible:style.buttonElement}>Filtrer</button>
                 </footer>        
 
             </Form>
-        </div>
-
-        
-            
+        </div>   
                 
         
         <NavLink className={`${style.asideA} ${style.hideAside} asideA`} to={"/proposal"} onClick={handleClickStarterButton}>

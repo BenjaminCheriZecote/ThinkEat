@@ -20,6 +20,7 @@ function App() {
           <Aside />
         }
         <Outlet />
+
         <Footer/>
     </>
   )

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import Meal from "./Meal2";
@@ -10,13 +10,19 @@ import './Recipe.css';
 import RecipeUX from "../../Layout/UXElements/components/RecipeUX";
 import OrderByComponent from "../../Layout/UXElements/components/OrderByComponent";
 import SearchForm from "../../Layout/UXElements/components/SearchForm";
+import types from "../../../store/reducers/types";
 
 const Recipes = () => {
 
+    const dispatch = useDispatch();
     const {recipes} = useSelector((state) => state.recipes);
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
     const [isAdmin, setAdmin] = useState(true);
+
+    useEffect(() => {
+        dispatch({type:types.SET_IS_ASIDE_TRUE});
+    }, [])
 
     useEffect(() => {
         setCopy(recipes)
@@ -31,8 +37,6 @@ const Recipes = () => {
     const handleClickAddRecipe = () => {
         setCreatorMode((current) => !current) 
     }
-
-    
 
     return(
         <main className="main outlet" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
@@ -57,7 +61,7 @@ const Recipes = () => {
             <div className="section__addRecipe"> 
             {isAdmin?
                     !openModeCreator?
-                        <AddPlus handleClick={handleClickAddRecipe} />
+                        <AddPlus handleClick={handleClickAddRecipe} size={3}/>
                         :
                         <FaSquareMinus onClick={handleClickAddRecipe}/>
                     :

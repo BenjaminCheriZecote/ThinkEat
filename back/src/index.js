@@ -16,7 +16,7 @@ app.set('query parser', queryParser);
 app.use(cors({ origin: process.env.CORS }));
 
 // Statically serve the build
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // Add body parser
 app.use(express.urlencoded({ extended: true })); // Body parser for application/x-www-urlencoded

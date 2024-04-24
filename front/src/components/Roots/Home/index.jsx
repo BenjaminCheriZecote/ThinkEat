@@ -50,19 +50,19 @@ const Home = () => {
 
             <section className="main_section_article">
                 <article className="main_section_article--article">
-                    <img src="/step1home.png" aria-label='Image, salade'/>
+                    <img src="/step1home.webp" aria-label='Image, salade'/>
                     <h5>Etape 1 : Recettes</h5>
                     <p>Créez vos propres recettes ou parcourez notre liste de recettes pour définir vos favorites. </p>
                 </article>
 
                 <article className="main_section_article--article">
-                    <img src="/step2home.png" aria-label='Image, casserole et assaisonnement'/>
+                    <img src="/step2home.webp" aria-label='Image, casserole et assaisonnement'/>
                     <h5>Etape 2 : Critères</h5>
                     <p>Rendez-vous dans la page des propositions pour renseigner les critères du jour. Une grosse faim, peu de temps de cuisson ou un régime alimentaire spécifique? Faites le nous savoir.</p>
                 </article>
 
                 <article className="main_section_article--article">
-                    <img src="/step3home.png" aria-label='Image, chef avec cloche'/>
+                    <img src="/step3home.webp" aria-label='Image, chef avec cloche'/>
                     <h5>Etapes 3 : Propositions</h5>
                     <p>Une fois vos envies précisées, on se charge de trouver les recettes adéquates en se basant sur celles que l'on vous a déjà proposé!</p>
                 </article>

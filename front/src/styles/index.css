@@ -39,7 +39,7 @@
 
   --colorOrange:rgb(235, 171, 8);
   --colorOrange: rgba(202, 94, 61, 0.749);
-  --colorOrangeDark: rgba(169, 62, 30, 0.75);
+  --colorOrangeDark: #a93e1ebf;
   --colorOrangeDarkPlus: rgba(102, 30, 8, 0.75);
   --colorOrangeRange: rgb(211, 93, 57);
   --colorYellow: rgb(222, 200, 4);
@@ -56,7 +56,6 @@
 
 body {
   z-index:0;
-  /* // background: no-repeat url('/wallpaper5.jpeg'); */
   background-color: rgb(238, 238, 238);
   background-size:cover;
   background-position: left;

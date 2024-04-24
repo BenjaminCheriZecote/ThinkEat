@@ -12,7 +12,6 @@ import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
 import { Form } from "react-router-dom";
 import { HistoryApi } from "../../../api";
-import { toast } from "react-toastify";
 
 
 const Proposal = () => {
@@ -24,6 +23,10 @@ const Proposal = () => {
     const {numberOfProposition, generatedProposal, proposal, historicalPropositions} = useSelector((state) => state.proposal);
 
     const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
+
+    useEffect(() => {
+        dispatch({type:types.SET_IS_ASIDE_TRUE});
+    }, [])
 
     useEffect(() => {
         if (generatedProposal === false) {
@@ -45,9 +48,8 @@ const Proposal = () => {
         //
     }
 
-    const handleSubmit = async (event = null) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!isConnected) toast.success("Connecte toi pour générer des propositions.")
         dispatch({type:types.GENERATE_PROPOSAL});
     }
 

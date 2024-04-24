@@ -384,6 +384,22 @@ CREATE TABLE IF NOT EXISTS "recipe"(
   UNIQUE("user_id","name")
 );
 
+-- CREATE TABLE IF NOT EXISTS "recipe"(
+--   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--   "name" VARCHAR(50) NOT NULL,
+--   "image" VARCHAR(20),
+--   "steps" VARCHAR(100)[] NOT NULL,
+--   "hunger" VARCHAR(10) NOT NULL DEFAULT 'normal',
+--   "time" INTERVAL NOT NULL,
+--   "preparating_time" INTERVAL NOT NULL,
+--   "person" int NOT NULL,
+--   "user_id" INT REFERENCES "user"(id),
+--   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+--   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+--   "delete_at" TIMESTAMPTZ,
+--   UNIQUE("user_id","name")
+-- );
+
 CREATE TABLE IF NOT EXISTS "recipe_has_ingredient" (
   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "quantity" NUMERIC,
@@ -737,8 +753,8 @@ CREATE FUNCTION remove_recipe_to_history(json) RETURNS "history_has_recipe" AS $
 	RETURNING *
 $$ LANGUAGE sql;
 
-CREATE FUNCTION evaluate_proposal(int) RETURNS TABLE ("id" int, "name" text, "image" text, "history_note" int) AS $$
-  SELECT "id", "name", "image",
+CREATE FUNCTION evaluate_proposal(int) RETURNS TABLE ("id" int, "name" text, "image" text, "history_note" int, "hunger" text, "time" text, "preparatingTime" text, "cookingTime" text, "ingredients" json) AS $$
+  SELECT er."id", "name", "image",
   COALESCE((
     SELECT
     CASE
@@ -757,10 +773,10 @@ CREATE FUNCTION evaluate_proposal(int) RETURNS TABLE ("id" int, "name" text, "im
     FROM "extends_history" eh
 	  JOIN "history_has_recipe" hhr ON eh."id" = hhr."history_id"
     WHERE "userId" = $1
-	  AND hhr."recipe_id" = extends_recipe."id"
+	  AND hhr."recipe_id" = er."id"
     AND hhr."validate" = true
-  ), 10) AS "history_note"
-  FROM extends_recipe
+  ), 10) AS "history_note", "hunger", "time", "preparatingTime", "cookingTime", "ingredients"
+  FROM "extends_recipe" er
 $$ LANGUAGE sql;
 
 

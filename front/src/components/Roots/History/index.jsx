@@ -24,7 +24,7 @@ const History = () => {
 
     return (
         <main className="outlet">
-            <section className="section">
+            <section className="section outlet">
                 <h2>Historique</h2>
                     {history.length > 0?
                         <ul className="section__ulContainer">
@@ -46,7 +46,7 @@ const History = () => {
                             })}
                         </ul>
                     :
-                        <p style={{fontFamily: "Poppins, sans-serif"}}>Aucun historique, génère des idées de repas <NavLink style={{color: "var(--colorOrange)", textDecoration:"underline"}}>ici</NavLink>.</p>
+                        <p style={{fontFamily: "Poppins, sans-serif"}}>Aucun historique, génère des idées de repas <NavLink to={"/proposal"} style={{color: "var(--colorOrange)", textDecoration:"underline"}}>ici</NavLink>.</p>
                     }
                     
             </section>

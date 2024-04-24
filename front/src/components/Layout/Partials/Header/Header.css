@@ -5,12 +5,9 @@
 .header h1, .headerH1initial {
   color:var(--colorbg6);
   font-weight: 500;
+  text-shadow:0 1px 0 #0000004f;
 }
 
-.header img {
-  width:2rem;
-  height:2rem;
-}
 
 .header h1 span, .headerH1initial span {
   color:var(--colorOrange)
@@ -170,7 +167,7 @@
 
   /* HEADER HOME */
   .backgroundHome {
-    background-image: url("/bgHome.jpg");
+    background-image: url("/bgHome.webp");
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
@@ -186,9 +183,9 @@
     position:relative;
   }
 
-  .headerSpaceContent {
+  /* .headerSpaceContent {
     justify-content: space-between;
-  }
+  } */
 
   #header__section-tittle {
     padding: 7rem 3rem 3rem 3rem;

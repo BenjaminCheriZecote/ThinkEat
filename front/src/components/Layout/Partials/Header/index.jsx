@@ -29,8 +29,6 @@ const Header = () => {
     const isHome = location.pathname === '/'; 
     const search = location.search;
     
-
-
     const handleClick = () => {
         
         const widthBox = boxProfile.current.offsetWidth;

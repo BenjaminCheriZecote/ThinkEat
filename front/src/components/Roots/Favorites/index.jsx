@@ -7,15 +7,20 @@ import { useState } from 'react';
 import RecipeUX from '../../Layout/UXElements/components/RecipeUX';
 import OrderByComponent from '../../Layout/UXElements/components/OrderByComponent';
 import SearchForm from '../../Layout/UXElements/components/SearchForm';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import types from '../../../store/reducers/types';
 
 const Favorites = () => {
 
+    const dispatch = useDispatch();
     const {favorites} = useSelector((state) => state.favorites);
     
     const [favoritesCopy, setCopy] = useState(favorites);
     const [openModeCreator, setCreatorMode] = useState(false);
     
+    useEffect(() => {
+        dispatch({type:types.SET_IS_ASIDE_TRUE});
+    }, [])
 
     useEffect(() => {
         setCopy(favorites)
@@ -46,7 +51,7 @@ const Favorites = () => {
 
                 <div className="section__addRecipe">
                 {!openModeCreator?
-                    <AddPlus handleClick={handleClickAddRecipe}/>
+                    <AddPlus handleClick={handleClickAddRecipe} size={3}/>
                     :
                     <FaSquareMinus onClick={handleClickAddRecipe}/>
                     }

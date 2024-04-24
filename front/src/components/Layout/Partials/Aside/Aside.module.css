@@ -24,11 +24,6 @@
   height:100%;
 }
 
-.aside__formCriteria h3, .aside__formFilter h3  {
-    font-family: "Poppins", sans-serif;
-    color:black;
-}
-
 aside label {
     font-size:0.7rem;
     
@@ -56,30 +51,20 @@ aside fieldset .asideformFilter__inputTimeContainer li {
   align-items: center;
 }
 
-aside footer small {
-    font-size:0.6rem;
-}
-
 aside footer {
   display: flex;
   justify-content: space-between;
   justify-content: flex-end;
-  
 }
 
 .aside footer div {
-  margin-right:auto;
+  margin-right: auto;
   display:flex;
   align-items: center;
 }
 
-.asideFormCriteria__foodContainer {
-    display: flex;
-    justify-content: space-between;
-}
-
-.asideFormCriteria__foodContainer > * {
-    width:50%;
+.invisible {
+  visibility:hidden;
 }
 
 .asideFormFilter__foodContainer {
@@ -87,13 +72,6 @@ aside footer {
     flex-direction: column;
     gap:0.3rem;
   
-}
-
-.asideFormFilter__inputTime {
-    background-color:inherit;
-    width:80%;
-    border:none;
-    border-bottom: 1px black solid;
 }
 
 .asideformFilter__inputTimeContainer {

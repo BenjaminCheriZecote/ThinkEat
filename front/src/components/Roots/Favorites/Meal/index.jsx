@@ -51,9 +51,7 @@ const Meal = ({meal}) => {
                         </button>
                     }
 
-                    <button onClick={handleClickDelete}>
-                    <DeleteCruse/>
-                    </button>
+                    <DeleteCruse handleClick={handleClickDelete} size={1}/>
                 </div>
         </li>
     )

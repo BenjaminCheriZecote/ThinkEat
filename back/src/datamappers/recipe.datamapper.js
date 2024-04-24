@@ -76,8 +76,33 @@ export default class RecipeDatamapper extends CoreDatamapper {
     return query;
   }
 
-  static async getProposal(user) {
-    const result = await client.query(`SELECT * FROM evaluate_proposal(${user ? "$1::int" : ""})`,user ? [ user ] : [] );
+  static async getProposal(user = null, queryOptions = null, favorite = null) {
+    const {filter, criteria, orderBy, page, number} = queryOptions;
+    let result, query;
+    switch (Boolean(user)) {
+    case true:
+      query = {
+        text:`SELECT "evaluate_proposal".id as "id", "name", "image", "history_note" FROM evaluate_proposal(${user ? "$1::int" : ""})`,
+        values:user ? [ user ] : []
+      };
+      if (favorite) query.text += ` JOIN "user_has_recipe" uhr ON uhr.recipe_id = "evaluate_proposal".id`;
+
+      if (filter || criteria) query = this.addWhereToQuery({filter, criteria, query});
+  
+      if (orderBy) query = this.addOrderByToQuery({orderBy, query});
+        
+      if (page) query = this.addOrderByToQuery({page, query, number});
+        
+      query.text += ` ORDER BY "history_note" DESC, RANDOM()`;
+
+      result = await client.query(query);
+      break;
+    case false:
+      result = await this.findAll(queryOptions = null);
+      result.sort(() => Math.random() - 0.5);
+      break;
+    default:
+    }
     return result.rows;
   }
 }

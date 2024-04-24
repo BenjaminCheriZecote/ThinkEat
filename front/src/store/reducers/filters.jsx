@@ -9,7 +9,7 @@ const initialState = {
         preparatingTime: {min:"00:00",max:"23:59"},
         cookingTime: {min:"00:00",max:"23:59"},
         dietPreferences: [{name:"Vegetarien", state: false}, {name:"Vegetalien", state: false}, {name:"Crudivore", state:false}, {name:"Sans gluten", state: false}, {name:"Sans lactose", state: false}],
-        favoritesRecipes: {name:"Favoris", state:true},
+        favorites: {name:"Favoris", state:true},
     }					
 }						
 						
@@ -31,7 +31,7 @@ const filtersReducer = createReducer (initialState, (builder) => {
 		state.filters.cookingTime = action.payload;	
 	})
   .addCase(createAction(types.SET_FAVORITES_RECIPES), (state) => {					
-		state.filters.favoritesRecipes.state = !state.filters.favoritesRecipes.state
+		state.filters.favorites.state = !state.filters.favorites.state
 	})
 
 })						

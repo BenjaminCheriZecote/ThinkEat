@@ -1,16 +1,15 @@
-
+import 'animate.css';
 import ValidateCheck from "../../icons/ValidateCheck";
 import DeleteCruse from "../../icons/DeleteCruse";
 import { IoCartOutline } from "react-icons/io5";
 
 import FavoriteStar from "../../icons/FavoriteStar";
 import FavoriteStarOutline from "../../icons/FavoriteStarOutline";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import './Proposition.css'
 import { useDispatch, useSelector } from "react-redux";
 import types from "../../../../../store/reducers/types";
-
 
 
 const Proposition = ({proposition, history}) => {
@@ -18,7 +17,9 @@ const Proposition = ({proposition, history}) => {
     const {isConnected} = useSelector((state) => state.session);
     const {proposal} = useSelector((state) => state.proposal)
     const {favorites} = useSelector((state) => state.favorites);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const location = useLocation();
+
 
     const handleClickDeleteProposition = (event) => {
         
@@ -27,9 +28,8 @@ const Proposition = ({proposition, history}) => {
         const updatedProposalArray = [...proposal.array];
         updatedProposalArray[foundIndexRecipe] = {...updatedProposalArray[foundIndexRecipe], validate:false}
         copyProposal.array = updatedProposalArray
-        dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
-        event.target.closest("li").style.backgroundColor = "#fafafa";
-        event.target.closest("li").style.filter = "grayscale(70%)"
+        dispatch({type:types.SET_PROPOSAL, payload:copyProposal}); 
+        
     };
 
     const handleClickValidateProposition = () => {
@@ -39,16 +39,19 @@ const Proposition = ({proposition, history}) => {
         updatedProposalArray[foundIndexRecipe] = {...updatedProposalArray[foundIndexRecipe], validate:true}
         copyProposal.array = updatedProposalArray
         dispatch({type:types.SET_PROPOSAL, payload:copyProposal});
-        event.target.closest("li").style.backgroundColor = "white",
-        event.target.closest("li").style.filter= "grayscale(0%)"
     }
 
     return(
-        <li className={proposition.validate? "liProposotion validate":"liProposotion unvalidate"}>
-            <div className="liProposotion__imgContainer">
-                <img src={proposition.image === null?"/default-img.jpg":proposition.image} alt={`${proposition.name}`} />
+        <li className={location.pathname === '/proposal'?
+        proposition.validate? "animate__animated animate__bounce liProposotion validate":"animate__animated animate__headShake liProposotion unvalidate"
+        :
+        proposition.validate? "liProposotion validate":"liProposotion unvalidate"
+        }>
+            <div className={proposition.validate?"liProposotion__imgContainer validateImg":"liProposotion__imgContainer unvalidateImg"}>
+                <img src={proposition.image === null?"/default-img.webp":proposition.image} alt={`${proposition.name}`} className={!proposition.validate?"unvalidateGrayscale":""}/>
             </div>
-            <div className="liProposotion__legendContainer">
+
+            <div className={proposition.validate?"liProposotion__legendContainer":"liProposotion__legendContainer unvalidateGrayscale"}>
                 <p className="liProposotion__p--name">
                     {proposition.name}
                 </p>
@@ -72,7 +75,7 @@ const Proposition = ({proposition, history}) => {
             :
             <div className="liProposotion__choiceBox">
                     <ValidateCheck handleClick={handleClickValidateProposition}/>
-                    <DeleteCruse handleClick={handleClickDeleteProposition} />
+                    <DeleteCruse handleClick={handleClickDeleteProposition} size={1}/>
             </div>
             }
 

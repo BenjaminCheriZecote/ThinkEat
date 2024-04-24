@@ -6,7 +6,6 @@ import types from "../../../store/reducers/types";
 
 
 export async function recipesLoader({request}){
-    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
 
     const {session, units} = store.getState();
   

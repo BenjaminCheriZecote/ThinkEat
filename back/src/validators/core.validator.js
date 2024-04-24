@@ -59,7 +59,7 @@ export default class CoreValidator {
       throw new ApiError(`time is not in valid format`, {httpStatus:400});
     }
   }
-  static checkQueryForGet({filter, criteria, orderBy, page}={}) {
+  static checkQueryForGet({filter, criteria, orderBy, page, favorites}={}) {
     if (filter) {
       this.checkQueryConditions(filter);      
     }
@@ -82,6 +82,9 @@ export default class CoreValidator {
     }
     if (page) {
       this.checkId(page, "page");
+    }
+    if (favorites) {
+      this.checkIfExist(favorites, "favorites");
     }
     return {filter, criteria, orderBy, page};
   }

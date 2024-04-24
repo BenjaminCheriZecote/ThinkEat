@@ -39,6 +39,10 @@ input::-webkit-inner-spin-button {
     text-align: center;
 }
 
+#starter::selection {
+  background-color: transparent;
+}
+
 .section__ulContainerProposal {
     display: flex;
     flex-flow: row wrap;
@@ -163,6 +167,10 @@ input::-webkit-inner-spin-button {
 
   .buttonStarter:hover {
     filter:contrast(120%);
+  }
+
+  .buttonStarter::selection {
+    background:transparent;
   }
   
   @keyframes steam {

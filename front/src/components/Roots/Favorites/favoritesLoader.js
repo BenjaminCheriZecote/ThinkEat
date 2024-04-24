@@ -4,16 +4,12 @@ import store from "../../../store";
 import types from "../../../store/reducers/types";
 
 export async function favoritesLoader({request}){
-    const {session, units} = store.getState();
-
-    store.dispatch({type:types.SET_IS_ASIDE_TRUE});
-
-    const url = new URL(request.url);
-
-    const urlClient = url;
-
-    const query = mappingUrlFunction(urlClient); 
-    
+  
+  const urlClient = new URL(request.url);
+  
+  const query = mappingUrlFunction(urlClient); 
+  
+  const {session, units} = store.getState();
     
     store.dispatch({type:types.SET_RECIPES, payload: await RecipeApi.getAll(query)})
     store.dispatch({type:types.SET_FAMILIES, payload: await FamilyApi.getAll()})
