@@ -10,7 +10,8 @@
 
 
 .header h1 span, .headerH1initial span {
-  color:var(--colorOrange)
+  color:var(--colorOrange);
+  text-shadow:0 1px;
 }
 
 .header__middleSide {
@@ -45,7 +46,6 @@
 .header-rightSide__boxProfile p {
   margin-bottom: 0.3rem;
 }
-
 
 .colorBox {
     color: var(--colorOrange)

@@ -12,10 +12,10 @@ const familiesReducer = createReducer (initialState, (builder) => {
 	.addCase(createAction(types.SET_FAMILIES), (state, action) => {					
 		state.families = action.payload				
 	})
-	.addCase(createAction("ADD_ONE_FAMILY_CHOICES"), (state, action) => {					
+	.addCase(createAction(types.ADD_ONE_FAMILY_CHOICES), (state, action) => {					
 		state.familiesChoices = [...state.familiesChoices, action.payload]				
 	})
-	.addCase(createAction("SET_FAMILIES_CHOICES"), (state, action) => {					
+	.addCase(createAction(types.SET_FAMILIES_CHOICES), (state, action) => {					
 		state.familiesChoices = action.payload				
 	})	
 })						

@@ -7,9 +7,13 @@
     flex-direction: column;
     justify-content: space-between;
     padding:1rem;
-    background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside1), var(--colorbgAside2));
-    color: #ada28f;
+    background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside2));
+   
     color: black;
+    /* color: var(--colorOrange); */
+    /* color:#cadbd7;
+    color:var(--colorbg2); */
+    font-weight: 500;
     position:relative;
 }
 
@@ -33,7 +37,8 @@ aside fieldset legend {
     font-size:1.2rem;
     margin-bottom: 0.2rem;
     font-weight:300;
-   
+    text-shadow: 0 1px 0 #0000004f;
+    font-family: "Poppins", sans-serif;
 }
 
 aside fieldset .asideFormFilter__hungerContainer {
@@ -53,14 +58,36 @@ aside fieldset .asideformFilter__inputTimeContainer li {
 
 aside footer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap:1rem;
+}
+
+aside footer div {
+  display: flex;
   justify-content: flex-end;
 }
 
-.aside footer div {
+.aside footer label {
   margin-right: auto;
   display:flex;
   align-items: center;
+}
+
+.aside footer > button {
+  width:fit-content;
+  border:none;
+  background-color: inherit;
+  text-decoration: underline;
+  font-family: 'Playpen Sans', cursive;
+  font-size: 0.6rem;
+  margin-top:1rem;
+  margin-left:auto;
+  cursor:pointer;
+}
+
+.aside footer > button:hover {
+  transition: 300ms ease-in-out;
+  color:var(--colorOrangeDark)
 }
 
 .invisible {

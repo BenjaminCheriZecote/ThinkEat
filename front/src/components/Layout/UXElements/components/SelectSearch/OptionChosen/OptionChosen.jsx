@@ -1,18 +1,15 @@
 import { MdCancel } from "react-icons/md";
-import store from "../../../../../store";
 import { useDispatch, useSelector } from "react-redux";
 
-// import style '../Aside.module.css';
 
-
-const OptionChosen = ({choosen,stateName}) => {
+const OptionChosen = ({choosen, itemName}) => {
 
   const dispatch = useDispatch()
-  const stateBranch = useSelector((state) => state[stateName]);
-  const choices = stateBranch[`${stateName}Choices`];
+  const stateBranch = useSelector((state) => state[itemName]);
+  const choices = stateBranch[`${itemName}Choices`];
   const handleClickOption = () => {
     const newArray = choices.filter((element) => element !== choosen);
-    dispatch({type:`SET_${stateName.toUpperCase()}_CHOICES`, payload:newArray})
+    dispatch({type:`SET_${itemName.toUpperCase()}_CHOICES`, payload:newArray})
   }
 
     return(

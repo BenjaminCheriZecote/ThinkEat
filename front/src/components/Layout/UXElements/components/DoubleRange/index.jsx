@@ -2,13 +2,19 @@ import "./styles.css";
 import AlarmTime from "../../icons/AlarmTime";
 import { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
+import { useDispatch } from "react-redux";
 
-export default function DoubleInputRange({label, name}) {
+export default function DoubleInputRange({label, name, item}) {
   
+  const dispatch = useDispatch();
   const timeMax = 6 * 60 * 60 - 1;
   const curMin =  0;
-  const [minTimeCaption, set_minTimeCaption] = useState("");
-  const [maxTimeCaption, set_maxTimeCaption] = useState("");
+  // const [minTimeCaption, set_minTimeCaption] = useState("");
+  // const [maxTimeCaption, set_maxTimeCaption] = useState("");
+  const minTimeCaption = item.min;
+  const maxTimeCaption = item.max;
+  const filter = name.toUpperCase();
+  
   const handleTimeChange = (e) => {
     let h = Math.floor(e.minValue / 3600);
   let m = Math.floor((e.minValue % 3600) / 60);
@@ -16,7 +22,8 @@ export default function DoubleInputRange({label, name}) {
   let minH = h.toString().padStart(2, "0");
   let minM = m.toString().padStart(2, "0");
   let minS = s.toString().padStart(2, "0");
-  set_minTimeCaption(minH + ":" + minM + ":" + minS);
+  // set_minTimeCaption(minH + ":" + minM + ":" + minS);
+  dispatch({type:`SET_${filter}_MIN`, payload:minH + ":" + minM + ":" + minS})
 
   let hh = Math.floor(e.maxValue / 3600);
   let mm = Math.floor((e.maxValue % 3600) / 60);
@@ -24,8 +31,10 @@ export default function DoubleInputRange({label, name}) {
   let maxH = hh.toString().padStart(2, "0");
   let maxM = mm.toString().padStart(2, "0");
   let maxS = ss.toString().padStart(2, "0");
-  set_maxTimeCaption(maxH + ":" + maxM + ":" + maxS);
+  // set_maxTimeCaption(maxH + ":" + maxM + ":" + maxS);
+  dispatch({type:`SET_${filter}_MAX`, payload:maxH + ":" + maxM + ":" + maxS})
   };
+
   const getTimeLabels = () => {
     let arr = [];
     for (let i = 0; i <= 12; i++) {
@@ -64,11 +73,13 @@ export default function DoubleInputRange({label, name}) {
         </label>
           <div className="divOutputContainer">
             <span>
-              {minTimeCaption === ""?"00:00:00":minTimeCaption}
+              {/* {minTimeCaption === ""?"00:00:00":minTimeCaption} */}
+              {minTimeCaption}
             </span>
             <AlarmTime />
             <span>
-              {maxTimeCaption === ""?"05:59:59":maxTimeCaption}
+              {/* {maxTimeCaption === ""?"05:59:59":maxTimeCaption} */}
+              {maxTimeCaption}
             </span>
           </div>
         </div>

@@ -30,14 +30,20 @@
 
   --colorBtnStarterAside: rgb(80, 152, 104);
 
-
   --colorbgProfil: rgb(45, 56, 105);
   --colorbgAside1: rgba(255, 246, 189, 0.769);
   --colorbgAside2: rgb(222, 194, 132);
   --colorbgAside2: rgb(196, 175, 121);
-  --colorbgAside3:  rgb(227, 209, 163);;
+  --colorbgAside3:  rgb(227, 209, 163);
+  --colorbgAside3:  #c7d4d5;
+  
+  --colorbgAside1: #cadbd74a;
+  --colorbgAside2: #c7d4d5;
+  --colorbgAside2: #cccbdf;
 
-  --colorOrange:rgb(235, 171, 8);
+  /* --colorbgAside1:rgba(231, 118, 84, 0.897);
+  --colorbgAside2: rgba(211, 93, 57, 0.883); */
+  
   --colorOrange: rgba(202, 94, 61, 0.749);
   --colorOrangeDark: #a93e1ebf;
   --colorOrangeDarkPlus: rgba(102, 30, 8, 0.75);
