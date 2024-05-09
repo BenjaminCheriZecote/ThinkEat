@@ -11,7 +11,7 @@ export default function ResetPassword() {
 
   return(
     <>
-      <section className='section'>
+      <main className='section outlet'>
         <Form className='section__form' method="post">
           <h2 className='section-form__h2'>Connection</h2>
           <div className='section-form__div'>
@@ -27,7 +27,7 @@ export default function ResetPassword() {
           <button className='section-form__btn' type="submit">Envoyer</button>
 
         </Form>
-      </section>
+      </main>
     </>
   )
 }

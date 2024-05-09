@@ -4,7 +4,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import Tag from "./Tag";
 
 export default function DropDownList({itemName, items, choosenItems=[], isOpen, openHandler, closeHandler, toggleItemHandler}) {
-  // itemsName = Ingredients
+  
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchValue, setsearchValue] = useState();
 
@@ -16,22 +16,20 @@ export default function DropDownList({itemName, items, choosenItems=[], isOpen, 
   
   return (
     
-    <div className="dropDownListContainer" onClick={openHandler}>
+    <div className="dropDownListContainer" >
       <div className="dropDownListSearchContainer">
-      {/* <span>{itemName}</span> */}
         {isOpen ?
           <input className="dropDownListSearch" type="search" placeholder="Rechercher" value={searchValue} onChange={handleChangeSearch}/>
           :
           ""
-          // <span>{itemName}</span>
         }
         {choosenItems &&
           <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
         }
-        <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue'/></button>
+        <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue' onClick={openHandler}/></button>
 
       </div>
-      {isOpen && <>
+      {isOpen && <div className="scrollContainer">
         {choosenItems.length > 0 &&
           <ul className="choosenItemsContainer">
             {choosenItems.map(item =>(
@@ -54,7 +52,7 @@ export default function DropDownList({itemName, items, choosenItems=[], isOpen, 
             ))
           }
         </ul>
-      </>}
+      </div>}
     </div>
     
   

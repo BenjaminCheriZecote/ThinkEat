@@ -1,0 +1,55 @@
+.section__addRecipe {
+    display:flex;
+    justify-content: end;
+}
+
+.section-li__container--options {
+        
+    display: flex;
+    gap:0.4rem;
+    
+}
+
+.section__recipe {
+    margin:1rem;
+}
+
+.section__li {
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0.3rem 0rem;
+}
+
+.section-li__container {
+    display:flex;
+}
+
+.section-li__container--boxLegend  {
+    display: flex;
+    width:14rem;
+}
+
+.section-li__container--boxLegend a {
+    font-family: 'Playpen Sans', cursive;
+    font-weight: 300;
+}
+
+.section-li__container--boxLegend a:hover {
+    transform: translateX(-1rem);
+    transition: 500ms ease-in-out;
+    text-decoration: underline;
+}
+
+
+.section-li__container--boxImg img {
+    width:100%;
+}
+
+
+.section__li a {
+    font-size: 0.7rem;
+    align-self: end;
+    margin-bottom:0.3rem;
+}

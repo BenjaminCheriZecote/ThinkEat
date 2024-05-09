@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import style from '../../../Partials/Aside/Aside.module.css'
 
-const AsideCheckbox = ({item, label, state}) => {
+const AsideCheckbox = ({item, label, state, mode}) => {
     const dispatch = useDispatch();
 
     const handleChangeHungerFilter = () => {
@@ -12,7 +12,7 @@ const AsideCheckbox = ({item, label, state}) => {
     return(
         <div className={style.asideFormFilter__hungerContainer}>
             <div className={style.boxContainer}>
-                <input data-item={item} className={style.checkboxAside} id={`hunger${item}Filter`} name="hunger" value={label} type="checkbox" onChange={handleChangeHungerFilter} checked={state}/>
+                <input data-item={item} className={style.checkboxAside} id={`hunger${item}Filter`} name="hunger" value={label} type="checkbox" onChange={handleChangeHungerFilter} checked={state} style={mode?{border:"1px #282a2c solid"}:{border:"1px var(--colorGrey) solid"}}/>
                 <label htmlFor={`hunger${item}Filter`} >{label}</label>
             </div>
         </div>

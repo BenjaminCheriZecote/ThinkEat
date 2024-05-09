@@ -1,5 +1,5 @@
 import 'animate.css';
-import ValidateCheck from "../../icons/ValidateCheck";
+import ValidateCheck2 from "../../icons/ValidateCheck2";
 import DeleteCruse from "../../icons/DeleteCruse";
 import { IoCartOutline } from "react-icons/io5";
 
@@ -48,7 +48,7 @@ const Proposition = ({proposition, history}) => {
         proposition.validate? "liProposotion validate":"liProposotion unvalidate"
         }>
             <div className={proposition.validate?"liProposotion__imgContainer validateImg":"liProposotion__imgContainer unvalidateImg"}>
-                <img src={proposition.image === null?"/default-img.webp":proposition.image} alt={`${proposition.name}`} className={!proposition.validate?"unvalidateGrayscale":""}/>
+                <img src={proposition.image === null?"/default-img.webp":`/${proposition.image}`} alt={`${proposition.name}`} className={!proposition.validate?"unvalidateGrayscale":""}/>
             </div>
 
             <div className={proposition.validate?"liProposotion__legendContainer":"liProposotion__legendContainer unvalidateGrayscale"}>
@@ -74,7 +74,7 @@ const Proposition = ({proposition, history}) => {
                 </div>
             :
             <div className="liProposotion__choiceBox">
-                    <ValidateCheck handleClick={handleClickValidateProposition}/>
+                    <ValidateCheck2 handleClick={handleClickValidateProposition} color={"var(--colorGreenCheck)"} size={0.9}/>
                     <DeleteCruse handleClick={handleClickDeleteProposition} size={1}/>
             </div>
             }

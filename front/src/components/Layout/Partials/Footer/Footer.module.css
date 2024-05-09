@@ -22,6 +22,7 @@
 .footer p {
     font-weight: 700;
     font-size:0.7rem;
+    color:var(--colorUi3)
 }
 
 .footer a {

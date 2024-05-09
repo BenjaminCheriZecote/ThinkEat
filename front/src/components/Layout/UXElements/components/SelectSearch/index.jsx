@@ -4,7 +4,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import Options from './Option/Option';
 import OptionChosen from './OptionChosen/OptionChosen';
 
-const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredient, setIsRotatedIngredient, activeSelectorFilter, setActiveSelectorFilter, itemChoices}) => {
+const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredient, setIsRotatedIngredient, setIsRotatedDiet, activeSelectorFilter, setActiveSelectorFilter, itemChoices, mode}) => {
 
     const [itemCopy, setItemCopy] = useState(store);
 
@@ -16,20 +16,32 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
 
         // si le select choisi n'est pas ouvert
         if (activeSelectorFilter !== current) {
+            // si un des selects est déjà ouvert
+            if (activeSelectorFilter !== null) {
+                // on met la fleche du select déjà ouvert vers le bas.
+                if (current === "ingredients") {
+                    setIsRotatedFamilyIngredient(false);
+                    setIsRotatedDiet(false)
+                }
+                if (current === "families") {
+                    setIsRotatedIngredient(false)
+                    setIsRotatedDiet(false)
+                }
+                if (current === "diets") {
+                    setIsRotatedIngredient(false)
+                    setIsRotatedFamilyIngredient(false);
+                }
+            }
             // on l'ouvre
             setActiveSelectorFilter(current);
-            // si l'autre select est déjà ouvert, on met la flèche vers le bas.
-            if (activeSelectorFilter === other) {
-                if (other === "families") setIsRotatedFamilyIngredient(false)
-                if (other === "ingredients") setIsRotatedIngredient(false)
-            }
         } else {
             // si le select choisi est déjà ouvert, on le ferme.
             setActiveSelectorFilter(null)
         }
         // on inverse la rotation la flèche du select choisi à chaque click.
         if (current === "ingredients") setIsRotatedIngredient(!isRotated);
-        if (current === "families") setIsRotatedFamilyIngredient(!isRotated); 
+        if (current === "families") setIsRotatedFamilyIngredient(!isRotated);
+        if (current === "diets") setIsRotatedDiet(!isRotated);
 
     }
 
@@ -42,8 +54,8 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
         
         <div className={style.selectBox}>
             {/* nom du select spécifié dans un button pour ouvrir et fermer le select*/}
-            <div className={style.selectOption} onClick={() => handleClickSelect(item)}>
-                <button type="button">{label}  </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotated ? "rotate(180deg)" : "rotate(0)"}}/> 
+            <div className={style.selectOption} onClick={() => handleClickSelect(item)} style={{color:"var(--colorUi3)"}}>
+                <button type="button" style={{color:"var(--colorUi3)"}}>{label}  </button><MdKeyboardArrowDown className={style.arrowSoValue} style={{transform: isRotated ? "rotate(180deg)" : "rotate(0)"}}/> 
             </div>
             
             {/* input de type hidden */}
@@ -68,7 +80,7 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
                         })}
                         {(itemCopy.length > 0 ? itemCopy : store).map((element, index) => (
                             // composant Options
-                            <Options key={index} itemName={item} itemOption={element} itemChoices={itemChoices} >{element.name}</Options>
+                            <Options key={index} itemName={item} itemOption={element} itemChoices={itemChoices} mode={mode}>{element.name}</Options>
                         ))}
                     </ul>
                 </div>

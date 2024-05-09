@@ -30,10 +30,9 @@ export default class CoreController {
     const { id } = req.params;
     this.validator.checkId(id);
     const data = this.validator.checkBodyForUpdate(req.body);
-
     const exitedRow = await this.datamapper.findByPk(id);
     this.validator.checkIfExist(exitedRow, this.className);
-
+    
     const row = await this.datamapper.update({...data, id});
 
     return res.status(200).json(row);
@@ -43,8 +42,10 @@ export default class CoreController {
     const { id } = req.params;
     this.validator.checkId(id);
 
-    const exitedRow = await this.datamapper.findByPk(id);
-    this.validator.checkIfExist(exitedRow, this.className);
+    const existedRow = await this.datamapper.findByPk(id);
+    this.validator.checkIfExist(existedRow, this.className);
+
+    if (this.className === 'Recipe') await this.deleteFileImageByName(req, res);
 
     await this.datamapper.delete(id);
 

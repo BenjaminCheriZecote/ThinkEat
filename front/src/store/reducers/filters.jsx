@@ -8,7 +8,7 @@ const initialState = {
         hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
         preparatingTime: {min:"00:00:00",max:"05:59:59"},
         cookingTime: {min:"00:00:00",max:"05:59:59"},
-        dietPreferences: [{name:"Vegetarien", state: false}, {name:"Vegetalien", state: false}, {name:"Crudivore", state:false}, {name:"Sans gluten", state: false}, {name:"Sans lactose", state: false}],
+        dietPreferences: [{name:"Vegetarien", state: false, id:1}, {name:"Vegetalien", state: false, id:2}, {name:"Crudivore", state:false, id:3}, {name:"Sans gluten", state: false, id:4}, {name:"Sans lactose", state: false, id:5}],
         favorites: {name:"Favoris", state:true},
     }					
 }						

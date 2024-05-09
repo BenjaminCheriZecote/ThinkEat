@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, useActionData } from "react-router-dom";
-import DeleteTrash from "../../icons/DeleteTrash";
+import DownloadCloud from "../../icons/DownloadCloud/DownloadCloud";
 import { FaPlus } from "react-icons/fa6";
+import AddPlus from "../../icons/AddPlus";
 import { MdCancel } from "react-icons/md";
 import DropDownList from "../DropDownList";
 import './style.css'
@@ -17,9 +18,8 @@ const recipeInit = {
 }
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal, favorite}) {
-
+  
   const error = useActionData();
-
   const user = useSelector((state) => state.session);
   const {filters} = useSelector((state) => state.filters);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
@@ -29,7 +29,10 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   const [steps, setSteps] = useState(recipe.steps);
   const [ingredients, setIngredients] = useState(recipe.ingredients || []);
   const [selectedMenu, setSelectedMenu] = useState(null);
+  const [imgAdded, setImgAdded] = useState(null);
+  const [recipeImageCopy, setRecipeImageCopy] = useState(recipe.image)
   const selectElement = useRef();
+  const inputFileElement = useRef();
 
 
   function  changeRecipe() {
@@ -38,6 +41,13 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     }
     setInChange(!inChange);
   }
+
+  function formatTime(time) {
+    const [hours, minutes, seconds] = time.split(':');
+    return `${hours}:${minutes}`;
+  }
+
+  
 
   if (!inChange) {
     return (
@@ -48,18 +58,18 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         </div>
         <section className={`${style.sectionRecipeTop}`}>
           <div>
-            <div className={`${style.timeContainer}`}>
-              <div className={`${style.sectionRecipeField} ${style.preparatingTimeContainer}`}>
+            
+              <div className={`${style.sectionRecipeField} `}>
                 <h4>Preparation :</h4>
-                <time dateTime={recipe.preparatingTime}>{recipe.preparatingTime}</time>
+                <time dateTime={recipe.preparatingTime}>{formatTime(recipe.preparatingTime)}</time>
               </div>
-              <div className={`${style.sectionRecipeField} ${style.cookingTimeContainer}`}>
+              <div className={`${style.sectionRecipeField}`}>
                 <h4>Cuisson :</h4>
-                <time dateTime={recipe.cookingTime}>{recipe.cookingTime}</time>
+                <time dateTime={recipe.cookingTime}>{formatTime(recipe.cookingTime)}</time>
               </div>
-            </div>
+            
             <div className={`${style.sectionRecipeField}`}>
-              <h4>Nombre de convive :</h4>
+              <h4>Convive :</h4>
               <span>{recipe.person}</span>
             </div>
             <div className={`${style.sectionRecipeField}`}>
@@ -68,8 +78,10 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             </div>
           </div>
           <figure>
-            <img src={recipe.image === null ? "/default-img.jpg" : recipe.image} alt={recipe.name} />
-            <figcaption>{recipe.name}</figcaption>
+            <img src={recipe.image === null ? "/default-img.webp" : recipe.image} alt={recipe.name} />
+            <div>
+              <figcaption>{recipe.name}</figcaption>
+            </div>
           </figure>
         </section>
 
@@ -82,7 +94,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             <li key={ingredient.id}>
               <figure>
                 <div>
-                  <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
+                  <img src={ingredient.image === null ? "/default-img.webp" : ingredient.image} alt={ingredient.name} />
                 </div>
                 
                 <figcaption>{ingredient.quantity && ingredient.quantity + " "}{ingredient.unit && ingredient.unit + " "}{ingredient.name}</figcaption>
@@ -124,7 +136,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     setSelectedMenu("ingredients");
   }
   function toggleItem(event) {
-    const [itemName, idString] = event.target.dataset.itemId.split("-");
+    const [itemName, idString] = event.target.closest('button') ? event.target.closest('button').dataset.itemId.split("-") : event.target.dataset.itemId.split("-");
     const id = parseInt(idString);
     if (itemName === "Ingredients") {
       const isInRecipe = ingredients.some(ingredient => ingredient.id === id)
@@ -140,6 +152,12 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
       newSteps.splice(id,1);
       setSteps(() => newSteps);
     }
+    if (itemName === "Image") {
+      setImgAdded(null);
+    }
+
+    if (recipe.image)setRecipeImageCopy(null)
+        
   }
 
   function addStepp() {
@@ -152,10 +170,26 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     newSteps[id] = event.target.value;
     setSteps(newSteps);
   }
+
+  function handleDownloadImg() {
+    inputFileElement.current.click();
+  }
+
+  function handleFileChange() {
+
+    const file = event.target.files[0];
+   
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImgAdded({path:reader.result, name:file.name});
+      };
+      reader.readAsDataURL(file);
+    
+  }
   
 
   return(
-    <><Form className={modal ? `${modal} ${style.sectionRecipe} ${style.scrollY}` : `${style.sectionRecipe}`} method={formMethod}>
+    <><Form encType="multipart/form-data" className={modal ? `${modal} ${style.sectionRecipe} ${style.scrollY}` : `${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
       {favorite &&
         <input type="hidden" name="userId" value={user.id} />
@@ -175,9 +209,9 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} required />
           </div>
         
-          <div className={`${style.sectionRecipeField}`}>
-            <label>Nombre de convive :</label>
-            <input name="person" type="number" min="1" defaultValue={recipe.person} />
+          <div className={`${style.sectionRecipeField} `}>
+            <label>Convive :</label>
+            <input name="person" type="number" min="1" defaultValue={recipe.person} className={`${style.personInput}`}/>
           </div>
           <div className={`${style.sectionRecipeField}`}>
             <label>Faim :</label>
@@ -189,8 +223,37 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           </div>
         </div>
         <figure>
-          <img src={recipe.image === null ? "/default-img.jpg" : recipe.image} alt={recipe.name} />
-          <figcaption>{recipe.name}</figcaption>
+          <input ref={inputFileElement} type="file" hidden accept=".jpg, .png, webp" onChange={handleFileChange} name="imageFile" multiple/>
+            {formMethod === "POST" || formMethod === "PATCH"?
+              imgAdded ?
+                <>
+                  <img src={imgAdded.path} alt="doawload image" />
+                  <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
+                </>
+              :
+                !recipeImageCopy? 
+                  <>
+                  <label 
+                  className={style.downloadImg} 
+                  onClick={handleDownloadImg} 
+                  > 
+                    <span>Choisir une image</span>
+                    <DownloadCloud size={50} color={"var(--colorUser)"}/>
+                  </label>
+                  
+                  </>
+                :
+                  <>
+                    <img src={imgAdded?imgAdded.path : recipeImageCopy} alt={recipe.name} />
+                    <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
+                  </>
+            :
+              <img src={recipe.image === null ? "/default-img.webp" : `/${recipe.image}`} alt={recipe.name} />
+            }
+          
+          <div>
+            {!formMethod === "PATCH" || !formMethod === "POST" && <figcaption>{recipe.name}</figcaption>}
+          </div>
         </figure>
       </fieldset>
 
@@ -200,15 +263,20 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
         </div>
         <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
+        {modal && ingredients.length === 0 &&
+        <li className={style.addIngredient} onClick={openIngredientMenu}>
+          <AddPlus  size={40} color={"var(--colorUser)"}/>
+        </li>
+        }
         {ingredients && ingredients.map(ingredient => (
           <li key={ingredient.id}>
             <figure>
-              <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteTrash /></button>
+              <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteCruse size={1}/></button>
               <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
               <figcaption className={style.figcaption}>
                 <p>{ingredient.name}</p>
                 <div className={style.figcaptionDiv}>
-                  <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2"/>
+                  <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2" className={`${style.unitInput}`} required/>
                   <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit ? ingredient.unit: 0}>
                     {units && units.map((unit, index) => <option key={index} value={unit.id}>{unit.name}</option>
                     )}
@@ -224,7 +292,11 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     <fieldset>
         <div className={`${style.sectionRecipeField}`}>
           <legend>Etapes</legend>
-          <button type="button" onClick={addStepp}><FaPlus /></button>
+            {/* <AddPlus handleClick={addStepp} color={"var(--colorbg2)"}/> */}
+          <button type="button" onClick={addStepp} className={`${style.addStep}`}>
+            <FaPlus />
+            
+          </button>
         </div>
         <ul className={style.sectionRecipeFieldStepsContainer}>
           {steps &&
@@ -232,16 +304,17 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           {steps && steps.map((step, index) => (
             <li key={index} >
               <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}
-              <button className={style.BtnDeleteStep} type="button" data-item-id={`steps-${index}`} onClick={toggleItem}>
-                <DeleteCruse />
-                </button></h4>
+                <button data-item-id={`steps-${index}`} className={style.BtnDeleteStep} type="button" onClick={toggleItem}>
+                  <DeleteCruse size={1}/>
+                </button>
+              </h4>
               <textarea name={`steps${index}`} value={step} data-item-id={`steps-${index}`} onChange={stepUpdate}/>
             </li>
           ))}
         </ul>
       </fieldset><div className={`${style.sectionRecipeBottom}`}>
-        <button type="submit"><ValidateCheck size={30} /></button>
-        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel size={30} style={{color:"red", border:"none"}}/></button>
+        <button type="submit"><ValidateCheck size={26} color={" var(--colorGreenCheck)"}/></button>
+        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel size={30} style={{color:"#D70D0D", border:"none"}}/></button>
       </div>
     </Form>
     </>

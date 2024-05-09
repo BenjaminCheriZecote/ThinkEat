@@ -10,7 +10,7 @@
 }
 
 .section-ulContainer__li {
-    box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorbg3) 0 -3px 0 inset;
+    box-shadow: var(--colorShadow2) 0 2px 4px,var(--colorShadow2) 0 7px 13px -3px,var(--colorbg3) 0 -3px 0 inset;
     border-radius: 0.5rem;
     padding:0.5rem;
 }

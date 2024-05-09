@@ -9,6 +9,8 @@ import proposalReducer from "./reducers/proposal";
 import unitReducer from "./reducers/unit";
 import isAsideReducer from "./reducers/isAside";
 import historyReducer from "./reducers/history";
+import dietsReducer from "./reducers/diets";
+import darkModeReducer from "./reducers/darkMode";
 				
 const store = configureStore({				
 	reducer: {
@@ -21,7 +23,9 @@ const store = configureStore({
 		proposal:proposalReducer,
 		history:historyReducer,
 		units:unitReducer,
-		isAside: isAsideReducer
+		isAside: isAsideReducer,
+		diets:dietsReducer,
+		darkMode:darkModeReducer
 	}			
 })				
 				

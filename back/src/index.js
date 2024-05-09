@@ -4,7 +4,7 @@ import cors from "cors";
 
 // Import local dependencies
 import { router as apiRouter } from "./routers/index.js";
-import { bodySanitizer, errorMiddleware, notFoundMiddleware, queryParser, redirectToApp } from "./middlewares/index.js";
+import { bodySanitizer, errorMiddleware, notFoundMiddleware, queryParser, redirectToApp} from "./middlewares/index.js";
 
 // Create Express App
 const app = express();

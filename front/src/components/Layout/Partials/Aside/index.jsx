@@ -1,4 +1,4 @@
-
+import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { NavLink, useLocation, useSubmit } from 'react-router-dom';
@@ -22,7 +22,8 @@ const Aside = () => {
     const location = useLocation();
     const currentPath = location.pathname;
 
-    const {preparatingTime, cookingTime} = useSelector((state) => state.filters.filters);
+    const {preparatingTime, cookingTime, dietPreferences} = useSelector((state) => state.filters.filters);
+    const {dietsChoices} = useSelector((state) => state.diets)
     
     const [menuOpen, setMenuOpen] = useState(false);
     const {isConnected} = useSelector((state) => state.session);
@@ -38,13 +39,16 @@ const Aside = () => {
 
     const [isRotatedFamilyIngredientSelect, setIsRotatedFamilyIngredient] = useState(false)
     const [isRotatedIngredientSelect, setIsRotatedIngredient] = useState(false)
+    const [isRotatedDietSelect, setIsRotatedDiet] = useState(false);
+
+    const {mode} = useSelector((state) => state.darkMode);
+
 
     
     useEffect(() => {
-        if (generatedProposal) {
+        if (generatedProposal === true) {
             submit(filterButton.current);
         }
-        
     }, [generatedProposal])
 
 
@@ -52,8 +56,11 @@ const Aside = () => {
         dispatch({type:types.SET_FAVORITES_RECIPES})
     }
 
-    const handleClickStarterButton = () => {
-        if (currentPath === "/proposal") dispatch({type:types.GENERATE_PROPOSAL})
+    const handleClickStarterButton = (event) => {
+        if (currentPath === "/proposal") {
+            event.preventDefault();
+            dispatch({type:types.GENERATE_PROPOSAL});
+        }
     }
 
     const handleClickBurgerMenu = () => {
@@ -68,13 +75,14 @@ const Aside = () => {
         dispatch({type:types.SET_OFF_FILTERS});
         dispatch({type:types.SET_INGREDIENTS_CHOICES, payload:[]});
         dispatch({type:types.SET_FAMILIES_CHOICES, payload:[]});
-        window.history.replaceState({}, document.title, window.location.pathname);
+        dispatch({type:types.SET_DIETS_CHOICES, payload:[]});
+        // window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     return(
     <>
-    <aside id="aside" className={style.aside}>
-            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorbg1)"}} label={"burgerAside"}/>
+    <aside id="aside" className={`${style.aside}`}>
+            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorUi4)"}} label={"burgerAside"}/>
 
         <div className={menuOpen?'':`${style.hideAside}`}>
             {/* mettre le mot "Filter" dans la classe du Form */}
@@ -82,9 +90,9 @@ const Aside = () => {
                 <fieldset>
                     <legend>Appétit</legend>
                         <div className={style.asideFormFilter__hungerContainer}>
-                            <AsideCheckbox item={"Big"} label={hunger[0].name} state={hunger[0].state?true:false}/>
-                            <AsideCheckbox item={"Normal"} label={hunger[1].name} state={hunger[1].state?true:false}/>
-                            <AsideCheckbox item={"Few"} label={hunger[2].name} state={hunger[2].state?true:false}/>
+                            <AsideCheckbox item={"Big"} label={hunger[0].name} state={hunger[0].state?true:false} mode={mode}/>
+                            <AsideCheckbox item={"Normal"} label={hunger[1].name} state={hunger[1].state?true:false} mode={mode}/>
+                            <AsideCheckbox item={"Few"} label={hunger[2].name} state={hunger[2].state?true:false} mode={mode}/>
                         </div>
                 </fieldset>
 
@@ -93,11 +101,11 @@ const Aside = () => {
                     <div className={style.asideformFilter__inputTimeContainer}>
                     
                         <div className={style.boxContainer}>
-                            <DoubleInputRange label={"Préparation"} name={"preparatingTime"} item={preparatingTime}/>
+                            <DoubleInputRange label={"Préparation"} name={"preparatingTime"} item={preparatingTime} />
                         </div>
 
                         <div className={style.boxContainer}>
-                            <DoubleInputRange label={"Cuisson"} name={"cookingTime"} item={cookingTime}/>
+                            <DoubleInputRange label={"Cuisson"} name={"cookingTime"} item={cookingTime} />
                         </div>
                     </div>
                 </fieldset>
@@ -111,10 +119,11 @@ const Aside = () => {
                             label="Ingredients" 
                             isRotated={isRotatedIngredientSelect} 
                             setIsRotatedFamilyIngredient={setIsRotatedFamilyIngredient}
-                            setIsRotatedIngredient={setIsRotatedIngredient} 
+                            setIsRotatedIngredient={setIsRotatedIngredient}
+                            setIsRotatedDiet={setIsRotatedDiet} 
                             activeSelectorFilter={activeSelectorFilter}
                             setActiveSelectorFilter={setActiveSelectorFilter}
-                            itemChoices={ingredientsChoices} 
+                            itemChoices={ingredientsChoices}
                             />
 
                             <SelectSearch 
@@ -123,14 +132,27 @@ const Aside = () => {
                             label="Categories" 
                             isRotated={isRotatedFamilyIngredientSelect} 
                             setIsRotatedFamilyIngredient={setIsRotatedFamilyIngredient}
-                            setIsRotatedIngredient={setIsRotatedIngredient} 
+                            setIsRotatedIngredient={setIsRotatedIngredient}
+                            setIsRotatedDiet={setIsRotatedDiet}  
                             activeSelectorFilter={activeSelectorFilter}
                             setActiveSelectorFilter={setActiveSelectorFilter}
-                            itemChoices={familiesChoices} 
+                            itemChoices={familiesChoices}  
+                            />
+
+                            <SelectSearch 
+                            store={dietPreferences} 
+                            item="diets" 
+                            label="Régimes" 
+                            isRotated={isRotatedDietSelect} 
+                            setIsRotatedFamilyIngredient={setIsRotatedFamilyIngredient}
+                            setIsRotatedIngredient={setIsRotatedIngredient}
+                            setIsRotatedDiet={setIsRotatedDiet} 
+                            activeSelectorFilter={activeSelectorFilter}
+                            setActiveSelectorFilter={setActiveSelectorFilter}
+                            itemChoices={dietsChoices}
                             />
                     </fieldset> 
                 </div>
-
 
                 <footer>
                     <div>
@@ -144,6 +166,7 @@ const Aside = () => {
                                     type="checkbox" 
                                     onChange={handleChangeFavoritesFilter} 
                                     checked={favorites.state} 
+                                    style={mode?{border:"1px #282a2c solid"}:{border:"1px #ada28f solid"}}
                                     />
                                     {favorites.name}
                                 
@@ -151,7 +174,7 @@ const Aside = () => {
                         }
                         <button  ref={filterButton} className={currentPath === '/proposal'?style.invisible:style.buttonElement}>Filtrer</button>
                     </div>
-                    <button onClick={setOfFilters}>Désélectionner les filtres</button>
+                    <NavLink onClick={setOfFilters} to={currentPath}>Désélectionner les filtres</NavLink>
                 </footer>        
 
             </Form>

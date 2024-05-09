@@ -1,6 +1,7 @@
 
 
-@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200;300;400&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200;300;400&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100;200&display=swap');
 /* // font-family: 'Playpen Sans', cursive; */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* // font-family: "Poppins", sans-serif; */
@@ -21,8 +22,27 @@
   --colorbg1: #fefefe;
   --colorbg2: #e8eceb;
   --colorbg3: #e3eae9;
-  --colorbg4: #282a2c;
-  /* #e3eae9; */
+
+  /* White to Orange */
+  --colorUi1:white;
+  /* Orange to white */
+  --colorUi2:var(--colorOrange);
+  /* Black to orange */
+  --colorUi3:black;
+  /* Orange to black */
+  --colorUi4:var(--colorOrangeRange);
+  /* inherit to sky */
+  --colorUi5:inherit;
+  /* */
+  --colorProposition:#cad7e0;
+
+  --colorShadow:rgba(0,0,0,0.11);
+  --colorShadow2:rgba(0, 0, 0, 0.11);
+
+  --colorFont1:black;
+
+  --colorFont2:black;
+
   --colorbg6: #cadbd7;
   --colorbg7:rgb(198, 173, 134);
   --colorGrey: #ada28f;
@@ -31,24 +51,23 @@
   --colorBtnStarterAside: rgb(80, 152, 104);
 
   --colorbgProfil: rgb(45, 56, 105);
-  --colorbgAside1: rgba(255, 246, 189, 0.769);
-  --colorbgAside2: rgb(222, 194, 132);
-  --colorbgAside2: rgb(196, 175, 121);
-  --colorbgAside3:  rgb(227, 209, 163);
-  --colorbgAside3:  #c7d4d5;
   
   --colorbgAside1: #cadbd74a;
-  --colorbgAside2: #c7d4d5;
   --colorbgAside2: #cccbdf;
+  --colorbgAside3: #cad7e0;
 
-  /* --colorbgAside1:rgba(231, 118, 84, 0.897);
-  --colorbgAside2: rgba(211, 93, 57, 0.883); */
+  --colorUser: #cad7e0;
+
+  --colorParagraph: white;
+  --colorGreenCheck: rgb(0, 128, 0);
   
-  --colorOrange: rgba(202, 94, 61, 0.749);
+  --colorOrangeLight: rgba(202, 94, 61, 0.749);
+  --colorOrange: rgb(211, 93, 57);
   --colorOrangeDark: #a93e1ebf;
   --colorOrangeDarkPlus: rgba(102, 30, 8, 0.75);
   --colorOrangeRange: rgb(211, 93, 57);
   --colorYellow: rgb(222, 200, 4);
+  --colorSky: #e3eae9;
   --color1: black;
   --padHeader: 1rem; 
 
@@ -77,7 +96,7 @@ body > #root {
   background: white;
   overflow: hidden;
   border-radius:2rem;
-  background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2));
+  background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2), var(--colorbg3));
   box-shadow: 5px 5px 30px -15px rgba(0,0,0,0.8);
 }
 

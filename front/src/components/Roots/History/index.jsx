@@ -12,6 +12,7 @@ const History = () => {
     
     const {history} = useSelector((state) => state.history);
     const dispatch = useDispatch();
+    
 
     const handleDelete = async (event) => {
         
@@ -20,7 +21,6 @@ const History = () => {
         await HistoryApi.delete(historyId);
         dispatch({type:types.SET_HISTORY, payload: await HistoryApi.getAll()})
     }
-
 
     return (
         <main className="outlet">

@@ -29,7 +29,7 @@ const Proposal = () => {
     }, [])
 
     useEffect(() => {
-        if (generatedProposal === false) {
+        if (generatedProposal === false && generatedProposal !== null) {
             setProposition();
             dispatch({type:types.CLOSE_PROPOSAL})
         }
@@ -89,9 +89,9 @@ const Proposal = () => {
                 
                     <Form className="section__start" action="/proposal">
                         <div>
-                            <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorOrange)"}} size={20}/>
+                            <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorUi4)"}} size={20}/>
                             <input type="number" value={numberOfProposition} onChange={handleChange} id="starter"/>
-                            <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorOrange)"}} size={20}/>
+                            <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorUi4)"}} size={20}/>
                         </div>
   
                         <button onClick={handleSubmit} className="buttonStarter" id="starterButton">C'est parti !</button>

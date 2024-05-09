@@ -1,20 +1,15 @@
 
 
 .dropDownListContainer {
-    max-height: 40rem;
-    overflow-y:scroll;
-    
     font-size:1rem;
-    color: var(--colorGrey);
+    font-weight: 200;
     position: relative;
     position:absolute;
     left:10rem;
     z-index:50;
     width:25rem;
     border-radius: 0.3rem;
-    
 }
-
 
 .dropDownListSearchContainer {
     background-color: inherit;
@@ -25,13 +20,15 @@
     border-radius:0.2rem;
     background-color: var(--colorbg2); 
     margin-bottom:1rem;
-    position:sticky;
-    top:0rem;
+    margin-top:0.2rem;
+    box-shadow: 2px 3px 4px -3px var(--colorFont1);
 }
 
 .dropDownListSearchContainer button {
     border:none;
     background-color: inherit;
+    cursor:pointer;
+    color:var(--colorUi3);
 }
 
 .dropDownListSearch {
@@ -39,13 +36,17 @@
     background-color: inherit;
     border:1px;
     height:1rem;
-    border:1px white solid;
+    color:var(--colorUi3);
+    
 }
-.choosenItemsContainer {
+
+form div .choosenItemsContainer {
     display:flex;
     flex-direction: column;
     background-color: var(--colorbg2);
-    border-radius:0.5rem;
+    border-top-left-radius:0.5rem;
+    border-top-right-radius:0.5rem;
+    padding-bottom:0rem;
 }
 
 .choosenItemsContainer li {
@@ -62,18 +63,41 @@
 
 .tagChoosenItem {
     display:flex;
-    gap:1rem;
+    align-items: center;
+    gap:0.2rem;
+    padding:0.1rem 0 0.1rem 0.1rem;
 }
 
 .tagChoosenItem button {
     border:none;
     background-color:inherit;
     color:white;
+    cursor: pointer;
+}
+
+.tagChoosenItem span {
+    font-size:0.9rem;
+    font-weight:400;
 }
 
 .itemsListContainer {
     display:flex;
-    flex-direction: column;
+    flex-flow: column nowrap;
     background-color: var(--colorbg2);
-    border-radius:0.7rem;
+    border-bottom-left-radius:0.7rem;
+    border-bottom-right-radius:0.7rem;
+    color:var(--colorUi3);
+    
+}
+
+.itemsListContainer li {
+    cursor: pointer;
+}
+
+.scrollContainer {
+    max-height: 24rem;
+    overflow-y: scroll;
+    scrollbar-color: var(--colorGrey) var(--colorbg2);
+    box-shadow: 2px 3px 4px -3px var(--colorFont1);
+    border-radius: 0.3rem;
 }

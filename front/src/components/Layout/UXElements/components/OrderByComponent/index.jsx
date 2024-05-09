@@ -159,7 +159,7 @@ const OrderByComponent = () => {
                             )
                             
                         })}
-                        <button className="btnValidate" aria-label="button to sort">Trier</button>
+                        <button className="" aria-label="button to sort">Trier</button>
                     </ul> 
               
             </fieldset>    

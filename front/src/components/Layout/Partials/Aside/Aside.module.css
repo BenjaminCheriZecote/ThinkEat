@@ -8,24 +8,21 @@
     justify-content: space-between;
     padding:1rem;
     background-image: linear-gradient(to bottom, var(--colorbgAside1), var(--colorbgAside2));
-   
-    color: black;
-    /* color: var(--colorOrange); */
-    /* color:#cadbd7;
-    color:var(--colorbg2); */
+    color: var(--colorFont2);
     font-weight: 500;
     position:relative;
 }
 
-.aside__formCriteria, .aside__formFilter {
+.aside > div {
+  overflow:hidden;
+  animation: show 1s forwards;
+}
+
+.aside__formFilter {
     display:flex;
     flex-direction: column;
     gap:1rem;
     padding:1rem;
-}
-
-.aside__formFilter {
-  height:100%;
 }
 
 aside label {
@@ -73,7 +70,7 @@ aside footer div {
   align-items: center;
 }
 
-.aside footer > button {
+.aside footer > a {
   width:fit-content;
   border:none;
   background-color: inherit;
@@ -85,9 +82,9 @@ aside footer div {
   cursor:pointer;
 }
 
-.aside footer > button:hover {
+.aside footer > a:hover {
   transition: 300ms ease-in-out;
-  color:var(--colorOrangeDark)
+  color:var(--colorUi2)
 }
 
 .invisible {
@@ -110,7 +107,6 @@ aside footer div {
 
 .menu-link {
     text-decoration: none;
-    color: rgba(202, 94, 61, 0.75);
     color:var(--colorOrange)
 }
 
@@ -131,9 +127,9 @@ form li {
 .rotate {
     transform: rotate(180deg)
 }
+
 .selectBox {
     margin: 0.5rem 0rem;
-    background-color: white;
     width:90%;
 }
 
@@ -142,7 +138,8 @@ form li {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(238, 236, 236);
+    background-color: var(--colorbg2);
+    
     width:100%;
     padding:0.3rem;
 }
@@ -159,7 +156,6 @@ form li {
 .selectOption button {
     border:none;
     background-color: inherit;
-    
 }
 
 .selectOptions:after {
@@ -179,7 +175,7 @@ form li {
     margin-top: 0.3rem;
     display:flex;
     flex-direction: column;
-    background-color: rgb(242, 242, 242);
+    background-color: var(--colorbg2);
     position: absolute;
     left:0;
     z-index:9;
@@ -195,9 +191,16 @@ form li {
     border:none;
 }
 
+.search input::placeholder {
+  color:var(--colorUi3);
+}
+
 .search input {
     object-fit: cover;
     border:none;
+    background-color: var(--colorbg2);
+    color:var(--colorUi3);
+    border-bottom:1px var(--colorUi3) solid;
 }
 
 .liOptions, #soValue, .search {
@@ -245,7 +248,6 @@ form li {
   width: 1rem;
   aspect-ratio: 1;
   border-radius: 0.3rem;
-  border: 1px solid #ada28f;;
   position: relative;
   transition: all 0.2s ease-in-out;
 }
@@ -300,17 +302,17 @@ form li {
 
 .buttonElement {
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
-    rgba(253, 2, 2, 0.15) 0px -36px 30px 0px inset,
-    rgba(253, 2, 2, 0.25) 0px -36px 30px 0px inset,
-    rgba(233, 140, 140, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
-    rgba(245, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-    rgba(246, 68, 68, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  box-shadow: var(--colorUi4) 0px -23px 25px 0px inset,
+  var(--colorUi4) 0px -36px 30px 0px inset,
+  var(--colorUi4) 0px -36px 30px 0px inset,
+  var(--colorUi4) 0px -79px 40px 0px inset,rgba(0, 0, 0, 0.06) 0px 2px 1px,
+  rgba(0, 0, 0, 0.09) 0px 4px 2px,rgba(0, 0, 0, 0.09) 0px 8px 4px,
+  rgba(0, 0, 0, 0.09) 0px 16px 8px,rgba(0, 0, 0, 0.09) 0px 32px 16px;
   border: none;
   width: 5rem;
   height: 2rem;
   color: white;
-  background-color: transparent;
+  /* background-color: var(--colorUi4); */
   border-radius: 20px;
   transition: all 0.3s ease;
 }
@@ -320,7 +322,7 @@ form li {
 }
 
 .buttonElement:hover {
-  filter:contrast(150%)
+  filter:contrast(130%)
 }
 
 
@@ -398,6 +400,17 @@ form li {
     }
   }
 
+  @keyframes show {
+    0% {
+      height:0px;
+    }
+
+    100% {
+      height:1150%;
+      overflow:visible;
+    }
+  }
+
   @media screen and (max-width: 600px) { /*  --gridd-breakpoint */
     #header .burgerHeader {
       display:block;
@@ -433,10 +446,11 @@ form li {
     .asideFormFilter__foodContainer fieldset {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
     }
 
     .selectBox {
-      width:40%;
+      width:30%;
       margin-right: auto;
       margin-left:auto;
     }

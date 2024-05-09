@@ -171,6 +171,36 @@ export class RecipeApi extends CoreApi {
     const proposal = await httpResponse.json();
     return proposal;
   }
+
+  static async addImageToRecipe(idRecipe, imageFile, nameFile) {
+    const token = await TokenApi.getValidToken();
+    const formData = new FormData();
+    if (imageFile) formData.append("image", new File([imageFile], nameFile, { type: imageFile.type }));
+
+    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${idRecipe}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
+
+  static async updateImageNameToRecipe(id, data) {
+    const token = await TokenApi.getValidToken();
+    
+    const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(data),
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
 }
 export class UnitApi extends CoreApi {
   static routeName = "unit";
@@ -269,6 +299,7 @@ export class UserApi extends CoreApi {
 
   static async removeRecipeToUser(userId, recipeId) {
     const token = await TokenApi.getValidToken();
+    console.log(userId)
 
     const httpResponse = await fetch(`${apiBaseUrl}/user/${userId}/recipe/${recipeId}`, {
       method: "DELETE",

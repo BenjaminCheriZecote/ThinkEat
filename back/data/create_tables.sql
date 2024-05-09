@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS "family" (
 
 CREATE VIEW short_family_view("id", "name") AS
   SELECT "id","name" FROM "family"
-  WHERE "delete_at" IS NULL;
+  WHERE "delete_at" IS NULL
+  ORDER BY "name" ASC;
 
 
 --  ---------------------------------------- Family type -------------------------------------------------------
@@ -428,7 +429,8 @@ CREATE VIEW extends_recipe("id", "name", "image", "steps", "hunger", "time", "pr
     )) FROM extends_ingredient as i
     WHERE i."id" IN (SELECT rhi."ingredient_id" FROM recipe_has_ingredient AS rhi WHERE rhi."recipe_id" = r."id")
   ) FROM "recipe" AS r
-  WHERE "delete_at" IS NULL;
+  WHERE "delete_at" IS NULL
+  ORDER BY "name" ASC;
 
 --  ---------------------------------------- Recipe Type -------------------------------------------------------
 

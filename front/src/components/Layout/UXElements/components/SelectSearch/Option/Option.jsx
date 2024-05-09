@@ -11,6 +11,7 @@ const Options = ({itemName, itemOption, itemChoices}) => {
                 const array = [itemOption.id, itemOption.name];
                 if (itemName === "ingredients") dispatch({type:types.ADD_ONE_INGREDIENT_CHOICES, payload:array})
                 if (itemName === "families") dispatch({type:types.ADD_ONE_FAMILY_CHOICES, payload:array})
+                if (itemName === "diets") dispatch({type:types.ADD_ONE_DIETS_CHOICES, payload:array})
                 
             } else {
                 // sinon on vérifie que l'option n'y soit pas avant de l'ajouter
@@ -19,6 +20,7 @@ const Options = ({itemName, itemOption, itemChoices}) => {
                     const array = [itemOption.id, itemOption.name]
                     if (itemName === "ingredients") dispatch({type:types.ADD_ONE_INGREDIENT_CHOICES, payload:array})
                     if (itemName === "families") dispatch({type:types.ADD_ONE_FAMILY_CHOICES, payload:array})
+                    if (itemName === "diets") dispatch({type:types.ADD_ONE_DIETS_CHOICES, payload:array})
                 }
             }    
     }
@@ -26,7 +28,7 @@ const Options = ({itemName, itemOption, itemChoices}) => {
     return(
         <>
             {itemOption &&
-                <li className="liOptions" onClick={(handleClickOption)}>
+                <li className="liOptions" onClick={(handleClickOption)} style={{color:"var(--colorUi3)"}}>
                     <p>{itemOption.name}</p>
                 </li>
             }

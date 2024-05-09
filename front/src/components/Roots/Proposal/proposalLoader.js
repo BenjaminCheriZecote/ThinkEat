@@ -4,7 +4,6 @@ import store from "../../../store";
 import types from "../../../store/reducers/types";
 
 export async function proposalLoader({request}){
-  
   const urlClient = new URL(request.url);
   
   const state = store.getState();

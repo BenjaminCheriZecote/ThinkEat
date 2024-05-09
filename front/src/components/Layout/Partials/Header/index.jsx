@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { CgProfile } from "react-icons/cg";
 import { IoIosSettings } from "react-icons/io";
+import ToggleDarkMode from '../../UXElements/icons/ToggleDarkMode/ToggleDarkMode';
 
 import { NavLink } from "react-router-dom";
 
@@ -26,8 +27,10 @@ const Header = () => {
     const {isAdmin} =useSelector((state) => state.session);
     const [isBox, setBox] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const {mode} = useSelector((state) => state.darkMode);
     const isHome = location.pathname === '/'; 
     const search = location.search;
+    
     
     const handleClick = () => {
         
@@ -53,6 +56,10 @@ const Header = () => {
         navigate("/");
     };
 
+    const handleDarkMode = () => {
+        dispatch({type:types.TURN_DARK_MODE})
+    }
+
     return(
         <>
             <header 
@@ -64,7 +71,7 @@ const Header = () => {
                     <h1>KoiKon<span>Mange</span></h1>
                     <h1 className="headerH1initial hidden">KK<span>M</span></h1>
                     <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
-                        <nav className="header-middleSide__nav">
+                        <nav className="header-middleSide__nav" style={isHome ? menuOpen ? {} : {color:"black"}:{}}>
                             <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search}`} >Accueil</NavLink>
                             <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/proposal${search && search}`}>Propositions</NavLink>
                             
@@ -83,6 +90,7 @@ const Header = () => {
                         </nav>
                     </div>
                     <div className='header-rightSide'>
+                        <ToggleDarkMode handleClick={handleDarkMode} mode={mode}/>
                         <CgProfile onClick={handleClick}  className="iconProfile" />
                         {isConnected?
                             <div ref={boxProfile} className='header-rightSide__boxProfile'>
