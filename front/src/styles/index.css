@@ -43,6 +43,8 @@
 
   --colorFont2:black;
 
+  --colorLogo:#414344;
+
   --colorbg6: #cadbd7;
   --colorbg7:rgb(198, 173, 134);
   --colorGrey: #ada28f;
@@ -50,7 +52,8 @@
 
   --colorBtnStarterAside: rgb(80, 152, 104);
 
-  --colorbgProfil: rgb(45, 56, 105);
+  --colorBlueUserProfil: rgb(18, 87, 223);
+  --colorBlueUserProfil2:rgb(41, 88, 181);
   
   --colorbgAside1: #cadbd74a;
   --colorbgAside2: #cccbdf;
@@ -127,9 +130,9 @@ body > #root {
     padding:1rem;
   }
 
-  #footer img {
+  #footer svg {
     width:2rem;
-    margin-top:1rem;
+    margin-top:0.6rem;
   }
   
 }
@@ -147,6 +150,7 @@ body > #root {
 
   #footer {
     margin-top: auto;
+    flex-direction: column;
   }
 
   .multi-range-slider-container {

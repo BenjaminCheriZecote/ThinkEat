@@ -22,7 +22,7 @@
 .header-rightSide {
   display:flex;
   gap:0.5rem;
-  z-index:15;
+  z-index:10;
 }
 
 .header-rightSide__boxProfile {

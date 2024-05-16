@@ -35,15 +35,6 @@ export async function recipeAction({ request, params }) {
               formFields[fieldName] = fieldValue;
           }
         
-          if (formFields.name === "" || formFields.name.charAt(0) !== formFields.name.charAt(0).toUpperCase() || formFields.name.length <= 3) {
-            toast.error({message:"Merci de renseigner le nom correctement. \nUne majuscule, 4 caractères minimum."})
-            return null
-          }
-    
-          if (!formFields.ingredients || formFields.steps === "") {
-            toast.error({message:"Veuillez ajouter au moins un ingrédient et une étape à la recette."})
-            return null
-          }
           const {recipes} = store.getState();
           
           const id = parseInt(formData.get("id"));
@@ -166,9 +157,9 @@ export async function recipeAction({ request, params }) {
             image = `${image}.${extension}`;
             data.image = image;
           }
-          // const validator = RecipeValidator.checkBodyForUpdate(data)
+          const dataValidate = RecipeValidator.checkBodyForUpdate(id, data)
           
-          const updatedRecipe = await RecipeApi.update(id, data);
+          const updatedRecipe = await RecipeApi.update(id, dataValidate);
           
           if ((formData.get("imageFile")).name !== '') {
             const imageFile = formData.get("imageFile");
@@ -216,17 +207,6 @@ export async function recipeAction({ request, params }) {
               }
               formFields[fieldName] = fieldValue;
           }
-
-          if (formFields.name === "" || formFields.name.charAt(0) !== formFields.name.charAt(0).toUpperCase() || formFields.name.length <= 3) {
-            toast.error({message:"Merci de renseigner le nom correctement. \nUne majuscule, 4 caractères minimum."})
-            return null
-          }
-    
-          if (!formFields.ingredients || formFields.steps === "") {
-            toast.error({message:"Veuillez ajouter au moins un ingrédient et une étape à la recette."})
-            return null
-          }
-    
         
           const steps = formData.get("steps");
           const mappingSteps = steps.split('"');
@@ -280,9 +260,9 @@ export async function recipeAction({ request, params }) {
           }
 
           
-          // const validator = RecipeValidator.checkBodyForCreate(data);
+          const dataValidate = RecipeValidator.checkBodyForCreate(data);
           
-          const createdRecipe = await RecipeApi.create(data);
+          const createdRecipe = await RecipeApi.create(dataValidate);
           
           if (createdRecipe.error) {
             toast.error({message:createdRecipe.error})

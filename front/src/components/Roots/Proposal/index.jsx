@@ -6,7 +6,7 @@ import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
-
+import LogoTET from "../../Layout/UXElements/icons/logoTET";
 import './Proposal.css';
 import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
@@ -23,6 +23,8 @@ const Proposal = () => {
     const {numberOfProposition, generatedProposal, proposal, historicalPropositions} = useSelector((state) => state.proposal);
 
     const findProposal = historicalPropositions.find((e) => e.historic.id === proposal.id);
+    const logoElement = document.querySelector("#imgLogo");
+    const animationChef = "zoomInLeft"
 
     useEffect(() => {
         dispatch({type:types.SET_IS_ASIDE_TRUE});
@@ -51,6 +53,18 @@ const Proposal = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         dispatch({type:types.GENERATE_PROPOSAL});
+        new Promise((resolve, reject) => {
+            logoElement.classList.add("animate__animated", `animate__${animationChef}`);
+        
+            // When the animation ends, we clean the classes and resolve the Promise
+            function handleAnimationEnd(event) {
+              event.stopPropagation();
+              logoElement.classList.remove("animate__animated", `animate__${animationChef}`);
+              resolve('Animation ended');
+            }
+        
+            logoElement.addEventListener('animationend', handleAnimationEnd, {once: true});
+          });
     }
 
     const setProposition = async () => {
@@ -85,6 +99,7 @@ const Proposal = () => {
 
     return(
         <main className="outlet" style={{ gridColumn: '2 / -1' }}>
+                 <LogoTET size={10}/>
             <section className="section">
                 
                     <Form className="section__start" action="/proposal">

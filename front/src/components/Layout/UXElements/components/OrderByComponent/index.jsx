@@ -18,7 +18,7 @@ const OrderByComponent = () => {
     const [varOrderBy, setVarOrderBy] = useState([
         { position: 1, title: "name", label: "Nom", ascState: true, selected:false },
         { position: 2, title: "time", label: "Temps", ascState: true, selected:false },
-        { position: 3, title: "hunger", label: "Faim", ascState: true, selected:false }
+        // { position: 3, title: "hunger", label: "Faim", ascState: true, selected:false }
     ]);
 
     const handleClickOrderBy = () => {

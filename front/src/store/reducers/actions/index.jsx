@@ -40,6 +40,7 @@ const actions = {
             turnColor('--colorUi5', '#cad7e0');
             turnColor('--colorProposition', 'black');
             turnColor('--colorSelectPlaceHolder', 'rgb(211, 93, 57)');
+            turnColor('--colorLogo', 'rgba(202, 94, 61, 0.749)')
             
         }
         if (mode === false) {
@@ -60,6 +61,7 @@ const actions = {
           turnColor('--colorUi5', 'inherit');
           turnColor('--colorProposition', '#cad7e0');
           turnColor('--colorSelectPlaceHolder', '#ada28f');
+          turnColor('--colorLogo', '#414344')
         }
     }
 

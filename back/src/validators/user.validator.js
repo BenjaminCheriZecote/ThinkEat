@@ -36,7 +36,6 @@ export default class UserValidator extends CoreValidator {
   }
   
   static checkBodyForSignIn({email, password}) {
-    
     if (Object.values({email, password}).some(value => !value)) {
       throw new ApiError("Merci de renseigner un email et un mot de passe", {name: "Bad Request", httpStatus:400});
     }

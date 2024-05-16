@@ -8,7 +8,6 @@ import style from "./index.module.css"
 const ValidateCheck = ({handleClick, size, color}) => {
 
     return(
-        // <CiCircleCheck className={`${style.color} ${style.size}`} onClick={handleClick} size={size}/>
         <BsCheckCircleFill onClick={handleClick} size={size} color={color}/>
     )
 }

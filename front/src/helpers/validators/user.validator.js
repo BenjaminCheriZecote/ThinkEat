@@ -57,4 +57,14 @@ export default class UserValidator extends CoreValidator {
     }
     return {email};
   }
+
+  static checkBodyForUpdatePassword({password, passwordConfirm}) {
+    if (!password || !String(password).match(/^.{6,40}$/)) {
+      throw new Error("Merci de renseigner un mot de passe correct.", {name: "Bad Request", httpStatus:400});
+    }
+    if (password !== passwordConfirm) {
+      throw new Error("Les mots de passe ne correspondent pas", {name: "Bad Request", httpStatus:400});
+    }
+    return {password};
+  }
 }

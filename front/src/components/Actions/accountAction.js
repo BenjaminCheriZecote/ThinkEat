@@ -17,7 +17,7 @@ export async function accountAction({request}) {
   
         data = UserValidator.checkBodyForUpdate(data)
   
-        const { session }= store.getState();
+        const { session } = store.getState();
   
         const newUser = await UserApi.update(session.id,data);
   

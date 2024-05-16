@@ -17,7 +17,6 @@ const sessionReducer = createReducer (initialState, (builder) => {
     return state = {...action.payload, isConnected: true};
 	})
   .addCase(createAction(types.SIGNOUT), (state) => {
-    UserApi.signout();
 		return state = {isConnected: false};
 	})
   .addCase(createAction(types.UPDATE_USER), (state, action) => {	

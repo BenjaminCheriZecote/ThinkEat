@@ -1,4 +1,4 @@
-import { MdCancel } from "react-icons/md";
+import CancelCruse from "../../../icons/CancelCruse";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -15,7 +15,7 @@ const OptionChosen = ({choosen, itemName}) => {
     return(
         <li className="optionChosen">
           <p>{choosen[1]}</p>
-          <MdCancel className="optionChosen__cancel" size={10} onClick={handleClickOption}/>
+          <CancelCruse className="optionChosen__cancel" size={10} onClick={handleClickOption} color={"white"}/>
         </li>
     )
 

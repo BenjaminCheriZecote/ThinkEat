@@ -45,6 +45,11 @@ export default class UserController extends CoreController {
     const refreshTokenExpiresIn = parseInt(process.env.JWT_REFRESH_EXPIRE_IN, 10) || 2000000;
     const refreshTokenExpiresAt = new Date(Math.round(Date.parse(key["created_at"]) + (1000 * refreshTokenExpiresIn))).toISOString();
 
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: true,
+    });
+    
     res.json({
       accessToken,
       accessTokenExpiresAt,
@@ -98,6 +103,27 @@ export default class UserController extends CoreController {
     return res.status(200).json(row);
 
   }
+  static async patchUpdatePassword(req,res) {
+    const {email, actualPassword, password, passwordConfirm} = req.body;
+    const dataMapped = {email:email, password:actualPassword};
+    const data = this.validator.checkBodyForSignIn(dataMapped);
+
+    let [ existingUser ] = await this.datamapper.findAll({filter:{user:[["email","=",data.email]]}});
+
+    await this.validator.checkUserSignin(data, existingUser);
+
+    const data2 = this.validator.checkBodyForUpdatePassword({password, passwordConfirm});
+    const {id} = req.user;
+
+    const hashedPassword = await bcrypt.hash(data2.password, parseInt(process.env.PASSWORD_SALT));
+    
+    const row = await this.datamapper.update({...data2, id:id, password: hashedPassword});
+  
+    delete row.password;
+
+    return res.status(200).json(row);
+
+  }
   
   static async getRefreshToken(req,res) {
     const tokenData = req.user;
@@ -122,6 +148,14 @@ export default class UserController extends CoreController {
       refreshToken: key.id,
       refreshTokenExpiresAt
     });
+  }
+
+  static async deleteLogout(req, res) {
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: true,
+    });
+    res.status(200).end();
   }
 
   static async getRecipeToUser(req, res) {

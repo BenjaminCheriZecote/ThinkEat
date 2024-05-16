@@ -46,21 +46,27 @@
   border:none;
   background-color:inherit;
   width: calc(100% - 8rem);
+  padding-bottom:0.2rem;
+  margin-right:2rem;
+}
+
+.form input:focus {
+  outline: none;
 }
 
 .form button {
   border-radius: 2rem;
   height: 3rem;
   width: 8rem;
-  border:0.5px rgb(18, 87, 223) solid;
+  border:0.5px var(--colorBlueUserProfil) solid;
   background: inherit;
-  color:  rgb(41, 88, 181);
+  color: var(--colorBlueUserProfil2);
   transition: 200ms ease-in-out;
   cursor: pointer;
 }
 
 .form button:hover {
-  background-color: rgb(41, 88, 181);
+  background-color: var(--colorBlueUserProfil2);
   color:white;
 }
 
@@ -86,17 +92,4 @@
   border:0.5px rgb(228, 228, 228) solid;
   border-radius:0.6rem;
   padding:1rem;
-}
-
-/* @media(min-width: 600px) {
-	.main{
-    margin-left: max(calc((100vw - 40rem - 16rem) / 2 + 16rem), 16rem);
-    max-width: 40rem;
-  }
-} */
-
-@media(max-width: 780px) {
-	 /* .main{
-    width:96%;
-  } */
 }

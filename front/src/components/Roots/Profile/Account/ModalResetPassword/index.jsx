@@ -1,59 +1,62 @@
-import { useState } from "react";
+
 import { UserApi } from "../../../../../api"
-import { Form, redirect} from 'react-router-dom';
+import { Form} from 'react-router-dom';
 
-import { MdCancel } from "react-icons/md";
+import CancelCruse from "../../../../Layout/UXElements/icons/CancelCruse";
 import { useSelector } from "react-redux";
+import UserValidator from "../../../../../helpers/validators/user.validator";
+import toast from "../../../../../helpers/toast";
+import eh from '../../../../../helpers/errorHandler';
 
-const ModalResetPassword = ({setOpenCloseModal}) => {
+const ModalResetPassword = ({setOpenModal}) => {
     
-    const {email} = useSelector((state) => state.session);
+    const {id, email} = useSelector((state) => state.session);
+    
 
     const handleSubmitResetPassword = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const dataForm = Object.fromEntries(formData);
-        const {newPassword, confirmPassword} = dataForm;
-        // if (password === mot pde passe actuel )
-        if (newPassword === confirmPassword) {
-            await UserApi.RequestResetPasword({email});
-        }
-    }
+        const {actualPassword, password, passwordConfirm} = dataForm;
 
-    const handleClickCloseModal = () => {
-        setOpenCloseModal(false);
+        UserValidator.checkBodyForSignIn({email:email, password:actualPassword});
+
+        UserValidator.checkBodyForUpdatePassword({password, passwordConfirm});
+
+        dataForm.email = email;
+        await UserApi.updatePassword(dataForm);
+        toast.success("Mot de passe modifié avec succès.")
     }
 
     return(
         <div className="backdrop">
-                    <div className="modalProfil modal">
-                        <Form className="formResetPassword" onSubmit={handleSubmitResetPassword}>
-                            <div>
-                                <label htmlFor="actualPassword">
-                                    Mot de passe actuel :
-                                </label>
-                                <input id="actualPassword" type="text" name="actualPassword"/>
-                            </div>
-
-                            <div>
-                                <label htmlFor="newPassword">
-                                    Nouveau mot de passe :
-                                </label>
-                                <input id="newPassword" type="text" name="newPassword"/>
-                            </div>
-
-                            <div>
-                                <label htmlFor="confirmPassword">
-                                    Confirmation de mot de passe :
-                                </label>
-                                <input id="confirmPassword" type="text" name="confirmPassword"/>
-                            </div>
-
-                            <button>Changer le mot de passe</button>
-                        </Form>
-                        <MdCancel className="cancelModal" onClick={handleClickCloseModal}/>
+                <Form className="modalProfil modal formResetPassword section__form" onSubmit={eh(handleSubmitResetPassword)} >
+                    <div className="">
+                        <label htmlFor="actualPassword">
+                            Mot de passe :
+                        </label>
+                        <input id="actualPassword" type="password" name="actualPassword" placeholder="******"/>
                     </div>
-                </div>
+
+                    <div className="">
+                        <label htmlFor="password">
+                            Nouveau :
+                        </label>
+                        <input id="password" type="password" name="password" placeholder="******"/>
+                    </div>
+
+                    <div className="">
+                        <label htmlFor="passwordConfirm">
+                            Confirmation :
+                        </label>
+                        <input id="passwordConfirm" type="password" name="passwordConfirm" placeholder="******"/>
+                    </div>
+
+                    <button className="section-form__btn">Valider</button>
+                    <CancelCruse className="cancelModal" handleClick={() => setOpenModal(false)} size={20} color={"#D70D0D"}/>
+                </Form>
+            
+        </div>
     )
 }
 

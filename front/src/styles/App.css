@@ -214,6 +214,16 @@ html, body, #root, .app {
         color:var(--colorYellow)
     }
 
+    #imgLogoContainer {
+        height:auto;
+        display:flex;
+        justify-content: center;
+      }
+    
+      #imgLogo {
+        height:auto;
+      }
+
     
     
     

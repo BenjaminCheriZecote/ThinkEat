@@ -5,7 +5,7 @@ const EditPen = ({handleClick, size}) => {
 
 
     return(
-        <CiEdit onClick={handleClick} className={`${style.color}`} size={size}/>
+        <CiEdit onClick={handleClick} className={`${style.color}`} size={size} style={{color:"var(--colorFont1)"}}/>
     )
 }
 

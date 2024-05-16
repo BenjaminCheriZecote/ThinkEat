@@ -4,13 +4,15 @@ import { Form, useActionData } from "react-router-dom";
 import DownloadCloud from "../../icons/DownloadCloud/DownloadCloud";
 import { FaPlus } from "react-icons/fa6";
 import AddPlus from "../../icons/AddPlus";
-import { MdCancel } from "react-icons/md";
 import DropDownList from "../DropDownList";
 import './style.css'
 import style from './index.module.css'
 import DeleteCruse from "../../icons/DeleteCruse";
+import CancelCruse from "../../icons/CancelCruse";
 import EditPen from "../../icons/EditPen";
 import ValidateCheck from "../../icons/ValidateCheck";
+import LogoTET from "../../icons/logoTET";
+import LogoHat from "../../icons/LogoHat";
 
 const recipeInit = {
   steps:[],
@@ -18,7 +20,7 @@ const recipeInit = {
 }
 
 export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal, favorite}) {
-  
+
   const error = useActionData();
   const user = useSelector((state) => state.session);
   const {filters} = useSelector((state) => state.filters);
@@ -46,14 +48,13 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     const [hours, minutes, seconds] = time.split(':');
     return `${hours}:${minutes}`;
   }
-
   
 
   if (!inChange) {
     return (
       <><div className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
         <div>
-          <img src="/logo1.png" alt="Logo de Koikonmange" />
+          <LogoHat size={4}/>
           <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
         </div>
         <section className={`${style.sectionRecipeTop}`}>
@@ -78,7 +79,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             </div>
           </div>
           <figure>
-            <img src={recipe.image === null ? "/default-img.webp" : recipe.image} alt={recipe.name} />
+            <img src={recipe.image === null ? "/default-img.webp" : `/${recipe.image}`} alt={recipe.name} />
             <div>
               <figcaption>{recipe.name}</figcaption>
             </div>
@@ -195,7 +196,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         <input type="hidden" name="userId" value={user.id} />
       }
       <div>
-        <img src="/logo1.png" alt="Logo de Koikonmange" /> 
+        <LogoHat size={4}/>
         <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
       </div>
       <fieldset className={`${style.sectionRecipeTop}`}>
@@ -314,7 +315,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         </ul>
       </fieldset><div className={`${style.sectionRecipeBottom}`}>
         <button type="submit"><ValidateCheck size={26} color={" var(--colorGreenCheck)"}/></button>
-        <button type="button" onClick={cancelHandler || changeRecipe}><MdCancel size={30} style={{color:"#D70D0D", border:"none"}}/></button>
+        <button type="button" onClick={cancelHandler || changeRecipe}><CancelCruse size={30} color={"#D70D0D"}/></button>
       </div>
     </Form>
     </>

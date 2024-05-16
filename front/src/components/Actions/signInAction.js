@@ -19,7 +19,7 @@ export async function signInAction({ request }) {
         store.dispatch({type:"SIGNIN", payload:user});
   
         toast.success("Connexion réussie.\nVous allez être redirigé.")
-        await new Promise(r => setTimeout(r, 3200));
+        await new Promise(r => setTimeout(r, 2000));
         return redirect("/");
       }
       default: {

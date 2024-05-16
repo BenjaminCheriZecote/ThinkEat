@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 
 import BurgerMenu from '../../UXElements/components/BurgerMenu';
 import types from '../../../../store/reducers/types';
+import { UserApi } from '../../../../api';
 
 const Header = () => {
     const {isAside} = useSelector((state) => state.isAside);
@@ -49,10 +50,10 @@ const Header = () => {
         setMenuOpen((prevMenuOpen) => !prevMenuOpen)
     };
 
-    const handleClickDeconnexion = () => {
+    const handleClickDeconnexion = async () => {
         localStorage.removeItem("user");
+        await UserApi.signout();
         dispatch({type:types.SIGNOUT})
-        location.reload();
         navigate("/");
     };
 
@@ -68,8 +69,8 @@ const Header = () => {
             style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'}}>
                 <div className={isHome?"headerTop":"headerTop "}>
 
-                    <h1>KoiKon<span>Mange</span></h1>
-                    <h1 className="headerH1initial hidden">KK<span>M</span></h1>
+                    <h1>Think<span>Eat</span></h1>
+                    <h1 className="headerH1initial hidden">T<span>ET</span></h1>
                     <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
                         <nav className="header-middleSide__nav" style={isHome ? menuOpen ? {} : {color:"black"}:{}}>
                             <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search}`} >Accueil</NavLink>

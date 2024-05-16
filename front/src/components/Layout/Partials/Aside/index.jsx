@@ -166,7 +166,7 @@ const Aside = () => {
                                     type="checkbox" 
                                     onChange={handleChangeFavoritesFilter} 
                                     checked={favorites.state} 
-                                    style={mode?{border:"1px #282a2c solid"}:{border:"1px #ada28f solid"}}
+                                    style={mode?{border:"1px #282a2c solid", cursor:"pointer"}:{border:"1px #ada28f solid", cursor:"pointer"}}
                                     />
                                     {favorites.name}
                                 
