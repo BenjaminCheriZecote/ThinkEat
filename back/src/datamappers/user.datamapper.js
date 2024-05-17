@@ -63,7 +63,7 @@ export default class UserDatamapper extends CoreDatamapper {
 
   static async getRecipeToUser({filter, criteria, orderBy, page, number}={}, data) {
     let query = {
-      text: `SELECT * FROM get_recipe_to_user($1)`,
+      text: `SELECT *, COUNT(*) OVER() AS total FROM get_recipe_to_user($1)`,
       values: [data]
     };
     if (filter || criteria) {
@@ -73,7 +73,7 @@ export default class UserDatamapper extends CoreDatamapper {
       query = this.addOrderByToQuery({orderBy, query});
     }
     if (page) {
-      query = this.addOrderByToQuery({page, query, number});
+      query = this.addPaginationToQuery({page, query, number});
     }
     
     const result = await client.query(query);
@@ -147,7 +147,7 @@ export default class UserDatamapper extends CoreDatamapper {
     query.text += ` ORDER BY ${orderBy.map(order => `${order[0]} ${order[1] || "ASC"}`).join(", ")}`;
     return query;
   }
-  static addPaginationToQuery({page, query, number=50}) {
+  static addPaginationToQuery({page, query, number=25}) {
     const offset = (page - 1) * (number || 10); // Assuming 10 items per page by default
     query.text += ` LIMIT ${number || 10} OFFSET ${offset}`;
     return query;

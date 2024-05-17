@@ -2,7 +2,7 @@ import urlQueryJsonParser from "url-query-json-parser";
 import secondesConverterFunction from "../secondesConverterFunction";
 import formatterSecondesTime from "../formatterSecondesTime";
 
-export function mappingUrlFunction(urlClient){
+export function mappingUrlFunction(urlClient, page){
     // si il n'y a pas d'urlClient, on sort de la fonction
     if (!urlClient) {
         return null
@@ -11,6 +11,7 @@ export function mappingUrlFunction(urlClient){
     const ingredientQuery = [];
     const familyQuery = [];
     const orderByQuery = [];
+    let pageQuery = page && `${page}`;
     const favoriteQuery = [];
     const recipeCriteriaQuery = [];
     let error = [];
@@ -239,15 +240,15 @@ export function mappingUrlFunction(urlClient){
     let stringFilter = '';
     let stringOrderBy = '';
     let stringCriteria = '';
+    let stringPage = '';
 
     // typage demandé :
     // filter={<nom de la table>:[[<nom de la propriété>,<operateur>,<valeur>]]...}
     const builderStringFunction = (queryArray, string, tableName) => {
 
         // on vérifie que les variables array ne soient pas vide
-        if (queryArray.length > 0) {
+        if (queryArray && queryArray.length > 0) {
             // afin d'être insérer dans les variables strings, on stringify les array
-            // string += `"${tableName}":${JSON.stringify(queryArray)},`;
             string += `${tableName?`"${tableName}"`:""}:${JSON.stringify(queryArray)},`;
         }
         return string
@@ -258,14 +259,16 @@ export function mappingUrlFunction(urlClient){
     stringFilter = builderStringFunction(familyQuery, stringFilter, "family");
 
     stringOrderBy = builderStringFunction(orderByQuery, stringOrderBy);
+    stringPage = builderStringFunction(pageQuery, stringPage)
 
     stringCriteria = builderStringFunction(recipeCriteriaQuery, stringCriteria, "recipe");
 
     const filterProperty = `"filter":{${stringFilter}},`;
     const orderByProperty = `"orderBy"${stringOrderBy}`;
+    const pageProperty = `"page"${stringPage}`;
     const criteriaProperty = `"criteria":{${stringCriteria}},`;
 
-    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringOrderBy.length > 0?orderByProperty:""}${favoriteQuery[0]?favoriteQuery[0].length > 0?favoriteQuery[0]:"":""}}`;
+    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringPage.length > 0?pageProperty:""}${stringOrderBy.length > 0?orderByProperty:""}${favoriteQuery[0]?favoriteQuery[0].length > 0?favoriteQuery[0]:"":""}}`;
 
     // regex pour remplacer la chaîne de caractère “,}” par “}”
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');

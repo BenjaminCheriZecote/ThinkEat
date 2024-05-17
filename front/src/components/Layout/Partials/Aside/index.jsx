@@ -41,7 +41,11 @@ const Aside = () => {
     const [isRotatedIngredientSelect, setIsRotatedIngredient] = useState(false)
     const [isRotatedDietSelect, setIsRotatedDiet] = useState(false);
 
+    const {favoritesPage, recipesPage} = useSelector((state) => state.pagination);
+
     const {mode} = useSelector((state) => state.darkMode);
+
+    let page;
 
 
     
@@ -50,6 +54,11 @@ const Aside = () => {
             submit(filterButton.current);
         }
     }, [generatedProposal])
+
+    useEffect(() => {
+        if (currentPath === '/recipes') page = recipesPage;
+        if (currentPath === '/favorites') page = favoritesPage;
+    }, [currentPath])
 
 
     const handleChangeFavoritesFilter = () => {
@@ -169,9 +178,10 @@ const Aside = () => {
                                     style={mode?{border:"1px #282a2c solid", cursor:"pointer"}:{border:"1px #ada28f solid", cursor:"pointer"}}
                                     />
                                     {favorites.name}
-                                
+
                                 </label>
                         }
+                        {currentPath !== "/proposal" && <input type="hidden" name='page' value={page}/>}
                         <button  ref={filterButton} className={currentPath === '/proposal'?style.invisible:style.buttonElement}>Filtrer</button>
                     </div>
                     <NavLink onClick={setOfFilters} to={currentPath}>Désélectionner les filtres</NavLink>

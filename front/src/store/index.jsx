@@ -11,6 +11,7 @@ import isAsideReducer from "./reducers/isAside";
 import historyReducer from "./reducers/history";
 import dietsReducer from "./reducers/diets";
 import darkModeReducer from "./reducers/darkMode";
+import paginationReducer from "./reducers/pagination";
 				
 const store = configureStore({				
 	reducer: {
@@ -25,7 +26,8 @@ const store = configureStore({
 		units:unitReducer,
 		isAside: isAsideReducer,
 		diets:dietsReducer,
-		darkMode:darkModeReducer
+		darkMode:darkModeReducer,
+		pagination:paginationReducer
 	}			
 })				
 				

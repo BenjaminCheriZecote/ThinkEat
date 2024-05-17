@@ -10,7 +10,7 @@ export default class CoreDatamapper {
    */
   static async findAll({filter, criteria, orderBy, page, number}={}, user) {
     let query = {
-      text: `SELECT * FROM find_${this.tableName}(${user ? "$1::json" : ""})`,
+      text: `SELECT *, COUNT(*) OVER() AS total FROM find_${this.tableName}(${user ? "$1::json" : ""})`,
       values: user ? [ user ] : []
     };
     if (filter || criteria) {
@@ -20,9 +20,15 @@ export default class CoreDatamapper {
       query = this.addOrderByToQuery({orderBy, query});
     }
     if (page) {
-      query = this.addOrderByToQuery({page, query, number});
+      query = this.addPaginationToQuery({page, query, number});
     }
-    const result = await client.query(query);
+    let result = await client.query(query);
+    if (result.rows.length === 0) {
+      query.text = query.text.replace(/\s+LIMIT\s+\d+(\s+OFFSET\s+\d+)?;?/i, '');
+      query = this.addPaginationToQuery({page:'1', query, number});
+    }
+    result = await client.query(query);
+
     return result.rows;
   }
 
@@ -67,52 +73,5 @@ export default class CoreDatamapper {
     const result = await client.query(`SELECT * FROM delete_${this.tableName}($1)`, [id]);
     // 0 devient false et 1 devient true
     return !!result.rowCount;
-  }
-
-  static addWhereToQuery({filter, criteria, query}) {
-    query.text += " WHERE";
-    if (filter) {
-      query.text += " " + Object.entries(filter).map(([tableName, data]) => {
-        return `(${data.map(condition => {
-          if (condition[2] === "null") {
-            return `"${condition[0]}" ${condition[1]} NULL`;
-          }
-          query.values.push(condition[2]);
-          return `"${condition[0]}"${condition[1]}$${query.values.length}`;
-        }).join(" AND ")})`;
-      }).join(" AND ");
-    }
-    if (criteria) {
-      query.text += (filter ? " AND " : " ") + Object.entries(criteria).map(([tableName, data]) => {
-        const newData = data.reduce((newObject, condition) => {
-          if (newObject[condition[0]]) {
-            newObject[condition[0]].push([condition[1], condition[2]]);
-          } else {
-            newObject[condition[0]] = [[condition[1], condition[2]]];
-          }
-          return { ...newObject };
-        }, {});
-
-        return Object.entries(newData).map(([propertyName, data]) => {
-          return `(${data.map(condition => {
-            if (condition[1] === "null") {
-              return `"${propertyName}" ${condition[0]} NULL`;
-            }
-            query.values.push(condition[1]);
-            return `"${propertyName}"${condition[0]}$${query.values.length}`;
-          }).join(" OR ")})`;
-        }).join(" AND ");
-      }).join(" AND ");
-    }
-    return query;
-  }
-  static addOrderByToQuery({orderBy, query}) {
-    query.text += ` ORDER BY ${orderBy.map(order => `${order[0]} ${order[1] || "ASC"}`).join(", ")}`;
-    return query;
-  }
-  static addPaginationToQuery({page, query, number=50}) {
-    const offset = (page - 1) * (number || 10); // Assuming 10 items per page by default
-    query.text += ` LIMIT ${number || 10} OFFSET ${offset}`;
-    return query;
   }
 }

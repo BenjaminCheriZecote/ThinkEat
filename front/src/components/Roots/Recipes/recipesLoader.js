@@ -6,12 +6,12 @@ import types from "../../../store/reducers/types";
 
 
 export async function recipesLoader({request}){
-
-    const {session, units} = store.getState();
+    const {session, units, pagination} = store.getState();
+    const {recipesPage} = pagination;
   
     const url = new URL(request.url);
   
-    const query = mappingUrlFunction(url);
+    const query = mappingUrlFunction(url, recipesPage);
     
     // récupération des familles d'ingrédients
     store.dispatch({type:types.SET_FAMILIES, payload: await FamilyApi.getAll()})
@@ -27,7 +27,12 @@ export async function recipesLoader({request}){
     async function fetchDataRecipesApi() {
       const recipes = await RecipeApi.getAll(query);
       store.dispatch({type:types.SET_RECIPES, payload: recipes})
-      return recipes
+      if (recipes.length > 0) {
+        return recipes[0].total
+      } else {
+        return 0
+      }
+      
     }
     
     return fetchDataRecipesApi();

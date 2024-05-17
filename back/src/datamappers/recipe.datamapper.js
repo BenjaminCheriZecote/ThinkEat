@@ -70,7 +70,7 @@ export default class RecipeDatamapper extends CoreDatamapper {
     query.text += ` ORDER BY ${orderBy.map(order => `${order[0]} ${order[1] || "ASC"}`).join(", ")}`;
     return query;
   }
-  static addPaginationToQuery({page, query, number=50}) {
+  static addPaginationToQuery({page, query, number=25}) {
     const offset = (page - 1) * (number || 10); // Assuming 10 items per page by default
     query.text += ` LIMIT ${number || 10} OFFSET ${offset}`;
     return query;
@@ -88,10 +88,6 @@ export default class RecipeDatamapper extends CoreDatamapper {
       if (favorite) query.text += ` JOIN "user_has_recipe" uhr ON uhr.recipe_id = "evaluate_proposal".id`;
 
       if (filter || criteria) query = this.addWhereToQuery({filter, criteria, query});
-  
-      if (orderBy) query = this.addOrderByToQuery({orderBy, query});
-        
-      if (page) query = this.addOrderByToQuery({page, query, number});
         
       query.text += ` ORDER BY "history_note" DESC, RANDOM()`;
 

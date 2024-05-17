@@ -31,6 +31,7 @@ html, body, #root, .app {
         grid-row: 2 / -2;
         overflow-y: scroll;
         color: var(--colorFont1);
+        position:relative;
     }
     
     #footer {
@@ -220,9 +221,30 @@ html, body, #root, .app {
         justify-content: center;
       }
     
-      #imgLogo {
-        height:auto;
-      }
+    #imgLogo {
+    height:auto;
+    }
+
+    .pagination {
+        margin-top:auto;
+        display:flex;
+        flex-flow:row nowrap;
+        justify-content:center;
+        color:var(--colorFont1);
+        font-family: 'Poppins';
+        font-size:0.9rem;
+    }
+    
+    
+    .page-item {
+        padding:0.3rem 0.5rem;
+        cursor:pointer;
+    }
+
+    .page-active {
+        border-bottom: 1px var(--colorOrangeRange) solid;
+        color:var(--colorOrangeRange)
+    }
 
     
     

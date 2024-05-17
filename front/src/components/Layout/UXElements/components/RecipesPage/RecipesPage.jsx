@@ -8,13 +8,15 @@ import RecipeUX from "../RecipeUX";
 import OrderByComponent from "../OrderByComponent";
 import SearchForm from "../SearchForm";
 import types from "../../../../../store/reducers/types";
+import PaginatedItems from "../ReactPagination";
 
-const RecipesPage = ({title, recipes, favoritePage}) => {
+const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
 
     const dispatch = useDispatch();
     const {isAdmin, isConnected, id} = useSelector((state) => state.session);
     const [recipesCopy, setCopy] = useState(recipes);
     const [openModeCreator, setCreatorMode] = useState(false);
+    const itemsPerPage = 25;
     
 
     useEffect(() => {
@@ -77,6 +79,15 @@ const RecipesPage = ({title, recipes, favoritePage}) => {
                         }
 
                 </ul>
+                {itemsPerPage < itemsTotal && 
+                    <PaginatedItems 
+                        items={recipesCopy} 
+                        itemsPerPage={itemsPerPage} 
+                        favoritePage={favoritePage} 
+                        itemsTotal={itemsTotal}
+                    /> 
+                }
+            
             </section>
         </main>
     )
