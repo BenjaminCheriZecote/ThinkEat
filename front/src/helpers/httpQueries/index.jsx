@@ -4,14 +4,18 @@ import formatterSecondesTime from "../formatterSecondesTime";
 
 export function mappingUrlFunction(urlClient, page){
     // si il n'y a pas d'urlClient, on sort de la fonction
-    if (!urlClient) {
+    if (!urlClient || !page && !urlClient.search) {
         return null
     }
+
+    if (!urlClient.search && page) return urlQueryJsonParser.parseJSON({"page":page});
+
     const recipeQuery = []; 
     const ingredientQuery = [];
     const familyQuery = [];
     const orderByQuery = [];
-    let pageQuery = page && `${page}`;
+    let pageQuery = page?page:'';
+
     const favoriteQuery = [];
     const recipeCriteriaQuery = [];
     let error = [];
@@ -22,6 +26,7 @@ export function mappingUrlFunction(urlClient, page){
     
     // récupération de la query du formulaire
     const urlSplited = urlClient.search;
+    
     // décodage des caractères spéciaux de la query
     const urlParsed = decodeURIComponent(urlSplited);
     // supression du "?" en début de string
@@ -29,8 +34,7 @@ export function mappingUrlFunction(urlClient, page){
     // création d'un tableau avec les données du formulaire
     const params = queryString.split('&');
     
-
-    const mappingParams = params.forEach((param) => {
+    params.forEach((param) => {
         const parts = param.split('=');
         const result = [parts[0], '=', parts[1]];
 
@@ -219,6 +223,10 @@ export function mappingUrlFunction(urlClient, page){
             }
         }
 
+        if (result[0] === 'page') {
+            pageQuery = result[2];
+        }
+
     })
 
     if (timeSecondesMin.preparatingTime && timeSecondesMin.cookingTime) {
@@ -240,7 +248,6 @@ export function mappingUrlFunction(urlClient, page){
     let stringFilter = '';
     let stringOrderBy = '';
     let stringCriteria = '';
-    let stringPage = '';
 
     // typage demandé :
     // filter={<nom de la table>:[[<nom de la propriété>,<operateur>,<valeur>]]...}
@@ -259,17 +266,15 @@ export function mappingUrlFunction(urlClient, page){
     stringFilter = builderStringFunction(familyQuery, stringFilter, "family");
 
     stringOrderBy = builderStringFunction(orderByQuery, stringOrderBy);
-    stringPage = builderStringFunction(pageQuery, stringPage)
 
     stringCriteria = builderStringFunction(recipeCriteriaQuery, stringCriteria, "recipe");
 
     const filterProperty = `"filter":{${stringFilter}},`;
     const orderByProperty = `"orderBy"${stringOrderBy}`;
-    const pageProperty = `"page"${stringPage}`;
+    const pageProperty = pageQuery.length > 0? `"page":"${pageQuery}",`:"";
     const criteriaProperty = `"criteria":{${stringCriteria}},`;
 
-    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${stringPage.length > 0?pageProperty:""}${stringOrderBy.length > 0?orderByProperty:""}${favoriteQuery[0]?favoriteQuery[0].length > 0?favoriteQuery[0]:"":""}}`;
-
+    let stringFinalObject = `{${stringCriteria.length > 0?criteriaProperty:""}${stringFilter.length > 0?filterProperty:""}${pageProperty.length > 0?pageProperty:""}${stringOrderBy.length > 0?orderByProperty:""}${favoriteQuery[0]?favoriteQuery[0].length > 0?favoriteQuery[0]:"":""}}`;
     // regex pour remplacer la chaîne de caractère “,}” par “}”
     stringFinalObject = stringFinalObject.replace(/,\}/g, '}');
     // parse de la string en objet au format JSON

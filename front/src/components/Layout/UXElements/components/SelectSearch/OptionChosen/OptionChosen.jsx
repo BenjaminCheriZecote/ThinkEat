@@ -7,7 +7,7 @@ const OptionChosen = ({choosen, itemName}) => {
   const dispatch = useDispatch()
   const stateBranch = useSelector((state) => state[itemName]);
   const choices = stateBranch[`${itemName}Choices`];
-  const handleClickOption = () => {
+  const handleClickOption = (event) => {
     const newArray = choices.filter((element) => element !== choosen);
     dispatch({type:`SET_${itemName.toUpperCase()}_CHOICES`, payload:newArray})
   }
@@ -15,7 +15,7 @@ const OptionChosen = ({choosen, itemName}) => {
     return(
         <li className="optionChosen">
           <p>{choosen[1]}</p>
-          <CancelCruse className="optionChosen__cancel" size={10} onClick={handleClickOption} color={"white"}/>
+          <CancelCruse className="optionChosen__cancel" size={10} handleClick={handleClickOption} color={"white"}/>
         </li>
     )
 

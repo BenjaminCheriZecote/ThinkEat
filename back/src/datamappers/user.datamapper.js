@@ -76,7 +76,13 @@ export default class UserDatamapper extends CoreDatamapper {
       query = this.addPaginationToQuery({page, query, number});
     }
     
-    const result = await client.query(query);
+    let result = await client.query(query);
+
+    if (result.rows.length === 0) {
+      query.text = query.text.replace(/\s+LIMIT\s+\d+(\s+OFFSET\s+\d+)?;?/i, '');
+      query = this.addPaginationToQuery({page:'1', query, number});
+      result = await client.query(query);
+    }
     
     return result.rows;
   }

@@ -6,34 +6,42 @@ import types from "../../../store/reducers/types";
 
 
 export async function recipesLoader({request}){
-    const {session, units, pagination} = store.getState();
-    const {recipesPage} = pagination;
-  
+    const {session, units} = store.getState();
+    
+    let query;
     const url = new URL(request.url);
-  
-    const query = mappingUrlFunction(url, recipesPage);
     
-    // récupération des familles d'ingrédients
-    store.dispatch({type:types.SET_FAMILIES, payload: await FamilyApi.getAll()})
-    // récupération des ingrédients
-    store.dispatch({type:types.SET_INGREDIENTS, payload: await IngredientApi.getAll()})
-    //récupération des unités
-    let unitDb = await UnitApi.getAll();
-    unitDb.unshift(units.units[0])
-    store.dispatch({type:types.SET_UNIT, payload:unitDb})
-    // récupération des favoris
-    if (session.isConnected) store.dispatch({type:types.SET_FAVORITES, payload: await UserApi.getRecipeToUser(null, session.id)})
-    // récupération des recettes
-    async function fetchDataRecipesApi() {
-      const recipes = await RecipeApi.getAll(query);
-      store.dispatch({type:types.SET_RECIPES, payload: recipes})
-      if (recipes.length > 0) {
-        return recipes[0].total
-      } else {
-        return 0
-      }
-      
+    if (!url.search.includes("page")) {
+      query = mappingUrlFunction(url, "1");
+    } else {
+      query = mappingUrlFunction(url);
     }
+    const [families, ingredients, unitDb, favorites, recipes] = await Promise.all([
+      FamilyApi.getAll(),
+      IngredientApi.getAll(),
+      UnitApi.getAll(),
+      session.isConnected ? UserApi.getRecipeToUser(null, session.id) : Promise.resolve([]),
+      RecipeApi.getAll(query)
+    ]);
+
+    // Dispatch les résultats des requêtes une fois qu'elles sont toutes terminées
+    store.dispatch({ type: types.SET_FAMILIES, payload: families });
+    store.dispatch({ type: types.SET_INGREDIENTS, payload: ingredients });
+
+    // Préparer les unités et les dispatcher
+    unitDb.unshift(units.units[0]);
+    store.dispatch({ type: types.SET_UNIT, payload: unitDb });
+
+    // Dispatcher les favoris si l'utilisateur est connecté
+    if (session.isConnected) {
+      store.dispatch({ type: types.SET_FAVORITES, payload: favorites });
+    }
+    store.dispatch({type:types.SET_RECIPES, payload: recipes})
     
-    return fetchDataRecipesApi();
+    if (recipes.length > 0) {
+      return recipes[0].total;
+    } else {
+      return 0
+    }
+    // return fetchDataRecipesApi();
   }

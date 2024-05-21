@@ -1,33 +1,41 @@
 
 import ReactPaginate from 'react-paginate';
-import { useDispatch } from 'react-redux';
-import types from '../../../../../store/reducers/types';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+
 
 function PaginatedItems({itemsPerPage, favoritePage, itemsTotal}) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   
   const pageCount = Math.ceil(itemsTotal / itemsPerPage);
 
+  let forcePage = searchParams.get("page");
+  if (!forcePage) forcePage = 1;
+  if (forcePage - 1 > pageCount) forcePage = 1;
+  
+
   const handlePageClick = (event) => {
-    dispatch({
-      type:(favoritePage?types.SET_FAVORITES_PAGINATION:types.SET_RECIPES_PAGINATION), 
-      payload:(event.selected + 1)
-    });
-    navigate(location.pathname + location.search);
+    setterUrl(event.selected + 1);
   };
+
+  const setterUrl = (page) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+    params.set("page", `${page}`);
+    const stringParams = params.toString();
+    // on met à jour l'url
+    setSearchParams(stringParams);
+  }
 
   return (
     <>
       <ReactPaginate
+        previousLabel="< Précédent"
         nextLabel="Suivant >"
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
         pageCount={pageCount}
-        previousLabel="< Précédent"
+        forcePage={forcePage - 1}
         pageClassName="page-item"
         pageLinkClassName="page-link"
         previousClassName="page-item"

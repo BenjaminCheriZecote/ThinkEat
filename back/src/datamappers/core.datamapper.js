@@ -8,11 +8,13 @@ export default class CoreDatamapper {
    * @param {object} filter.where property name = value 
    * @returns {array} Array of element found
    */
+  
   static async findAll({filter, criteria, orderBy, page, number}={}, user) {
     let query = {
       text: `SELECT *, COUNT(*) OVER() AS total FROM find_${this.tableName}(${user ? "$1::json" : ""})`,
       values: user ? [ user ] : []
     };
+    
     if (filter || criteria) {
       query = this.addWhereToQuery({filter, criteria, query});
     }
@@ -22,12 +24,14 @@ export default class CoreDatamapper {
     if (page) {
       query = this.addPaginationToQuery({page, query, number});
     }
+    
     let result = await client.query(query);
+    
     if (result.rows.length === 0) {
       query.text = query.text.replace(/\s+LIMIT\s+\d+(\s+OFFSET\s+\d+)?;?/i, '');
       query = this.addPaginationToQuery({page:'1', query, number});
+      result = await client.query(query);
     }
-    result = await client.query(query);
 
     return result.rows;
   }

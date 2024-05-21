@@ -13,7 +13,7 @@ const paginationReducer = createReducer (initialState, (builder) => {
 		state.favoritesPage = action.payload;			
 	})
 	.addCase(createAction(types.SET_RECIPES_PAGINATION), (state, action) => {					
-		state.recipesPage = action.payload;			
+		state.recipesPage = action.payload;
 	})
 })						
 						

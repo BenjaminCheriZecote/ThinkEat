@@ -46,8 +46,6 @@ const Aside = () => {
     const {mode} = useSelector((state) => state.darkMode);
 
     let page;
-
-
     
     useEffect(() => {
         if (generatedProposal === true) {
@@ -181,7 +179,7 @@ const Aside = () => {
 
                                 </label>
                         }
-                        {currentPath !== "/proposal" && <input type="hidden" name='page' value={page}/>}
+                        {currentPath !== "/proposal" && <input type="hidden" name='page' value='1'/>}
                         <button  ref={filterButton} className={currentPath === '/proposal'?style.invisible:style.buttonElement}>Filtrer</button>
                     </div>
                     <NavLink onClick={setOfFilters} to={currentPath}>Désélectionner les filtres</NavLink>
