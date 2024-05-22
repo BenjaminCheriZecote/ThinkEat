@@ -43,5 +43,4 @@ export async function recipesLoader({request}){
     } else {
       return 0
     }
-    // return fetchDataRecipesApi();
   }

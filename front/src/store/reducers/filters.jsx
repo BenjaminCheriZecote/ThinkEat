@@ -1,13 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";						
 import { createAction } from "@reduxjs/toolkit";
 import types from "./types";
+import actions from "./actions";
 
+const {setOffWidthRangeBar} = actions;
 
 const initialState = {	
     filters: {
         hunger: [{name:"Copieux", state: false},{name:"Normal", state: false},{name:"Léger", state: false}],
-        preparatingTime: {min:"00:00:00",max:"05:59:59"},
-        cookingTime: {min:"00:00:00",max:"05:59:59"},
+        preparatingTime: {min:"00:00",max:"02:59"},
+        cookingTime: {min:"00:00",max:"02:59"},
         dietPreferences: [{name:"Vegetarien", state: false, id:1}, {name:"Vegetalien", state: false, id:2}, {name:"Crudivore", state:false, id:3}, {name:"Sans gluten", state: false, id:4}, {name:"Sans lactose", state: false, id:5}],
         favorites: {name:"Favoris", state:true},
     }					
@@ -49,10 +51,12 @@ const filtersReducer = createReducer (initialState, (builder) => {
 		state.filters.hunger[0].state = false;
 		state.filters.hunger[1].state = false;
 		state.filters.hunger[2].state = false;
-		state.filters.preparatingTime.min = "00:00:00";
-		state.filters.preparatingTime.max = "05:59:59";
-		state.filters.cookingTime.min = "00:00:00";
-		state.filters.cookingTime.max = "05:59:59";
+		state.filters.preparatingTime.min = "00:00";
+		state.filters.preparatingTime.max = "02:59";
+		state.filters.cookingTime.min = "00:00";
+		state.filters.cookingTime.max = "02:59";
+		setOffWidthRangeBar();
+		
 	})
   
 })						

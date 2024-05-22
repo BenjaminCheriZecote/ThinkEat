@@ -63,8 +63,14 @@ const actions = {
           turnColor('--colorSelectPlaceHolder', '#ada28f');
           turnColor('--colorLogo', '#414344')
         }
+    },
+    setOffWidthRangeBar: () => {
+        const allBarMultiRangeSlider = document.querySelectorAll(".bar");
+		allBarMultiRangeSlider.forEach(bar => {
+			bar.querySelector(".bar-left").style.width = "0%";
+			bar.querySelector(".bar-right").style.width = "0%";
+		})
     }
-
 
 }
 

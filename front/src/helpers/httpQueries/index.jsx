@@ -1,6 +1,4 @@
 import urlQueryJsonParser from "url-query-json-parser";
-import secondesConverterFunction from "../secondesConverterFunction";
-import formatterSecondesTime from "../formatterSecondesTime";
 
 export function mappingUrlFunction(urlClient, page){
     // si il n'y a pas d'urlClient, on sort de la fonction
@@ -19,10 +17,7 @@ export function mappingUrlFunction(urlClient, page){
     const favoriteQuery = [];
     const recipeCriteriaQuery = [];
     let error = [];
-    const errorDataPreparatingTime = 'Erreur sur le temps de préparation. Format de données non valide.';
-    const errorDataCookingTime = 'Erreur sur le temps de cuisson. Format de données non valide.';
-    const timeSecondesMax = {};
-    const timeSecondesMin = {};
+    const errorDataTime = 'Erreur sur le(s) temps de la recette. Format de données non valide.';
     
     // récupération de la query du formulaire
     const urlSplited = urlClient.search;
@@ -48,7 +43,7 @@ export function mappingUrlFunction(urlClient, page){
         }
 
         // si le param commence par 'preparatingTime'
-        if (result[0].startsWith('preparatingTime')) {
+        if (result[0].startsWith('preparatingTime') || result[0].startsWith('cookingTime')) {
             // on récupère les les données entre les ':' dans un tableau
             let value = result[2].split(':');
 
@@ -60,64 +55,25 @@ export function mappingUrlFunction(urlClient, page){
 
                     // sinon on push une erreur et on sort de la fonction
                     if (parseValue == undefined || parseValue == isNaN) {
-                        return error.push(errorDataPreparatingTime)
+                        return error.push(errorDataTime)
                     }
                 });
                 
-                const property = 'preparatingTime';
+                // on récupère la string en partant de la fin à partir de 3 caractères, c.à.d soit 'preparatingTime' soit 'cookingTime'
+                const property = result[0].slice(0, -3);
+                // on récupère les 3 derniers caractères de la string, c.à.d soit 'min' soit 'max'
+                let operator = result[0].slice(-3);
+                if (operator === 'min') operator = '>=';
+                if (operator === 'max') operator = '<=';
+
                 value = value.join(':');
-
-                // on récupère la string après 'preparatingTime', c.à.d soit 'min' soit 'max'
-                let operator = result[0].slice(15);
-
-                // si c'est 'min'
-                if (operator === 'min') {
-                    // la variable operator prend la valeur '>='
-                    // le temps de preparation doit être supérieur ou égale au temps minimal indiqué
-                    operator = '>=';
-                    const minimalTimeInSecondesPreparatingTime = secondesConverterFunction(value);
-                    timeSecondesMin.preparatingTime = minimalTimeInSecondesPreparatingTime ;
-                }
-                // si c'est 'max'
-                if (operator === 'max') {
-                    // la variable operator prend la valeur '<='
-                    // le temps de preparation doit être inférieur ou égale au temps maximal indiqué 
-                    operator = '<=';
-                    const maximalTimeInSecondesPreparatingTime = secondesConverterFunction(value);
-                    timeSecondesMax.preparatingTime = maximalTimeInSecondesPreparatingTime ;
-               
-                }
-                // le temps de préparation est une propriété de la table recipe dans la base de donnée
+              
+                // le temps de préparation/cuisson est une propriété de la table recipe dans la base de donnée
                 // on push dans la variable recipeQuery : le nom de la propriété, l'opérateur, la valeur
                 recipeQuery.push([property, operator, value]);
-            } else return error = errorDataPreparatingTime
+            } else return error = errorDataTime
         }
 
-        if (result[0].startsWith('cookingTime')) { // %3A; 00%3A21%3A44 => 00:21:44
-
-            let value = result[2].split(':');
-                if (value.length === 3) {
-                    value.forEach((data) => {
-                    const parseValue = parseInt(data);
-                if (parseValue == undefined || parseValue == isNaN) {
-                   
-                    return error.push(errorDataCookingTime)
-                }
-                });
-            value = value.join(':');
-            let operator = result[0].slice(11); 
-            if (operator === 'min') {
-                operator = '>=';
-                const minimalTimeInSecondesCookingTime = secondesConverterFunction(value);
-                timeSecondesMin.cookingTime = minimalTimeInSecondesCookingTime;
-            }
-            if (operator === 'max') {
-                operator = '<=';
-                    const maximalTimeInSecondesCookingTime = secondesConverterFunction(value);
-                    timeSecondesMax.cookingTime = maximalTimeInSecondesCookingTime;
-                } else return error = errorDataCookingTime
-            }
-        }
         // si le param est ingredients ou families
         if (result[0] === 'ingredients' || result[0] === 'families' || result[0] === 'diets') {
             // on récupère les valeurs des param 
@@ -228,22 +184,6 @@ export function mappingUrlFunction(urlClient, page){
         }
 
     })
-
-    if (timeSecondesMin.preparatingTime && timeSecondesMin.cookingTime) {
-        const timeProperty = 'time';
-        const timeOperator = '>=';
-        const totalTimesSecondes = timeSecondesMin.preparatingTime + timeSecondesMin.cookingTime;
-        const timeValue = formatterSecondesTime(totalTimesSecondes);
-        recipeQuery.push([timeProperty, timeOperator, timeValue]);
-    }
-
-    if (timeSecondesMax.preparatingTime && timeSecondesMax.cookingTime) {
-        const timeProperty = 'time';
-        const timeOperator = '<=';
-        const totalTimesSecondes = timeSecondesMax.preparatingTime + timeSecondesMax.cookingTime;
-        const timeValue = formatterSecondesTime(totalTimesSecondes);
-        recipeQuery.push([timeProperty, timeOperator, timeValue]);
-    }
 
     let stringFilter = '';
     let stringOrderBy = '';

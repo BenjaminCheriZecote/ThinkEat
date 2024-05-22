@@ -1,0 +1,22 @@
+.pagination {
+    margin-top:auto;
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content:center;
+    color:var(--colorFont1);
+    font-family: 'Playpen Sans', cursive; 
+    font-size:0.8rem;
+    font-weight:300;
+    padding-bottom:1rem;
+}
+
+
+.page-item {
+    padding:0.3rem 0.5rem;
+    cursor:pointer;
+}
+
+.page-active {
+    border-bottom: 1px var(--colorOrangeRange) solid;
+    color:var(--colorOrangeRange)
+}

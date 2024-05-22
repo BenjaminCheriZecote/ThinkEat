@@ -1,3 +1,9 @@
+.recipesPage {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .section__addRecipe {
     display:flex;
     justify-content: end;
@@ -53,3 +59,11 @@
     align-self: end;
     margin-bottom:0.3rem;
 }
+
+@media screen and (max-width: 600px) { /*  --gridd-breakpoint */
+    .recipesPage {
+        height:100%;
+    }
+  
+  }
+

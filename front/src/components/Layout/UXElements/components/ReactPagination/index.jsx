@@ -1,6 +1,7 @@
 
 import ReactPaginate from 'react-paginate';
 import { useSearchParams } from "react-router-dom";
+import './ReactPagination.css';
 
 
 function PaginatedItems({itemsPerPage, favoritePage, itemsTotal}) {

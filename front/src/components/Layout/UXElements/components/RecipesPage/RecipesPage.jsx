@@ -38,7 +38,7 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
     }
 
     return(
-        <main className="main outlet" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
+        <main className="main outlet recipesPage" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
         
             <section className="section">
                 <div className="section__divForm">
@@ -79,6 +79,9 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
                         }
 
                 </ul>
+            
+            </section>
+            <footer>
                 {itemsPerPage < itemsTotal && 
                     <PaginatedItems 
                         items={recipesCopy} 
@@ -87,8 +90,8 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
                         itemsTotal={itemsTotal}
                     /> 
                 }
-            
-            </section>
+
+            </footer>
         </main>
     )
 }

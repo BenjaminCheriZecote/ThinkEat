@@ -22,13 +22,11 @@ const Aside = () => {
     const location = useLocation();
     const currentPath = location.pathname;
 
-    const {preparatingTime, cookingTime, dietPreferences} = useSelector((state) => state.filters.filters);
+    const {preparatingTime, cookingTime, dietPreferences, hunger, favorites} = useSelector((state) => state.filters.filters);
     const {dietsChoices} = useSelector((state) => state.diets)
     
     const [menuOpen, setMenuOpen] = useState(false);
     const {isConnected} = useSelector((state) => state.session);
-
-    const {hunger, favorites} = useSelector((state) => state.filters.filters)
 
     const {ingredients, ingredientsChoices} = useSelector((state) => state.ingredients);
     
@@ -108,7 +106,7 @@ const Aside = () => {
                     <div className={style.asideformFilter__inputTimeContainer}>
                     
                         <div className={style.boxContainer}>
-                            <DoubleInputRange label={"Préparation"} name={"preparatingTime"} item={preparatingTime} />
+                            <DoubleInputRange label={"Préparation"} name={"preparatingTime"} item={preparatingTime}/>
                         </div>
 
                         <div className={style.boxContainer}>
