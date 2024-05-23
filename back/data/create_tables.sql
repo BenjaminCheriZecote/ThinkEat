@@ -163,12 +163,28 @@ CREATE TABLE IF NOT EXISTS "ingredient_has_family" (
 --  ---------------------------------------- Ingredient view ------------------------------------------------------
 
 CREATE VIEW extends_ingredient("id", "name", "image", "families") AS
-  SELECT i."id", i."name", i."image", (
-    SELECT COALESCE(json_agg(f.*) FILTER (WHERE f.* IS NOT NULL), '[]') FROM short_family_view AS f
-    WHERE f."id" IN (SELECT "family_id" FROM "ingredient_has_family" WHERE "ingredient_id" = i."id")
-  ) FROM "ingredient" AS i
-  WHERE "delete_at" IS NULL
-  ORDER BY i."name";
+WITH ingredient_families AS (
+  SELECT
+    ihf.ingredient_id,
+    COALESCE(JSON_AGG(f.*) FILTER (WHERE f.* IS NOT NULL), '[]') AS families_json
+  FROM
+    ingredient_has_family ihf
+    JOIN short_family_view f ON ihf.family_id = f.id
+  GROUP BY
+    ihf.ingredient_id
+)
+SELECT
+  i.id,
+  i.name,
+  i.image,
+  COALESCE(f.families_json, '[]') AS families
+FROM
+  ingredient i
+  LEFT JOIN ingredient_families f ON i.id = f.ingredient_id
+WHERE
+  i.delete_at IS NULL
+ORDER BY
+  i.name;
 
 --  ---------------------------------------- Ingredient type ------------------------------------------------------
 
@@ -419,18 +435,43 @@ CREATE TABLE IF NOT EXISTS "user_has_recipe" (
 --  ---------------------------------------- Recipe view ------------------------------------------------------
 
 CREATE VIEW extends_recipe("id", "name", "image", "steps", "hunger", "time", "preparatingTime", "cookingTime", "person", "userId", "ingredients") AS
-  SELECT r."id", r."name", r."image", r."steps", r."hunger", to_char(r."time",'HH24:MI:SS'), to_char(r."preparating_time",'HH24:MI:SS'), to_char((r."time" - r."preparating_time"),'HH24:MI:SS'), r."person", r."user_id", (
-    SELECT json_agg(JSON_BUILD_OBJECT('id',i."id",'name',i."name",'image',i."image",'quantity', (
-      SELECT rhi."quantity" FROM recipe_has_ingredient AS rhi WHERE rhi."recipe_id" = r."id" AND rhi."ingredient_id" = i."id"
-    ), 'unit', (
-      SELECT u."name" AS "unit" FROM "unit" AS u
-      WHERE u."id" = (SELECT rhi."unit_id" FROM recipe_has_ingredient AS rhi WHERE rhi."recipe_id" = r."id" AND rhi."ingredient_id" = i."id")
-    ), 'families', "families"
-    )) FROM extends_ingredient as i
-    WHERE i."id" IN (SELECT rhi."ingredient_id" FROM recipe_has_ingredient AS rhi WHERE rhi."recipe_id" = r."id")
-  ) FROM "recipe" AS r
-  WHERE "delete_at" IS NULL
-  ORDER BY "name" ASC;
+WITH ingredients AS (
+  SELECT
+    rhi.recipe_id,
+    JSON_AGG(JSON_BUILD_OBJECT(
+      'id', i.id,
+      'name', i.name,
+      'image', i.image,
+      'quantity', rhi.quantity,
+      'unit', u.name,
+      'families', i.families
+    )) AS ingredient_json
+  FROM
+    recipe_has_ingredient rhi
+    JOIN extends_ingredient i ON rhi.ingredient_id = i.id
+    LEFT JOIN unit u ON rhi.unit_id = u.id
+  GROUP BY
+    rhi.recipe_id
+)
+SELECT
+  r.id,
+  r.name,
+  r.image,
+  r.steps,
+  r.hunger,
+  TO_CHAR(r.time, 'HH24:MI:SS'),
+  TO_CHAR(r.preparating_time, 'HH24:MI:SS'),
+  TO_CHAR((r.time - r.preparating_time), 'HH24:MI:SS'),
+  r.person,
+  r.user_id,
+  ingredients.ingredient_json
+FROM
+  recipe r
+  LEFT JOIN ingredients ON r.id = ingredients.recipe_id
+WHERE
+  r.delete_at IS NULL
+ORDER BY
+  r.name ASC;
 
 --  ---------------------------------------- Recipe Type -------------------------------------------------------
 

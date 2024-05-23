@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Form, useSubmit } from "react-router-dom";
 import ModalResetPassword from "./ModalResetPassword";
 
-import { CiTrash } from "react-icons/ci";
+import DeleteTrash from "../../../Layout/UXElements/icons/DeleteTrash";
 import style from "./index.module.css"
 
 
@@ -86,7 +86,7 @@ export default function Account() {
           {inChange !== "delete" ?
           <>
             <h3>Supprimer mon compte</h3>
-            <button type="button" className={style.btnDelete} data-input-id="delete" onClick={clickHandler} aria-label="Delete account button"><CiTrash size={28} /></button>
+            <button type="button" className={style.btnDelete} data-input-id="delete" onClick={clickHandler} aria-label="Bouton pour supprimer son compte."><DeleteTrash size={28} dataInputId={"delete"}/></button>
           </>
           :
           <>

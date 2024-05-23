@@ -10,7 +10,7 @@ import eh from '../../../../../helpers/errorHandler';
 
 const ModalResetPassword = ({setOpenModal}) => {
     
-    const {id, email} = useSelector((state) => state.session);
+    const {email} = useSelector((state) => state.session);
     
 
     const handleSubmitResetPassword = async (event) => {
@@ -25,7 +25,10 @@ const ModalResetPassword = ({setOpenModal}) => {
 
         dataForm.email = email;
         await UserApi.updatePassword(dataForm);
-        toast.success("Mot de passe modifié avec succès.")
+        toast.success("Mot de passe modifié avec succès.");
+        setTimeout(() => {
+            setOpenModal(false);
+          }, 1700);
     }
 
     return(

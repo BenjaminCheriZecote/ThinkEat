@@ -9,7 +9,7 @@ export default class UserValidator extends CoreValidator {
     if (!name || !String(name).match(/^[a-zA-Z][\w-]{3,20}$/)) {
       throw new ApiError("Merci de renseigner votre nom correctement.", {name: "Bad Request", httpStatus:400});
     }
-    if (!password || !String(password).match(/^.{6,40}$/)) {
+    if (!password || !String(password).match('^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,40}$')) {
       throw new ApiError("Merci de renseigner un mot de passe correct.", {name: "Bad Request", httpStatus:400});
     }
     if (password !== passwordConfirm) {
@@ -39,7 +39,7 @@ export default class UserValidator extends CoreValidator {
     if (Object.values({email, password}).some(value => !value)) {
       throw new ApiError("Merci de renseigner un email et un mot de passe", {name: "Bad Request", httpStatus:400});
     }
-    if (password && !String(password).match(/^.{6,40}$/)) {
+    if (password && !String(password).match('^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,40}$')) {
       throw new ApiError("Merci de renseigner un mot de passe correct.", {name: "Bad Request", httpStatus:400});
     }
     if (email && !emailValidator.validate(email)) {
@@ -49,7 +49,7 @@ export default class UserValidator extends CoreValidator {
   }
 
   static checkBodyForUpdatePassword({password, passwordConfirm}) {
-    if (!password || !String(password).match(/^.{6,40}$/)) {
+    if (!password || !String(password).match('^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,40}$')) {
       throw new ApiError("Merci de renseigner un mot de passe correct.", {name: "Bad Request", httpStatus:400});
     }
     if (password !== passwordConfirm) {

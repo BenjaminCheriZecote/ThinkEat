@@ -74,7 +74,6 @@ input::-webkit-inner-spin-button {
   color: white;
   cursor: pointer;
   display: inline-flex;
-  /* font-family: 'Playpen Sans', cursive; */
   font-family: "Poppins", sans-serif;
   height: 2rem;
   justify-content: center;
@@ -94,17 +93,12 @@ input::-webkit-inner-spin-button {
   font-size: 12px;
  }
  
- .btnValidate:focus {
-  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
- }
- 
  .btnValidate:hover {
   box-shadow: var(--colorShadow) 0 4px 8px, var(--colorShadow) 0 7px 13px -3px, var(--colorOrange) 0 -3px 0 inset;
   transform: translateY(-2px);
  }
  
  .btnValidate:active {
-  /* box-shadow: #D6D6E7 0 3px 7px inset; */
   transform: translateY(2px);
  }
 

@@ -4,7 +4,7 @@
     position: relative;
 }
 
-.fieldsetOrderBy__ulContainer {
+.orderByContainer {
     position: absolute;
     left: 8.5rem;
     top:0.5rem;
@@ -19,7 +19,7 @@
     z-index:5
 }
 
-.fieldsetOrderBy__ulContainer li {
+.orderByContainer li {
     display:flex;
     justify-content: space-between;
     gap:1rem;
@@ -29,7 +29,7 @@
     
 }
 
-.fieldsetOrderBy__ulContainer li div {
+.orderByContainer li div {
     display:flex;
     gap:1rem;
     width:6rem;
@@ -38,7 +38,7 @@
     margin-right:1rem;
 }
 
-.fieldsetOrderBy__ulContainer button {
+.orderByContainer button {
   width:fit-content;
   border:none;
   background-color: inherit;
@@ -50,7 +50,7 @@
   cursor:pointer;
   color:var(--colorUi3)
 }
-.fieldsetOrderBy__ulContainer button:hover {
+.orderByContainer button:hover {
   transition: 300ms ease-in-out;
   color:var(--colorUi2);
 }
@@ -70,7 +70,7 @@
   color:var(--colorbg6);
 }
 
-.fieldsetOrderBy__ulContainer button {
+.orderByContainer button {
     width:fit-content;
     align-self: end;
     margin-top: 0.2rem;

@@ -11,7 +11,7 @@ class CoreApi {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
 
     await this.errorHandler(httpResponse);
@@ -31,7 +31,7 @@ class CoreApi {
 
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      // credentials:"include"
+      credentials:"include"
     });
 
     await this.errorHandler(httpResponse);
@@ -55,7 +55,7 @@ class CoreApi {
     }
     const httpResponse = await fetch(url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      // credentials:"include"
+      credentials:"include"
     });
     await this.errorHandler(httpResponse);
 
@@ -68,7 +68,7 @@ class CoreApi {
       method: "PATCH",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -81,7 +81,7 @@ class CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/${this.routeName}/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -110,7 +110,7 @@ export class HistoryApi extends CoreApi {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -129,7 +129,7 @@ export class IngredientApi extends CoreApi {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -143,7 +143,7 @@ export class IngredientApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -173,7 +173,7 @@ export class RecipeApi extends CoreApi {
     }
     const httpResponse = await fetch(url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      // credentials:"include"
+      credentials:"include"
     });
     await this.errorHandler(httpResponse);
 
@@ -190,7 +190,7 @@ export class RecipeApi extends CoreApi {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -205,7 +205,7 @@ export class RecipeApi extends CoreApi {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -227,7 +227,7 @@ export class UserApi extends CoreApi {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
 
     await this.errorHandler(httpResponse);
@@ -239,7 +239,7 @@ export class UserApi extends CoreApi {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
 
     await this.errorHandler(httpResponse);
@@ -255,7 +255,7 @@ export class UserApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/logout`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      // credentials:"include"
+      credentials:"include"
     });
     localStorage.removeItem('user');
     TokenApi.deleteToken();
@@ -277,7 +277,7 @@ export class UserApi extends CoreApi {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
     
     await this.errorHandler(httpResponse);
@@ -288,7 +288,7 @@ export class UserApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/user/account/${uuid}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      // credentials:"include"
+      credentials:"include"
     });
     
     await this.errorHandler(httpResponse);
@@ -300,7 +300,7 @@ export class UserApi extends CoreApi {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
     
     await this.errorHandler(httpResponse);
@@ -313,7 +313,7 @@ export class UserApi extends CoreApi {
       method: "PATCH",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`},
       body: JSON.stringify(data),
-      // credentials:"include"
+      credentials:"include"
     });
     
     await this.errorHandler(httpResponse);
@@ -327,7 +327,7 @@ export class UserApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/user/${userId}/recipe/${recipeId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -341,7 +341,7 @@ export class UserApi extends CoreApi {
     const httpResponse = await fetch(`${apiBaseUrl}/user/${userId}/recipe/${recipeId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      // credentials:"include"
+      credentials:"include"
     });
   
     await this.errorHandler(httpResponse);
@@ -366,7 +366,7 @@ export class UserApi extends CoreApi {
     }
     const httpResponse = await fetch(url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      // credentials:"include"
+      credentials:"include"
     });
     await this.errorHandler(httpResponse);
 

@@ -244,6 +244,8 @@
     #header .headerH1initial {
       display:initial
     }
+
+    
   }
 
   @media screen and (max-width: 780px) {

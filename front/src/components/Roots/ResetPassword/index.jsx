@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Form, redirect} from 'react-router-dom';
-
-import { UserApi } from "../../../api"
+import { Form } from 'react-router-dom';
 
 
 export default function ResetPassword() {

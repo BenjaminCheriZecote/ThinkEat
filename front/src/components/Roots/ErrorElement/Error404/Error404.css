@@ -1,17 +1,10 @@
-/* #body > #root {
-    height: 100%;
-    width:100%;
-    border-radius: 0rem;
-    box-shadow:none;
-  
-  } */
+
   #root main .error404 {
-    border:1px red solid;
     width: 100%;
   }
 
   .error404 {
-    background-image: url('/404-Chuck-norris.jpg');
+    background-image: url('/404-Chuck-norris.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left center;

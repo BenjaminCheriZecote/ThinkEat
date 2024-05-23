@@ -5,7 +5,7 @@ const ToggleDarkMode = ({handleClick, mode}) => {
     return(
         <>
             <label className={style.switch} htmlFor="darkMode" >
-                <input type="checkbox" id="darkMode" onChange={handleClick} checked={mode}/>
+                <input type="checkbox" id="darkMode" onChange={handleClick} checked={mode} aria-label="Dark mode"/>
                 <span className={style.slider}></span>
             </label>
         </>

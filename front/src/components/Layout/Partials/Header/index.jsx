@@ -31,7 +31,12 @@ const Header = () => {
     const {mode} = useSelector((state) => state.darkMode);
     const isHome = location.pathname === '/'; 
     const search = location.search;
-    
+
+    const reziseWindowWidth = () => {
+        if (window.innerWidth >= 780) setMenuOpen(false);
+    }
+
+    window.addEventListener('resize', reziseWindowWidth);
     
     const handleClick = () => {
         
@@ -97,7 +102,7 @@ const Header = () => {
                             <div ref={boxProfile} className='header-rightSide__boxProfile'>
                                 
                                 <p>{name}</p> 
-                                <NavLink className="header-rightSide-boxProfile__settings" to="/profil">Paramètres <IoIosSettings/></NavLink>
+                                <NavLink className="header-rightSide-boxProfile__settings" to={`/profil${search && search}`} >Paramètres <IoIosSettings/></NavLink>
                                 <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
                             
                             </div>

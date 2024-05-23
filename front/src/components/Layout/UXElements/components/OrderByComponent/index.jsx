@@ -12,7 +12,7 @@ const OrderByComponent = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [isVisible, setIsVisible] = useState(false)
-    const fieldsetOrderByUl = useRef();
+    const orderByContainer = useRef();
     const navigate = useNavigate();
 
     const [varOrderBy, setVarOrderBy] = useState([
@@ -24,9 +24,9 @@ const OrderByComponent = () => {
     const handleClickOrderBy = () => {
         setIsVisible(!isVisible)
         if (!isVisible) {
-            fieldsetOrderByUl.current.style.transform = `translateX(-150%)`;
+            orderByContainer.current.style.transform = `translateX(-150%)`;
         } else {
-            fieldsetOrderByUl.current.style.transform = `translateX(+150%)`;
+            orderByContainer.current.style.transform = `translateX(+150%)`;
         }
     }
 
@@ -127,7 +127,7 @@ const OrderByComponent = () => {
                 </ul>
 
                 <legend>
-                    <button className="buttonOrderBy" type="button" aria-label="Open and close button to sort recipes">
+                    <button className="buttonOrderBy" type="button" aria-label="Bouton pour ouvrir et fermer le trie de recettes">
                         
                         <label className="hamburger" htmlFor="humburgerOrderBy">
                             <input type="checkbox" id="humburgerOrderBy"/>
@@ -138,29 +138,32 @@ const OrderByComponent = () => {
                             </label>
                     </button>
                 </legend>
-                
-                    <ul ref={fieldsetOrderByUl} className='fieldsetOrderBy__ulContainer'>
-                        {varOrderBy.map((element, index) => {
-                            return(
-                                    <li data-label={element.label} key={index} className={element.label} draggable 
-                                    onDragStart={() => draggItem.current=index}
-                                    onDragEnter={() => draggOverItem.current= index}
-                                    onDragEnd={handleSort}
-                                    onDragOver={(e) => e.preventDefault() }
-                                    >
-                                        <RxHamburgerMenu size={15}/>
-                                        <div className={element.label} onClick={handleClickOrderByChoice}>
-                                            <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
-                                        </div>
-                                        <FaArrowsRotate className="sizeIconsOrderBy" onClick={setAscFunction}/>
-                                        
-                                    </li> 
+                    
+                    <div ref={orderByContainer} className='orderByContainer'>
+                        <ul >
+                            {varOrderBy.map((element, index) => {
+                                return(
+                                        <li data-label={element.label} key={index} className={element.label} draggable 
+                                        onDragStart={() => draggItem.current=index}
+                                        onDragEnter={() => draggOverItem.current= index}
+                                        onDragEnd={handleSort}
+                                        onDragOver={(e) => e.preventDefault() }
+                                        >
+                                            <RxHamburgerMenu size={15}/>
+                                            <div className={element.label} onClick={handleClickOrderByChoice}>
+                                                <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
+                                            </div>
+                                            <FaArrowsRotate className="sizeIconsOrderBy" onClick={setAscFunction}/>
+                                            
+                                        </li> 
 
-                            )
-                            
-                        })}
-                        <button className="" aria-label="button to sort">Trier</button>
-                    </ul> 
+                                )
+                                
+                            })}
+                        </ul> 
+                        <button className="" aria-label="Bouton pour trier les recettes">Trier</button>
+
+                    </div>
               
             </fieldset>    
         </Form>  

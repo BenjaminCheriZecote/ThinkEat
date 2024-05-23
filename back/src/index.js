@@ -15,11 +15,11 @@ app.set('query parser', queryParser);
 // Allow some Cross origin requests
 app.use(cors({ 
   origin: process.env.CORS, 
-  // credentials:true 
+  credentials:true 
 }));
 
 // Statically serve the build
-// app.use(express.static('public'));
+app.use(express.static('public'));
 
 // Add body parser
 app.use(express.urlencoded({ extended: true })); // Body parser for application/x-www-urlencoded
