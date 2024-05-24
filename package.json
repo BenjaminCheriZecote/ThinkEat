@@ -1,5 +1,5 @@
 {
-  "name": "koikonmange",
+  "name": "thinkeat",
   "version": "1.0.0",
   "description": "Project Gyoza - 2023/2024",
   "main": "index.js",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BenjaminCheriZecote/KoiKonMange.git"
+    "url": "git+https://github.com/BenjaminCheriZecote/ThinkEat.git"
   },
   "author": "Benjamin Chéri-Zécoté",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BenjaminCheriZecote/KoiKonMange/issues"
+    "url": "https://github.com/BenjaminCheriZecote/ThnikEat/issues"
   },
-  "homepage": "https://github.com/BenjaminCheriZecote/KoiKonMange#readme"
+  "homepage": "https://github.com/BenjaminCheriZecote/ThnikEat#readme"
 }

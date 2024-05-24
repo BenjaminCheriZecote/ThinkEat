@@ -1,7 +1,7 @@
 {
-  "name": "koikonmange",
+  "name": "thinkeat",
   "version": "0.0.1",
-  "description": "Vacilitateur de choix de plats.",
+  "description": "Project Gyoza - 2023/2024",
   "directories": {
     "doc": "docs"
   },
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.9",
+    "npmlog": "^7.0.1",
     "pg": "^8.11.3",
     "sanitize-html": "^2.11.0",
     "url-query-json-parser": "^1.0.6"
@@ -38,7 +39,7 @@
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "sortablejs": "^1.15.1",
-    "supertest": "^6.3.4"
+    "supertest": "^7.0.0"
   },
   "main": "index.js"
 }
