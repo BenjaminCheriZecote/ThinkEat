@@ -1,4 +1,4 @@
-const LogoTET = ({size}) => {
+const LogoTet = ({size}) => {
 
     return(
         <div id="imgLogoContainer">
@@ -22,4 +22,4 @@ const LogoTET = ({size}) => {
     )
 }
 
-export default LogoTET;
+export default LogoTet;

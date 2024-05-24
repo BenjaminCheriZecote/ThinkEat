@@ -6,7 +6,7 @@ import Proposition from "../../Layout/UXElements/components/Proposition";
 import { v4 as uuidv4 } from 'uuid';
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
-import LogoTET from "../../Layout/UXElements/icons/LogoTet";
+import LogoTet from '../../Layout/UXElements/icons/LogoTet/index'
 import './Proposal.css';
 import { NavLink } from "react-router-dom";
 import types from "../../../store/reducers/types";
@@ -99,7 +99,7 @@ const Proposal = () => {
 
     return(
         <main className="outlet" style={{ gridColumn: '2 / -1' }}>
-            <LogoTET size={10}/>
+            <LogoTet size={10}/>
             <section className="section">
                 
                     <Form className="section__start" action="/proposal">
