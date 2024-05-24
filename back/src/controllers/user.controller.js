@@ -129,9 +129,8 @@ export default class UserController extends CoreController {
     const tokenData = req.user;
     const { refreshToken } = req.body;
     this.validator.checkUuid(refreshToken);
-    
     const key = await this.datamapper.findKeyByPkAndType(refreshToken, "refresh_token");
-
+    
     this.validator.checkIfExist(key, "Key");
     if (tokenData.id !== key["user_id"]) throw new ApiError("Ce token n'est pas valdie", {name: "Forbiden", httpStatus:403});
      
@@ -142,6 +141,11 @@ export default class UserController extends CoreController {
     const accessTokenExpiresAt = new Date(Math.round(Date.now() + (1000 * expiresIn))).toISOString();
     const accessToken = jwt.sign({ ...req.user, ip: req.ip, userAgent: req.headers['user-agent']}, process.env.JWT_PRIVATE_KEY, { expiresIn });
 
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: true,
+    });
+    
     res.json({
       accessToken,
       accessTokenExpiresAt,

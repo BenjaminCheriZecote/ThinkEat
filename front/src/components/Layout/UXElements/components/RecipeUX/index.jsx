@@ -11,7 +11,6 @@ import DeleteCruse from "../../icons/DeleteCruse";
 import CancelCruse from "../../icons/CancelCruse";
 import EditPen from "../../icons/EditPen";
 import ValidateCheck from "../../icons/ValidateCheck";
-import LogoTET from "../../icons/logoTET";
 import LogoHat from "../../icons/LogoHat";
 
 const recipeInit = {
@@ -245,7 +244,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
                   </>
                 :
                   <>
-                    <img src={imgAdded?imgAdded.path : recipeImageCopy} alt={recipe.name} />
+                    <img src={imgAdded?imgAdded.path : `/${recipeImageCopy}`} alt={recipe.name} />
                     <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
                   </>
             :
@@ -273,7 +272,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <li key={ingredient.id}>
             <figure>
               <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteCruse size={1}/></button>
-              <img src={ingredient.image === null ? "/default-img.jpg" : ingredient.image} alt={ingredient.name} />
+              <img src={ingredient.image === null ? "/default-img.webp" : ingredient.image} alt={ingredient.name} />
               <figcaption className={style.figcaption}>
                 <p>{ingredient.name}</p>
                 <div className={style.figcaptionDiv}>
@@ -293,7 +292,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
     <fieldset>
         <div className={`${style.sectionRecipeField}`}>
           <legend>Etapes</legend>
-            {/* <AddPlus handleClick={addStepp} color={"var(--colorbg2)"}/> */}
           <button type="button" onClick={addStepp} className={`${style.addStep}`}>
             <FaPlus />
             

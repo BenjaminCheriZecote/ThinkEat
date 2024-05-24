@@ -8,11 +8,10 @@ export default function (req, _, next) {
   const authHeader2 = req.headers['cookie'];
   const cookie = authHeader2 && authHeader2.split('=')[1];
 
-  if (!token || !cookie) throw new ApiError('Unauthorized', {httpStatus: 401});
+  if (!token || !cookie ) throw new ApiError('Unauthorized', {httpStatus: 401});
 
-  jwt.verify(cookie, process.env.JWT_PRIVATE_KEY, (err,payload) => {
+  jwt.verify(cookie, process.env.JWT_PRIVATE_KEY, (err) => {
     if (err) throw new ApiError('Forbidden', {httpStatus: 403});
-
   });
 
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err,payload) => {
