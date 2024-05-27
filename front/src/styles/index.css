@@ -134,6 +134,18 @@ body > #root {
     width:2rem;
     margin-top:0.6rem;
   }
+
+  .section .section__form {
+    gap:1.3rem;
+  }
+
+  .section .section__form input {
+    padding:0.8rem;
+  }
+
+  .section .section__form h2 {
+    font-size:1.3rem;
+  }
   
 }
 
@@ -169,6 +181,10 @@ body > #root {
     padding:0rem;
   }
 
+  .section .section__form h2 {
+    font-size:1.7rem;
+  }
+
 
   #header #header__section-tittle {
     padding:0rem 2rem 2rem 2rem;
@@ -198,10 +214,10 @@ body > #root {
   
   .section .section__form {
     width:50%;
-
+    gap:1rem;
   }
   .section .section__form h2 {
-    font-size:1.5rem;
+    font-size:1.1rem;
   }
 
   .section .section__form a, .section .section__form label, .section .section-form__btn  {
@@ -209,7 +225,8 @@ body > #root {
   }
 
   .section .section__form input {
-    padding:0.7rem;
+    padding:0.5rem;
+    font-size:0.7rem;
   }
 
   #header #header__section-tittle {

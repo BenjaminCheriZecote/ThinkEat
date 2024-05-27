@@ -1,6 +1,5 @@
 import { UserApi, RecipeApi } from "../../../api";
 
-
 const actions = {
     handleClickDeleteFavorites: async (action) => {
         const {id, mealId} = action.payload;
@@ -69,9 +68,22 @@ const actions = {
 		allBarMultiRangeSlider.forEach(bar => {
 			bar.querySelector(".bar-left").style.width = "0%";
 			bar.querySelector(".bar-right").style.width = "0%";
+            const inputMax = bar.querySelector(".input-type-range-max");
+            const inputMin = bar.querySelector(".input-type-range-min");
+            if (inputMax && inputMin) {
+                const maxValue = inputMax.max;
+                const minValue = inputMax.min;
+                inputMax.value = maxValue;
+                inputMin.value = minValue;
+                // Créer un événement de changement
+                const event = new Event('input', { bubbles: true });
+                inputMax.dispatchEvent(event);
+                inputMin.dispatchEvent(event);
+            }
+
 		})
     }
-
+    
 }
 
 export default actions;

@@ -56,7 +56,6 @@ const filtersReducer = createReducer (initialState, (builder) => {
 		state.filters.cookingTime.min = "00:00";
 		state.filters.cookingTime.max = "02:59";
 		setOffWidthRangeBar();
-		
 	})
   
 })						

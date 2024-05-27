@@ -13,7 +13,6 @@
 .main_section_tittle h3 {
     font-size: 2.3rem;
     font-weight: 600;
-    text-align:center;
 }
 
 .main_section_tittle h4 {
@@ -50,6 +49,7 @@
 
 .main_section_article--article img {
     width: 5rem;
+    aspect-ratio: 1 / 1;
 }
 
 .main_section_article--article p {

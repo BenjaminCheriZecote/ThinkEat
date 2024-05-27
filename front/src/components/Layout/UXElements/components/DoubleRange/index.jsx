@@ -2,7 +2,6 @@ import "./styles.css";
 import AlarmTime from "../../icons/AlarmTime";
 import MultiRangeSlider from "multi-range-slider-react";
 import { useDispatch } from "react-redux";
-import { useState, } from "react";
 
 export default function DoubleInputRange({label, name, item}) {
   
@@ -12,6 +11,7 @@ export default function DoubleInputRange({label, name, item}) {
   const minTimeCaption = item.min;
   const maxTimeCaption = item.max;
   const filter = name.toUpperCase();
+
 
   const handleTimeChange = (e) => {
     // Calcul des heures et des minutes pour minValue

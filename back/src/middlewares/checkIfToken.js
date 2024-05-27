@@ -6,7 +6,7 @@ export default function (req, res ,next) {
   const authHeader2 = req.headers['cookie'];
   const cookie = authHeader2 && authHeader2.split('=')[1];
 
-  if (token && cookie) {
+  if (token && cookie ) {
     authenticateToken(req,res,next);    
   } else {
     next();

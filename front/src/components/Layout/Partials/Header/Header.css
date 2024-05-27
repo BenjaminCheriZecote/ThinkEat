@@ -169,6 +169,7 @@
     background-size: cover;
     background-position: right;
     background-repeat: no-repeat;
+    animation: fadeInBackground 1s ease-in-out forwards;
   }
   .backgroundNotHome{
     background-image: linear-gradient(to bottom, var(--colorbg2), var(--colorbg1), var(--colorbg1));
@@ -228,6 +229,15 @@
 
   100% {
     right:0rem;
+  }
+}
+
+@keyframes fadeInBackground {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
   }
 }
 

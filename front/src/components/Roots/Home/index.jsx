@@ -23,7 +23,7 @@ const Home = () => {
             description:"Rendez-vous dans la page des propositions pour renseigner les critères du jour. Une grosse faim, peu de temps de cuisson ou un régime alimentaire spécifique? Faites le nous savoir."
         },
         {
-            title:"Positions",
+            title:"Propositions",
             src:"/step3home.webp",
             alt:"Image, chef avec cloche",
             description:"Une fois vos envies précisées, on se charge de trouver les recettes adéquates en se basant sur celles que l'on vous a déjà proposé."
