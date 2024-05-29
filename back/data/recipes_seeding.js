@@ -3,6 +3,7 @@
 import { readFile } from 'node:fs/promises';
 import cluster from "cluster";
 import os from "node:os";
+import client from '../src/helpers/pg.client.js';
 
 import '../src/helpers/envLoad.js';
 import RecipeDatamapper from '../src/datamappers/recipe.datamapper.js';
@@ -172,6 +173,12 @@ function findFamilies(data) {
         if (isExist) {
           return;
         }
+        const query = {
+          text:`SELECT name FROM $1 WHERE name ='$2';`,
+          values:['family', family.name]
+        };
+        const isExistOnDb = await client.query(query);
+        if (isExistOnDb.length > 1) return;
         allFamilies.push(family);
       });
     });
@@ -190,6 +197,12 @@ function findIngredients(data) {
       if (isExist) {
         return;
       }
+      const query = {
+        text:`SELECT name FROM $1 WHERE name ='$2';`,
+        values:['ingredient', extendIngredient.name]
+      };
+      const isExistOnDb = await client.query(query);
+      if (isExistOnDb.length > 1) return;
       allIngredients.push(extendIngredient);
     });
   });
@@ -207,6 +220,12 @@ function findUnits(data) {
       if (isExist) {
         return;
       }
+      const query = {
+        text:`SELECT name FROM $1 WHERE name ='$2';`,
+        values:['unit', extendIngredient.unit]
+      };
+      const isExistOnDb = await client.query(query);
+      if (isExistOnDb.length > 1) return;
       allUnits.push({name: extendIngredient.unit});
     });
   });
@@ -215,14 +234,19 @@ function findUnits(data) {
 }
 function findRecipes(data) {
   let allRecipes = [];
-
+  
   data.forEach(async extendRecipe =>{
     const isExist = allRecipes.some(recipe => recipe.name === extendRecipe.name);
       if (isExist) {
         return;
       }
+      const query = {
+        text:`SELECT name FROM $1 WHERE name ='$2';`,
+        values:['recipe', extendRecipe.name]
+      };
+      const isExistOnDb = await client.query(query);
+      if (isExistOnDb.length > 1) return;
       allRecipes.push(extendRecipe);
-    
   });
 
   return allRecipes;
