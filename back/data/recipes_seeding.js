@@ -11,6 +11,14 @@ import IngredientDatamapper from '../src/datamappers/ingredient.datamapper.js';
 import FamilyDatamapper from '../src/datamappers/family.datamapper.js';
 import UnitDatamapper from '../src/datamappers/unit.datamapper.js';
 
+const checkDataBase = async (tableName) => {
+    const query = {
+        text:`SELECT name FROM ${tableName};`
+    };
+    const dataFromDb = await client.query(query);
+    return dataFromDb.rows;
+};
+
 if (cluster.isPrimary) {
   const recipesJson = await readFile(new URL("./recipes.json", import.meta.url));
   const recipesFromJson = JSON.parse(recipesJson);
@@ -41,7 +49,8 @@ if (cluster.isPrimary) {
     const worker = cluster.fork();  
   }
 
-  cluster.on("message", (worker, message) => {
+  cluster.on("message", async (worker, message) => {
+  
     if (message.task === "ready") {
       console.log(`Worker ${worker.id} is ready`);
     }
@@ -52,22 +61,31 @@ if (cluster.isPrimary) {
         data[key] = value;
       });
     }
+
     
     if (!data.ingredients) {
       data.ingredients = "in progress";
-      return worker.send({ task: "find_ingredients", payload: recipesFromJson });
+      const tableName = 'ingredient';
+      const dataFromDb = await checkDataBase(tableName);
+      return worker.send({ task: "find_ingredients", payload: {recipesFromJson, dataFromDb }});
     }
     if (!data.families) {
       data.families = "in progress";
-      return worker.send({ task: "find_families", payload: recipesFromJson });
+      const tableName = 'family';
+      const dataFromDb = await checkDataBase(tableName);
+      return worker.send({ task: "find_families", payload: {recipesFromJson, dataFromDb }});
     }
     if (!data.units) {
       data.units = "in progress";
-      return worker.send({ task: "find_units", payload: recipesFromJson });
+      const tableName = 'unit';
+      const dataFromDb = await checkDataBase(tableName);
+      return worker.send({ task: "find_units", payload: {recipesFromJson, dataFromDb } });
     }
     if (!data.recipes) {
       data.recipes = "in progress";
-      return worker.send({ task: "find_recipes", payload: recipesFromJson });
+      const tableName = 'recipe';
+      const dataFromDb = await checkDataBase(tableName);
+      return worker.send({ task: "find_recipes", payload: {recipesFromJson, dataFromDb }});
     }
 
     if (!data.familiesDB && data.families && data.families !== "in progress") {
@@ -159,10 +177,11 @@ if (cluster.isPrimary) {
 
 
 
-function findFamilies(data) {
+function findFamilies({recipesFromJson, dataFromDb }) {
   let allFamilies = [];
+  let isExistOnDb = false;
 
-  data.forEach(async extendRecipe =>{
+  recipesFromJson.forEach(async extendRecipe =>{
     const {ingredients, ...recipe} = extendRecipe;
     
     ingredients.forEach(async extendIngredient =>{
@@ -170,15 +189,9 @@ function findFamilies(data) {
       
       families.forEach(async family =>{
         const isExist = allFamilies.some(element => element.name === family.name);
-        if (isExist) {
-          return;
-        }
-        const query = {
-          text:`SELECT name FROM $1 WHERE name ='$2';`,
-          values:['family', family.name]
-        };
-        const isExistOnDb = await client.query(query);
-        if (isExistOnDb.length > 1) return;
+        if (isExist) return;
+        if (dataFromDb) isExistOnDb = dataFromDb.find(family => family.name === family.name);
+        if (isExistOnDb) return;
         allFamilies.push(family);
       });
     });
@@ -186,67 +199,52 @@ function findFamilies(data) {
 
   return allFamilies;
 }
-function findIngredients(data) {
+function findIngredients({recipesFromJson, dataFromDb }) {
   let allIngredients = [];
+  let isExistOnDb = false;
 
-  data.forEach(async extendRecipe =>{
+  recipesFromJson.forEach(async extendRecipe => {
     const {ingredients, ...recipe} = extendRecipe;
     
     ingredients.forEach(async extendIngredient =>{
       const isExist = allIngredients.some(ingredient => ingredient.name === extendIngredient.name);
-      if (isExist) {
-        return;
-      }
-      const query = {
-        text:`SELECT name FROM $1 WHERE name ='$2';`,
-        values:['ingredient', extendIngredient.name]
-      };
-      const isExistOnDb = await client.query(query);
-      if (isExistOnDb.length > 1) return;
+      if (isExist) return;
+      if (dataFromDb) isExistOnDb = dataFromDb.find(ingredient => ingredient.name === extendIngredient.name);
+      if (isExistOnDb) return;
       allIngredients.push(extendIngredient);
     });
   });
 
   return allIngredients;
 }
-function findUnits(data) {
+function findUnits({recipesFromJson, dataFromDb }) {
   let allUnits = [];
+  let isExistOnDb = false;
 
-  data.forEach(async extendRecipe =>{
+  recipesFromJson.forEach(async extendRecipe =>{
     const {ingredients, ...recipe} = extendRecipe;
     
     ingredients.forEach(async extendIngredient =>{
       const isExist = allUnits.some(unit => unit.name === extendIngredient.unit);
-      if (isExist) {
-        return;
-      }
-      const query = {
-        text:`SELECT name FROM $1 WHERE name ='$2';`,
-        values:['unit', extendIngredient.unit]
-      };
-      const isExistOnDb = await client.query(query);
-      if (isExistOnDb.length > 1) return;
+      if (isExist) return;
+      if (dataFromDb) isExistOnDb = dataFromDb.find(unit => unit.name === extendIngredient.unit);
+      if (isExistOnDb) return;
       allUnits.push({name: extendIngredient.unit});
     });
   });
 
   return allUnits;
 }
-function findRecipes(data) {
+function findRecipes({recipesFromJson, dataFromDb }) {
   let allRecipes = [];
-  
-  data.forEach(async extendRecipe =>{
+  let isExistOnDb = false;
+
+  recipesFromJson.forEach(extendRecipe =>{
     const isExist = allRecipes.some(recipe => recipe.name === extendRecipe.name);
-      if (isExist) {
-        return;
-      }
-      const query = {
-        text:`SELECT name FROM $1 WHERE name ='$2';`,
-        values:['recipe', extendRecipe.name]
-      };
-      const isExistOnDb = await client.query(query);
-      if (isExistOnDb.length > 1) return;
-      allRecipes.push(extendRecipe);
+    if (isExist) return;
+    if (dataFromDb) isExistOnDb = dataFromDb.find(recipe => recipe.name === extendRecipe.name);
+    if (isExistOnDb) return;
+    allRecipes.push(extendRecipe);
   });
 
   return allRecipes;
