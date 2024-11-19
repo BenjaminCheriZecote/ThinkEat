@@ -1,6 +1,6 @@
 # ThinkEat
 
-https://thinkeat.fly.dev/
+https://thinkeat-cfl5zbpv.b4a.run
 
 Le but du projet ThinkEat est d’avoir des idées de repas et de simplifier le choix de ces repas. L’application vise à offrir une solution personnalisée en s'appuyant sur les préférences individuelles des utilisateurs. L'objectif principal est de présenter une liste restreinte de suggestions de repas adaptées à chaque utilisateur, en prenant en compte divers critères tels que les préférences alimentaires, le temps de préparation, la faim, les ingrédients ou les régimes alimentaires.
 
