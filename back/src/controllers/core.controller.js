@@ -22,7 +22,7 @@ export default class CoreController {
 
     const row = await this.datamapper.findByPk(id);
     this.validator.checkIfExist(row, this.className);
-
+    
     return res.status(200).json(row);
   }
 

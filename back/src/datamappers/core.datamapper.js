@@ -24,7 +24,6 @@ export default class CoreDatamapper {
     if (page) {
       query = this.addPaginationToQuery({page, query, number});
     }
-    
     let result = await client.query(query);
     
     if (result.rows.length === 0) {
@@ -32,7 +31,6 @@ export default class CoreDatamapper {
       query = this.addPaginationToQuery({page:'1', query, number});
       result = await client.query(query);
     }
-
     return result.rows;
   }
 
@@ -87,7 +85,9 @@ export default class CoreDatamapper {
             return `"${condition[0]}" ${condition[1]} NULL`;
           }
           query.values.push(condition[2]);
-
+          if (tableName === "recipe" && condition[0] === "diet") {
+            return `${condition[0]} @> ARRAY[$${query.values.length}]`;
+          }
           if (tableName === "ingredient" || tableName === "family") {
             const type = typeof condition[2] === "number" ? "int" : "text";
             const operator = condition[1] === "=" || condition[1] === "in" ? "IN" : "NOT IN";

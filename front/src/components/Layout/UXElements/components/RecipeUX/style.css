@@ -3,12 +3,9 @@
 .dropDownListContainer {
     font-size:1rem;
     font-weight: 200;
-    position: relative;
     position:absolute;
     left:10rem;
     z-index:50;
-    width:25rem;
-    border-radius: 0.3rem;
 }
 
 .dropDownListSearchContainer {
@@ -17,7 +14,6 @@
     display:flex;
     gap:0.3rem;
     align-items: center;
-    border-radius:0.2rem;
     background-color: var(--colorbg2); 
     margin-bottom:1rem;
     margin-top:0.2rem;
@@ -100,4 +96,16 @@ form div .choosenItemsContainer {
     scrollbar-color: var(--colorGrey) var(--colorbg2);
     box-shadow: 2px 3px 4px -3px var(--colorFont1);
     border-radius: 0.3rem;
+}
+
+@media screen and (max-width: 600px) {
+    .dropDownListContainer {
+        left:7rem;
+    }
+}
+@media screen and (max-width: 400px) {
+    .dropDownListContainer {
+        left:0rem;
+        top:2rem;
+    }
 }

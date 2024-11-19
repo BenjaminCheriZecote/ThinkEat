@@ -10,6 +10,5 @@ export async function recipeLoader({params}) {
       RecipeApi.get(params.id)
     ]);
     store.dispatch({type:types.ADD_UNIT, payload:units})
-
     return recipe;
   }

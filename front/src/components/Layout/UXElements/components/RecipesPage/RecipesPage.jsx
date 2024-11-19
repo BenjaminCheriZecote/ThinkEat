@@ -29,7 +29,7 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
 
     const handleChangeSearch = (event) => {
         if (event.target.value.length === 0) setCopy(recipes)
-        const searchedRecipes = recipes.filter((recipe) => recipe.name.toLowerCase().includes(event.target.value.toLowerCase()));
+        const searchedRecipes = recipes.filter((recipe) => recipe.name.toLowerCase().startsWith(event.target.value.toLowerCase()));
         setCopy(searchedRecipes);
     }
 

@@ -1,6 +1,6 @@
 # ThinkEat
 
-https://thinkeat.onrender.com/
+https://thinkeat.fly.dev/
 
 Le but du projet ThinkEat est d’avoir des idées de repas et de simplifier le choix de ces repas. L’application vise à offrir une solution personnalisée en s'appuyant sur les préférences individuelles des utilisateurs. L'objectif principal est de présenter une liste restreinte de suggestions de repas adaptées à chaque utilisateur, en prenant en compte divers critères tels que les préférences alimentaires, le temps de préparation, la faim, les ingrédients ou les régimes alimentaires.
 
@@ -8,7 +8,7 @@ Le but du projet ThinkEat est d’avoir des idées de repas et de simplifier le 
 
 Les utilisateurs peuvent occuper trois rôles différents : visiteur, utilisateur standard et administrateur; chacun avec des niveaux d'accès et des fonctionnalités spécifiques. 
 
-L’application est codée en full JS avec React coté front et Node.js/Express coté back. C’est avec Render que je la déploie et que j’héberge sa base de donnée postgreSQL. 
+L’application est codée en full JS avec React coté front et Node.js/Express coté back. C’est avec Render que je la déploie, la base de donnée postgreSQL est hébergée chez Fly.io.
 
 Le monorepo est scindé en deux dossiers pour séparer la logique client et server. En back-end le codage des composants est effectué dans des classes où l’on retrouve, dans les enfants de celle-ci, les entités de la base de données. Ces classes se trouvent dans les sous-dossiers de **[back/src]** (routers, controllers, datamaper, validator).  
 

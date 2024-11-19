@@ -394,6 +394,7 @@ CREATE TABLE IF NOT EXISTS "recipe"(
   "time" INTERVAL NOT NULL,
   "preparating_time" INTERVAL NOT NULL,
   "person" int NOT NULL,
+  "diet" TEXT[] DEFAULT NULL,
   "user_id" INT REFERENCES "user"(id),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -434,7 +435,7 @@ CREATE TABLE IF NOT EXISTS "user_has_recipe" (
 
 --  ---------------------------------------- Recipe view ------------------------------------------------------
 
-CREATE VIEW extends_recipe("id", "name", "image", "steps", "hunger", "time", "preparatingTime", "cookingTime", "person", "userId", "ingredients") AS
+CREATE VIEW extends_recipe("id", "name", "image", "steps", "hunger", "time", "preparatingTime", "cookingTime", "person", "diet", "userId", "ingredients") AS
 WITH ingredients AS (
   SELECT
     rhi.recipe_id,
@@ -463,6 +464,7 @@ SELECT
   TO_CHAR(r.preparating_time, 'HH24:MI:SS'),
   TO_CHAR((r.time - r.preparating_time), 'HH24:MI:SS'),
   r.person,
+  r.diet,
   r.user_id,
   ingredients.ingredient_json
 FROM
@@ -485,6 +487,7 @@ CREATE TYPE short_recype AS (
   "preparatingTime" INTERVAL,
   "cookingTime" INTERVAL,
   "person" int,
+  "diet" TEXT[],
   "userId" int
 );
 
@@ -512,6 +515,7 @@ CREATE FUNCTION create_recipe(json) RETURNS "short_recype" AS $$
     "time",
     "preparating_time",
     "person",
+    "diet",
     "user_id"
   )
   VALUES (
@@ -522,9 +526,10 @@ CREATE FUNCTION create_recipe(json) RETURNS "short_recype" AS $$
     ($1->>'time')::INTERVAL,
     ($1->>'preparatingTime')::INTERVAL,
     ($1->>'person')::int,
+    ARRAY(SELECT json_array_elements_text($1->'diet')),
     ($1->>'userId')::int
   )
-  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person","user_id"
+  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person", "diet","user_id"
 $$ LANGUAGE sql;
 
 CREATE FUNCTION find_recipe() RETURNS SETOF "extends_recipe" AS $$
@@ -555,6 +560,7 @@ CREATE FUNCTION update_recipe(json) RETURNS "short_recype" AS $$
     "time",
     "preparating_time",
     "person",
+    "diet",
     "updated_at"
   )
   = (
@@ -565,18 +571,19 @@ CREATE FUNCTION update_recipe(json) RETURNS "short_recype" AS $$
     COALESCE(($1->>'time')::INTERVAL, "time"),
     COALESCE(($1->>'preparatingTime')::INTERVAL, "preparating_time"),
     COALESCE(($1->>'person')::int, "person"),
+    ARRAY(SELECT json_array_elements_text($1->'diet')),
     now()
   )
   WHERE "id" = ($1->>'id')::int
   AND "delete_at" IS NULL
-  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person","user_id"   
+  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person","diet","user_id"   
 $$ LANGUAGE sql;
 
 CREATE FUNCTION delete_recipe(int) RETURNS "short_recype" AS $$
   UPDATE "recipe" SET "delete_at" = now()
   WHERE id = $1
   AND delete_at IS NULL
-  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person","user_id"       
+  RETURNING "id","name","image","steps","hunger","time","preparating_time",("time"-"preparating_time") AS "cooking_time","person","diet","user_id"       
 $$ LANGUAGE sql;
 
 CREATE FUNCTION add_ingredient_to_recipe(json) RETURNS "recipe_has_ingredient" AS $$
@@ -650,7 +657,7 @@ CREATE FUNCTION find_recipe_to_user(json) RETURNS "short_user_has_recipe" AS $$
 $$ LANGUAGE sql;
 
 CREATE FUNCTION get_recipe_to_user(int) RETURNS SETOF "extends_recipe" AS $$
-  SELECT extends_recipe.id, extends_recipe.name, extends_recipe.image, extends_recipe.steps, extends_recipe.hunger, extends_recipe.time, extends_recipe."preparatingTime" AS "preparatingTime", extends_recipe."cookingTime", extends_recipe.person, extends_recipe."userId" AS "userId", extends_recipe.ingredients
+  SELECT extends_recipe.id, extends_recipe.name, extends_recipe.image, extends_recipe.steps, extends_recipe.hunger, extends_recipe.time, extends_recipe."preparatingTime" AS "preparatingTime", extends_recipe."cookingTime", extends_recipe.person, extends_recipe.diet, extends_recipe."userId" AS "userId", extends_recipe.ingredients
   FROM "extends_recipe"
   JOIN "user_has_recipe" ON "extends_recipe".id = "user_has_recipe".recipe_id
   WHERE "user_has_recipe"."user_id" = $1;

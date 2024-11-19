@@ -46,7 +46,7 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
     }
 
     const handleChangeSearch = (event) => {
-        const filteredResearch = store.filter((element) => element.name.toLowerCase().includes(event.target.value.toLocaleLowerCase()));
+        const filteredResearch = store.filter((element) => element.name.toLowerCase().startsWith(event.target.value.toLocaleLowerCase()));
         setItemCopy(filteredResearch)
     }
 

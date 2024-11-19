@@ -7,7 +7,7 @@
   },
   "scripts": {
     "db:create": "psql -U koikonmange -d koikonmange -f ./data/create_tables.sql",
-    "db:seed": "node ./data/recipes_seeding.js",
+    "db:seed": "node ./data/seeding/recipes_seeding1.js && node ./data/seeding/recipes_seeding2.js",
     "db:reset": "npm run db:create && npm run db:seed",
     "dev:back": "nodemon index.js",
     "start": "node index.js",
@@ -20,7 +20,7 @@
   "author": "gyoza@oclock.io",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "email-validator": "^2.0.4",

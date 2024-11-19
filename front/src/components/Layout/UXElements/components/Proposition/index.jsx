@@ -48,7 +48,7 @@ const Proposition = ({proposition, history}) => {
         proposition.validate? "liProposotion validate":"liProposotion unvalidate"
         }>
             <div className={proposition.validate?"liProposotion__imgContainer validateImg":"liProposotion__imgContainer unvalidateImg"}>
-                <img src={proposition.image === null?"/default-img.webp":`/${proposition.image}`} alt={`${proposition.name}`} className={!proposition.validate?"unvalidateGrayscale":""}/>
+                <img src={proposition.image === null?"/default-img.webp":`/img/${proposition.image}`} alt={`${proposition.name}`} className={!proposition.validate?"unvalidateGrayscale":""}/>
             </div>
 
             <div className={proposition.validate?"liProposotion__legendContainer":"liProposotion__legendContainer unvalidateGrayscale"}>

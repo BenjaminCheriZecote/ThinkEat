@@ -26,7 +26,7 @@ export default function DropDownList({itemName, items, choosenItems=[], isOpen, 
         {choosenItems &&
           <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
         }
-        <button type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue' onClick={openHandler}/></button>
+        <button className={isOpen?"":"bordered"} type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue' onClick={openHandler}/></button>
 
       </div>
       {isOpen && <div className="scrollContainer">

@@ -57,8 +57,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
         </div>
         <section className={`${style.sectionRecipeTop}`}>
-          <div>
-            
+          <div className={`${style.leftSide}`}>
               <div className={`${style.sectionRecipeField} `}>
                 <h4>Preparation :</h4>
                 <time dateTime={recipe.preparatingTime}>{formatTime(recipe.preparatingTime)}</time>
@@ -76,13 +75,21 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
               <h4>Faim :</h4>
               <span>{recipe.hunger}</span>
             </div>
+           {recipe.diet && 
+              <div className={`${style.sectionRecipeField}`}>
+                {recipe.diet.map((diet, index) => {
+                  return (
+                    <span key={index}>{diet}{index + 1 !== recipe.diet.length && ','}</span>
+                  )
+                })}
+              </div>
+            }
           </div>
-          <figure>
-            <img src={recipe.image === null ? "/default-img.webp" : `/${recipe.image}`} alt={recipe.name} />
-            <div>
-              <figcaption>{recipe.name}</figcaption>
-            </div>
-          </figure>
+          <div className={`${style.rightSide}`}>
+            <figure>
+              <img src={recipe.image === null ? "/default-img.webp" : `/img/${recipe.image}`} alt={recipe.name} />
+            </figure>
+          </div>
         </section>
 
         <section>
@@ -94,7 +101,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             <li key={ingredient.id}>
               <figure>
                 <div>
-                  <img src={ingredient.image === null ? "/default-img.webp" : ingredient.image} alt={ingredient.name} />
+                  <img src={ingredient.image === null ? "/default-img.webp" : `/img/ingredients/${ingredient.image}`} alt={ingredient.name} />
                 </div>
                 
                 <figcaption>{ingredient.quantity && ingredient.quantity + " "}{ingredient.unit && ingredient.unit + " "}{ingredient.name}</figcaption>
@@ -195,11 +202,11 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         <input type="hidden" name="userId" value={user.id} />
       }
       <div>
-        <LogoHat size={4}/>
+        <LogoHat size={4} className={modal?style.modalLogo:""}/>
         <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
       </div>
-      <fieldset className={`${style.sectionRecipeTop}`}>
-        <div>
+      <fieldset className={`${style.sectionRecipeTop} ${modal ? style.modalSectionRecipeTop:""}`}>
+        <div className={`${style.leftSide}`}>
           <div className={`${style.sectionRecipeField}`}>
             <label>Preparation :</label>
             <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} required />
@@ -222,39 +229,41 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             </select>
           </div>
         </div>
-        <figure>
-          <input ref={inputFileElement} type="file" hidden accept=".jpg, .png, webp" onChange={handleFileChange} name="imageFile" multiple/>
-            {formMethod === "POST" || formMethod === "PATCH"?
-              imgAdded ?
-                <>
-                  <img src={imgAdded.path} alt="doawload image" />
-                  <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
-                </>
-              :
-                !recipeImageCopy? 
+        <div className={`${style.rightSide} ${modal ? style.modalRightSide:""}`}>
+          <figure>
+            <input ref={inputFileElement} type="file" hidden accept=".jpg, .png, webp" onChange={handleFileChange} name="imageFile" multiple/>
+              {formMethod === "POST" || formMethod === "PATCH"?
+                imgAdded ?
                   <>
-                  <label 
-                  className={style.downloadImg} 
-                  onClick={handleDownloadImg} 
-                  > 
-                    <span>Choisir une image</span>
-                    <DownloadCloud size={50} color={"var(--colorUser)"}/>
-                  </label>
-                  
-                  </>
-                :
-                  <>
-                    <img src={imgAdded?imgAdded.path : `/${recipeImageCopy}`} alt={recipe.name} />
+                    <img src={imgAdded.path} alt="doawload image" />
                     <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
                   </>
-            :
-              <img src={recipe.image === null ? "/default-img.webp" : `/${recipe.image}`} alt={recipe.name} />
-            }
-          
-          <div>
-            {!formMethod === "PATCH" || !formMethod === "POST" && <figcaption>{recipe.name}</figcaption>}
-          </div>
-        </figure>
+                :
+                  !recipeImageCopy? 
+                    <>
+                    <label 
+                    className={style.downloadImg} 
+                    onClick={handleDownloadImg} 
+                    > 
+                      <span>Choisir une image</span>
+                      <DownloadCloud size={50} color={"var(--colorUser)"}/>
+                    </label>
+                    
+                    </>
+                  :
+                    <>
+                      <img src={imgAdded?`/img${imgAdded.path}` : `/img/${recipeImageCopy}`} alt={recipe.name} />
+                      <button data-item-id="Image" className={style.BtnDeleteImg} type="button"><DeleteCruse size={1} handleClick={toggleItem}/></button>
+                    </>
+              :
+                <img src={recipe.image === null ? "/default-img.webp" : `/${recipe.image}`} alt={recipe.name} />
+              }
+            
+            <div>
+              {!formMethod === "PATCH" || !formMethod === "POST" && <figcaption>{recipe.name}</figcaption>}
+            </div>
+          </figure>
+        </div>
       </fieldset>
 
       <fieldset >
@@ -269,12 +278,12 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         </li>
         }
         {ingredients && ingredients.map(ingredient => (
-          <li key={ingredient.id}>
+          <li key={ingredient.id} className={style.ingredientAdded}>
             <figure>
               <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteCruse size={1}/></button>
-              <img src={ingredient.image === null ? "/default-img.webp" : ingredient.image} alt={ingredient.name} />
+              <img src={ingredient.image === null ? "/default-img.webp" : `/img/ingredients/${ingredient.image}`} alt={ingredient.name} />
               <figcaption className={style.figcaption}>
-                <p>{ingredient.name}</p>
+                <span>{ingredient.name}</span>
                 <div className={style.figcaptionDiv}>
                   <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2" className={`${style.unitInput}`} required/>
                   <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit ? ingredient.unit: 0}>
@@ -288,8 +297,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           </li>
         ))}
       </ul>
-    </fieldset>
-    <fieldset>
+      </fieldset>
+      <fieldset>
         <div className={`${style.sectionRecipeField}`}>
           <legend>Etapes</legend>
           <button type="button" onClick={addStepp} className={`${style.addStep}`}>
@@ -311,7 +320,8 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             </li>
           ))}
         </ul>
-      </fieldset><div className={`${style.sectionRecipeBottom}`}>
+      </fieldset>
+      <div className={`${style.sectionRecipeBottom}`}>
         <button type="submit"><ValidateCheck size={26} color={" var(--colorGreenCheck)"}/></button>
         <button type="button" onClick={cancelHandler || changeRecipe}><CancelCruse size={30} color={"#D70D0D"}/></button>
       </div>

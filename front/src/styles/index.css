@@ -94,7 +94,8 @@ body {
 body > #root {
   margin:auto;
   height: 90%;
-  width:70%;
+  width:80%;
+  max-width:70rem;
   z-index: 1;
   background: white;
   overflow: hidden;
@@ -105,7 +106,7 @@ body > #root {
 
 /* // -> dès que la taille d’écran atteint 1400px, on redimensionne */
 
-@media screen and (max-width: 1400px) { /*  --desktop-breakpoint */
+@media screen and (max-width: 1000px) { /*  --desktop-breakpoint */
   body > #root {
     height: 100%;
     width:100%;

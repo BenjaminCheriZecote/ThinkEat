@@ -326,6 +326,19 @@ form li {
   filter:contrast(130%)
 }
 
+.filterButton {
+  width: 20px;
+  height: 20px;
+  padding:0rem;
+  border:none;
+  background-color: inherit;
+  cursor: pointer;
+  display: none;
+  margin-left: auto;
+}
+.filterButton:hover {
+  scale: 1.2;
+}
 
 /* CHECKBOX BTN GENERATE PROPOSITION ASIDE  */
 
@@ -413,8 +426,8 @@ form li {
   }
 
   @media screen and (max-width: 600px) { /*  --gridd-breakpoint */
-    #header .burgerHeader {
-      display:block;
+    .filterButton {
+      display:block
     }
 
     .aside > div {

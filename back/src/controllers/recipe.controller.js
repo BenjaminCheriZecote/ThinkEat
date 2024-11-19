@@ -42,7 +42,7 @@ export default class RecipeController extends CoreController {
     const recipe = await this.datamapper.findByPk(id);
 
     if (recipe.image) {
-      const filePath = path.join(__dirname, '../../public', recipe.image); // Assuming 'public' is the folder name
+      const filePath = path.join(__dirname, '../../public/img', recipe.image); // Assuming 'public' is the folder name
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error('Error deleting file:', err);
@@ -62,7 +62,7 @@ export default class RecipeController extends CoreController {
 
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
-        cb(null, 'public');
+        cb(null, 'public/img');
       },
       filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -88,8 +88,8 @@ export default class RecipeController extends CoreController {
   static async patchImageNameRecipe(req, res) {
     const {oldName, newName} = req.body;
 
-    const pathOldName = path.join(__dirname, '../../public', oldName);
-    const pathNewName = path.join(__dirname, '../../public', newName);
+    const pathOldName = path.join(__dirname, '../../public/img', oldName);
+    const pathNewName = path.join(__dirname, '../../public/img', newName);
 
     fs.rename(pathOldName, pathNewName, (err) => {
       if (err) {

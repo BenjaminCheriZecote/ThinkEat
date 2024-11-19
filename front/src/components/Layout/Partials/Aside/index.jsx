@@ -8,9 +8,9 @@ import style from './Aside.module.css'
 import { Form } from 'react-router-dom';
 import types from '../../../../store/reducers/types';
 import DoubleInputRange from '../../UXElements/components/DoubleRange';
-import BurgerMenu from '../../UXElements/components/BurgerMenu';
 import AsideCheckbox from '../../UXElements/components/AsideCheckbox/AsideCheckbox';
 import SelectSearch from '../../UXElements/components/SelectSearch';
+import Filter from '../../UXElements/icons/Filter';
 
 const Aside = () => {
     
@@ -69,7 +69,7 @@ const Aside = () => {
         }
     }
 
-    const handleClickBurgerMenu = () => {
+    const handleClickButtonFilter = () => {
         setMenuOpen(!menuOpen)
     }
 
@@ -87,7 +87,9 @@ const Aside = () => {
     return(
     <>
     <aside id="aside" className={`${style.aside}`}>
-            <BurgerMenu handleClick={handleClickBurgerMenu} color={{background:"var(--colorUi4)"}} label={"burgerAside"}/>
+            <button className={style.filterButton} onClick={handleClickButtonFilter}>
+                <Filter color={"var(--colorUi4)"}/>
+            </button>
 
         <div className={menuOpen?'':`${style.hideAside}`}>
             {/* mettre le mot "Filter" dans la classe du Form */}

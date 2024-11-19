@@ -108,56 +108,22 @@ export function mappingUrlFunction(urlClient, page){
                     if (result[0] === "diets" && data !== '') {
                         // si végétarien : ni viande ni poisson
                         if (data === "1") {
-                            familyQuery.push(["id", '!=', '30']); // Fruit de mer
-                            familyQuery.push(["id", '!=', '47']); // Fruits de mer
-                            familyQuery.push(["id", '!=', '51']); // Crevette
-                            familyQuery.push(["id", '!=', '46']); // Crevettes
-                            familyQuery.push(["id", '!=', '49']); // Porc
-                            familyQuery.push(["id", '!=', '69']); // Poulet
-                            familyQuery.push(["id", '!=', '20']); // Viande
-                            familyQuery.push(["id", '!=', '73']); // Viandes
-                            familyQuery.push(["id", '!=', '23']); // Volaille
-                            familyQuery.push(["id", '!=', '28']); // Poisson
-                            familyQuery.push(["id", '!=', '79']); // Anchois
-                            familyQuery.push(["id", '!=', '78']); // Anchovy
+                            recipeQuery.push(["diet", "=", 'Végétarien']);
                         }
                         // si végétalien : ni viande, ni poisson, ni lait, ni oeuf, ni insectes
                         if (data === "2") {
-                            familyQuery.push(["id", '!=', '40']); // Animal
-                            familyQuery.push(["id", '!=', '37']); // Annimal
-                            familyQuery.push(["id", '!=', '81']); // Chèvre
-                            familyQuery.push(["id", '!=', '51']); // Crevette
-                            familyQuery.push(["id", '!=', '46']); // Crevettes
-                            familyQuery.push(["id", '!=', '27']); // Fromage
-                            familyQuery.push(["id", '!=', '30']); // Fruit de mer
-                            familyQuery.push(["id", '!=', '47']); // Fruits de mer
-                            familyQuery.push(["id", '!=', '49']); // Porc
-                            familyQuery.push(["id", '!=', '69']); // Poulet
-                            familyQuery.push(["id", '!=', '20']); // Viande
-                            familyQuery.push(["id", '!=', '73']); // Viandes
-                            familyQuery.push(["id", '!=', '23']); // Volaille
-                            familyQuery.push(["id", '!=', '28']); // Poisson
-                            familyQuery.push(["id", '!=', '79']); // Anchois
-                            familyQuery.push(["id", '!=', '78']); // Anchovy
-                            familyQuery.push(["id", '!=', '56']); // Lait
-                            familyQuery.push(["id", '!=', '17']); // Laitage
-                            familyQuery.push(["id", '!=', '18']); // Produit laîtier
-                            familyQuery.push(["id", '!=', '42']); // Oeuf
-                            familyQuery.push(["id", '!=', '58']); // Oeufs
+                            recipeQuery.push(["diet", "=", 'Végétalien']);
                         }
                         // si crudivore : sans temps de cuisson
-                        if (data === "3") recipeQuery.push(["cookingTime", "=", "00:00:00"]);
+                        if (data === "3") recipeQuery.push(["diet", "=", 'Crudivore']);
                         
                         // si sans gluten : sans blé, céréale
                         if (data === "4") {
-                            familyQuery.push(["id", '!=', '32']); // Blé
-                            familyQuery.push(["id", '!=', '26']); // Céréale
+                            recipeQuery.push(["diet", "=", 'Sans gluten']);
                         }
                         // si sans lactose: sans lait
                         if (data === "5") {
-                            familyQuery.push(["id", '!=', '56']); // Lait
-                            familyQuery.push(["id", '!=', '17']); // Laitage
-                            familyQuery.push(["id", '!=', '18']); // Produit laîtier
+                            recipeQuery.push(["diet", "=", 'Sans lactose']);
                         }
                     } 
                 })

@@ -27,11 +27,6 @@
     
 }
 
-.sectionRecipe button {
-    border-radius:0.3rem;
-    border:none;
-}
-
 .sectionRecipe > input {
     font-family: 'Playpen Sans', cursive;
 }
@@ -42,7 +37,7 @@
     width:fit-content;
     padding:1rem;
     text-align:center;
-    background: linear-gradient(to right, var(--colorOrangeDark), var(--colorOrangeLight), var(--colorOrangeLight),var(--colorOrangeDark) );
+    background: linear-gradient(to left, var(--colorOrangeDark), var(--colorOrangeLight), var(--colorOrangeLight),var(--colorOrangeDark) );
     background-size:3rem;
     color:white;
     border-radius: 0.3rem;
@@ -55,11 +50,6 @@
     width:2rem;
 }
 
- .sectionRecipeField {
-    display:flex;
-    align-items: center;
- }
-
 .sectionRecipeField h3, .sectionRecipeFieldH4, .sectionRecipeField legend, .sectionRecipeField > div > span {
     font-family: "Poppins", sans-serif;
 }
@@ -68,7 +58,6 @@
     text-decoration: underline;
     text-shadow: 0 1px 0 var(--colorShadow2);
     color:var(--colorUi3)
-
 }
 
 .sectionRecipeFieldH4 {
@@ -85,11 +74,12 @@
 
 .sectionRecipeTop {
     justify-content: space-between;
+    background: linear-gradient(to right, var(--colorProposition), var(--colorUi1));
     box-shadow: var(--colorShadow) 0 2px 4px, var(--colorShadow) 0 7px 13px -3px, var(--colorbg3) 0 -3px 0 inset;
     padding:0.2rem;
 }
 
-.sectionRecipeTop > div {
+.leftSide {
     padding:1rem;
     display:flex;
     flex-direction:column;
@@ -97,10 +87,41 @@
     gap:1rem;
 }
 
-.sectionRecipeTop > div > * {
+.leftSide > * {
     margin:0.5rem 0rem;
+    max-width:30rem;
+    text-shadow: 0 1px 0 var(--colorShadow2);
+}
+.rightSide {
+    margin: auto 0rem;
+    width:55%;
+    max-width: 25rem;
+}
+.rightSide figure {
+    aspect-ratio: 1 / 1; 
+    position:relative;
+}
+.sectionRecipeField {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size:1.5rem;
+    gap:0.5rem;
+    width:fit-content;
+    color:var(--colorUi3);
+}
+.leftSide, .sectionRecipeFieldIngredientsContainer, .sectionRecipeFieldStepsContainer textarea, .sectionRecipeFieldStepsContainer p {
+    font-weight:200;
+}
+.sectionRecipeField > span {
+    display: inline-flex;
+    white-space: normal;
+    word-break: break-word;
 }
 
+.sectionRecipeField, .sectionRecipe ul {
+    padding: 0.3rem;
+}
 .sectionRecipeBottom {
     width: fit-content;
     align-self: end;
@@ -112,12 +133,11 @@
     justify-self: center;
     margin:0.3rem;
     background-color: inherit;
+    border:none;
 }
 
 .sectionRecipeTop figure {
-    width:50%;
-    position: relative;
-    max-height:30rem;
+    width:100%;
 }
 
 .sectionRecipeTop figure > div {
@@ -127,17 +147,11 @@
     overflow: hidden;
 }
 
-.sectionRecipeTop figure figcaption, .sectionRecipeTop figure .figCaptionInput {
-    text-align:center;
-    padding:0.5rem 0rem 0.5rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    color:white;
-    width:100%;
-}
-
 .sectionRecipe img {
     width:100%;
     height:100%;
+}
+.rightSide img {
     border-radius:0.3rem;
 }
 
@@ -168,6 +182,7 @@
 
 .sectionRecipe .sectionRecipeTop input, .sectionRecipe .sectionRecipeBottom input, .sectionRecipe .sectionRecipeFieldIngredientsContainer li .unitInput {
     border:2px var(--colorbg6) dashed;
+    background-color: var(--colorParagraph);
 }
 
 
@@ -185,17 +200,6 @@
 .sectionRecipe input, .sectionRecipe label {
     border-radius:0.3rem;
     padding:0.7rem;
-}
-
-.sectionRecipeField {
-    display: flex;
-    font-size:1.5rem;
-    width:fit-content;
-    gap:1rem;
-}
-
-.sectionRecipeField, .sectionRecipe ul {
-    padding: 0.3rem;
 }
 
 .sectionRecipe ul {
@@ -233,7 +237,7 @@
     text-align: start;
     width:100%;
     font-family: 'Poppins', sans-serif;
-    color:var(--colorUi3)
+    resize: none;
 }
 
 .sectionRecipe p {
@@ -244,10 +248,12 @@
 .sectionRecipe  p, .sectionRecipe  textarea {
     border-radius: 0.3rem;
     padding:0.5rem;
+    color:var(--colorFont2);
     background-color: var(--colorParagraph);
 }
 
 .sectionRecipe .addStep {
+    border:none;
     margin-top:0.4rem;
     background-color:var(--colorbg2);
     color:var(--colorUi3);
@@ -274,15 +280,21 @@ textarea:focus{
 
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li {
     /* // container ingredient */
-    width:15rem;
-    padding-bottom:2rem;
-    padding:0rem 0rem;
-    border-radius: 0.3rem;
-    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.11);
+    width:10rem;
+    height:fit-content;
+    padding:0rem;
+    border-radius:0.3rem;
+    border:1px var(--colorUi1) solid;
     box-shadow: 0px 0px 7px 0px var(--colorShadow2);
     position:relative;
 }
-
+.sectionRecipe .sectionRecipeFieldIngredientsContainer .ingredientAdded {
+    width:15rem;
+}
+.sectionRecipe .sectionRecipeFieldIngredientsContainer li img {
+    border-top-left-radius: 0.3rem; 
+    border-top-right-radius: 0.3rem;
+}
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li .unitInput {
     width:4.5rem;
     height:1.8rem;
@@ -293,25 +305,32 @@ textarea:focus{
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li select, .sectionRecipe .sectionRecipeTop select {
     background-color:inherit;
     border:none;
+}
+.sectionRecipe .sectionRecipeTop select {
     border-bottom:1px var(--colorFont1) solid;
-    color:var(--colorFont1)
+    color:var(--colorFont1);
+}
+.sectionRecipe .sectionRecipeFieldIngredientsContainer li select {
+    border-bottom:1px var(--colorUi3) solid;
+    color:var(--colorUi3);
 }
 
 .sectionRecipe .sectionRecipeFieldIngredientsContainer .addIngredient {
     border:2px var(--colorbg6) dashed;
+    width:15rem;
     height:17rem;
     display:flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
-
 .sectionRecipe .sectionRecipeFieldIngredientsContainer li div {
     width:100%;
 }
 
 .sectionRecipeFieldIngredientsContainer figcaption {
-    padding:1rem;
+    padding:0.6rem 1rem;
+    color:var(--colorUi3);
 }
 
 .sectionRecipeFieldIngredientsContainer figcaption p {
@@ -320,7 +339,9 @@ textarea:focus{
 
 .figcaption {
     display:flex;
+    gap:0.8rem;
     flex-direction:column;
+    color:var(--colorUi3);
 }
 
 .figcaptionDiv {
@@ -332,6 +353,8 @@ textarea:focus{
 
 .figcaption .figcaptionDiv input {
     width:fit-content;
+    background-color: var(--colorParagraph);
+    color: var(--colorFont2);
 }
 
 .BtnDeleteIngredient, .BtnDeleteImg {
@@ -355,17 +378,42 @@ textarea:focus{
         cursor: pointer;
 }
 
-
+@media screen and (min-width: 1400px) {
+  
+    .sectionRecipeTop {
+        padding:1rem 1rem 1rem 2rem;
+    }
+}
+@media screen and (max-width: 1000px) {
+  
+    .modalSectionRecipeTop {
+        flex-direction: column-reverse;
+        padding:2rem;
+    }
+    .modalRightSide {
+        width:100%;
+        max-width:none;
+        max-height:none;
+    }
+}
 @media screen and (max-width: 780px) {
   
     .sectionRecipeTop {
         flex-direction: column-reverse;
+        padding:2rem;
     }
-
-    .sectionRecipeTop figure {
+    .leftSide {
+        margin-top:1rem;
+        padding:0rem;
+    }
+    .rightSide {
         width:100%;
+        max-width:none;
+        max-height:none;
     }
-    
+    .modalLogo {
+        display:none;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -385,11 +433,12 @@ textarea:focus{
         font-size:0.8rem;
         
     }
-
+    .sectionRecipeTop {
+        padding:1rem;
+    }
     .sectionRecipeTop > div {
         gap:0rem;
     }
-
 }
 
 @media screen and (max-width: 500px) {
@@ -413,6 +462,13 @@ textarea:focus{
 
     .sectionRecipe .sectionRecipeName {
         font-size:1.4rem;
+    }
+    .sectionRecipeTop {
+        padding:0rem;
+    }
+    .leftSide {
+        margin-top:0rem;
+        padding:1rem;
     }
 }
 

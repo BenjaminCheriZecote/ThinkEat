@@ -1,5 +1,5 @@
 import emailValidator from "email-validator";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 import CoreValidator from "./core.validator.js";
 import ApiError from "../helpers/apiError.js";
