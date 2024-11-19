@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run dev:front --prefix ./front & npm run dev:back --prefix ./back",
-    "start": "npm install --prefix ./back && npm install --prefix ./front && npm run build --prefix ./front && npm run start --prefix ./back"
+    "build": "npm install --prefix ./back && npm install --prefix ./front && npm run build --prefix ./front",
+    "start": "npm run start --prefix ./back"
   },
   "repository": {
     "type": "git",
