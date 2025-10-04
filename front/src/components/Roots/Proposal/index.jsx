@@ -120,9 +120,9 @@ const Proposal = () => {
                 
                     <Form className="section__start" action="/proposal">
                         <div>
-                            <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorUi4)"}} size={20}/>
-                            <input type="number" value={numberOfProposition} onChange={handleChange} id="starter" aria-label="Nombre de propositions."/>
-                            <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorUi4)"}} size={20}/>
+                            <FaMinus onClick={handleClickMinus} id="minus" style={{color:"var(--colorUi4)", cursor: "pointer"}} size={20}/>
+                            <input type="number" value={numberOfProposition} onChange={handleChange} id="starter" aria-label="Nombre de propositions." disabled/>
+                            <FaPlus onClick={handleClickPlus} id="plus" style={{color:"var(--colorUi4)", cursor: "pointer"}} size={20}/>
                         </div>
   
                         <button onClick={handleSubmit} className="buttonStarter" id="starterButton">C'est parti !</button>
