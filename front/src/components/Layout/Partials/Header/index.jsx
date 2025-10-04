@@ -31,6 +31,12 @@ const Header = () => {
     const {mode} = useSelector((state) => state.darkMode);
     const isHome = location.pathname === '/'; 
     const search = location.search;
+    const objectPathName = {
+        proposal: 'Propositions',
+        history: 'Historique',
+        recipes: 'Recettes',
+        favorites: 'Favoris'
+    }
 
     const reziseWindowWidth = () => {
         if (window.innerWidth >= 780) setMenuOpen(false);
@@ -76,6 +82,7 @@ const Header = () => {
 
                     <h1>Think<span>Eat</span></h1>
                     <h1 className="headerH1initial hidden">T<span>ET</span></h1>
+                    {objectPathName.hasOwnProperty.call(objectPathName, location.pathname.slice(1)) && <h2 className='headerH2__middleSide'>{ objectPathName[location.pathname.slice(1)] }</h2>}
                     <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
                         <nav className="header-middleSide__nav" style={isHome ? menuOpen ? {} : {color:"black"}:{}}>
                             <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search}`} >Accueil</NavLink>

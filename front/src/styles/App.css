@@ -243,6 +243,27 @@ html, body, #root, .app {
         }
     }
 
+    @media screen and (max-width: 780px) { 
+        .section__divForm > div {
+            margin-left: 0;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .section-divForm__h2 {
+            display: none;
+        }
+
+    }
+
+    @media screen and (max-width: 400px) { 
+        .section__divForm > div {
+            gap:0rem;
+        }
+
+    }
+
+
     
     
     

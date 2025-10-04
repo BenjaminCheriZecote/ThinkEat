@@ -36,6 +36,7 @@
 .checkbox:checked ~ .mainbox .search_input {
   width: 0;
   height: 0px;
+  border: none !important;
 }
 
 .checkbox:checked ~ .mainbox .iconContainer {
@@ -60,6 +61,7 @@
   width: 170px;
   background-color: transparent;
   border: none;
+  border-bottom: 1px var(--colorFont1) solid;
   outline: none;
   padding-bottom: 4px;
   padding-left: 10px;
@@ -85,4 +87,39 @@
   fill:var(--colorFont1);
   font-size: 1.3em;
   z-index: 0;
+}
+
+@media screen and (max-width: 780px) {
+
+  .mainbox {
+    width: 14rem;
+    justify-content: flex-end;
+  }
+  .search_input {
+    height: 100%;
+    width: 170px;
+    border-bottom: 1px var(--colorFont1) solid;
+  }
+  .checkbox {
+    width: 5px;
+  }
+  
+  .checkbox:checked {
+    right: 0px;
+  }
+  
+  .checkbox:checked ~ .mainbox {
+    width: 14rem;
+  }
+  
+  .checkbox:checked ~ .mainbox .search_input {
+    height: 100%;
+    width: 170px;
+    border-bottom: 1px var(--colorFont1) solid !important;
+  }
+  
+  .checkbox:checked ~ .mainbox .iconContainer {
+    padding-right: 0px;
+  }
+  
 }

@@ -14,6 +14,10 @@
   text-shadow:0 1px;
 }
 
+.headerH2__middleSide {
+  display: none;
+}
+
 .header__middleSide {
     display:flex;
     gap:0.5rem; 
@@ -78,7 +82,7 @@
     color: var(--colorOrange);
 }
 
-.header a, .header h1 {
+.header a, .header h1, .headerH2__middleSide {
     font-family: "Poppins", sans-serif;
 }
 
@@ -185,7 +189,7 @@
   #header__section-tittle {
     padding: 7rem 3rem 3rem 3rem;
     width:60%;
-}
+  }
 
 .header__section-tittle--container {
     display:flex;
@@ -293,6 +297,10 @@
 
     .iconProfile {
       margin-right:1rem;
+    }
+
+    .headerH2__middleSide {
+      display: initial;
     }
   }
 

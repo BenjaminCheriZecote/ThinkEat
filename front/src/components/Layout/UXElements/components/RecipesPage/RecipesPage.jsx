@@ -42,7 +42,7 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
         
             <section className="section">
                 <div className="section__divForm">
-                    <h2>{title}</h2>
+                    <h2 className="section-divForm__h2">{title}</h2>
 
                     <div>
                         <SearchForm handleChangeSearch={handleChangeSearch}/>
