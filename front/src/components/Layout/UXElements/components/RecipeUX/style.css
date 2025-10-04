@@ -6,6 +6,9 @@
     position:absolute;
     left:10rem;
     z-index:50;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
 }
 
 .dropDownListSearchContainer {
