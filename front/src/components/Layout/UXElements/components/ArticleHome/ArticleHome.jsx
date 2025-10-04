@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 
 const ArticleHome = ({title, src, alt, description, step, mode}) => {
 
