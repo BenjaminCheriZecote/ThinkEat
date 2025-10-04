@@ -4,7 +4,7 @@ import { Form } from "react-router-dom";
 
 export default function SignUp() {
   return(
-    <main className='section outlet'>
+    <main className='outlet scrollBarNone'>
       <Form className='section__form' method='POST'>
         <h2 className='section-form__h2'>Créer un compte</h2>
         <div className='section-form__div'>

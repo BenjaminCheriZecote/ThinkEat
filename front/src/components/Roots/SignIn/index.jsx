@@ -1,9 +1,9 @@
-import { Form, Link} from 'react-router-dom';
+import { Form, Link } from 'react-router-dom';
 
 export default function SignIn() {
 
   return (
-    <main className='section outlet'>
+    <main className='outlet scrollBarNone'>
       <Form className='section__form' method="post">
         <h2 className='section-form__h2'>Se connecter</h2>
         <div className='section-form__div input-box'>

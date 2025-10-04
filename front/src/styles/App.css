@@ -228,6 +228,20 @@ html, body, #root, .app {
     input[type=number] {
         -moz-appearance:textfield;
     }
+    .scrollBarNone {
+        scrollbar-width: none;
+    }
+    @media screen and (max-width: 600px) { 
+        .section__form {
+            box-sizing: border-box;
+            width:100%;
+            max-width: none;
+            margin: auto;
+            border: none;
+            border-radius:0%;
+            background-image: linear-gradient(to bottom, var(--colorUser), var(--colorUser), var(--colorbg2));
+        }
+    }
 
     
     
