@@ -109,7 +109,7 @@ const Header = () => {
                             <div ref={boxProfile} className='header-rightSide__boxProfile'>
                                 
                                 <p>{name}</p> 
-                                <NavLink className="header-rightSide-boxProfile__settings" to={`/profil${search && search}`} >Paramètres <IoIosSettings/></NavLink>
+                                <NavLink className="header-rightSide-boxProfile__settings" to={`/profil${search && search}`} >Paramètres <IoIosSettings size={25}/></NavLink>
                                 <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
                             
                             </div>

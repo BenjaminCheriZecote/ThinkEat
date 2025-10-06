@@ -32,7 +32,7 @@
 .header-rightSide__boxProfile {
     display: flex;
     flex-direction: column;
-    gap:0.8rem;
+    gap:0.4rem;
     position: absolute;
     top:2.5rem;
     right:-215px;
@@ -45,10 +45,7 @@
     transition: 700ms ease-in-out;
     background-color: var(--colorbg1);
     z-index:7;
-}
-
-.header-rightSide__boxProfile p {
-  margin-bottom: 0.3rem;
+    font-size: 1.2rem;
 }
 
 .colorBox {
@@ -58,7 +55,7 @@
 .header-rightSide-boxProfile__settings {
     display:flex;
     gap:0.5rem;
-    font-size:0.8rem;
+    align-items: center;
 }
 
 .iconProfile {
@@ -82,7 +79,7 @@
     color: var(--colorOrange);
 }
 
-.header a, .header h1, .headerH2__middleSide {
+.header a, .header h1, .headerH2__middleSide, header p {
     font-family: "Poppins", sans-serif;
 }
 
