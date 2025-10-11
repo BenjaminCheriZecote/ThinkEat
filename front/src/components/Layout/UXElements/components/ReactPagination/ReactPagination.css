@@ -16,7 +16,12 @@
     cursor:pointer;
 }
 
+.page-item:hover {
+    color: var(--colorOrangeRange);
+    transition: ease-in-out 300ms;
+}
+
 .page-active {
     border-bottom: 1px var(--colorOrangeRange) solid;
-    color:var(--colorOrangeRange)
+    color:var(--colorOrangeRange);
 }

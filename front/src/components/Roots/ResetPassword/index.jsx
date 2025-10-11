@@ -9,7 +9,7 @@ export default function ResetPassword() {
 
   return(
     <>
-      <main className='section outlet'>
+      <main className='outlet'>
         <Form className='section__form' method="post">
           <h2 className='section-form__h2'>Connection</h2>
           <div className='section-form__div'>

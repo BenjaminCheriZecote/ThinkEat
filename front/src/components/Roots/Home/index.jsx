@@ -14,19 +14,19 @@ const Home = () => {
             title:"Recettes",
             src:"/step1home.webp",
             alt:"Image, salade",
-            description:"Créez vos propres recettes ou parcourez notre liste de recettes pour définir vos favorites."
+            description:"Créez vos propres recettes ou parcourez la liste de recettes pour définir vos favorites."
         },
         {
             title:"Critères",
             src:"/step2home.webp",
             alt:"Image, casserole et assaisonnement",
-            description:"Rendez-vous dans la page des propositions pour renseigner les critères du jour. Une grosse faim, peu de temps de cuisson ou un régime alimentaire spécifique? Faites le nous savoir."
+            description:"Rendez-vous dans la page des propositions pour renseigner les critères du jour. Une grosse faim, peu de temps de cuisson ou un régime alimentaire spécifique? Exprimez vos envies."
         },
         {
             title:"Propositions",
             src:"/step3home.webp",
             alt:"Image, chef avec cloche",
-            description:"Une fois vos envies précisées, on se charge de trouver les recettes adéquates en se basant sur celles que l'on vous a déjà proposé."
+            description:"Une fois vos envies précisées, les recettes adéquates sont trouvées en se basant sur celles qui ont déjà été proposé."
         },
 
     ]

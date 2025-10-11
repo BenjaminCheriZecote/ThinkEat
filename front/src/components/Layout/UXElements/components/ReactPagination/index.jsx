@@ -28,30 +28,27 @@ function PaginatedItems({itemsPerPage, favoritePage, itemsTotal}) {
   }
 
   return (
-    <>
-      <ReactPaginate
-        previousLabel="< Précédent"
-        nextLabel="Suivant >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        pageCount={pageCount}
-        forcePage={forcePage - 1}
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        containerClassName="pagination"
-        activeClassName="page-active"
-        renderOnZeroPageCount={null}
-      />
-      
-    </>
+    <ReactPaginate
+      previousLabel="< Précédent"
+      nextLabel="Suivant >"
+      onPageChange={handlePageClick}
+      pageRangeDisplayed={3}
+      marginPagesDisplayed={2}
+      pageCount={pageCount}
+      forcePage={forcePage - 1}
+      pageClassName="page-item"
+      pageLinkClassName="page-link"
+      previousClassName="page-item"
+      previousLinkClassName="page-link"
+      nextClassName="page-item"
+      nextLinkClassName="page-link"
+      breakLabel="..."
+      breakClassName="page-item"
+      breakLinkClassName="page-link"
+      containerClassName="pagination"
+      activeClassName="page-active"
+      renderOnZeroPageCount={null}
+    />
   );
 }
 

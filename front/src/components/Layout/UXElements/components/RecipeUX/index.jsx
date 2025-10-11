@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useLocation } from "react-router-dom";
 import DownloadCloud from "../../icons/DownloadCloud/DownloadCloud";
 import { FaPlus } from "react-icons/fa6";
 import AddPlus from "../../icons/AddPlus";
@@ -18,15 +18,16 @@ const recipeInit = {
   ingredients:[]
 }
 
-export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, modal, favorite}) {
+export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler, favorite}) {
 
   const error = useActionData();
+  const location = useLocation();
   const user = useSelector((state) => state.session);
   const {filters} = useSelector((state) => state.filters);
   const ingredientsList = useSelector((state) => state.ingredients.ingredients);
   const {units} = useSelector((state) => state.units);
 
-  const [inChange, setInChange] = useState(modal);
+  const [isEdition, setIsEdition] = useState(location.state?.isEditing || formMethod === 'POST');
   const [steps, setSteps] = useState(recipe.steps);
   const [ingredients, setIngredients] = useState(recipe.ingredients || []);
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -37,10 +38,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
 
 
   function  changeRecipe() {
-    if (modal) {
-      cancelHandler();
-    }
-    setInChange(!inChange);
+    setIsEdition(!isEdition);
   }
 
   function formatTime(time) {
@@ -49,9 +47,9 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   }
   
 
-  if (!inChange) {
+  if (!isEdition) {
     return (
-      <><div className={modal ? `${modal} ${style.sectionRecipe}` : `${style.sectionRecipe}`} method={formMethod}>
+      <div className={`${style.sectionRecipe}`} method={formMethod}>
         <div>
           <LogoHat size={4}/>
           <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
@@ -130,7 +128,6 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           </div>
         }
       </div>
-      </>
     );
   }
 
@@ -196,16 +193,16 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
   
 
   return(
-    <><Form encType="multipart/form-data" className={modal ? `${modal} ${style.sectionRecipe} ${style.scrollY}` : `${style.sectionRecipe}`} method={formMethod}>
+    <Form encType="multipart/form-data" className={`${style.sectionRecipe}`} method={formMethod}>
       <input type="hidden" name="id" value={recipe.id} />
       {favorite &&
         <input type="hidden" name="userId" value={user.id} />
       }
       <div>
-        <LogoHat size={4} className={modal?style.modalLogo:""}/>
+        <LogoHat size={4}/>
         <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
       </div>
-      <fieldset className={`${style.sectionRecipeTop} ${modal ? style.modalSectionRecipeTop:""}`}>
+      <fieldset className={`${style.sectionRecipeTop}`}>
         <div className={`${style.leftSide}`}>
           <div className={`${style.sectionRecipeField}`}>
             <label>Preparation :</label>
@@ -229,10 +226,10 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
             </select>
           </div>
         </div>
-        <div className={`${style.rightSide} ${modal ? style.modalRightSide:""}`}>
+        <div className={`${style.rightSide}`}>
           <figure>
             <input ref={inputFileElement} type="file" hidden accept=".jpg, .png, webp" onChange={handleFileChange} name="imageFile" multiple/>
-              {formMethod === "POST" || formMethod === "PATCH"?
+              {isEdition?
                 imgAdded ?
                   <>
                     <img src={imgAdded.path} alt="doawload image" />
@@ -260,7 +257,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
               }
             
             <div>
-              {!formMethod === "PATCH" || !formMethod === "POST" && <figcaption>{recipe.name}</figcaption>}
+              {!isEdition && <figcaption>{recipe.name}</figcaption>}
             </div>
           </figure>
         </div>
@@ -272,7 +269,7 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
           <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
         </div>
         <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
-        {modal && ingredients.length === 0 &&
+        {isEdition && ingredients.length === 0 &&
         <li className={style.addIngredient} onClick={openIngredientMenu}>
           <AddPlus  size={40} color={"var(--colorUser)"}/>
         </li>
@@ -326,6 +323,5 @@ export default function RecipeUX({recipe = recipeInit, formMethod, cancelHandler
         <button type="button" onClick={cancelHandler || changeRecipe}><CancelCruse size={30} color={"#D70D0D"}/></button>
       </div>
     </Form>
-    </>
   )
 }

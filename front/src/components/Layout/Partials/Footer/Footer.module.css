@@ -10,8 +10,15 @@
 
 .footer div {
     display:flex;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
+}
+
+.footer div > *:hover {
+    color: var(--colorOrangeRange);
+    transition: ease-in-out 300ms;
 }
 
 .footer p {

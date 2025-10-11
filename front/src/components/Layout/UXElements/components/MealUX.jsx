@@ -1,6 +1,5 @@
 
-import { NavLink } from "react-router-dom";
-import RecipeUX from "./RecipeUX";
+import { NavLink, useNavigate } from "react-router-dom";
 import DeleteCruse from "../icons/DeleteCruse";
 import DeleteTrash from "../icons/DeleteTrash";
 import EditPen from "../icons/EditPen";
@@ -8,20 +7,17 @@ import FavoriteStar from "../icons/FavoriteStar";
 import FavoriteStarOutline from "../icons/FavoriteStarOutline";
 import types from "../../../../store/reducers/types";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { RecipeApi} from "../../../../api";
 
 const Meal = ({meal,favoritePage}) => {
     const dispatch = useDispatch()
     const {id, isConnected, isAdmin} = useSelector((state) => state.session)
     const {favorites} = useSelector((state) => state.favorites);
-    const [recipeDetails, setRecipeDetails] = useState();
-    const [updateMode, setUpdateMode] = useState(false);
+    const navigate = useNavigate()
 
     const handleClickUpdate = async () => {
-        const recipe = await RecipeApi.get(meal.id);
-        setRecipeDetails(recipe);
-        setUpdateMode(true)
+        navigate(`/recipes/${meal.id}`, {
+            state: { isEditing: true },
+        });
     }
 
 
@@ -31,12 +27,6 @@ const Meal = ({meal,favoritePage}) => {
                 <div className="section-li__container--boxLegend">
                     <NavLink to={`/recipes/${meal.id}`}>{meal.name}</NavLink>
                 </div>
-
-                {updateMode &&
-                    <div className="backdrop">
-                        <RecipeUX modal={"modal"} formMethod={"PATCH"} cancelHandler={() => setUpdateMode(false)} recipe={recipeDetails}/>
-                    </div>
-                    }
 
                 <div className="section-li__container--options">
                     {/* 1ere partie, options favoris */}

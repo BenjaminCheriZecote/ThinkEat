@@ -9,9 +9,9 @@ const Footer = () => {
     return(
         <footer id="footer" className={style.footer} style={isAside? {gridColumn: '2 / -1'}:{gridColumn: '1 / -1'} }>
             <div>
-                <p>©ThinkEat 2024</p>
+                <p>©ThinkEat 2025</p>
                 <NavLink>Gestion des cookies</NavLink>
-                <NavLink>Contact</NavLink>
+                <a href='https://www.chezben.io/' target="_blank" rel="noreferrer">chezben.io</a>
             </div>
             <LogoHat size={2.8}/>
         </footer>

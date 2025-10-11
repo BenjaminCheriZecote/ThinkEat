@@ -85,21 +85,21 @@ const Header = () => {
                     {objectPathName.hasOwnProperty.call(objectPathName, location.pathname.slice(1)) && <h2 className='headerH2__middleSide'>{ objectPathName[location.pathname.slice(1)] }</h2>}
                     <div ref={headerRightSideElement} className={menuOpen?'header__middleSide':'header__middleSide hideNav'}>
                         <nav className="header-middleSide__nav" style={isHome ? menuOpen ? {} : {color:"black"}:{}}>
-                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search}`} >Accueil</NavLink>
-                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/proposal${search && search}`}>Propositions</NavLink>
+                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/${search && search.startsWith('?new') ? '' : search}`} >Accueil</NavLink>
+                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/proposal${search && search.startsWith('?new') ? '' : search}`}>Propositions</NavLink>
                             
                             {!isAdmin?
                                 isConnected?
                                 <>
-                                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/favorites${search && search}`}>Favoris</NavLink>
-                                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/history${search && search}`}>Historique</NavLink>
+                                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/favorites${search && search.startsWith('?new') ? '' : search}`}>Favoris</NavLink>
+                                    <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/history${search && search.startsWith('?new') ? '' : search}`}>Historique</NavLink>
                                 </>
                                     :
                                     ""
                                     :
                                     ""}
                             
-                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/recipes${search && search}`}>Recettes</NavLink>
+                            <NavLink className={({isActive}) => isActive? "menu-link menu-link--active":"menulink aside-nav__navLink"} to={`/recipes${search && search.startsWith('?new') ? '' : search}`}>Recettes</NavLink>
                         </nav>
                     </div>
                     <div className='header-rightSide'>
@@ -109,18 +109,18 @@ const Header = () => {
                             <div ref={boxProfile} className='header-rightSide__boxProfile'>
                                 
                                 <p>{name}</p> 
-                                <NavLink className="header-rightSide-boxProfile__settings" to={`/profil${search && search}`} >Paramètres <IoIosSettings size={25}/></NavLink>
+                                <NavLink className="header-rightSide-boxProfile__settings" to={`/profil${search && search.startsWith('?new') ? '' : search}`} >Paramètres <IoIosSettings size={25}/></NavLink>
                                 <button className="btnBoxProfil" onClick={handleClickDeconnexion}>Se déconnecter</button>
                             
                             </div>
                             :
                             <div ref={boxProfile} className='header-rightSide__boxProfile'>
                                 
-                                <NavLink to={`/signin${search && search}`}>
+                                <NavLink to={`/signin${search && search.startsWith('?new') ? '' : search}`}>
                                     <button className="btnBoxProfil">Se connecter</button>
                                 </NavLink>
                                 
-                                <NavLink to={`/signup${search && search}`}>
+                                <NavLink to={`/signup${search && search.startsWith('?new') ? '' : search}`}>
                                     <button className="btnBoxProfil">Créer un compte</button>
                                 </NavLink>
                             </div> 

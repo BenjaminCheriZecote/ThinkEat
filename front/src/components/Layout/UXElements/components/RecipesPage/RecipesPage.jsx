@@ -4,19 +4,19 @@ import { useEffect } from "react";
 import './RecipesPage.css';
 import Meal from "../MealUX";
 import AddPlus from "../../icons/AddPlus";
-import RecipeUX from "../RecipeUX";
 import OrderByComponent from "../OrderByComponent";
 import SearchForm from "../SearchForm";
 import types from "../../../../../store/reducers/types";
 import PaginatedItems from "../ReactPagination";
+import { useNavigate } from "react-router-dom";
 
 const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
 
     const dispatch = useDispatch();
     const {isAdmin, isConnected, id} = useSelector((state) => state.session);
     const [recipesCopy, setCopy] = useState(recipes);
-    const [openModeCreator, setCreatorMode] = useState(false);
     const itemsPerPage = 25;
+    const navigate = useNavigate();
     
 
     useEffect(() => {
@@ -33,9 +33,7 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
         setCopy(searchedRecipes);
     }
 
-    const handleClickAddRecipe = () => {
-        setCreatorMode((current) => !current) 
-    }
+    const handleClickAddRecipe = () => navigate('/recipes?new')
 
     return(
         <main className="main outlet recipesPage" style={{ gridColumn: '2 / -1', overflowY:"scroll", overflowX:"hidden"}}>
@@ -51,17 +49,13 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
 
                 </div>
 
-                {openModeCreator&&
-                <div className="backdrop">
-                    <RecipeUX modal={"modal"} formMethod={"POST"} cancelHandler={() => setCreatorMode(false)}/>
-                </div>
-                }
-
                 <div className="section__addRecipe">
                     {favoritePage ?
-                        isConnected && <AddPlus handleClick={handleClickAddRecipe} size={23} color={"var(--colorOrange)"}/>
+                        isConnected && 
+                            <AddPlus handleClick={handleClickAddRecipe} size={23} color={"var(--colorOrange)"}/>
                         :
-                        isAdmin &&  <AddPlus handleClick={handleClickAddRecipe} size={23} color={"var(--colorOrange)"}/>
+                        isAdmin &&
+                            <AddPlus handleClick={handleClickAddRecipe} size={23} color={"var(--colorOrange)"}/>
                         }
                 </div>
 
@@ -69,12 +63,14 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
 
                         {recipesCopy.length > 0 &&
                             recipesCopy.map((meal, index) => {
-                                return(<Meal 
+                                return(
+                                    <Meal 
                                         key={index} 
                                         meal={meal}
                                         id={id} 
                                         favoritePage={favoritePage}
-                                        />)
+                                    />
+                                )
                             })
                         }
 
