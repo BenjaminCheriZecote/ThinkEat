@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useActionData, useLocation } from "react-router-dom";
-import './style.css'
 import style from './index.module.css'
 import RecipeReadUx from "../RecipeReadUx";
 import RecipeEditionUx from "../RecipeEditionUx";

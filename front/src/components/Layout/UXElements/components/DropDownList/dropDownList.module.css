@@ -1,0 +1,159 @@
+
+
+.dropDownListContainer {
+    font-size:1rem;
+    font-weight: 200;
+    position:absolute;
+    width: fit-content;
+    left:150px;
+    z-index:50;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
+}
+
+.dropDownListContainer, .dropDownListSearch, .scrollContainer {
+    -webkit-transition: max-width 2s cubic-bezier(0.25, 0.8, 0.25, 1), max-height 2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -moz-transition: max-width 2s cubic-bezier(0.25, 0.8, 0.25, 1), max-height 2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    -o-transition: max-width 2s cubic-bezier(0.25, 0.8, 0.25, 1), max-height 2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: max-width 2s cubic-bezier(0.25, 0.8, 0.25, 1), max-height 2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 0.3rem;
+}
+
+.dropDownListContainerOpen {
+    background-color: var(--colorbg2);
+    box-shadow: 2px 3px 4px -3px var(--colorFont1);
+    max-width: 300px;
+    transform: scale(1);
+}
+
+.dropDownListContainerClose {
+    background-color: inherit;
+    box-shadow: none;
+    max-width: 0;
+}
+
+.dropDownListSearchContainer {
+    background-color: inherit;
+    width:fit-content;
+    display:flex;
+    align-items: center;
+}
+
+.dropDownListSearchContainer button {
+    border:none;
+    background-color: inherit;
+    cursor:pointer;
+    color:var(--colorUi3);
+    padding: 0rem;
+}
+
+.dropDownListSearch {
+    border: none;
+    background-color: inherit;
+    height:1rem;
+    width: fit-content;
+    color:var(--colorUi3);
+    text-align: center;
+    overflow: hidden;
+    padding: 9px 0rem;
+    background: inherit;
+}
+
+.dropDownListSearchClose {
+    max-width: 0;
+    opacity: 0;
+}
+
+.dropDownListSearchOpen {
+    max-width: 300px;
+    opacity: 1;
+}
+
+.dropDownListSearch:focus {
+    outline: none;
+    border: none;
+}
+
+.dropDownListSearchContainer svg {
+    width: 28px;
+    height: 28px;
+}
+
+form div .choosenItemsContainer {
+    display:flex;
+    flex-direction: column;
+    background-color: var(--colorbg2);
+    border-top-left-radius:0.5rem;
+    border-top-right-radius:0.5rem;
+    padding-bottom:0rem;
+}
+
+.tagChoosenItem {
+    display:flex;
+    align-items: center;
+    gap:0.2rem;
+    padding:0rem 0 0.1rem 0.1rem;
+    font-size:1rem;
+    width: fit-content;
+    margin:0.1rem 0rem;
+    background-color: var(--colorOrange);
+    color:white;
+    border-radius:0.3rem;
+}
+
+.tagChoosenItem button {
+    border:none;
+    background-color:inherit;
+    color:white;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.tagChoosenItem span {
+    font-size:0.9rem;
+    font-weight:400;
+    padding: 0.1rem 0.1rem;
+}
+
+.itemsListContainer {
+    display:flex;
+    flex-flow: column nowrap;
+    background-color: var(--colorbg2);
+    border-bottom-left-radius:0.7rem;
+    border-bottom-right-radius:0.7rem;
+    color:var(--colorUi3);
+}
+
+.itemsListContainer li {
+    cursor: pointer;
+}
+
+.scrollContainer {
+    overflow-x:none;
+    scrollbar-color: var(--colorGrey) transparent;
+    overflow: hidden;
+}
+
+.scrollContainerOpen {
+    max-height: 24rem;
+    box-shadow: 2px 3px 4px -3px var(--colorFont1);
+    border-radius: 0.3rem;
+    overflow-y: scroll;
+    opacity: 1;
+}
+
+.scrollContainerClose {
+    max-height: 0rem;
+    box-shadow: none;
+    border-radius: 0rem;
+    overflow-y: none;
+    opacity: 0;
+}
+@media screen and (max-width: 400px) {
+    .dropDownListContainer {
+        left:0rem;
+        top:2rem;
+        margin-top: 0.3rem;
+    }
+}

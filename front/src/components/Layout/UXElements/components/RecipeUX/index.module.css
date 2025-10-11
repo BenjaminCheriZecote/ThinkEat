@@ -25,7 +25,7 @@
     
 }
 
-.sectionRecipe > input {
+.sectionRecipeInput {
     font-family: 'Playpen Sans', cursive;
 }
 
@@ -135,6 +135,11 @@
     cursor: pointer;
 }
 
+.sectionRecipeBottom > *:hover, .BtnDeleteIngredient:hover, .BtnDeleteImg:hover, .BtnDeleteStep:hover  {
+    transition: all ease-in-out 400ms;
+    transform: scale(1.2);
+}
+
 .sectionRecipeTop figure {
     width:100%;
 }
@@ -168,7 +173,7 @@
     cursor:pointer;
 }
 
-.sectionRecipe input, .sectionRecipe textarea {
+.sectionRecipeInput, .sectionRecipe textarea {
     text-align: center;
     border:none;
     width:fit-content;
@@ -179,7 +184,7 @@
     width:4.5rem;
 }
 
-.sectionRecipe .sectionRecipeTop input, .sectionRecipe .sectionRecipeBottom input, .sectionRecipe .sectionRecipeFieldIngredientsContainer li .unitInput {
+.sectionRecipe .sectionRecipeTop .sectionRecipeInput, .sectionRecipe .sectionRecipeBottom input, .sectionRecipe .sectionRecipeFieldIngredientsContainer li .unitInput {
     border:2px var(--colorbg6) dashed;
     background-color: var(--colorParagraph);
 }
@@ -196,7 +201,7 @@
     border-radius: 0.3rem;
 }
 
-.sectionRecipe input, .sectionRecipe label {
+.sectionRecipeInput, .sectionRecipe label {
     border-radius:0.3rem;
     padding:0.7rem;
 }
@@ -253,10 +258,15 @@
 
 .sectionRecipe .addStep {
     border:none;
-    margin-top:0.4rem;
+    margin-top: 6px;
     background-color:var(--colorbg2);
     color:var(--colorUi3);
-    box-shadow: 2px 3px 4px -3px var(--colorFont1);
+    cursor: pointer;
+}
+
+.addStep svg {
+    width: 17px;
+    height: 17px;
 }
 
 .BtnDeleteStep {
@@ -425,10 +435,6 @@ textarea:focus{
         font-size:2rem;
     }
 
-    .sectionRecipe .sectionRecipeField {
-        font-size:1.1rem;
-    }
-
     .sectionRecipe .sectionRecipeFieldIngredientsContainer li figcaption, .sectionRecipeFieldStepsContainer p, .sectionRecipeFieldStepsContainer textarea {
         font-size:0.8rem;
         
@@ -469,6 +475,22 @@ textarea:focus{
     .leftSide {
         margin-top:0rem;
         padding:1rem;
+    }
+
+    .sectionRecipeTop .sectionRecipeField {
+        flex-direction: column;
+        width: 100%;
+        text-align: start;
+        align-items: start;
+        padding: 0rem;
+        margin: 0rem 0rem;
+    }
+    .sectionRecipeTop .sectionRecipeInput, .sectionRecipeFieldSelect {
+        margin: auto;
+    }
+
+    .sectionRecipeTop .sectionRecipeInput {
+        height: 1rem;
     }
 }
 

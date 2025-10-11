@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 import { MdKeyboardArrowDown } from "react-icons/md";
-import Tag from "./Tag";
+import Tag from "../Tag";
+import style from './dropDownList.module.css';
 
 export default function DropDownList({itemName, items, choosenItems=[], isOpen, openHandler, closeHandler, toggleItemHandler}) {
   
@@ -15,29 +16,28 @@ export default function DropDownList({itemName, items, choosenItems=[], isOpen, 
   }
   
   return (
-    
-    <div className="dropDownListContainer" >
-      <div className="dropDownListSearchContainer">
-        {isOpen ?
-          <input className="dropDownListSearch" type="search" placeholder="Rechercher" value={searchValue} onChange={handleChangeSearch}/>
-          :
-          ""
-        }
+    <div className={`${style.dropDownListContainer} ${isOpen ? style.dropDownListContainerOpen : style.dropDownListContainerClose}`}>
+      <div className={style.dropDownListSearchContainer}>
+        
+        <input className={`${style.dropDownListSearch} ${isOpen ? style.dropDownListSearchOpen : style.dropDownListSearchClose}`} type="search" placeholder="Rechercher" value={searchValue} onChange={handleChangeSearch}/>
+        
         {choosenItems &&
           <input type="hidden" name={itemName.toLocaleLowerCase()} defaultValue={choosenItems.map((element) => element.id).join("-") }/>
         }
-        <button className={isOpen?"":"bordered"} type="button" onClick={closeHandler}><MdKeyboardArrowDown className='arrowSoValue' onClick={openHandler}/></button>
+        <button className={isOpen?"": style.bordered} type="button" onClick={closeHandler}>
+          <MdKeyboardArrowDown className='arrowSoValue' onClick={openHandler}/>
+        </button>
 
       </div>
-      {isOpen && <div className="scrollContainer">
+      <div className={`${style.scrollContainer} ${isOpen ? style.scrollContainerOpen : style.scrollContainerClose}`}>
         {choosenItems.length > 0 &&
-          <ul className="choosenItemsContainer">
+          <ul className={style.choosenItemsContainer}>
             {choosenItems.map(item =>(
-              <li key={item.id}><Tag itemName={itemName} item={item} removeHandler={toggleItemHandler}/></li>
+              <Tag key={item.id} itemName={itemName} item={item} removeHandler={toggleItemHandler} style={style}/>
             ))}
           </ul>
         }
-        <ul className="itemsListContainer">
+        <ul className={style.itemsListContainer}>
           {!!searchValue && filteredItems.length === 0 &&
             <li>Aucun élément trouvé.</li>
           }
@@ -52,9 +52,7 @@ export default function DropDownList({itemName, items, choosenItems=[], isOpen, 
             ))
           }
         </ul>
-      </div>}
+      </div>
     </div>
-    
-  
   );
 }

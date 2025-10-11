@@ -88,23 +88,23 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
 
             <div>
                 <LogoHat size={4}/>
-                <input className={`${style.sectionRecipeName}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
+                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
             </div>
 
             <fieldset className={`${style.sectionRecipeTop}`}>
                 <div className={`${style.leftSide}`}>
                     <div className={`${style.sectionRecipeField}`}>
                         <label>Preparation :</label>
-                        <input name="preparatingTime" type="time" defaultValue={recipe.preparatingTime} required />
+                        <input name="preparatingTime" type="time" className={style.sectionRecipeInput} defaultValue={recipe.preparatingTime} required />
                     </div>
                     <div className={`${style.sectionRecipeField}`}>
                         <label>Cuisson :</label>
-                        <input name="cookingTime" type="time" defaultValue={recipe.cookingTime} required />
+                        <input name="cookingTime" type="time" className={style.sectionRecipeInput} defaultValue={recipe.cookingTime} required />
                     </div>
                 
-                    <div className={`${style.sectionRecipeField} `}>
+                    <div className={`${style.sectionRecipeField}`}>
                         <label>Convive :</label>
-                        <input name="person" type="number" min="1" defaultValue={recipe.person} className={`${style.personInput}`}/>
+                        <input name="person" type="number" min="1" defaultValue={recipe.person} className={`${style.personInput} ${style.sectionRecipeInput}`}/>
                     </div>
                     <div className={`${style.sectionRecipeField}`}>
                         <label>Faim :</label>
@@ -166,17 +166,19 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
                     {ingredients && ingredients.map(ingredient => (
                         <li key={ingredient.id} className={style.ingredientAdded}>
                         <figure>
-                            <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem} ><DeleteCruse size={1}/></button>
+                            <button className={style.BtnDeleteIngredient} type="button" data-item-id={`Ingredients-${ingredient.id}`} onClick={toggleItem}>
+                                <DeleteCruse size={1}/>
+                            </button>
                             <img src={ingredient.image === null ? "/default-img.webp" : `/img/ingredients/${ingredient.image}`} alt={ingredient.name} />
                             <figcaption className={style.figcaption}>
-                            <span>{ingredient.name}</span>
-                            <div className={style.figcaptionDiv}>
-                                <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2" className={`${style.unitInput}`} required/>
-                                <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit ? ingredient.unit: 0}>
-                                {units && units.map((unit, index) => <option key={index} value={unit.id}>{unit.name}</option>
-                                )}
-                                </select>
-                            </div>
+                                <span>{ingredient.name}</span>
+                                <div className={style.figcaptionDiv}>
+                                    <input type="number" min="0" name={`quantity-${ingredient.id}`} defaultValue={ingredient.quantity} size="2" className={`${style.unitInput} ${style.sectionRecipeInput}`} required/>
+                                    <select name={`unit-${ingredient.id}`} defaultValue={ingredient.unit ? ingredient.unit: 0}>
+                                    {units && units.map((unit, index) => <option key={index} value={unit.id}>{unit.name}</option>
+                                    )}
+                                    </select>
+                                </div>
                             
                             </figcaption>
                         </figure>
@@ -189,7 +191,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
                 <div className={`${style.sectionRecipeField}`}>
                     <legend>Etapes</legend>
                     <button type="button" onClick={addStepp} className={`${style.addStep}`}>
-                        <FaPlus />
+                        <FaPlus/>
                     </button>
                 </div>
                 <ul className={style.sectionRecipeFieldStepsContainer}>
