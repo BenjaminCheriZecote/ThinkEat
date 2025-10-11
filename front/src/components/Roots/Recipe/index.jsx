@@ -7,7 +7,7 @@ export default function RecipePage() {
   
   return(
     <main className="section outlet">
-      <RecipeUX inUpdate={true} formMethod={"PATCH"} recipe={recipe}/>
+      <RecipeUX formMethod={"PATCH"} recipe={recipe}/>
     </main>
   )
 }

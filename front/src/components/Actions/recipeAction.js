@@ -259,7 +259,6 @@ export async function recipeAction({ request, params }) {
             data.image = image;
           }
 
-          
           const dataValidate = RecipeValidator.checkBodyForCreate(data);
           
           const createdRecipe = await RecipeApi.create(dataValidate);
