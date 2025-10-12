@@ -48,6 +48,10 @@
     padding: 0rem;
 }
 
+.dropDownListSearchContainer, .dropDownListSearchContainer button {
+    border-radius: 0.3rem;
+}
+
 .dropDownListSearch {
     border: none;
     background-color: inherit;
@@ -57,7 +61,7 @@
     text-align: center;
     overflow: hidden;
     padding: 9px 0rem;
-    background: inherit;
+    background-color: inherit;
 }
 
 .dropDownListSearchClose {

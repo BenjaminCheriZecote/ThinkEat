@@ -14,7 +14,7 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
     return(
         <div className={`${style.sectionRecipe}`} method={formMethod}>
             <div>
-                <LogoHat size={4}/>
+                <LogoHat size={4} className={style.logoHat}/>
                 <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
             </div>
 

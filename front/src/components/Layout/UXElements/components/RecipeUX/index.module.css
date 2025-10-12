@@ -33,6 +33,7 @@
     margin-left:1rem;
     font-size: 2.4rem;
     width:fit-content;
+    text-overflow: ellipsis;
     padding:1rem;
     text-align:center;
     background: linear-gradient(to left, var(--colorOrangeDark), var(--colorOrangeLight), var(--colorOrangeLight),var(--colorOrangeDark) );
@@ -41,7 +42,14 @@
     border-radius: 0.3rem;
     font-family: "Poppins", sans-serif;
     box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,rgba(45, 35, 66, 0.15) 0 7px 13px -3px,var(--colorOrange) 0 -3px 0 inset;
-    
+}
+
+.sectionRecipeInputName {
+    field-sizing: content;
+}
+
+.logoHat {
+    min-width:4rem;
 }
 
 .sectionRecipe .sectionRecipeName img {
@@ -389,11 +397,23 @@ textarea:focus{
 }
 
 @media screen and (min-width: 1400px) {
+
+    .sectionRecipe .sectionRecipeInputName {
+        max-width: 930px;
+    }
   
     .sectionRecipeTop {
         padding:1rem 1rem 1rem 2rem;
     }
 }
+
+@media screen and (max-width: 1400px) {
+
+    .sectionRecipe .sectionRecipeInputName {
+        max-width: calc(100vw - 469px);
+    }
+}
+
 @media screen and (max-width: 1000px) {
   
     .modalSectionRecipeTop {
@@ -405,6 +425,11 @@ textarea:focus{
         max-width:none;
         max-height:none;
     }
+
+    .sectionRecipe .sectionRecipeName {
+        max-width: calc(100vw - 191px);
+    }
+
 }
 @media screen and (max-width: 780px) {
   
@@ -465,9 +490,18 @@ textarea:focus{
     .sectionRecipe > div > img {
         width:2.7rem;
     }
-
+    .logoHat {
+        display:none;
+    }
+    .sectionRecipe .sectionRecipeInputName {
+        margin-left: 0rem;
+        max-width: calc(100vw - 87px) !important;
+    }
     .sectionRecipe .sectionRecipeName {
+        max-width: 100%;
+        margin-left: 0rem;
         font-size:1.4rem;
+        width: 100%;
     }
     .sectionRecipeTop {
         padding:0rem;

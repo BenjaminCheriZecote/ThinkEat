@@ -87,8 +87,8 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
             <input type="hidden" name="id" value={recipe.id} />
 
             <div>
-                <LogoHat size={4}/>
-                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput}`} name="name" type="text" defaultValue={recipe.name} style={{ width: '20rem' }} required/>
+                <LogoHat size={4} className={style.logoHat}/>
+                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput} ${style.sectionRecipeInputName}`} name="name" type="text" defaultValue={recipe.name} required/>
             </div>
 
             <fieldset className={`${style.sectionRecipeTop}`}>
