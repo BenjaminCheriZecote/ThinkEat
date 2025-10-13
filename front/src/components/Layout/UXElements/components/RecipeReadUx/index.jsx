@@ -15,12 +15,12 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
         <div className={`${style.sectionRecipe}`} method={formMethod}>
             <div>
                 <LogoHat size={4} className={style.logoHat}/>
-                <h2 className={`${style.sectionRecipeName}`}>{recipe.name}</h2>
+                <h2 className={`${style.sectionRecipeName} ${style.titleRecipe}`}>{recipe.name}</h2>
             </div>
 
-            <section className={`${style.sectionRecipeTop}`}>
+            <section className={`${style.sectionRecipeTop} fieldsetRecipeTop`}>
                 <div className={`${style.leftSide}`}>
-                    <div className={`${style.sectionRecipeField} `}>
+                    <div className={`${style.sectionRecipeField}`}>
                         <h4>Preparation :</h4>
                         <time dateTime={recipe.preparatingTime}>{formatTime(recipe.preparatingTime)}</time>
                     </div>
@@ -41,7 +41,7 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
                         <div className={`${style.sectionRecipeField}`}>
                             {recipe.diet.map((diet, index) => {
                             return (
-                                <span key={index}>{diet}{index + 1 !== recipe.diet.length && ','}</span>
+                                <div key={index}>{diet}{index + 1 !== recipe.diet.length && ','}</div>
                             )
                             })}
                         </div>
@@ -56,7 +56,7 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
 
             <section>
                 <div className={`${style.sectionRecipeField}`}>
-                    <h3>Ingredients</h3>
+                    <h3 className={style.titleRecipe}>Ingredients</h3>
                 </div>
                 <ul className={`${style.sectionRecipeFieldIngredientsContainer}`}>
                     {recipe.ingredients && recipe.ingredients.map(ingredient => (
@@ -75,7 +75,7 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
 
             <section>
                 <div className={`${style.sectionRecipeField}`}>
-                    <h3>Etapes</h3>
+                    <h3 className={style.titleRecipe}>Etapes</h3>
                 </div>
                 <ul className={style.sectionRecipeFieldStepsContainer}>
                     {recipe.steps && recipe.steps.map((step, index) => (

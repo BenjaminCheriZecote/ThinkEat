@@ -13,8 +13,8 @@ export default function SignIn() {
           <input type="password" name="password" id="password" placeholder='******'/>
         </div>
 
-        <Link to="/reset-password"> Mot de passe oublié ? </Link>
-        <Link to="/signup">Pas encore de compte ? Créer un compte</Link>
+        <Link className='section-form__link' to="/reset-password"> Mot de passe oublié ? </Link>
+        <Link className='section-form__link' to="/signup">Pas encore de compte ? Créer un compte</Link>
 
         <button className='section-form__btn'>Connection</button>
 

@@ -172,6 +172,7 @@ form li {
     overflow: hidden;
     overflow-y: scroll;
     max-height: 15rem;
+    padding: 0.3rem;
 }
 
 .content {
@@ -182,7 +183,7 @@ form li {
     position: absolute;
     left:0;
     z-index:9;
-    padding:0.4rem;
+    padding:0.3rem;
     font-weight:300;
 }
 

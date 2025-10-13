@@ -88,25 +88,25 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
 
             <div>
                 <LogoHat size={4} className={style.logoHat}/>
-                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput} ${style.sectionRecipeInputName}`} name="name" type="text" defaultValue={recipe.name} required/>
+                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput} ${style.sectionRecipeInputName} ${style.titleRecipe}`} name="name" type="text" defaultValue={recipe.name} required/>
             </div>
 
-            <fieldset className={`${style.sectionRecipeTop}`}>
+            <fieldset className={`${style.sectionRecipeTop} fieldsetRecipeTop`}>
                 <div className={`${style.leftSide}`}>
-                    <div className={`${style.sectionRecipeField}`}>
+                    <div className={`${style.sectionRecipeField} ${style.sectionRecipeFieldEdition}`}>
                         <label>Preparation :</label>
                         <input name="preparatingTime" type="time" className={style.sectionRecipeInput} defaultValue={recipe.preparatingTime} required />
                     </div>
-                    <div className={`${style.sectionRecipeField}`}>
+                    <div className={`${style.sectionRecipeField} ${style.sectionRecipeFieldEdition}`}>
                         <label>Cuisson :</label>
                         <input name="cookingTime" type="time" className={style.sectionRecipeInput} defaultValue={recipe.cookingTime} required />
                     </div>
                 
-                    <div className={`${style.sectionRecipeField}`}>
+                    <div className={`${style.sectionRecipeField} ${style.sectionRecipeFieldEdition}`}>
                         <label>Convive :</label>
                         <input name="person" type="number" min="1" defaultValue={recipe.person} className={`${style.personInput} ${style.sectionRecipeInput}`}/>
                     </div>
-                    <div className={`${style.sectionRecipeField}`}>
+                    <div className={`${style.sectionRecipeField} ${style.sectionRecipeFieldEdition}`}>
                         <label>Faim :</label>
                         <select className={`${style.sectionRecipeFieldSelect}`} ref={selectElement} name="hunger" defaultValue={recipe.hunger}>
                             {!!filters.hunger && filters.hunger.map(({ name }, index) => (
@@ -153,7 +153,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
             </fieldset>
     
             <fieldset>
-                <div className={`${style.sectionRecipeField} ${style.divDropDonwList}`}>
+                <div className={`${style.sectionRecipeField} ${style.divDropDonwList} ${style.titleRecipe}`}>
                     <legend>Ingredients</legend>
                     <DropDownList itemName={"Ingredients"} items={ingredientsList} choosenItems={ingredients} isOpen={selectedMenu === "ingredients"} openHandler={openIngredientMenu} closeHandler={closeAllMenu} toggleItemHandler={toggleItem} />
                 </div>
@@ -188,7 +188,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
             </fieldset>
 
             <fieldset>
-                <div className={`${style.sectionRecipeField}`}>
+                <div className={`${style.sectionRecipeField} ${style.titleRecipe}`}>
                     <legend>Etapes</legend>
                     <button type="button" onClick={addStepp} className={`${style.addStep}`}>
                         <FaPlus/>

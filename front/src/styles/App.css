@@ -172,6 +172,11 @@ html, body, #root, .app {
         background-color: var(--colorOrange);
     }
 
+    .section-form__link:hover {
+        color: var(--colorOrangeRange);
+        transition: ease-in-out 300ms;
+    }
+
     .section__divForm {
         display:flex;
         flex-flow:row wrap;
@@ -259,7 +264,9 @@ html, body, #root, .app {
         .section__divForm > div {
             gap:0rem;
         }
-
+        main.section:has(.fieldsetRecipeTop) {
+            padding: 0;
+        }
     }
 
 

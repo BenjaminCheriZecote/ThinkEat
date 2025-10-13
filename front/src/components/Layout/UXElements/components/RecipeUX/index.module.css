@@ -495,7 +495,7 @@ textarea:focus{
     }
     .sectionRecipe .sectionRecipeInputName {
         margin-left: 0rem;
-        max-width: calc(100vw - 87px) !important;
+        max-width: calc(100vw - 57px) !important;
     }
     .sectionRecipe .sectionRecipeName {
         max-width: 100%;
@@ -510,21 +510,31 @@ textarea:focus{
         margin-top:0rem;
         padding:1rem;
     }
+    .rightSide img, .leftSide, .sectionRecipeTop {
+        border-radius: 0rem;
+    }
 
     .sectionRecipeTop .sectionRecipeField {
+        padding: 0rem;
+    }
+
+    .sectionRecipeTop .sectionRecipeFieldEdition {
         flex-direction: column;
         width: 100%;
         text-align: start;
         align-items: start;
-        padding: 0rem;
         margin: 0rem 0rem;
     }
-    .sectionRecipeTop .sectionRecipeInput, .sectionRecipeFieldSelect {
+    .sectionRecipeTop .sectionRecipeInput, .sectionRecipeFieldSelect, .sectionRecipeTop .sectionRecipeField span, .sectionRecipeTop .sectionRecipeField time {
         margin: auto;
     }
 
     .sectionRecipeTop .sectionRecipeInput {
         height: 1rem;
+    }
+    .sectionRecipe .titleRecipe {
+        margin-left: 10px;
+        margin-right: 10px;
     }
 }
 
