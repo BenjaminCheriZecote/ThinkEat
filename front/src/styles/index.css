@@ -19,6 +19,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --colorbg: 'rgb(238, 238, 238)';
   --colorbg1: #fefefe;
   --colorbg2: #e8eceb;
   --colorbg3: #e3eae9;
@@ -38,6 +39,7 @@
 
   --colorShadow:rgba(0,0,0,0.11);
   --colorShadow2:rgba(0, 0, 0, 0.11);
+  --colorShadow3:rgba(0,0,0,0.8);
 
   --colorFont1:black;
 
@@ -84,7 +86,7 @@
 
 body {
   z-index:0;
-  background-color: rgb(238, 238, 238);
+  background-color: var(--colorbg);
   background-size:cover;
   background-position: left;
   display: flex;
@@ -101,7 +103,7 @@ body > #root {
   overflow: hidden;
   border-radius:2rem;
   background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2), var(--colorbg3));
-  box-shadow: 5px 5px 30px -15px rgba(0,0,0,0.8);
+  box-shadow: 5px 5px 30px -15px var(--colorShadow3);
 }
 
 /* // -> dès que la taille d’écran atteint 1400px, on redimensionne */

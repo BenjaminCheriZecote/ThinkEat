@@ -80,7 +80,7 @@
 
 .sectionRecipeTop {
     justify-content: space-between;
-    background: linear-gradient(to right, var(--colorProposition), var(--colorUi1));
+    background: linear-gradient(to right, var(--colorProposition), var(--colorbg1));
     box-shadow: var(--colorShadow) 0 2px 4px, var(--colorShadow) 0 7px 13px -3px, var(--colorbg3) 0 -3px 0 inset;
     padding:0.2rem;
 }

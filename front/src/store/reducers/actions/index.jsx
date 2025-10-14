@@ -22,6 +22,7 @@ const actions = {
         }
         
         if (mode === true) {
+            turnColor('--colorbg', 'rgb(33, 32, 32)');
             turnColor('--colorbg1', '#414344');
             turnColor('--colorbg2', '#282a2c');
             turnColor('--colorbg3', '#282a2c');	
@@ -35,6 +36,7 @@ const actions = {
             turnColor('--colorFont1', '#e8eceb');
             turnColor('--colorShadow', 'rgba(255, 255, 255, 0.11)');
             turnColor('--colorShadow2', 'rgba(255, 255, 255, 0.400)');
+            turnColor('--colorShadow3', 'rgba(255, 255, 255, 0.400)');
             turnColor('--colorParagraph', '#cad7e0');
             turnColor('--colorUi5', '#cad7e0');
             turnColor('--colorProposition', 'black');
@@ -43,24 +45,26 @@ const actions = {
             
         }
         if (mode === false) {
-          turnColor('--colorbg1', '#fefefe');
-          turnColor('--colorbg2', '#e8eceb');
-          turnColor('--colorbg3', '#e3eae9');	
-          turnColor('--colorUi1', 'white');	
-          turnColor('--colorUi2', 'rgb(211, 93, 57)');
-          turnColor('--colorUi3', 'black');
-          turnColor('--colorUi4', 'rgb(211, 93, 57)');	
-          turnColor('--colorbgAside1', '#cadbd74a');	
-          turnColor('--colorbgAside2', '#cccbdf');
-          turnColor('--colorbgAside3', '#cad7e0');
-          turnColor('--colorFont1', 'black');
-          turnColor('--colorShadow', 'rgba(0,0,0,0.11)');
-          turnColor('--colorShadow2', 'rgba(0,0,0,0.11)');
-          turnColor('--colorParagraph', 'white');
-          turnColor('--colorUi5', 'inherit');
-          turnColor('--colorProposition', '#cad7e0');
-          turnColor('--colorSelectPlaceHolder', '#ada28f');
-          turnColor('--colorLogo', '#414344')
+            turnColor('--colorbg', 'rgb(238, 238, 238)');
+            turnColor('--colorbg1', '#fefefe');
+            turnColor('--colorbg2', '#e8eceb');
+            turnColor('--colorbg3', '#e3eae9');	
+            turnColor('--colorUi1', 'white');	
+            turnColor('--colorUi2', 'rgb(211, 93, 57)');
+            turnColor('--colorUi3', 'black');
+            turnColor('--colorUi4', 'rgb(211, 93, 57)');	
+            turnColor('--colorbgAside1', '#cadbd74a');	
+            turnColor('--colorbgAside2', '#cccbdf');
+            turnColor('--colorbgAside3', '#cad7e0');
+            turnColor('--colorFont1', 'black');
+            turnColor('--colorShadow', 'rgba(0,0,0,0.11)');
+            turnColor('--colorShadow2', 'rgba(0,0,0,0.11)');
+            turnColor('--colorShadow3', 'rgba(0,0,0,0.8)');
+            turnColor('--colorParagraph', 'white');
+            turnColor('--colorUi5', 'inherit');
+            turnColor('--colorProposition', '#cad7e0');
+            turnColor('--colorSelectPlaceHolder', '#ada28f');
+            turnColor('--colorLogo', '#414344')
         }
     },
     setOffWidthRangeBar: () => {
