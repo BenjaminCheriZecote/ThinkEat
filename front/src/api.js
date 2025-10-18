@@ -137,6 +137,21 @@ export class IngredientApi extends CoreApi {
     return true;
   }
 
+  static async updateIngredientsRecipe(recipeId, ingredientId, data) {
+    const token = await TokenApi.getValidToken();
+
+    const httpResponse = await fetch(`${apiBaseUrl}/recipe/${recipeId}/ingredient/${ingredientId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(data),
+      credentials:"include"
+    });
+  
+    await this.errorHandler(httpResponse);
+    
+    return true;
+  }
+
   static async removeIngredientToRecipe(recipeId, ingredientId) {
     const token = await TokenApi.getValidToken();
 

@@ -6,9 +6,6 @@ import toast from "../../helpers/toast";
 import store from "../../store";
 import defineNameImage from "../../helpers/defineNameImage/defineNameImage";
 
-
-
-
 export async function recipeAction({ request, params }) {
   
     switch (request.method) {
@@ -18,6 +15,7 @@ export async function recipeAction({ request, params }) {
           let formFields = {};
           const unitProperty = [];
           const quantityProperty = [];
+          const existingIngredients = [];
   
           for (let entry of formData.entries()) {
               let fieldName = entry[0];
@@ -35,7 +33,7 @@ export async function recipeAction({ request, params }) {
               formFields[fieldName] = fieldValue;
           }
         
-          const {recipes} = store.getState();
+          const {recipes, units} = store.getState();
           
           const id = parseInt(formData.get("id"));
           const steps = formData.get("steps");
@@ -95,25 +93,27 @@ export async function recipeAction({ request, params }) {
           }
           const time = functionParser(match);
           const preparatingTime = functionParser(match2); 
-
           
           let foundRecipe;
           if (foundRecipe) foundRecipe = recipes.recipes.find((recipe) => recipe.id === id);
           if (!foundRecipe) foundRecipe = await RecipeApi.get(id);
 
           const foundIngredientsOfRecipe = foundRecipe.ingredients || [];
-    
+
           const removeIngredientsRecipe = foundIngredientsOfRecipe.filter((ingredient) => !mappingIngredientsId.some((id) => {
             return ingredient.id === parseInt(id);
           }));
     
           if (removeIngredientsRecipe.length) {
             await Promise.all(removeIngredientsRecipe.map(async (element) => {
-                const ingredientRecipe = await IngredientApi.removeIngredientToRecipe( id, element.id )
+              await IngredientApi.removeIngredientToRecipe( id, element.id )
             }));
           }
-    
-          const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient)));
+
+          const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => {
+            if (foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient))) existingIngredients.push(idIngredient) 
+            return !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient))
+          });
           if (addIngredientsRecipe.length) {
             await Promise.all(addIngredientsRecipe.map(async (ingredientId) => {
               const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
@@ -121,24 +121,33 @@ export async function recipeAction({ request, params }) {
               const data = {};
               data.quantity = foundQuantityToAddInRecipe[1];
               if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-              const ingredientRecipe = await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
+              await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
             }));
           }
 
-          // si pas de fichier image => pas de prop image //=> recette reste avec meme image/sans image. OK
+          if (existingIngredients.length) {
+            await Promise.all(existingIngredients.map(async (ingredientId) => {
+              const foundUpdatedQuantity = foundIngredientsOfRecipe.find((ingredientRecipe) => {
+                return ingredientRecipe.id === parseInt(ingredientId) && parseInt(formFields[`quantity-${ingredientId}`]) !== ingredientRecipe.quantity
+              });
+              const foundUpdatedUnity = foundIngredientsOfRecipe.find((ingredientRecipe) => {
+                const existedIdUnitRecipe = ingredientRecipe.unit === null ? 0 : units.units.find((unit) => unit.name === ingredientRecipe.unit).id;
+                return ingredientRecipe.id === parseInt(ingredientId) && parseInt(formFields[`unit-${ingredientId}`]) !== existedIdUnitRecipe
+              });
+              if (!foundUpdatedQuantity && !foundUpdatedUnity) {
+                return;
+              }
 
-          // si ajout fichier image // => image ajouté. OK
+              const parsedUnit = parseInt(formFields[`unit-${ingredientId}`])
 
-          // si ajout fichier image sans chgt nom // => imgage ajouté écrase l'ancienne. OK
+              const data = {
+                quantity: parseInt(formFields[`quantity-${ingredientId}`]),
+                unitId: parsedUnit === 0 ? null : parsedUnit,
+              };
+               await IngredientApi.updateIngredientsRecipe( id, ingredientId, data );
+            }))
+          }
 
-          // si nom change, sans chgt image existante //=> chgt du nom du fichier image. OK
-
-          // si ajout fichier image sur image existante, chgt nom => delete ancien fichier image puis ajout du nouveau. KO delete image
-
-          // si juste delete image => KO.
-          //
-          
-    
           const data = {
             name:formData.get("name"),
             hunger:formData.get("hunger"),

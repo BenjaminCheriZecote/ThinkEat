@@ -87,8 +87,6 @@
 body {
   z-index:0;
   background-color: var(--colorbg);
-  background-size:cover;
-  background-position: left;
   display: flex;
   font-family: "Poppins", sans-serif;
 }
