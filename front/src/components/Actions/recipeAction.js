@@ -5,6 +5,7 @@ import secondesConverterFunction from "../../helpers/secondesConverterFunction";
 import toast from "../../helpers/toast";
 import store from "../../store";
 import defineNameImage from "../../helpers/defineNameImage/defineNameImage";
+import httpProxyRecipeAction, { methods } from "../../helpers/httpProxyRecipeAction";
 
 export async function recipeAction({ request, params }) {
   
@@ -16,6 +17,7 @@ export async function recipeAction({ request, params }) {
           const unitProperty = [];
           const quantityProperty = [];
           const existingIngredients = [];
+          const requestApi = [];
   
           for (let entry of formData.entries()) {
               let fieldName = entry[0];
@@ -105,9 +107,9 @@ export async function recipeAction({ request, params }) {
           }));
     
           if (removeIngredientsRecipe.length) {
-            await Promise.all(removeIngredientsRecipe.map(async (element) => {
-              await IngredientApi.removeIngredientToRecipe( id, element.id )
-            }));
+            removeIngredientsRecipe.forEach((element) => {
+              requestApi.push({method:methods.delete, recipeId:id, ingredientId:element.id})
+            })
           }
 
           const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => {
@@ -115,18 +117,18 @@ export async function recipeAction({ request, params }) {
             return !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient))
           });
           if (addIngredientsRecipe.length) {
-            await Promise.all(addIngredientsRecipe.map(async (ingredientId) => {
+            addIngredientsRecipe.forEach((ingredientId) => {
               const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
               const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
               const data = {};
               data.quantity = foundQuantityToAddInRecipe[1];
               if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-              await IngredientApi.addIngredientToRecipe( id, ingredientId, data )
-            }));
+              requestApi.push({method:methods.put, recipeId:id, ingredientId:ingredientId, data:data});
+            });
           }
 
           if (existingIngredients.length) {
-            await Promise.all(existingIngredients.map(async (ingredientId) => {
+            existingIngredients.forEach((ingredientId) => {
               const foundUpdatedQuantity = foundIngredientsOfRecipe.find((ingredientRecipe) => {
                 return ingredientRecipe.id === parseInt(ingredientId) && parseInt(formFields[`quantity-${ingredientId}`]) !== ingredientRecipe.quantity
               });
@@ -137,16 +139,19 @@ export async function recipeAction({ request, params }) {
               if (!foundUpdatedQuantity && !foundUpdatedUnity) {
                 return;
               }
-
               const parsedUnit = parseInt(formFields[`unit-${ingredientId}`])
 
               const data = {
                 quantity: parseInt(formFields[`quantity-${ingredientId}`]),
                 unitId: parsedUnit === 0 ? null : parsedUnit,
               };
-               await IngredientApi.updateIngredientsRecipe( id, ingredientId, data );
-            }))
+              requestApi.push({method:methods.patch, recipeId:id, ingredientId:ingredientId, data:data});
+            })
           }
+
+          await Promise.all(requestApi.map( async (request) => {
+            await httpProxyRecipeAction(request);
+          }))
 
           const data = {
             name:formData.get("name"),
