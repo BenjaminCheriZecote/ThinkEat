@@ -6,6 +6,7 @@ import toast from "../../helpers/toast";
 import store from "../../store";
 import defineNameImage from "../../helpers/defineNameImage/defineNameImage";
 import httpProxyRecipeAction, { methods } from "../../helpers/httpProxyRecipeAction";
+import { timeFormat } from "../../helpers/timeFormat";
 
 export async function recipeAction({ request, params }) {
   
@@ -42,62 +43,11 @@ export async function recipeAction({ request, params }) {
           const mappingSteps = steps.split('"');
           const allIngredients = formData.get("ingredients");
           const mappingIngredientsId = allIngredients.split('-');
-          // format des temps (préparation / cuisson) peuvent varier si ils sont modifié ou non
-          // le format est soit "" si le temps est vide, soit "00:00" si le temps est modifié, soit "00:00:00" si le temps est présent mais non modifé
-          
-          let preparatingTimeFromForm = formFields.preparatingTime; 
-          let cookingTimeFromForm = formFields.cookingTime;
 
-          // fonction pour convertir le format du temps 00:00 au format 00:00:00
-          const checkTimeFunction = (time) => {
-            if (time !== "") {
-              if (time.length === 5) {
-                const newTime = time + ':00';
-                return newTime
-              }
-            }
-            return time
-          }
-          preparatingTimeFromForm = checkTimeFunction(preparatingTimeFromForm); 
-          cookingTimeFromForm = checkTimeFunction(cookingTimeFromForm); 
-    
-          // ------ gestion temps total. Le temps de cuisson n'existe pas en bdd, on le créer ici.
-          // conversion des temps en secondes pour additionner les deux temps: 
-    
-          if (preparatingTimeFromForm !== "") {
-            preparatingTimeFromForm = secondesConverterFunction(preparatingTimeFromForm);
-          } else preparatingTimeFromForm = 0;
-    
-          if (cookingTimeFromForm !== "") {
-            cookingTimeFromForm = secondesConverterFunction(cookingTimeFromForm);
-          } else cookingTimeFromForm = 0
-    
-          const totalTimeInSecondes = preparatingTimeFromForm + cookingTimeFromForm;
-          const timeFormatted = formatterSecondesTime(totalTimeInSecondes);
-          const preparatingTimeFormatted = formatterSecondesTime(preparatingTimeFromForm);
-    
-          // reconversion du temps total et temps de préparation au format 00:00:00
-          let match = timeFormatted.match(/^(\d+):(\d+):(\d+)$/);
-          let match2 = preparatingTimeFormatted.match(/^(\d+):(\d+):(\d+)$/);
-    
-          const functionParser = (match) => {
-            if (match) {
-              let hours = match[1].padStart(2, '0');
-              let minutes = match[2].padStart(2, '0');
-              let seconds = match[3].padStart(2, '0');
-          
-              let formattedString = `${hours}:${minutes}:${seconds}`;
-              return formattedString;
-            } else {
-              const error = "Format de chaine invalide."
-              return error
-            }
-          }
-          const time = functionParser(match);
-          const preparatingTime = functionParser(match2); 
+          const { time, preparatingTime } = timeFormat(formFields.preparatingTime, formFields.cookingTime);
           
           let foundRecipe;
-          if (foundRecipe) foundRecipe = recipes.recipes.find((recipe) => recipe.id === id);
+          if(Array.isArray(recipes.recipes)) foundRecipe = recipes.recipes.find((recipe) => recipe.id === id)
           if (!foundRecipe) foundRecipe = await RecipeApi.get(id);
 
           const foundIngredientsOfRecipe = foundRecipe.ingredients || [];

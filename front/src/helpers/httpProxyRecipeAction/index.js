@@ -7,8 +7,8 @@ export const methods = {
 }
 
 const httpProxyRecipeAction = async ( request ) => {
-    const { method, recipeId, ingredientId, data } = request; 
-    if (method === methods.delete)  return await IngredientApi.removeIngredientToRecipe(recipeId, ingredientId);
+    const { method, recipeId, ingredientId, data } = request;
+    if (method === methods.delete) return await IngredientApi.removeIngredientToRecipe(recipeId, ingredientId);
     if (method === methods.put) return await IngredientApi.addIngredientToRecipe(recipeId, ingredientId, data);
     if (method === methods.patch) return await IngredientApi.updateIngredientsRecipe(recipeId, ingredientId, data)
 }
