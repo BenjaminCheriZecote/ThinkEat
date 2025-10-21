@@ -1,8 +1,8 @@
-import {  IngredientApi, RecipeApi, UserApi } from "../../api";
+import { RecipeApi, UserApi } from "../../api";
 import RecipeValidator from "../../helpers/validators/recipeValidator";
 import toast from "../../helpers/toast";
 import store from "../../store";
-import { callsApiRecipeAction, defineNameImage, formatterSecondesTime, secondesConverterFunction, timeFormat } from "../../helpers";
+import { callsApiRecipeAction, defineNameImage, postImageByRecipeAction, setImageNameIntoDataRecipeAction, timeFormat } from "../../helpers";
 import { methods } from "../../helpers/callsApiRecipeAction";
 
 export async function recipeAction({ request, params }) {
@@ -90,28 +90,12 @@ export async function recipeAction({ request, params }) {
             steps:mappingSteps,
           }
 
-          let image; 
+          setImageNameIntoDataRecipeAction(data, formFields.imageFile.name, formFields.name)
 
-          if (formFields.imageFile.name !== '') {
-            image = defineNameImage(formFields.name);
-            const originalNameFile = (formFields.imageFile).name;
-            const extension = originalNameFile.split('.').pop();
-            image = `${image}.${extension}`;
-            data.image = image;
-          }
-          const dataValidate = RecipeValidator.checkBodyForUpdate(id, data)
-          
+          const dataValidate = RecipeValidator.checkBodyForUpdate(id, data);
           const updatedRecipe = await RecipeApi.update(id, dataValidate);
-          
-          if (formFields.imageFile.name !== '') {
-            const imageFile = formFields.imageFile;
-            const {id, image} = updatedRecipe;
-            const data = {
-              imageFile:imageFile,
-              nameFile: image,
-            }
-            requestApiImg.push({method:methods.postImg, recipeId:id, data:data});
-          }
+
+          postImageByRecipeAction(updatedRecipe, formFields.imageFile, requestApiImg);
           
           if (foundRecipe.name !== updatedRecipe.name && foundRecipe.image) {
             const {id, name} = updatedRecipe;
@@ -130,7 +114,7 @@ export async function recipeAction({ request, params }) {
           
           return updatedRecipe
         } catch (error) {
-          toast.error({message:error})
+          toast.error({message: error.message})
           return null
         }
         
@@ -139,138 +123,89 @@ export async function recipeAction({ request, params }) {
         try {
           let formData = await request.formData();
           let formFields = {};
-          const unitProperty = [];
-          const quantityProperty = [];
-    
-    
+          const newIngredientsId = {};
+          const requestApi = [];
+
           for (let entry of formData.entries()) {
               let fieldName = entry[0];
               let fieldValue = entry[1]; 
-              if (fieldName.startsWith('unit')) {
-                const idIngredientUnit = fieldName.slice(5);
-                const value = [idIngredientUnit, fieldValue];
-                unitProperty.push(value)
-              }
-              if (fieldName.startsWith('quantity')) {
-                const idIngredientQuantity = fieldName.slice(9);
-                const value = [idIngredientQuantity, fieldValue];
-                quantityProperty.push(value)
-              }
               formFields[fieldName] = fieldValue;
           }
-        
-          const steps = formData.get("steps");
-          const mappingSteps = steps.split('"');
-          const allIngredients = formData.get("ingredients");
-          const mappingIngredientsId = allIngredients.split('-');
-          
-    
-          const preparatingTimeConvertedFormat = `${formData.get("preparatingTime")}:00`;
-          const preparatingTimeConvertedInSecondes = secondesConverterFunction(preparatingTimeConvertedFormat);
-        
-          const cookingTimeConvertedFormat = `${formData.get("cookingTime")}:00`;
-          const cookingTimeConvertedInSecondes = secondesConverterFunction(cookingTimeConvertedFormat);
-    
-          const totalTimeInSecondes = preparatingTimeConvertedInSecondes + cookingTimeConvertedInSecondes;
-          const timeFormatted = formatterSecondesTime(totalTimeInSecondes);
-          let match = timeFormatted.match(/^(\d+):(\d+):(\d+)$/);
-          const functionParser = (match) => {
-            if (match) {
-              let hours = match[1].padStart(2, '0');
-              let minutes = match[2].padStart(2, '0');
-              let seconds = match[3].padStart(2, '0');
-          
-              let formattedString = `${hours}:${minutes}:${seconds}`;
-              return formattedString;
-            } else {
-              const error = "Format de chaine invalide."
-              return error
-            }
-          }
-          const time = functionParser(match);
 
-          let image; 
-          
+          const steps = formFields.steps;
+          const mappingSteps = steps.split('"');
+          const concatenatedStringNewIngredientsId = formFields.ingredients;
+          concatenatedStringNewIngredientsId.split('-').forEach((id) => newIngredientsId[id] = id);
+
+          const { time, preparatingTime } = timeFormat(formFields.preparatingTime, formFields.cookingTime); 
           
           const data = {
-            name:formData.get("name"),
-            hunger:formData.get("hunger"),
-            preparatingTime:preparatingTimeConvertedFormat,
+            name:formFields.name,
+            hunger:formFields.hunger,
+            preparatingTime:preparatingTime,
             time:time,
-            person:formData.get("person"),
+            person:formFields.person,
             steps:mappingSteps,
           }
-          
-          
-          if ((formData.get("imageFile")).name !== '') {
-            image = defineNameImage(formFields.name);
-            const originalNameFile = (formFields.imageFile).name;
-            const extension = originalNameFile.split('.').pop();
-            image = `${image}.${extension}`;
-            data.image = image;
-          }
+
+          setImageNameIntoDataRecipeAction(data, formFields.imageFile.name, formFields.name)
 
           const dataValidate = RecipeValidator.checkBodyForCreate(data);
-          
+          if (!dataValidate) return
           const createdRecipe = await RecipeApi.create(dataValidate);
-          
+
           if (createdRecipe.error) {
             toast.error({message:createdRecipe.error})
             return null
           }
           if (createdRecipe.userId) {
-            await UserApi.addRecipeToUser(createdRecipe.userId, createdRecipe.id)
+            await UserApi.addRecipeToUser(createdRecipe.userId, createdRecipe.id);
           }
-          
-          if ((formData.get("imageFile")).name !== '') {
-            const imageFile = formData.get("imageFile");
-            const {id, image} = createdRecipe;
-            await RecipeApi.addImageToRecipe(id, imageFile, image);
-          }
-          
 
-          const newIdFromCreatedRecipe = (createdRecipe.id).toString()
-          // && mappingIngredientsId[0] == ''
-          if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] === '') {
+          postImageByRecipeAction(createdRecipe, formFields.imageFile, requestApi);
+          
+          const newIdFromCreatedRecipe = (createdRecipe.id).toString();
+          const newIngredientsIdArray = Object.keys(newIngredientsId)
+
+          if (newIngredientsIdArray.length === 1 && newIngredientsIdArray[0] === '') {
             toast.error({message:"Veuillez ajouter au moins un ingrédient à la recette."});
             return null
+          } else {
+            for (const ingredientId in newIngredientsId) {
+              if (!Object.hasOwn(newIngredientsId, ingredientId)) continue
+              const quantity = parseInt(formFields[`quantity-${ingredientId}`]);
+              const unit = parseInt(formFields[`unit-${ingredientId}`]);
+
+              const data = {
+                quantity: quantity,
+                unitId: unit === 0 ? null : unit
+              }
+              requestApi.push({method:methods.put, recipeId:newIdFromCreatedRecipe, ingredientId:ingredientId, data:data});
+            }
           }
-    
-          if (mappingIngredientsId.length > 1) {
-            await Promise.all(mappingIngredientsId.map(async (ingredientId) => {
-              
-              const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
-              const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
-              const data = {};
-              data.quantity = foundQuantityToAddInRecipe[1];
-              if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-              
-              await IngredientApi.addIngredientToRecipe(newIdFromCreatedRecipe, ingredientId, data )
-            }));
-          }
-          if (mappingIngredientsId.length === 1 && mappingIngredientsId[0] !== '') {
-            const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === mappingIngredientsId[0]);
-            const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === mappingIngredientsId[0]);
-            const data = {};
-              data.quantity = foundQuantityToAddInRecipe[1];
-              if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-            await IngredientApi.addIngredientToRecipe( newIdFromCreatedRecipe, mappingIngredientsId[0], data );
-          }
-          toast.error("Test.")
+
+          await Promise.all(requestApi.map( async (request) => {
+            await callsApiRecipeAction(request);
+          }))
+
           toast.success("La recette a été créée avec succès.")
           
-          return null;
+          return createdRecipe;
         } catch (error) {
-          toast.error({message:error})
+          toast.error({message: error.message})
           return null
         }
-        
       }
       case "DELETE": {
-        await RecipeApi.delete(params.id)
-  
-        toast.success("Suppression de la recette effectué avec succès.");
-        break;
+        try {
+          await RecipeApi.delete(params.id)
+    
+          toast.success("Suppression de la recette effectué avec succès.");
+          return true
+        } catch (error) {
+          toast.error({message: error.message})
+          return null
+        }
       }
       default: {
         throw new Response("Invalide methode", { status: 405 });

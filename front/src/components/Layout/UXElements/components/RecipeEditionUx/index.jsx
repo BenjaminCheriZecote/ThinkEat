@@ -1,6 +1,6 @@
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useActionData, useNavigate } from "react-router-dom";
 import LogoHat from "../../icons/LogoHat";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DeleteCruse from "../../icons/DeleteCruse";
 import DownloadCloud from "../../icons/DownloadCloud/DownloadCloud";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import CancelCruse from "../../icons/CancelCruse";
 const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, cancelHandler}) => {
     const selectElement = useRef();
     const inputFileElement = useRef();
+    const actionData = useActionData();
     const ingredientsList = useSelector((state) => state.ingredients.ingredients);
     const { filters } = useSelector((state) => state.filters);
     const {units} = useSelector((state) => state.units);
@@ -22,6 +23,13 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
     const [recipeImageCopy, setRecipeImageCopy] = useState(recipe.image);
     const [selectedMenu, setSelectedMenu] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!actionData) return;
+        setTimeout(() => {
+            navigate('/recipes')
+        }, 2000)
+    }, [actionData, navigate])
 
     function toggleItem(event) {
         const [itemName, idString] = event.target.closest('button') ? event.target.closest('button').dataset.itemId.split("-") : event.target.dataset.itemId.split("-");
@@ -76,11 +84,6 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
         newSteps[id] = event.target.value;
         setSteps(newSteps);
     }
-    const validateEdition = () => {
-        setTimeout(() => {
-            navigate('/recipes')
-        }, 2000)
-    }
 
     return(
         <Form encType="multipart/form-data" className={`${style.sectionRecipe}`} method={formMethod}>
@@ -88,7 +91,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
 
             <div>
                 <LogoHat size={4} className={style.logoHat}/>
-                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput} ${style.sectionRecipeInputName} ${style.titleRecipe}`} name="name" type="text" defaultValue={recipe.name} required/>
+                <input className={`${style.sectionRecipeName} ${style.sectionRecipeInput} ${style.sectionRecipeInputName} ${style.titleRecipe}`} name="name" type="text" defaultValue={recipe.name} required autoComplete="off"/>
             </div>
 
             <fieldset className={`${style.sectionRecipeTop} fieldsetRecipeTop`}>
@@ -212,7 +215,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
 
             <div className={`${style.sectionRecipeBottom}`}>
                 <button type="submit">
-                    <ValidateCheck size={26} color={" var(--colorGreenCheck)"} handleClick={validateEdition}/>
+                    <ValidateCheck size={26} color={"var(--colorGreenCheck)"}/>
                 </button>
                 <button type="button" onClick={cancelHandler || setEditionMode}>
                     <CancelCruse size={30} color={"#D70D0D"}/>

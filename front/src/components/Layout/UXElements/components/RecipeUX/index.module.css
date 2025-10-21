@@ -46,6 +46,7 @@
 
 .sectionRecipeInputName {
     field-sizing: content;
+    min-width: 10rem;
 }
 
 .logoHat {
@@ -267,7 +268,7 @@
 .sectionRecipe .addStep {
     border:none;
     margin-top: 6px;
-    background-color:var(--colorbg2);
+    background-color:inherit;
     color:var(--colorUi3);
     cursor: pointer;
 }
