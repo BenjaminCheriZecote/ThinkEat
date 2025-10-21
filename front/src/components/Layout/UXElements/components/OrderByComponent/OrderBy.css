@@ -57,7 +57,11 @@
 
 .sizeIconsOrderBy {
     font-size: 0.6rem;
-    color:var(--colorBtnStarterAside)
+    color:var(--colorBtnStarterAside);
+}
+
+.sizeIconsOrderBy, .tag, .ascOrderBy {
+  cursor: pointer;
 }
 
 .selectedOrderBy {
@@ -79,9 +83,8 @@
 /* Hamburger */
 
 .hamburger {
-    cursor: pointer;
-
-  }
+  cursor: grab;
+}
   
   .hamburger input {
     display: none;

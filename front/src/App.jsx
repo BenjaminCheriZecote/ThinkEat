@@ -7,8 +7,6 @@ import { useSelector } from 'react-redux';
 import Aside from './components/Layout/Partials/Aside';
 import actions from './store/reducers/actions';
 
-
-
 function App() {
   
   const {isAside} = useSelector((state) => state.isAside);
@@ -22,9 +20,9 @@ function App() {
     <>
         <Header/>
         {location.pathname !== '/' && isAside &&
-          <Aside />
+          <Aside/>
         }
-        <Outlet />
+        <Outlet key={location.pathname}/>
 
         <Footer/>
     </>

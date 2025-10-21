@@ -149,7 +149,7 @@ const OrderByComponent = () => {
                                         onDragEnd={handleSort}
                                         onDragOver={(e) => e.preventDefault() }
                                         >
-                                            <RxHamburgerMenu size={15}/>
+                                            <RxHamburgerMenu size={15} className="hamburger"/>
                                             <div className={element.label} onClick={handleClickOrderByChoice}>
                                                 <p className="tag">{element.label}</p> <p className="ascOrderBy"> {element.ascState?"Croissant":"Décroissant"}</p>
                                             </div>

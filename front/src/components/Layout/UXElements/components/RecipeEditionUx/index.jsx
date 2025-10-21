@@ -201,7 +201,7 @@ const RecipeEditionUx = ({recipe, formMethod, style, isEdition, setEditionMode, 
                     {steps &&
                     <input type="hidden" name="steps" defaultValue={steps.map((element) => element).join('"')} />}
                     {steps && steps.map((step, index) => (
-                    <li key={index} >
+                    <li key={index} className={style.stepAdded}>
                         <h4 className={`${style.sectionRecipeFieldH4}`}>Etape {index + 1}
                         <button data-item-id={`steps-${index}`} className={style.BtnDeleteStep} type="button" onClick={toggleItem}>
                             <DeleteCruse size={1}/>
