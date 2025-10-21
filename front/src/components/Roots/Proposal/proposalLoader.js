@@ -1,5 +1,5 @@
 import { FamilyApi, IngredientApi, RecipeApi, UserApi } from "../../../api";
-import { mappingUrlFunction } from "../../../helpers/httpQueries";
+import { mappingUrlFunction } from "../../../helpers";
 import store from "../../../store";
 import types from "../../../store/reducers/types";
 

@@ -1,6 +1,6 @@
 import urlQueryJsonParser from "url-query-json-parser";
 
-export function mappingUrlFunction(urlClient, page){
+function mappingUrlFunction(urlClient, page){
     // si il n'y a pas d'urlClient, on sort de la fonction
     if (!urlClient || !page && !urlClient.search) {
         return null
@@ -192,3 +192,5 @@ export function mappingUrlFunction(urlClient, page){
     return urlQuery;
  
 }
+
+export default mappingUrlFunction;

@@ -1,12 +1,9 @@
 import {  IngredientApi, RecipeApi, UserApi } from "../../api";
 import RecipeValidator from "../../helpers/validators/recipeValidator";
-import formatterSecondesTime from "../../helpers/formatterSecondesTime";
-import secondesConverterFunction from "../../helpers/secondesConverterFunction";
 import toast from "../../helpers/toast";
 import store from "../../store";
-import defineNameImage from "../../helpers/defineNameImage/defineNameImage";
-import httpProxyRecipeAction, { methods } from "../../helpers/httpProxyRecipeAction";
-import { timeFormat } from "../../helpers/timeFormat";
+import { callsApiRecipeAction, defineNameImage, formatterSecondesTime, secondesConverterFunction, timeFormat } from "../../helpers";
+import { methods } from "../../helpers/callsApiRecipeAction";
 
 export async function recipeAction({ request, params }) {
   
@@ -15,106 +12,87 @@ export async function recipeAction({ request, params }) {
         try {
           let formData = await request.formData();
           let formFields = {};
-          const unitProperty = [];
-          const quantityProperty = [];
-          const existingIngredients = [];
           const requestApi = [];
+          const requestApiImg = [];
+          const newIngredientsId = {}
   
           for (let entry of formData.entries()) {
-              let fieldName = entry[0];
-              let fieldValue = entry[1]; 
-              if (fieldName.startsWith('unit')) {
-                const idIngredientUnit = fieldName.slice(5);
-                const value = [idIngredientUnit, fieldValue];
-                unitProperty.push(value)
-              }
-              if (fieldName.startsWith('quantity')) {
-                const idIngredientQuantity = fieldName.slice(9);
-                const value = [idIngredientQuantity, fieldValue];
-                quantityProperty.push(value)
-              }
-              formFields[fieldName] = fieldValue;
+            let fieldName = entry[0];
+            let fieldValue = entry[1]; 
+            formFields[fieldName] = fieldValue;
           }
         
           const {recipes, units} = store.getState();
           
-          const id = parseInt(formData.get("id"));
-          const steps = formData.get("steps");
+          const id = parseInt(formFields.id);
+          const steps = formFields.steps;
           const mappingSteps = steps.split('"');
-          const allIngredients = formData.get("ingredients");
-          const mappingIngredientsId = allIngredients.split('-');
+          const concatenatedStringNewIngredientsId = formFields.ingredients;
+          concatenatedStringNewIngredientsId.split('-').forEach((id) => newIngredientsId[id] = id);
 
           const { time, preparatingTime } = timeFormat(formFields.preparatingTime, formFields.cookingTime);
           
           let foundRecipe;
-          if(Array.isArray(recipes.recipes)) foundRecipe = recipes.recipes.find((recipe) => recipe.id === id)
+          if(Array.isArray(recipes.recipes) && recipes.recipes.length) foundRecipe = recipes.recipes.find((recipe) => recipe.id === id)
           if (!foundRecipe) foundRecipe = await RecipeApi.get(id);
 
-          const foundIngredientsOfRecipe = foundRecipe.ingredients || [];
+          const currentIngredients = foundRecipe.ingredients || [];
 
-          const removeIngredientsRecipe = foundIngredientsOfRecipe.filter((ingredient) => !mappingIngredientsId.some((id) => {
-            return ingredient.id === parseInt(id);
-          }));
-    
-          if (removeIngredientsRecipe.length) {
-            removeIngredientsRecipe.forEach((element) => {
-              requestApi.push({method:methods.delete, recipeId:id, ingredientId:element.id})
-            })
-          }
+          currentIngredients.forEach((currentIngredient) => {
+            // si l'ingrédient n'est plus présent dans la nouvelle liste d'ingrédient => supression de l'ingredient de la recette
+            if (!newIngredientsId[currentIngredient.id]) requestApi.push({method:methods.delete, recipeId:id, ingredientId:currentIngredient.id}) // si l'ingrédient n'est plus présent dans la nouvelle liste d'ingrédient => suppression
+            // si l'ingrédient est toujours présent dans la nouvelle liste d'ingrédient
+            if (newIngredientsId[currentIngredient.id]) {
+              // l'enlever de la nouvelle liste d'ingredient à ajouter
+              delete newIngredientsId[currentIngredient.id]
+              
+              // vérifier si la quantité ou l'unité a changé pour les mettre à jour
+              const idNewQuantity = parseInt(formFields[`quantity-${currentIngredient.id}`]);
+              const idNewUnity = parseInt(formFields[`unit-${currentIngredient.id}`]);
+              const isUpdatedQuantity = currentIngredient.quantity !== idNewQuantity;
+              const currentUnityIngredient = currentIngredient.unit === null ? 0 : units.units.find((unit) => unit.name === currentIngredient.unit).id; 
+              const isUpdatedUnity = currentUnityIngredient !== idNewUnity;
 
-          const addIngredientsRecipe = mappingIngredientsId.filter((idIngredient) => {
-            if (foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient))) existingIngredients.push(idIngredient) 
-            return !foundIngredientsOfRecipe.some((element) => element.id === parseInt(idIngredient))
-          });
-          if (addIngredientsRecipe.length) {
-            addIngredientsRecipe.forEach((ingredientId) => {
-              const foundQuantityToAddInRecipe = quantityProperty.find((quantityElement) => quantityElement[0] === ingredientId);
-              const foundUnityToAddInRecipe = unitProperty.find((unitElement) => unitElement[0] === ingredientId);
-              const data = {};
-              data.quantity = foundQuantityToAddInRecipe[1];
-              if (foundUnityToAddInRecipe[1] !== '0') data.unitId = foundUnityToAddInRecipe[1];
-              requestApi.push({method:methods.put, recipeId:id, ingredientId:ingredientId, data:data});
-            });
-          }
-
-          if (existingIngredients.length) {
-            existingIngredients.forEach((ingredientId) => {
-              const foundUpdatedQuantity = foundIngredientsOfRecipe.find((ingredientRecipe) => {
-                return ingredientRecipe.id === parseInt(ingredientId) && parseInt(formFields[`quantity-${ingredientId}`]) !== ingredientRecipe.quantity
-              });
-              const foundUpdatedUnity = foundIngredientsOfRecipe.find((ingredientRecipe) => {
-                const existedIdUnitRecipe = ingredientRecipe.unit === null ? 0 : units.units.find((unit) => unit.name === ingredientRecipe.unit).id;
-                return ingredientRecipe.id === parseInt(ingredientId) && parseInt(formFields[`unit-${ingredientId}`]) !== existedIdUnitRecipe
-              });
-              if (!foundUpdatedQuantity && !foundUpdatedUnity) {
-                return;
-              }
-              const parsedUnit = parseInt(formFields[`unit-${ingredientId}`])
+              if (!isUpdatedQuantity && !isUpdatedUnity) return
 
               const data = {
-                quantity: parseInt(formFields[`quantity-${ingredientId}`]),
-                unitId: parsedUnit === 0 ? null : parsedUnit,
-              };
-              requestApi.push({method:methods.patch, recipeId:id, ingredientId:ingredientId, data:data});
-            })
+                quantity: idNewQuantity,
+                unitId: idNewUnity === 0 ? null : idNewUnity,
+              }
+              requestApi.push({method:methods.patch, recipeId:id, ingredientId:currentIngredient.id, data:data});
+            }
+          })
+
+          if (Object.keys(newIngredientsId).length) {
+            for (const ingredientId in newIngredientsId) {
+              if (!Object.hasOwn(newIngredientsId, ingredientId)) continue
+              const quantity = parseInt(formFields[`quantity-${ingredientId}`]);
+              const unit = parseInt(formFields[`unit-${ingredientId}`]);
+
+              const data = {
+                quantity: quantity,
+                unitId: unit === 0 ? null : unit
+              }
+              requestApi.push({method:methods.put, recipeId:id, ingredientId:ingredientId, data:data});
+            }
           }
 
           await Promise.all(requestApi.map( async (request) => {
-            await httpProxyRecipeAction(request);
+            await callsApiRecipeAction(request);
           }))
 
           const data = {
-            name:formData.get("name"),
-            hunger:formData.get("hunger"),
+            name:formFields.name,
+            hunger:formFields.hunger,
             preparatingTime:preparatingTime,
             time:time,
-            person:formData.get("person"),
+            person:formFields.person,
             steps:mappingSteps,
           }
 
           let image; 
 
-          if ((formData.get("imageFile")).name !== '') {
+          if (formFields.imageFile.name !== '') {
             image = defineNameImage(formFields.name);
             const originalNameFile = (formFields.imageFile).name;
             const extension = originalNameFile.split('.').pop();
@@ -125,10 +103,14 @@ export async function recipeAction({ request, params }) {
           
           const updatedRecipe = await RecipeApi.update(id, dataValidate);
           
-          if ((formData.get("imageFile")).name !== '') {
-            const imageFile = formData.get("imageFile");
+          if (formFields.imageFile.name !== '') {
+            const imageFile = formFields.imageFile;
             const {id, image} = updatedRecipe;
-            await RecipeApi.addImageToRecipe(id, imageFile, image);
+            const data = {
+              imageFile:imageFile,
+              nameFile: image,
+            }
+            requestApiImg.push({method:methods.postImg, recipeId:id, data:data});
           }
           
           if (foundRecipe.name !== updatedRecipe.name && foundRecipe.image) {
@@ -136,8 +118,13 @@ export async function recipeAction({ request, params }) {
             const oldNameImage = foundRecipe.image;
             const extension = oldNameImage.split('.').pop();
             const newNameImage = `${defineNameImage(name)}.${extension}`;
-            await RecipeApi.updateImageNameToRecipe(id, {oldName:oldNameImage, newName:newNameImage})
+            const data = {oldName:oldNameImage, newName:newNameImage}
+            requestApiImg.push({method:methods.postImgName, recipeId:id, data:data});
           }
+
+          await Promise.all(requestApiImg.map( async (request) => {
+            await callsApiRecipeAction(request);
+          }))
 
           toast.success("La recette a été modifié avec succès.")
           

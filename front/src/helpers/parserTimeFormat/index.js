@@ -1,6 +1,6 @@
 
 // fonction pour convertir le format du temps 00:00 au format 00:00:00
-export const parserTimeFormat = (time) => {
+const parserTimeFormat = (time) => {
   if (typeof time !== "string") return "";
     if (time !== "") {
       if (time.length === 5) {
@@ -10,3 +10,5 @@ export const parserTimeFormat = (time) => {
     }
     return time
 }
+
+export default parserTimeFormat

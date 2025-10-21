@@ -1,4 +1,4 @@
-export const defineTimeFormat = (match) => {
+const defineTimeFormat = (match) => {
     if (match) {
         const hours = match[1].padStart(2, '0');
         const minutes = match[2].padStart(2, '0');
@@ -11,3 +11,5 @@ export const defineTimeFormat = (match) => {
         return error
     }
 }
+
+export default  defineTimeFormat;

@@ -1,12 +1,9 @@
-import { defineTimeFormat } from "../defineTimeFormat";
-import formatterSecondesTime from "../formatterSecondesTime";
-import { parserTimeFormat } from "../parserTimeFormat";
-import secondesConverterFunction from "../secondesConverterFunction";
+import { defineTimeFormat, formatterSecondesTime, parserTimeFormat, secondesConverterFunction } from '../'
 
 // format des temps (préparation / cuisson) peuvent varier si ils sont modifié ou non
 // // le format est soit "" si le temps est vide, soit "00:00" si le temps est modifié, soit "00:00:00" si le temps est présent mais non modifé
 
-export const timeFormat = (rawPreparatingTime, rawCookingTime) => {
+const timeFormat = (rawPreparatingTime, rawCookingTime) => {
     const preparatingTimeParsed = parserTimeFormat(rawPreparatingTime);
     const cookingTimeParsed = parserTimeFormat(rawCookingTime);
   
@@ -27,3 +24,5 @@ export const timeFormat = (rawPreparatingTime, rawCookingTime) => {
   
     return { time, preparatingTime };
 };
+
+export default timeFormat;
