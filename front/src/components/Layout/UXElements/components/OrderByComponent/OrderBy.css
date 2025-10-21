@@ -30,12 +30,12 @@
 }
 
 .orderByContainer li div {
-    display:flex;
-    gap:1rem;
-    width:6rem;
-    font-size:0.7rem;
-    font-family: 'Playpen Sans', cursive;
-    margin-right:1rem;
+  display:flex;
+  gap:1rem;
+  width:6rem;
+  font-size:0.7rem;
+  font-family: 'Playpen Sans', cursive;
+  margin-right:1rem;
 }
 
 .orderByContainer button {
@@ -60,7 +60,7 @@
     color:var(--colorBtnStarterAside);
 }
 
-.sizeIconsOrderBy, .tag, .ascOrderBy {
+.sizeIconsOrderBy, .tag, .ascOrderBy, .hamburger {
   cursor: pointer;
 }
 
@@ -82,51 +82,51 @@
 
 /* Hamburger */
 
-.hamburger {
+.hamburgerDrag {
   cursor: grab;
 }
   
-  .hamburger input {
-    display: none;
-  }
-  
-  .hamburger svg {
-    /* The size of the SVG defines the overall size */
-    height: 2em;
-    /* Define the transition for transforming the SVG */
-    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .line {
-    fill: none;
-    stroke: var(--colorbg4);
-    stroke: var(--colorFont1);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 3;
-    /* Define the transition for transforming the Stroke */
-    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
-                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .line-top-bottom {
-    stroke-dasharray: 12 63;
-  }
-  
-  .hamburger input:checked + svg {
-    transform: rotate(-45deg);
-  }
-  
-  .hamburger input:checked + svg .line-top-bottom {
-    stroke-dasharray: 20 300;
-    stroke-dashoffset: -32.42;
-  }
+.hamburger input {
+  display: none;
+}
 
-  .buttonOrderBy {
-    margin-top:0.5rem;
-    border:none;
-    background-color: inherit;
-  }
-  
+.hamburger svg {
+  /* The size of the SVG defines the overall size */
+  height: 2em;
+  /* Define the transition for transforming the SVG */
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke: var(--colorbg4);
+  stroke: var(--colorFont1);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  /* Define the transition for transforming the Stroke */
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
+.buttonOrderBy {
+  margin-top:0.5rem;
+  border:none;
+  background-color: inherit;
+}
+
 
 

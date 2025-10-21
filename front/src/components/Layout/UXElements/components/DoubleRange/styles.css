@@ -10,6 +10,15 @@
     flex-direction: column;
   }
 
+  .multi-range-slider-container .multi-range-slider .thumb::before {
+    cursor: grab;
+  }
+
+  .multi-range-slider-container .multi-range-slider .caption .max-caption, .multi-range-slider-container .multi-range-slider .caption .min-caption {
+    color: white;
+    background-color: var(--colorUi4);
+  }
+
   .divOutput {
     display: flex;
     flex-direction:column;

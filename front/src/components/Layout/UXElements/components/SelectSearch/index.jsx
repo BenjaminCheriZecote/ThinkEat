@@ -51,7 +51,6 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
     }
 
     return (
-        
         <div className={style.selectBox}>
             {/* nom du select spécifié dans un button pour ouvrir et fermer le select*/}
             <div className={style.selectOption} onClick={() => handleClickSelect(item)} style={{color:"var(--colorUi3)"}}>
@@ -61,30 +60,26 @@ const SelectSearch = ({store, item, label, isRotated, setIsRotatedFamilyIngredie
             {/* input de type hidden */}
             <input id={item} name={item} type="hidden"  defaultValue={itemChoices.map((element) => element[0]).join("-") } />
             
+            {/* // div content apparaissant a l'ouverture du select  */}
+            <div className={`${style.content} ${activeSelectorFilter === item ? style.contentOpen : style.contentClose}`}>
 
-            {activeSelectorFilter === item &&
-
-                // div content apparaissant a l'ouverture du select 
-                <div className={style.content}>
-
-                    {/* input search */}
-                    <div className={style.search}>
-                        <input type="search" id={`optionSearch${label}`} placeholder="Rechercher" name="" onChange={() => handleChangeSearch(event)}/>
-                    </div>
-
-                    {/* ul affichant les listes des options et des options sélectionnés */}
-                    <ul className={style.options} >
-                        {itemChoices.map((element, index) => {
-                            // composant OptionChosen
-                            return (<OptionChosen key={index} choosen={element} itemName={item} />)
-                        })}
-                        {(itemCopy.length > 0 ? itemCopy : store).map((element, index) => (
-                            // composant Options
-                            <Options key={index} itemName={item} itemOption={element} itemChoices={itemChoices} mode={mode}>{element.name}</Options>
-                        ))}
-                    </ul>
+                {/* input search */}
+                <div className={style.search}>
+                    <input type="search" id={`optionSearch${label}`} placeholder="Rechercher" name="" onChange={() => handleChangeSearch(event)}/>
                 </div>
-            }
+
+                {/* ul affichant les listes des options et des options sélectionnés */}
+                <ul className={`${style.options} ${activeSelectorFilter === item ? style.optionsOpen : style.optionsClose}`} >
+                    {itemChoices.map((element, index) => {
+                        // composant OptionChosen
+                        return (<OptionChosen key={index} choosen={element} itemName={item} />)
+                    })}
+                    {(itemCopy.length > 0 ? itemCopy : store).map((element, index) => (
+                        // composant Options
+                        <Options key={index} itemName={item} itemOption={element} itemChoices={itemChoices} mode={mode}>{element.name}</Options>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

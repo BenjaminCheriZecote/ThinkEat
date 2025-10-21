@@ -58,7 +58,6 @@ export default function DoubleInputRange({label, name, item}) {
           barRightColor="var(--colorOrangeDark)"
           thumbLeftColor="var(--colorUi4)"
           thumbRightColor="var(--colorUi4)"
-          
         />
       <div className="divOutput">
 

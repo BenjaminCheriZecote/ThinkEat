@@ -119,6 +119,7 @@ form li {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none;
+    transition: 500ms ease-in-out;
 }
 
 #soValue {
@@ -142,9 +143,9 @@ form li {
     display: flex;
     justify-content: space-between;
     background-color: var(--colorbg2);
-    
     width:100%;
     padding:0.3rem;
+    z-index: 10;
 }
 
 .selectOption, .content {
@@ -169,31 +170,65 @@ form li {
 }
 
 .options {
-    overflow: hidden;
-    overflow-y: scroll;
-    max-height: 15rem;
-    padding: 0.3rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: fit-content;
+  padding: 0.3rem;
 }
 
 .content {
-    margin-top: 0.3rem;
-    display:flex;
-    flex-direction: column;
-    background-color: var(--colorbg2);
-    position: absolute;
-    left:0;
-    z-index:9;
-    padding:0.3rem;
-    font-weight:300;
+  margin-top: 0.3rem;
+  display:flex;
+  flex-direction: column;
+  background-color: var(--colorbg2);
+  position: absolute;
+  left:0;
+  z-index:9;
+  padding:0.3rem;
+  font-weight:300;
+  height: fit-content;
+}
+
+.content, .options {
+  -webkit-transition: max-height 1s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -moz-transition: max-height 1s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -o-transition: max-height 1s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: max-height 1s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.contentOpen {
+  max-height: 20rem;
+  opacity: 1;
+  z-index:20;
+}
+
+.contentClose {
+  max-height: 0rem;
+  opacity: 0;
+  z-index:1;
+}
+
+.optionsOpen {
+  max-height: 15rem;
+  opacity: 1;
+}
+
+.optionsClose {
+  max-height: 0rem;
+  opacity: 0;
 }
 
 .search {
-    margin-bottom: 0.2rem;
-    position: sticky;
-    top:0;
-    left:0;
-    overflow: hidden;
-    border:none;
+  margin-bottom: 0.2rem;
+  position: sticky;
+  top:0;
+  left:0;
+  overflow: hidden;
+  border:none;
+}
+
+.search input:focus {
+  outline: none !important;
 }
 
 .search input::placeholder {
@@ -201,11 +236,11 @@ form li {
 }
 
 .search input {
-    object-fit: cover;
-    border:none;
-    background-color: var(--colorbg2);
-    color:var(--colorUi3);
-    border-bottom:1px var(--colorUi3) solid;
+  object-fit: cover;
+  border:none;
+  background-color: var(--colorbg2);
+  color:var(--colorUi3);
+  border-bottom:1px var(--colorUi3) solid;
 }
 
 .liOptions, #soValue, .search {
