@@ -440,10 +440,12 @@ class TokenApi {
   }
   static async errorHandler(res) {
     if (res.ok) return;
-    if (!res.bodyUsed) {
+    let responce
+    try {
+      responce = await res.json();
+    } catch (error) {
       throw new AppError(res.statusText, {httpStatus: res.status});
     }
-    const {error} = await res.json()
-    throw new AppError(error, {httpStatus: res.status});
+    throw new AppError(responce.error, {httpStatus: res.status});
   }
 }
