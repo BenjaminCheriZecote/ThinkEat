@@ -6,13 +6,13 @@ const MAIL_PORT = parseInt(process.env.MAIL_PORT, 10) || 465;
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST || "smtp.gmail.com",
   port: MAIL_PORT,
-  secure: MAIL_PORT === 465, // 465 = TLS implicite, 587 = STARTTLS
+  secure: MAIL_PORT === 465, // 465 = implicit TLS, 587 = STARTTLS
   requireTLS: MAIL_PORT !== 465,
   auth: {
     user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD?.replace(/\s/g, ""), // les mots de passe d'application Google sont affichés avec des espaces
+    pass: process.env.MAIL_PASSWORD?.replace(/\s/g, ""), // Google app passwords are displayed with spaces
   },
-  // Sans ces timeouts, une sortie SMTP bloquée laisse la requête HTTP en attente 2 minutes
+  // Without these timeouts, a blocked SMTP egress leaves the HTTP request pending for 2 minutes
   connectionTimeout: 10000,
   greetingTimeout: 10000,
   socketTimeout: 20000,

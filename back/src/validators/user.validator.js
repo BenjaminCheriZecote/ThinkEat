@@ -101,7 +101,7 @@ export default class UserValidator extends CoreValidator {
     }
   }
 
-  static checkTokenPayload({id, name, email, ip, userAgent}, req) {
+  static checkTokenPayload({id, name, email, userAgent}, req) {
     if (!id || !String(id).match(/^[1-9]\d*$/)) {
       throw new ApiError('Security Alert', {httpStatus: 401});
     }
@@ -111,7 +111,8 @@ export default class UserValidator extends CoreValidator {
     if (!email || !emailValidator.validate(email)) {
       throw new ApiError('Security Alert', {httpStatus: 401});
     }
-    if (ip !== req.ip || userAgent !== req.headers['user-agent']) {
+    // The IP is not compared: it legitimately changes (wifi/4G, VPN, NAT) and would log users out
+    if (userAgent !== req.headers['user-agent']) {
       throw new ApiError('Security Alert', {httpStatus: 401});
     }
     return {id, name, email};

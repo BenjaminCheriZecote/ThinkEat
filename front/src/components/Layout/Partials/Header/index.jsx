@@ -64,7 +64,11 @@ const Header = () => {
 
     const handleClickDeconnexion = async () => {
         localStorage.removeItem("user");
-        await UserApi.signout();
+        try {
+            await UserApi.signout();
+        } catch {
+            // The client session is closed even when the server call fails
+        }
         dispatch({type:types.SIGNOUT})
         navigate("/");
     };

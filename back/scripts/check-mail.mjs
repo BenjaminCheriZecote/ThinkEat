@@ -1,5 +1,5 @@
-// Vérifie la configuration SMTP et envoie un mail de test.
-// Usage : depuis back/ -> node scripts/check-mail.mjs
+// Checks the SMTP configuration and sends a test email.
+// Usage: from back/ -> node scripts/check-mail.mjs
 import "../src/helpers/envLoad.js";
 import nodemailer from "nodemailer";
 

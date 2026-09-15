@@ -9,6 +9,9 @@ import { bodySanitizer, errorMiddleware, notFoundMiddleware, queryParser, redire
 // Create Express App
 const app = express();
 
+// Behind the host proxy, without this req.ip is the proxy IP and not the client one
+app.set('trust proxy', 1);
+
 // Parse query in object
 app.set('query parser', queryParser);
 
