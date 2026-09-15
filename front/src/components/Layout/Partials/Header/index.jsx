@@ -10,6 +10,7 @@ import ToggleDarkMode from '../../UXElements/icons/ToggleDarkMode/ToggleDarkMode
 import { NavLink } from "react-router-dom";
 
 import BurgerMenu from '../../UXElements/components/BurgerMenu';
+import FruitDecor from '../../UXElements/components/FruitDecor';
 import types from '../../../../store/reducers/types';
 import { UserApi } from '../../../../api';
 
@@ -130,13 +131,16 @@ const Header = () => {
                     </div>
                 </div>
                 {isHome &&
-                    <section id="header__section-tittle">
-                        <div className="header__section-tittle--container">
-                        <h2>Simplifiez votre quotidien culinaire</h2>
-                        <p>Trouvez votre repas en un clin d'oeil avec des idées sur mesure, chaque jour.  </p>
-                        <NavLink to="/proposal" className="starterLink">Découvrir</NavLink>
-                        </div>
-                    </section>
+                    <>
+                        <section id="header__section-tittle">
+                            <div className="header__section-tittle--container">
+                            <h2>Simplifiez votre quotidien culinaire</h2>
+                            <p>Trouvez votre repas en un clin d'oeil avec des idées sur mesure, chaque jour.  </p>
+                            <NavLink to="/proposal" className="starterLink">Découvrir</NavLink>
+                            </div>
+                        </section>
+                        <FruitDecor fruit="kiwi" place="headerHome" size={20}/>
+                    </>
                 }
             </header>
         </>

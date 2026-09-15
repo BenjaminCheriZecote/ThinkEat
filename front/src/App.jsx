@@ -6,6 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Aside from './components/Layout/Partials/Aside';
 import actions from './store/reducers/actions';
+import FruitDecor from './components/Layout/UXElements/components/FruitDecor';
 
 function App() {
   
@@ -25,6 +26,9 @@ function App() {
         <Outlet key={location.pathname}/>
 
         <Footer/>
+
+        <FruitDecor fruit="fork" place="cutleryLeft" outside/>
+        <FruitDecor fruit="knife" place="cutleryRight" outside/>
     </>
   )
 }

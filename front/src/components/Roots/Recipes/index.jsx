@@ -21,11 +21,12 @@ const Recipes = () => {
     }
 
     return(
-        <RecipesPage 
-        title={title} 
+        <RecipesPage
+        title={title}
         recipes={recipes}
         favorites={favorites}
         itemsTotal={itemsTotal}
+        fruit="salad"
         />
     )
 }

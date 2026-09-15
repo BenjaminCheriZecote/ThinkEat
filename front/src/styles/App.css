@@ -222,6 +222,7 @@ html, body, #root, .app {
         display:flex;
         justify-content: center;
         background-color: inherit;
+        position: relative;
     }
 
     input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {

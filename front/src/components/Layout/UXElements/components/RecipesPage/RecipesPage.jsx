@@ -8,9 +8,10 @@ import OrderByComponent from "../OrderByComponent";
 import SearchForm from "../SearchForm";
 import types from "../../../../../store/reducers/types";
 import PaginatedItems from "../ReactPagination";
+import FruitDecor from "../FruitDecor";
 import { useNavigate } from "react-router-dom";
 
-const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
+const RecipesPage = ({title, recipes, favoritePage, itemsTotal, fruit}) => {
 
     const dispatch = useDispatch();
     const {isAdmin, isConnected, id} = useSelector((state) => state.session);
@@ -58,6 +59,8 @@ const RecipesPage = ({title, recipes, favoritePage, itemsTotal}) => {
                             <AddPlus handleClick={handleClickAddRecipe} size={23} color={"var(--colorOrange)"}/>
                         }
                 </div>
+
+                {fruit && <FruitDecor fruit={fruit} place="listRight" size={33}/>}
 
                 <ul className="section__ulContainerRecipes">
 

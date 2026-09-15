@@ -1,6 +1,7 @@
 import LogoHat from "../../icons/LogoHat";
 import EditPen from "../../icons/EditPen";
 import { useSelector } from 'react-redux';
+import FruitDecor from "../FruitDecor";
 
 const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
 
@@ -16,6 +17,7 @@ const RecipeReadUx = ({recipe, formMethod, style, changeEditionMode}) => {
             <div>
                 <LogoHat size={4} className={style.logoHat}/>
                 <h2 className={`${style.sectionRecipeName} ${style.titleRecipe}`}>{recipe.name}</h2>
+                <FruitDecor fruit="orange" place="recipeTitle" style={{width:'10rem', height:'auto'}}/>
             </div>
 
             <section className={`${style.sectionRecipeTop} fieldsetRecipeTop`}>

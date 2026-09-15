@@ -3,6 +3,7 @@ import './Home.css'
 import { useEffect } from 'react';
 import { useSelector } from "react-redux";
 import ArticleHome from '../../Layout/UXElements/components/ArticleHome/ArticleHome';
+import FruitDecor from '../../Layout/UXElements/components/FruitDecor';
 
 
 const Home = () => {
@@ -80,6 +81,8 @@ const Home = () => {
                         <ArticleHome key={index} step={index+1} title={article.title} src={article.src} alt={article.alt} description={article.description} mode={mode}/>
                     )
                 })}
+
+                <FruitDecor fruit="kiwi2" place="homeArticles" size={13}/>
             </section>
 
 

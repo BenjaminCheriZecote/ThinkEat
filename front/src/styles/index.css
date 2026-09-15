@@ -78,6 +78,9 @@
 
   --widthLegendFieldset: 15rem;
 
+  /* demi-largeur de la carte #root (width:80%, max-width:70rem) */
+  --cardHalfWidth: min(40vw, 35rem);
+
   --mobile-breakpoint: 600px;
 	--tablet-breakpoint: 900px;
   --laptop-breakpoint:1400px;
@@ -102,6 +105,15 @@ body > #root {
   border-radius:2rem;
   background-image: linear-gradient(to bottom, var(--colorbg1), var(--colorbg2), var(--colorbg3));
   box-shadow: 5px 5px 30px -15px var(--colorShadow3);
+}
+
+/* couche des décors placés hors de #root (voir FruitDecor) */
+#decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 /* // -> dès que la taille d’écran atteint 1400px, on redimensionne */

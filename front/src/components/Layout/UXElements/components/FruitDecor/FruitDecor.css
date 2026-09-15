@@ -1,0 +1,85 @@
+.fruitDecor {
+    width: var(--fruitDecor-size, 9rem);
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+}
+.fruitDecor--listRight {
+    position: absolute;
+    top: 8rem;
+    right: 1rem;
+}
+@media screen and (max-width: 1300px) {
+    .fruitDecor--listRight {
+        width: 22rem;
+        right: 0rem;
+    }
+}
+.fruitDecor--headerHome {
+    position: absolute;
+    bottom: -1rem;
+    left: 30%;
+}
+.fruitDecor--homeArticles {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+}
+.fruitDecor--proposalTopLeft {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.fruitDecor--recipeTitle {
+    position: absolute;
+    right: 6rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+@media screen and (max-height: 860px) {
+    .fruitDecor--asideBottom {
+        width: calc(var(--fruitDecor-size, 9rem) * 0.6);
+    }
+}
+
+/* --- emplacements HORS de la carte (prop outside) --- */
+
+#decor .fruitDecor {
+    position: fixed;
+}
+
+.fruitDecor--outsideLeft {
+    left: calc(50% - var(--cardHalfWidth));
+    top: 15vh;
+    transform: translateX(-60%);
+}
+
+.fruitDecor--outsideRight {
+    right: calc(50% - var(--cardHalfWidth));
+    bottom: 15vh;
+    transform: translateX(60%);
+}
+.fruitDecor--cutleryLeft,
+.fruitDecor--cutleryRight {
+    --cutleryGutter: calc(50vw - var(--cardHalfWidth));
+
+    width: auto;
+    height: min(100vh, calc(var(--cutleryGutter) * 5.8));
+    top: 50%;
+}
+.fruitDecor--cutleryLeft {
+    right: calc(50% + var(--cardHalfWidth));
+    transform: translate(25%, -50%);
+}
+
+.fruitDecor--cutleryRight {
+    left: calc(50% + var(--cardHalfWidth));
+    transform: translate(-25%, -50%);
+    rotate: -1deg;
+}
+
+@media screen and (max-width: 1000px) {
+    .fruitDecor {
+        display: none;
+    }
+}
