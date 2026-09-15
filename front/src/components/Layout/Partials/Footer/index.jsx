@@ -12,7 +12,7 @@ const Footer = () => {
             <div>
                 <p>©ThinkEat {currentYear}</p>
                 <NavLink>Gestion des cookies</NavLink>
-                <a href='https://www.chezben.fr/' target="_blank" rel="noreferrer">chezben.fr</a>
+                <a href='https://www.bczstudio.fr/' target="_blank" rel="noreferrer">bczstudio.fr</a>
             </div>
             <LogoHat size={2.8}/>
         </footer>
